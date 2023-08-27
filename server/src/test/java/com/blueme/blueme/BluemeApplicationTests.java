@@ -1,10 +1,10 @@
-package com.blueme.demo;
+package com.blueme.blueme;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class BluemeApplicationTests {
 
 	@Test
 	void contextLoads() {

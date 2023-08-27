@@ -1,13 +1,13 @@
-package com.blueme.demo;
+package com.blueme.blueme;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class BluemeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(BluemeApplication.class, args);
 	}
 
 }
