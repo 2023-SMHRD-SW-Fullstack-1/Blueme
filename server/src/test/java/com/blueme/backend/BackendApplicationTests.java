@@ -1,10 +1,10 @@
-package com.blueme.blueme;
+package com.blueme.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BluemeApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
