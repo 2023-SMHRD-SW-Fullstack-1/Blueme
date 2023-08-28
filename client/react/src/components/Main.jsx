@@ -1,8 +1,8 @@
-import React from 'react';
-
+import React from "react";
+import "../index.css";
 
 function Main() {
-  return <main>Main content goes here</main>;
+  return <div>dd</div>;
 }
 
 export default Main;
