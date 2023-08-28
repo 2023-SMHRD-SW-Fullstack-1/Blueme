@@ -1,10 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+import React from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
-  <div><Link to="/testtest">test</Link></div>
+    <div className="bg-custom-blue text-custom-white">
+      <Link to="/Login">로그인</Link>
+    </div>
   );
 }
 

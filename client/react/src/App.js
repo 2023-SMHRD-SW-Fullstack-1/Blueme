@@ -1,9 +1,9 @@
-import React from 'react';
-import Header from './components/Header';
-import Footer from './components/footer';
-import Main from './components/Main';
-import testtest from './components/testtest'; // TestTest 컴포넌트의 이름은 대문자로 시작해야 합니다.
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from "react";
+import Header from "./components/Header";
+import Footer from "./components/footer";
+import Main from "./components/Main";
+import Login from "./components/Login"; // TestTest 컴포넌트의 이름은 대문자로 시작해야 합니다.
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
           {/* path 속성은 주어진 경로가 정확히 일치할 때만 해당 Route가 작동하도록 합니다 */}
           {/* 예: /testtest 경로는 Main과 일치하지 않으므로 Main은 렌더링되지 않습니다 */}
           <Route path="/" element={<Main />} />
-          
+          <Route path="/Login" element={<Login />} />
 
           {/* 필요한 경우 추가 Route 설정 */}
         </Routes>
@@ -25,6 +25,6 @@ const App = () => {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
