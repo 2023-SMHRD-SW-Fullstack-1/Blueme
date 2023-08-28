@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3308/blueme
+    username: blueme_sys
+    password: 12345
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/**.xml
+  
+server:
+  port: 8104
