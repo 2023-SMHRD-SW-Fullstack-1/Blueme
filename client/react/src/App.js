@@ -20,7 +20,6 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Join" element={<Join />} />
-          <Route path="/GoogleLogin" element={<GoogleTest />} />
           {/* 필요한 경우 추가 Route 설정 */}
         </Routes>
 
