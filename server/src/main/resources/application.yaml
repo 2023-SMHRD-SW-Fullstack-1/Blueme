@@ -8,7 +8,14 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-    
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 918319240725-4nvnocn81iriqjc64nigemgebntrkk25.apps.googleusercontent.com
+            clientSecret: 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
+            scope: profile,email,https://www.googleapis.com/auth/fitness.activity.read
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/**.xml
   

@@ -26,6 +26,10 @@ dependencies {
 	//runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.27'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	// google oAuth
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
