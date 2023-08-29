@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../index.css";
 
 const Join = () => {
   const years = Array.from({ length: 121 }, (_, i) => new Date().getFullYear() - i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   return (
-    <div className="bg-custom-blue flex flex-col justify-center items-center">
+    <div className="bg-custom-blue flex flex-col justify-center items-center text-custom-white min-h-screen">
       <div className="relative mb-6">
         <a
-          className="mb-3 flex w-full items-center justify-center rounded bg-primary px-7 pb-2.5 pt-3 text-center bg-custom-blue text-custom-white font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+          className="mb-3 flex w-full items-center justify-center rounded bg-primary px-7 pb-2.5 pt-3 text-center bg-custom-blue text-custom-white font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#FEE500] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(254,229,0,0.3),0_4px_18px_0_rgba(254,229,0,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(254,229,0,0.3), 04_x18x 00rgba (254 ,229 ,00 .2 ) ] focus :outline -none focus :ring - 00 active :bg -primary -700 active :shadow - [08 x09x _ -04 _x rgba (254 ,22__9_,__00 _.3__),___04 __xx___18 ___xx___00____r_gba__(25______4__,__22_____9__,__20_____.2__)_]dark:shadow-[04x09x_-04_xrgba_(25__,22__,90__.5_)_]dark:hover:shadow-[08_x09_x-_04__xrgba_(25__,22__,90__.2__),__04__xx__18__xx___00___r_gba__(25__,__11___5__,__20_____.1__)_]dark:focus:shadow-[08x09x_-04_xrgba_(95_,115_,20_.2_),04_x18_x00_r_gba_(95_,115_,20_.1_)_]dark:_active:_shado_w_[08_x09_x-_04__xrgba_(95__,115__,20__.2__),__04__xx__18__xx___00___r_gba__(95__,__11___5__,__20_____.1__)]"
           // style="background-color: #3b5998"
           href="#!"
           role="button"
@@ -23,7 +22,7 @@ const Join = () => {
           Continue with KakaoTalk
         </a>
         <a
-          className="mb-3 flex w-full items-center justify-center bg-custom-blue rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-custom-white shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
+          className="mb-3 flex w-full items-center justify-center bg-custom-blue rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-custom-white shadow-[0_4px_9px_-4px_#FFFFFF] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.3),0_4px_18px_0_rgba(255,255,255,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.3),0_4px_18px_0_rgba(255,255,255,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.3),0_4px_18px_0_rgba(255,255,255,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(255,255,255,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.2),0_4px_18px_0_rgba(255,255,255,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.2),0_4px_18px_0_rgba(255,255,255,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.2),0_4px_18px_0_rgba(255,255,255,0.1)]"
           // style="background-color: #55acee"
           href="#!"
           role="button"
@@ -75,10 +74,10 @@ const Join = () => {
             placeholder="Email address"
           />
         </div>
-        <div className="flex-row text-center text-custom-white my-4 pr-10">
-          <span className="mx-2 pr-1">연도</span>
-          <span className="mx-[40px] pr-7">월</span>
-          <span className="mx-2 pr-3">일</span>
+        <div className="flex-row text-center text-custom-white my-4 pr-md:flex-col mr-4">
+          <span className="mx-md:pri">연도</span>
+          <span className="mx-[60px] pr-md:pri">월</span>
+          <span className="mx-prmd:pri">일</span>
         </div>
 
         <div className="flex justify-around text-sm mt-4">

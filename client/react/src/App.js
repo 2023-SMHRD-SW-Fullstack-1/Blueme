@@ -1,9 +1,14 @@
 import React from "react";
-import Header from "./components/Header";
-import Footer from "./components/footer";
+
 import Main from "./components/Main";
-import Login from "./components/Login";
-import Join from "./components/Join";
+import Join from "./components/Member/Join";
+import Login from "./components/Member/Login";
+import Footer from "./components/Layout/Footer";
+import Header from "./components/Layout/Header";
+import Memberinfochange from "./components/Member/Memberinfochange";
+import Memberinfo from "./components/Member/Memberinfo";
+
+import "./Tailwind.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GoogleTest from "./components/Google/GoogleTest";
 
@@ -20,6 +25,8 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Join" element={<Join />} />
+          <Route path="/Memberinfo" element={<Memberinfo />} />
+          <Route path="/Memberinfochange" element={<Memberinfochange />} />
           {/* 필요한 경우 추가 Route 설정 */}
         </Routes>
 

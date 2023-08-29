@@ -1,19 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../index.css";
+import logo from "../../img/logo.png";
 
 const Login = () => {
   return (
     <div className="bg-custom-blue">
       <section className="h-screen flex flex-col items-center justify-center">
         <div className="container px-4 sm:px-6 md:px-8 lg:px-24 py-4 sm:py-6 md:py-8 lg:py-24">
-          <div className="grid grid-cols-1 md:flex items-center justify-center gap-y-[2em] md:h-full flex-wrap lg:justify-between gap-y-[2em] md:gap-y[0em] flex flex-col items-center">
+          <div className=" grid-cols-1 md:flex justify-center  md:h-full flex-wrap lg:justify-between gap-y-[2em] md:gap-y[0em] flex flex-col items-center">
             <div className="w-full sm:w-full md:w-auto lg:w-auto xl:max-w-lg mb[2em} md:m-b[0em]">
-              <img
-                src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                className="w-full h-auto max-h-[30vh] sm:max-h-[30vh] object-contain"
-                alt="Phone image"
-              />
+              <Link to="/Main">
+                <img src={logo} className="ml-2 w-full h-auto max-h-[30vh] sm:max-h-[30vh] object-contain" alt="" />
+              </Link>
             </div>
 
             <div className="md:w-8/12 lg:ml-6 lg:w-5/12 flex flex-col items-center">
@@ -69,24 +67,24 @@ const Login = () => {
                 </button>
 
                 <div className="my-4">
-                  <button
-                    type="submit"
-                    className=" bg-custom-blue py-10 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal  text-custom-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                  >
-                    Sign up
-                  </button>
+                  <Link to="/Join">
+                    <button
+                      type="submit"
+                      className=" bg-custom-blue py-10 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal  text-custom-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                      data-te-ripple-init
+                      data-te-ripple-color="light"
+                    >
+                      Sign up
+                    </button>
+                  </Link>
                 </div>
 
                 <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                  <p className="mx-4 mb-0 text-center font-semibold text-custom-white">
-                    OR
-                  </p>
+                  <p className="mx-4 mb-0 text-center font-semibold text-custom-white">OR</p>
                 </div>
 
                 <a
-                  className="mb-3 flex w-full items-center justify-center rounded bg-primary px-7 pb-2.5 pt-3 text-center bg-custom-blue text-custom-white font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                  className="mb-3 flex w-full items-center justify-center rounded bg-primary px-7 pb-2.5 pt-3 text-center bg-custom-blue text-custom-white font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#FEE500] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(254,229,0,0.3),0_4px_18px_0_rgba(254,229,0,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(254,229,0,0.3), 04_x18x 00rgba (254 ,229 ,00 .2 ) ] focus :outline -none focus :ring - 00 active :bg -primary -700 active :shadow - [08 x09x _ -04 _x rgba (254 ,22__9_,__00 _.3__),___04 __xx___18 ___xx___00____r_gba__(25______4__,__22_____9__,__20_____.2__)_]dark:shadow-[04x09x_-04_xrgba_(25__,22__,90__.5_)_]dark:hover:shadow-[08_x09_x-_04__xrgba_(25__,22__,90__.2__),__04__xx__18__xx___00___r_gba__(25__,__11___5__,__20_____.1__)_]dark:focus:shadow-[08x09x_-04_xrgba_(95_,115_,20_.2_),04_x18_x00_r_gba_(95_,115_,20_.1_)_]dark:_active:_shado_w_[08_x09_x-_04__xrgba_(95__,115__,20__.2__),__04__xx__18__xx___00___r_gba__(95__,__11___5__,__20_____.1__)]"
                   // style="background-color: #3b5998"
                   href="#!"
                   role="button"
@@ -104,7 +102,7 @@ const Login = () => {
                   Continue with KakaoTalk
                 </a>
                 <a
-                  className="mb-3 flex w-full items-center justify-center bg-custom-blue rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-custom-white shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
+                  className="mb-3 flex w-full items-center justify-center bg-custom-blue rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-custom-white shadow-[0_4px_9px_-4px_#FFFFFF] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.3),0_4px_18px_0_rgba(255,255,255,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.3),0_4px_18px_0_rgba(255,255,255,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.3),0_4px_18px_0_rgba(255,255,255,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(255,255,255,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.2),0_4px_18px_0_rgba(255,255,255,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.2),0_4px_18px_0_rgba(255,255,255,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(255,255,255,0.2),0_4px_18px_0_rgba(255,255,255,0.1)]"
                   // style="background-color: #55acee"
                   href="#!"
                   role="button"
