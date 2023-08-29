@@ -5,6 +5,7 @@ import Main from "./components/Main";
 import Login from "./components/Login";
 import Join from "./components/Join";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import GoogleTest from "./components/Google/GoogleTest";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Join" element={<Join />} />
+          <Route path="/GoogleLogin" element={<GoogleTest />} />
           {/* 필요한 경우 추가 Route 설정 */}
         </Routes>
 

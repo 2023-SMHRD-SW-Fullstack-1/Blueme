@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class IndexController {
 	
 	// 테스트용
-	@GetMapping("/home/reservation/add")
+	@GetMapping("/")
 	public Long reservation() {
 		return 1L;
 	}
