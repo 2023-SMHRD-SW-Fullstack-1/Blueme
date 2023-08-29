@@ -2,7 +2,8 @@ import React from "react";
 import Header from "./components/Header";
 import Footer from "./components/footer";
 import Main from "./components/Main";
-import Login from "./components/Login"; // TestTest 컴포넌트의 이름은 대문자로 시작해야 합니다.
+import Login from "./components/Login";
+import Join from "./components/Join";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -17,7 +18,7 @@ const App = () => {
           {/* 예: /testtest 경로는 Main과 일치하지 않으므로 Main은 렌더링되지 않습니다 */}
           <Route path="/" element={<Main />} />
           <Route path="/Login" element={<Login />} />
-
+          <Route path="/Join" element={<Join />} />
           {/* 필요한 경우 추가 Route 설정 */}
         </Routes>
 
