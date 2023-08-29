@@ -6,10 +6,13 @@ module.exports = {
     colors: {
       "custom-blue": "#080B16",
       "custom-white": "#fff",
+      "custom-black": "#000000",
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      placeholderColor: ["responsive", "dark", "focus", "hover", "active"],
+    },
   },
   plugins: [],
 };
