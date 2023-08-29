@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../index.css";
 
 const Join = () => {
   const years = Array.from({ length: 121 }, (_, i) => new Date().getFullYear() - i);
@@ -75,10 +74,10 @@ const Join = () => {
             placeholder="Email address"
           />
         </div>
-        <div className="flex-row text-center text-custom-white my-4 pr-10">
-          <span className="mx-2 pr-1">연도</span>
-          <span className="mx-[40px] pr-7">월</span>
-          <span className="mx-2 pr-3">일</span>
+        <div className="flex-row text-center text-custom-white my-4 pr-md:flex-col mr-4">
+          <span className="mx-md:pri">연도</span>
+          <span className="mx-[60px] pr-md:pri">월</span>
+          <span className="mx-prmd:pri">일</span>
         </div>
 
         <div className="flex justify-around text-sm mt-4">

@@ -1,19 +1,13 @@
-<<<<<<< HEAD
 import React from "react";
 import Header from "./components/Header";
-import Footer from "./components/footer";
+
 import Main from "./components/Main";
-import Login from "./components/Login";
-import Join from "./components/Join";
+import Join from "./components/Member/Join";
+import Login from "./components/Member/Login";
+import Footer from "./components/Footer";
+
+import "./Tailwind.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-=======
-import React from 'react';
-import Header from './components/Header';
-import Footer from './components/footer';
-import Main from './components/Main';
-import Login from './components/Login'; // TestTest 컴포넌트의 이름은 대문자로 시작해야 합니다.
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
->>>>>>> origin/jihee
 
 const App = () => {
   return (

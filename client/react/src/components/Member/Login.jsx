@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../index.css";
 
 const Login = () => {
   return (
@@ -9,11 +8,13 @@ const Login = () => {
         <div className="container px-4 sm:px-6 md:px-8 lg:px-24 py-4 sm:py-6 md:py-8 lg:py-24">
           <div className="grid grid-cols-1 md:flex items-center justify-center gap-y-[2em] md:h-full flex-wrap lg:justify-between gap-y-[2em] md:gap-y[0em] flex flex-col items-center">
             <div className="w-full sm:w-full md:w-auto lg:w-auto xl:max-w-lg mb[2em} md:m-b[0em]">
-              <img
-                src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                className="w-full h-auto max-h-[30vh] sm:max-h-[30vh] object-contain"
-                alt="Phone image"
-              />
+              <Link to="/main">
+                <img
+                  src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                  className="w-full h-auto max-h-[30vh] sm:max-h-[30vh] object-contain"
+                  alt="Phone image"
+                />
+              </Link>
             </div>
 
             <div className="md:w-8/12 lg:ml-6 lg:w-5/12 flex flex-col items-center">
@@ -69,20 +70,20 @@ const Login = () => {
                 </button>
 
                 <div className="my-4">
-                  <button
-                    type="submit"
-                    className=" bg-custom-blue py-10 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal  text-custom-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                  >
-                    Sign up
-                  </button>
+                  <Link to="/Join">
+                    <button
+                      type="submit"
+                      className=" bg-custom-blue py-10 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal  text-custom-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                      data-te-ripple-init
+                      data-te-ripple-color="light"
+                    >
+                      Sign up
+                    </button>
+                  </Link>
                 </div>
 
                 <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                  <p className="mx-4 mb-0 text-center font-semibold text-custom-white">
-                    OR
-                  </p>
+                  <p className="mx-4 mb-0 text-center font-semibold text-custom-white">OR</p>
                 </div>
 
                 <a
