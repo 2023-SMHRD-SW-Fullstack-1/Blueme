@@ -14,3 +14,4 @@ mybatis:
   
 server:
   port: 8104
+  address: 0.0.0.0 
