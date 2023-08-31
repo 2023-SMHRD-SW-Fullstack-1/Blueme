@@ -46,7 +46,7 @@ const Join = () => {
           <div className="text-custom-white my-1">Email Address</div>
           <input
             type="email"
-            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
+            className="text-custom-black peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
             placeholder="Email address"
           />
         </div>
@@ -54,7 +54,7 @@ const Join = () => {
           <div className="text-custom-white my-1"> Password</div>
           <input
             type="password"
-            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
+            className="text-custom-black peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
             placeholder="Password"
           />
         </div>
@@ -62,16 +62,16 @@ const Join = () => {
           <div className="text-custom-white my-1">Confirm Password</div>
           <input
             type="password"
-            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
+            className="text-custom-black peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
             placeholder="Confirm Password"
           />
         </div>
         <div className="relative mb-6" data-te-input-wrapper-init>
           <div className="text-custom-white my-1">NickName</div>
           <input
-            type="email"
-            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
-            placeholder="Email address"
+            type="text"
+            className="text-custom-black peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
+            placeholder="NickName"
           />
         </div>
         <div className="flex-row text-center text-custom-white my-4 pr-md:flex-col mr-4">

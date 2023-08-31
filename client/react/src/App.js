@@ -8,9 +8,12 @@ import Header from "./components/Layout/Header";
 import Memberinfochange from "./components/Member/Memberinfochange";
 import Memberinfo from "./components/Member/Memberinfo";
 import Artistrecommend from "./components/Artistrecommend";
+import Mymusicplaylist from "./components/Mymusicplaylist";
+import Themerecommend from "./components/Themerecommend";
 
 import "./Tailwind.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./Fonts/font.ttf";
 
 const App = () => {
   return (
@@ -28,6 +31,8 @@ const App = () => {
           <Route path="/Memberinfo" element={<Memberinfo />} />
           <Route path="/Memberinfochange" element={<Memberinfochange />} />
           <Route path="/Artistrecommend" element={<Artistrecommend />} />
+          <Route path="/Mymusicplaylist" element={<Mymusicplaylist />} />
+          <Route path="/Themerecommend" element={<Themerecommend />} />
           {/* 필요한 경우 추가 Route 설정 */}
         </Routes>
 

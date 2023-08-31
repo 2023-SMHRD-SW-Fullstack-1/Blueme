@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faSearch, faBookOpen, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faSearch, faBookOpen, faThumbsUp, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 function Footer() {
   return (
@@ -11,13 +11,13 @@ function Footer() {
         <button>홈</button>
       </Link>
 
-      <Link to="/Artistrecommend" className="flex flex-col items-center w-full text-center">
+      <Link to="/" className="flex flex-col items-center w-full text-center">
         <FontAwesomeIcon icon={faThumbsUp} size="2x" />
         <button>추천</button>
       </Link>
 
-      <Link to="/" className="flex flex-col items-center w-full text-center">
-        <FontAwesomeIcon icon={faThumbsUp} size="2x" />
+      <Link to="/Themerecommend" className="flex flex-col items-center w-full text-center">
+        <FontAwesomeIcon icon={faMagnifyingGlass} size="2x" />
         <button>테마</button>
       </Link>
 
