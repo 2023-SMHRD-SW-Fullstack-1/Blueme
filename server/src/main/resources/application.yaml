@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/bluemetest
-    username: root
-    password: 1234
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://project-db-campus.smhrd.com:3308/blueme_sys
+    username: blueme_sys
+    password: kingblueme5
   jpa:
     hibernate:
       ddl-auto: update
