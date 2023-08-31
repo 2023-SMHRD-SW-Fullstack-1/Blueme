@@ -17,8 +17,8 @@
     <string name="app_name">Measure Data Sample</string>
     <string name="not_available">Not available on this device</string>
 
-    <string name="start">Start</string>
-    <string name="stop">Stop</string>
+    <string name="start">측정</string>
+    <string name="stop">전송</string>
     <string name="icon">Icon</string>
 
     <string name="no_hr_reading">--</string>

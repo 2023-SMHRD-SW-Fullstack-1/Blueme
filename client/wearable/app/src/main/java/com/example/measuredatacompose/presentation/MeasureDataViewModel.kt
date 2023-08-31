@@ -62,7 +62,6 @@ class MeasureDataViewModel(
         val url = "http://172.30.1.56:8104"
 
         // 테[스트용
-        var averageHeartRate3333 = 3.0
 
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS) // 30초로 변경
@@ -80,7 +79,7 @@ class MeasureDataViewModel(
         val service = retrofit.create(HealthServiceApi::class.java)
 
         // 요청 본문 생성
-        val request = HeartRateRequest(tempUserId, averageHeartRate3333)
+        val request = HeartRateRequest(tempUserId, averageHeartRate)
 
         // 서버에 POST 요청 보내기 (비동기)
         try {

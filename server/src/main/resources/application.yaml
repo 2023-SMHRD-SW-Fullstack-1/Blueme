@@ -8,10 +8,12 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
   
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/**.xml
   
 server:
   port: 8104
-  address: 0.0.0.0 
+  address: 0.0.0.0
+
