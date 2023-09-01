@@ -18,6 +18,7 @@ package com.example.measuredatacompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.example.measuredatacompose.presentation.LoginApp
 import com.example.measuredatacompose.presentation.MeasureDataApp
 
 class MainActivity : ComponentActivity() {
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MeasureDataApp(healthServicesRepository = healthServicesRepository)
+            //LoginApp()
         }
     }
 }

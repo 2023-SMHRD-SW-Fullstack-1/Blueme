@@ -74,6 +74,9 @@ dependencies {
     implementation libs.androidx.lifecycle.viewmodel.compose
     implementation libs.compose.material.icons.extended
 
+    // 추가(orthh)
+    implementation("androidx.compose.material:material:1.0.2")
+
     // Health Services
     implementation libs.androidx.health.services
 

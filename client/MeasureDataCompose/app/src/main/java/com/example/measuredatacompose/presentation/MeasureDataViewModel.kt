@@ -84,6 +84,7 @@ class MeasureDataViewModel(
             val response = service.sendHeartRate(request)
             if (response.isSuccessful) {
                 Log.d("Response", "Data sent successfully")
+
             } else {
                 Log.e("Response", "Failed to send data")
             }
