@@ -40,8 +40,8 @@ public class User extends BaseEntity{
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'Y'")
 	private String activeStatus;
 	
-	@OneToMany(mappedBy = "user")
-	private List<RecMusiclist> music_list = new ArrayList<RecMusiclist>();
+//	@OneToMany(mappedBy = "user")
+//	private List<RecMusiclist> music_list = new ArrayList<RecMusiclist>();
 	
 	@Builder
 	public User(Long id,String email, String password

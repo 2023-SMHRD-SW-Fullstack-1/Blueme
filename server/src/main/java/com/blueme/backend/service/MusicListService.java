@@ -1,6 +1,5 @@
 package com.blueme.backend.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,10 +41,12 @@ public class MusicListService {
 		List<Music> musics = requestDto.getRecommendedMusicIds().stream()
 				.map((id) -> musicJpaRepository.findById(Long.parseLong(id))
 				.orElseThrow(() -> new IllegalArgumentException("해당 음악ID를 찾을 수 없습니다"))).collect(Collectors.toList());
+		
+		// 음악을 RecMusiclistDetail 리스트로 변환
 		List<RecMusiclistDetail> recMusicListDetail = musics.stream()
 				.map((music) -> RecMusiclistDetail.builder().music(music).build()).collect(Collectors.toList());
-		RecMusiclist recMusiclist = RecMusiclist.builder().user(user).title(requestDto.getTitle()).recMusicListDetail(recMusicListDetail).build();
-		return recMusicListJpaRepository.save(recMusiclist).getId();
+
+		return recMusicListJpaRepository.save(RecMusiclist.builder().user(user).title(requestDto.getTitle()).recMusicListDetail(recMusicListDetail).build()).getId();
 	}
 	
 }
