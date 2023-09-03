@@ -19,6 +19,7 @@ public class Music {
 	@Column(name="music_id")
 	private Long id;
 	
-	
+	// 테스트용
+	private String name;
 	
 }

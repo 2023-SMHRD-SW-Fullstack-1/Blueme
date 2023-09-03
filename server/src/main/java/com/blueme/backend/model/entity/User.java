@@ -33,25 +33,27 @@ public class User extends BaseEntity{
 	private String nickname;
 	
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'blueme'")
-	private String platform_type;
+	private String platformType;
 	
-	private String access_token;
+	private String accessToken;
 	
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'Y'")
-	private String active_status;
+	private String activeStatus;
 	
 	@OneToMany(mappedBy = "user")
 	private List<RecMusiclist> music_list = new ArrayList<RecMusiclist>();
 	
 	@Builder
-	public User(Long id,String email, String password,String nickname, String platform_type, String access_token, String active_status) {
+	public User(Long id,String email, String password
+			,String nickname, String platformType
+			, String accessToken, String activeStatus) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
-		this.platform_type = platform_type;
-		this.access_token = access_token;
-		this.active_status = active_status;
+		this.platformType = platformType;
+		this.accessToken = accessToken;
+		this.activeStatus = activeStatus;
 	}
 
 }

@@ -4,9 +4,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.blueme.backend.dto.userdto.UserRegisterDto;
 import com.blueme.backend.model.entity.User;
 import com.blueme.backend.model.repository.UserJpaRepository;
-import com.blueme.backend.web.dto.userdto.UserRegisterDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

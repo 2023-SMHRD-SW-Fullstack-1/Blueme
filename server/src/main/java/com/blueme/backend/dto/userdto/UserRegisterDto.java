@@ -1,4 +1,4 @@
-package com.blueme.backend.web.dto.userdto;
+package com.blueme.backend.dto.userdto;
 
 import com.blueme.backend.model.entity.User;
 
@@ -14,11 +14,11 @@ public class UserRegisterDto {
 	private String password;
 	private String nickname;
 	private String platform_type;
-	private String access_token;
-	private String active_status;
+	private String accessToken;
+	private String activeStatus;
 	
 	public User toEntity() {
-        return User.builder().email(email).password(password).nickname(nickname).platform_type(platform_type).access_token(access_token).active_status(active_status).build();
+        return User.builder().email(email).password(password).nickname(nickname).platformType(platform_type).accessToken(accessToken).activeStatus(activeStatus).build();
     }
 	
 }

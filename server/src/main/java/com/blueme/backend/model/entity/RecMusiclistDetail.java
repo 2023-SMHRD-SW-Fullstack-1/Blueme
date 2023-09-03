@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,10 +24,16 @@ public class RecMusiclistDetail {
 	
 	@ManyToOne
 	@JoinColumn(name="rec_musiclist_id", insertable=false, updatable=false)
-	private RecMusiclist rec_musiclist;
+	private RecMusiclist recMusiclist;
 	
 	@ManyToOne
-	@JoinColumn(name="music_id", insertable=false, updatable=false)
+	@JoinColumn(name="music_id")
 	private Music music;
+	
+	@Builder
+	public RecMusiclistDetail(RecMusiclist recMusiclist,Music music){
+		this.recMusiclist = recMusiclist;
+		this.music = music;
+	}
 	
 }

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,11 +28,19 @@ public class RecMusiclist extends BaseEntity{
 	
 	private String title;
 	
-	@OneToMany(mappedBy = "rec_musiclist", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="rec_musiclist_id") // 셀프조인
 	private List<RecMusiclistDetail> recMusicListDetail;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
+	
+	@Builder
+	public RecMusiclist(String title, User user, List<RecMusiclistDetail> recMusicListDetail) {
+		this.title = title;
+		this.user = user;
+		this.recMusicListDetail = recMusicListDetail;
+	}
 	
 }

@@ -1,4 +1,4 @@
-package com.blueme.backend.web.dto;
+package com.blueme.backend.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
