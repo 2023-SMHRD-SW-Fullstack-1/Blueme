@@ -1,0 +1,23 @@
+INFO  23-09-04 09:30:29[main] [BackendApplication:55] - Starting BackendApplication using Java 17.0.7 on DESKTOP-ELQ0L8K with PID 21732 (C:\Users\SMHRD\Desktop\projects\sil\server\bin\main started by SMHRD in C:\Users\SMHRD\Desktop\projects\sil\server)
+INFO  23-09-04 09:30:29[main] [BackendApplication:631] - No active profile set, falling back to 1 default profile: "default"
+INFO  23-09-04 09:30:29[main] [RepositoryConfigurationDelegate:132] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+INFO  23-09-04 09:30:29[main] [RepositoryConfigurationDelegate:201] - Finished Spring Data repository scanning in 36 ms. Found 3 JPA repository interfaces.
+WARN  23-09-04 09:30:30[main] [ClassPathMapperScanner:44] - No MyBatis mapper was found in '[com.blueme.backend]' package. Please check your configuration.
+INFO  23-09-04 09:30:30[main] [TomcatWebServer:108] - Tomcat initialized with port(s): 8104 (http)
+INFO  23-09-04 09:30:30[main] [Http11NioProtocol:173] - Initializing ProtocolHandler ["http-nio-0.0.0.0-8104"]
+INFO  23-09-04 09:30:30[main] [StandardService:173] - Starting service [Tomcat]
+INFO  23-09-04 09:30:30[main] [StandardEngine:173] - Starting Servlet engine: [Apache Tomcat/9.0.79]
+INFO  23-09-04 09:30:30[main] [[/]:173] - Initializing Spring embedded WebApplicationContext
+INFO  23-09-04 09:30:30[main] [ServletWebServerApplicationContext:292] - Root WebApplicationContext: initialization completed in 959 ms
+INFO  23-09-04 09:30:30[main] [LogHelper:31] - HHH000204: Processing PersistenceUnitInfo [name: default]
+INFO  23-09-04 09:30:30[main] [Version:44] - HHH000412: Hibernate ORM core version 5.6.15.Final
+INFO  23-09-04 09:30:30[main] [Version:56] - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+INFO  23-09-04 09:30:30[main] [HikariDataSource:110] - HikariPool-1 - Starting...
+INFO  23-09-04 09:30:30[main] [HikariDataSource:123] - HikariPool-1 - Start completed.
+INFO  23-09-04 09:30:30[main] [Dialect:175] - HHH000400: Using dialect: org.hibernate.dialect.MariaDB103Dialect
+INFO  23-09-04 09:30:31[main] [JtaPlatformInitiator:52] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+INFO  23-09-04 09:30:31[main] [LocalContainerEntityManagerFactoryBean:437] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+WARN  23-09-04 09:30:31[main] [JpaBaseConfiguration$JpaWebConfiguration:223] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+WARN  23-09-04 09:30:32[main] [ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration:103] - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+INFO  23-09-04 09:30:32[main] [Http11NioProtocol:173] - Starting ProtocolHandler ["http-nio-0.0.0.0-8104"]
+INFO  23-09-04 09:30:32[main] [TomcatWebServer:220] - Tomcat started on port(s): 8104 (http) with context path ''
