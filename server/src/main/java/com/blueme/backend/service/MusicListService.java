@@ -3,9 +3,9 @@ package com.blueme.backend.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.blueme.backend.dto.musiclistdto.RecMusicListSaveDto;
 import com.blueme.backend.model.entity.Music;
