@@ -15,6 +15,7 @@ import Myprofile from "./components/Member/Myprofile";
 import "./Tailwind.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./Fonts/font.ttf";
+import AddMusicPage from "./pages/AddMusicPage";
 
 const App = () => {
   return (
@@ -36,6 +37,9 @@ const App = () => {
           <Route path="/Themerecommend" element={<Themerecommend />} />
           <Route path="/Myprofile" element={<Myprofile />} />
           {/* 필요한 경우 추가 Route 설정 */}
+
+          {/* 음악등록 페이지 */}
+          <Route path="/addMusic" element={<AddMusicPage />} />
         </Routes>
 
         <Footer />

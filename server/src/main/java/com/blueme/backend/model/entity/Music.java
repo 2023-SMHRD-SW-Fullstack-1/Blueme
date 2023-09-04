@@ -29,12 +29,25 @@ public class Music{
 	
 	private String filePath;
 	
+	private String genre;
+	
+	private String bpm;
+	
+	private String mood;
+	
+	private String year;
+	
 	@Builder
-	public Music(String title, String artist, String album, String filePath) {
+	public Music(String title, String artist, String album, String filePath
+			, String genre, String bpm, String mood, String year) {
 		this.title = title;
 		this.artist = artist;
 		this.album = album;
 		this.filePath = filePath;
+		this.genre = genre;
+		this.bpm = bpm;
+		this.mood = mood;
+		this.year = year;
 	}
 	
 }

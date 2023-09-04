@@ -24,27 +24,30 @@ public class MusicService {
 	private final MusicJpaRepository musicJpaRepository;
 	
 	/**
-	 *  post 음악 등록
+	 *  post 음악 다중등록
 	 */
 	@Transactional
-	public Long save (MusicSaveDto requestDto){
+	public Long save (MultipartFile[] files){
 		FileStorageUtil fileStorage = new FileStorageUtil();
 		
 		// 오류나면 저장안됄시 -1 반환 저장시 마지막 음악의ID값 반환
 		Long lastId = -1L;
 		
-		for (MultipartFile file : requestDto.getFiles()) {
+		for (MultipartFile file : files) {
             String filePath = fileStorage.storeFile(file);
             
             try {
                 AudioFile audioFile = AudioFileIO.read(new File(filePath));
                 Tag tag = audioFile.getTag();
-
                 String artist = tag.getFirst(FieldKey.ARTIST);
                 String album = tag.getFirst(FieldKey.ALBUM);
                 String title = tag.getFirst(FieldKey.TITLE);
-                
-                Music music = Music.builder().title(title).album(album).artist(artist).filePath(filePath).build();
+                String genre = tag.getFirst(FieldKey.GENRE);
+                String bpm = tag.getFirst(FieldKey.BPM);
+                String mood = tag.getFirst(FieldKey.MOOD);
+                String year = tag.getFirst(FieldKey.YEAR);
+                Music music = Music.builder().title(title).album(album).artist(artist).genre(genre)
+                		.bpm(bpm).mood(mood).year(year).filePath(filePath).build();
                 
                 lastId = musicJpaRepository.save(music).getId();
                 

@@ -8,7 +8,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+    
   
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/**.xml
