@@ -28,9 +28,9 @@ public class MusicController {
 	public Long saveMusic(@RequestParam("files") MultipartFile[] files) {
 		// @RequestBody는 application/json 형식의 HTTP 요청 본문만 처리 가능
 		// 파일업로드를 위해서는 RequestParam 사용
-		log.info("Starting save music for userId = {}");
+		log.info("Starting save music");
 		Long musicId = musicService.save(files);
-		log.info("Recommendation music save completed with musicId = {}", musicId);
+		log.info("Recommendation music save completed", musicId);
 		return musicId;
 	}
 	
