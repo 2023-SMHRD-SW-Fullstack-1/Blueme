@@ -24,3 +24,6 @@ server:
 logging:
   level:
     root: info
+    
+api-key:
+  chat-gpt: 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
