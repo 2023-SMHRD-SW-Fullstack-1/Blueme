@@ -5,7 +5,7 @@ import { faHome, faSearch, faBookOpen, faThumbsUp, faMagnifyingGlass } from "@fo
 
 function Footer() {
   return (
-    <div className="bg-custom-blue text-custom-white p-3 sm:p-4 flex justify-between items-center">
+    <div className="bg-custom-blue text-custom-white p-3 sm:p-4 flex justify-between items-center ">
       <Link to="/" className="flex flex-col items-center w-full text-center">
         <FontAwesomeIcon icon={faHome} size="2x" />
         <button>홈</button>

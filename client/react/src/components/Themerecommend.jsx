@@ -9,7 +9,10 @@ const Themerecommend = () => {
         {Array(4)
           .fill()
           .map((_, i) => (
-            <button key={i} class="flex flex-col items-center space-y-4 mt-10">
+            <button
+              key={i}
+              class="w-full h-full flex flex-col items-center justify-center p-8 bg-white rounded-lg shadow-md"
+            >
               <img
                 src={`https://randomuser.me/api/portraits/men/${i + 1}.jpg`}
                 alt=""

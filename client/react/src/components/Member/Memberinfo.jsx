@@ -9,7 +9,7 @@ const Memberinfo = () => {
       <div className="mb-10">
         <input
           type="password"
-          className="text-custom-black peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear "
+          className="text-custom-black bg-[#070b19] rounded-[10px] border-solid border-[rgba(253,253,253,0.10)] "
           placeholder="Password"
         />
       </div>
