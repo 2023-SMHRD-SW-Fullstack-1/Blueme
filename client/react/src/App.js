@@ -8,7 +8,7 @@ import Header from "./components/Layout/Header";
 import Memberinfochange from "./components/Member/Memberinfochange";
 import Memberinfo from "./components/Member/Memberinfo";
 import Artistrecommend from "./components/Artistrecommend";
-import Mymusicplaylist from "./components/Mymusicplaylist";
+import JoinComplete from "./components/Member/JoinComplete";
 import Themerecommend from "./components/Themerecommend";
 import Myprofile from "./components/Member/Myprofile";
 
@@ -32,7 +32,7 @@ const App = () => {
           <Route path="/Memberinfo" element={<Memberinfo />} />
           <Route path="/Memberinfochange" element={<Memberinfochange />} />
           <Route path="/Artistrecommend" element={<Artistrecommend />} />
-          <Route path="/Mymusicplaylist" element={<Mymusicplaylist />} />
+          <Route path="/JoinComplete" element={<JoinComplete />} />
           <Route path="/Themerecommend" element={<Themerecommend />} />
           <Route path="/Myprofile" element={<Myprofile />} />
           {/* 필요한 경우 추가 Route 설정 */}

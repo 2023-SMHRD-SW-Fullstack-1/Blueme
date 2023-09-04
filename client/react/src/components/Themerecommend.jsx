@@ -5,7 +5,7 @@ const Themerecommend = () => {
   return (
     <div className="flex flex-col justify-center items-center bg-custom-blue text-custom-white overflow-auto flex-grow">
       <h3 class="font-bold text-4xl sm:text-2xl md:text-2xl sm:mb-10">당신이 선호하는 테마는?</h3>
-      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-x-6 gap-y-10">
+      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 ">
         {Array(4)
           .fill()
           .map((_, i) => (
@@ -22,10 +22,21 @@ const Themerecommend = () => {
             </button>
           ))}
       </div>
-      {/* Add this */}
-      <Link to="/Artistrecommend" className="mt-10">
-        다음으로 넘어가기
-      </Link>
+      <div className="w-full h-auto rounded-lg p-4">
+        <Link to="/Main" className="mb-10">
+          <button
+            className="
+            mt-5
+            w-full
+            px-3 h-10 relative 
+            bg-[#221a38]  
+            rounded-lg border border-soild border-[#fdfdfd]
+            text-custom-white"
+          >
+            수정하기
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };
