@@ -1,8 +1,8 @@
 package com.blueme.backend.service;
 
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.blueme.backend.dto.userdto.UserLoginDto;
 import com.blueme.backend.dto.userdto.UserRegisterDto;
