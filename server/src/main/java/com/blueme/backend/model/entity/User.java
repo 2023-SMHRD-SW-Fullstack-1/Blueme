@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,20 +42,30 @@ public class User extends BaseEntity{
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'Y'")
 	private String activeStatus;
 	
+	@Enumerated(EnumType.STRING)
+    private UserRole role;
+	
 //	@OneToMany(mappedBy = "user")
 //	private List<RecMusiclist> music_list = new ArrayList<RecMusiclist>();
 	
 	@Builder
 	public User(Long id,String email, String password
 			,String nickname, String platformType
-			, String accessToken, String activeStatus) {
+			, String accessToken) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
 		this.platformType = platformType;
 		this.accessToken = accessToken;
-		this.activeStatus = activeStatus;
+		this.activeStatus = "Y";
+		this.role = UserRole.ADMIN;
+	}
+	
+	public enum UserRole {
+	    USER,
+	    ADMIN
 	}
 
 }
+

@@ -10,4 +10,7 @@ import com.blueme.backend.model.entity.User;
 @Repository
 public interface UserJpaRepository extends JpaRepository<User, Long>{
 	User findByEmail(String email);
+	
+	User findByEmailAndPassword(String email, String password);
+	
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +50,13 @@ fun LoginApp() {
                         singleLine=true,
                         textStyle = TextStyle(color = Color.White),
                         shape=RoundedCornerShape(12.dp),
-                        modifier=Modifier.fillMaxWidth(0.8f).height(20.dp)
+                        modifier=Modifier.fillMaxWidth(0.8f).height(20.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            textColor = Color.White,
+                            cursorColor = Color.White,
+                            focusedBorderColor= Color.White,
+                            unfocusedBorderColor=Color.Gray
+                        )
 
                     )
                 }
@@ -63,9 +70,15 @@ fun LoginApp() {
                         onValueChange={passwordState.value=it},
                         label={Text("패스워드 입력")},
                         singleLine=true,
-
+                        textStyle = TextStyle(color = Color.White),
                         shape=RoundedCornerShape(12.dp),
-                        modifier=Modifier.fillMaxWidth(0.8f).height(20.dp)
+                        modifier=Modifier.fillMaxWidth(0.8f).height(20.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            textColor = Color.White,
+                            cursorColor = Color.White,
+                            focusedBorderColor= Color.White,
+                            unfocusedBorderColor=Color.Gray
+                        )
                     )
                 }
 

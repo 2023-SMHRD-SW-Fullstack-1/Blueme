@@ -11,14 +11,19 @@ import lombok.NoArgsConstructor;
 public class UserRegisterDto {
 	
 	private String email;
+	
 	private String password;
+	
 	private String nickname;
+	
 	private String platform_type;
+	
 	private String accessToken;
+	
 	private String activeStatus;
 	
 	public User toEntity() {
-        return User.builder().email(email).password(password).nickname(nickname).platformType(platform_type).accessToken(accessToken).activeStatus(activeStatus).build();
+        return User.builder().email(email).password(password).nickname(nickname).platformType(platform_type).accessToken(accessToken).build();
     }
 	
 }

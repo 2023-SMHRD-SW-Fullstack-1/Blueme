@@ -28,8 +28,8 @@ class MainActivity : ComponentActivity() {
         val healthServicesRepository = (application as MainApplication).healthServicesRepository
 
         setContent {
-            MeasureDataApp(healthServicesRepository = healthServicesRepository)
-            //LoginApp()
+            //MeasureDataApp(healthServicesRepository = healthServicesRepository)
+            LoginApp()
         }
     }
 }
