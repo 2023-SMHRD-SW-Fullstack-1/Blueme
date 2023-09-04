@@ -37,7 +37,8 @@ import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 
 class MeasureDataViewModel(
-    private val healthServicesRepository: HealthServicesRepository
+    private val healthServicesRepository: HealthServicesRepository,
+    private val email :String?
 ) : ViewModel() {
     val enabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
@@ -58,7 +59,7 @@ class MeasureDataViewModel(
     )
     // 서버로 보내는 코드 추가 (orthh)
     private suspend fun sendAverageToServer(averageHeartRate: Double) {
-        val tempUserId = "smhrd"
+        val tempUserId = email
         val url = "http://172.30.1.56:8104"
 
         val okHttpClient = OkHttpClient.Builder()
@@ -77,16 +78,18 @@ class MeasureDataViewModel(
         val service = retrofit.create(HealthServiceApi::class.java)
 
         // 요청 본문 생성
-        val request = HeartRateRequest(tempUserId, averageHeartRate)
+        val request = tempUserId?.let { HeartRateRequest(it, averageHeartRate) }
 
         // 서버에 POST 요청 보내기 (비동기)
         try {
-            val response = service.sendHeartRate(request)
-            if (response.isSuccessful) {
-                Log.d("Response", "Data sent successfully")
+            val response = request?.let { service.sendHeartRate(it) }
+            if (response != null) {
+                if (response.isSuccessful) {
+                    Log.d("Response", "Data sent successfully")
 
-            } else {
-                Log.e("Response", "Failed to send data")
+                } else {
+                    Log.e("Response", "Failed to send data")
+                }
             }
         } catch(e: Exception) {
             Log.e("Network error", e.toString())
@@ -146,13 +149,15 @@ class MeasureDataViewModel(
 }
 
 class MeasureDataViewModelFactory(
-    private val healthServicesRepository: HealthServicesRepository
+    private val healthServicesRepository: HealthServicesRepository,
+    private val email:String?
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MeasureDataViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return MeasureDataViewModel(
-                healthServicesRepository = healthServicesRepository
+                healthServicesRepository = healthServicesRepository,
+                email = email
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

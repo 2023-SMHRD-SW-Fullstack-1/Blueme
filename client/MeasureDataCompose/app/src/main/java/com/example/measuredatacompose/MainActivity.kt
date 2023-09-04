@@ -20,6 +20,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.measuredatacompose.presentation.LoginApp
 import com.example.measuredatacompose.presentation.MeasureDataApp
+import androidx.compose.runtime.remember
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,9 +33,21 @@ class MainActivity : ComponentActivity() {
 
         val healthServicesRepository = (application as MainApplication).healthServicesRepository
 
+//        setContent {
+//            //MeasureDataApp(healthServicesRepository = healthServicesRepository)
+//            LoginApp()
+//        }
+
+        // 추가(orthh)
         setContent {
-            //MeasureDataApp(healthServicesRepository = healthServicesRepository)
-            LoginApp()
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = "login") {
+                composable("login") { LoginApp(navController) }
+                composable("measure/{email}", arguments = listOf(navArgument("email") { type = NavType.StringType })) { backStackEntry ->
+                    MeasureDataApp(healthServicesRepository, backStackEntry.arguments?.getString("email"))
+                }
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.measuredatacompose.presentation
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,6 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.wear.compose.material.Scaffold
 import com.example.measuredatacompose.R
 import com.example.measuredatacompose.theme.MeasureDataTheme
@@ -48,7 +51,7 @@ data class UserLoginRequest(
     val password: String
 )
 
-private suspend fun sendLoginToServer(email: String, password: String) {
+private suspend fun sendLoginToServer(email: String, password: String, navController: NavController) {
     //val url = "http://172.30.1.56:8104"
     val url = "http://172.30.1.56:8104"
 
@@ -73,6 +76,18 @@ private suspend fun sendLoginToServer(email: String, password: String) {
         val response = service.userLogin(request)
         if (response.isSuccessful) {
             Log.d("Response", "Data sent successfully")
+            val responseBody = response.body()
+            if (responseBody != null) {
+                val bodyString = responseBody.string()
+                Log.d("test", bodyString)
+                if(bodyString == "-1"){
+
+                }else{
+                    navController.navigate("measure/$email")
+                }
+            } else {
+                Log.d("test", "Response body is null")
+            }
 
         } else {
             Log.e("Response", "Failed to send data")
@@ -83,9 +98,9 @@ private suspend fun sendLoginToServer(email: String, password: String) {
 }
 
 
-@Preview
+//@Preview
 @Composable
-fun LoginApp() {
+fun LoginApp(navController: NavController) {
     MeasureDataTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize()
@@ -98,7 +113,7 @@ fun LoginApp() {
                 Image(
                     painter= painterResource(R.drawable.blueme_logo),
                     contentDescription=null, // 필수 param
-                    modifier = Modifier.size(80.dp)  // 이미지 크기 조절
+                    modifier = Modifier.size(50.dp)  // 이미지 크기 조절
                 )
 
                 val emailState = remember { mutableStateOf("") }
@@ -108,9 +123,9 @@ fun LoginApp() {
                         onValueChange={emailState.value=it},
                         label={Text("이메일 입력",color=Color.White)},
                         singleLine=true,
-                        textStyle = TextStyle(color = Color.White),
+                        textStyle = TextStyle(color = Color.White, fontSize=12.sp),
                         shape=RoundedCornerShape(12.dp),
-                        modifier=Modifier.fillMaxWidth(0.8f).height(20.dp),
+                        modifier=Modifier.fillMaxWidth(0.8f).height(55.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(
                             textColor = Color.White,
                             cursorColor = Color.White,
@@ -121,18 +136,18 @@ fun LoginApp() {
                     )
                 }
 
-                Spacer(modifier=Modifier.height(16.dp))
+                Spacer(modifier=Modifier.height(4.dp))
 
                 val passwordState = remember { mutableStateOf("") }
                 Row(horizontalArrangement = Arrangement.Center, modifier=Modifier.fillMaxWidth()) {
                     OutlinedTextField(
                         value=passwordState.value,
                         onValueChange={passwordState.value=it},
-                        label={Text("패스워드 입력")},
+                        label={Text("패스워드 입력", color = Color.White)},
                         singleLine=true,
                         textStyle = TextStyle(color = Color.White),
                         shape=RoundedCornerShape(12.dp),
-                        modifier=Modifier.fillMaxWidth(0.8f).height(20.dp),
+                        modifier=Modifier.fillMaxWidth(0.8f).height(55.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(
                             textColor = Color.White,
                             cursorColor = Color.White,
@@ -143,13 +158,13 @@ fun LoginApp() {
                 }
 
 
-                Spacer(modifier=Modifier.height(16.dp))
+                Spacer(modifier=Modifier.height(4.dp))
 
                 val coroutineScope = rememberCoroutineScope()
 
                 Button(onClick={
                     coroutineScope.launch {
-                        sendLoginToServer(emailState.value, passwordState.value)
+                        sendLoginToServer(emailState.value, passwordState.value, navController)
                     }
                 }) {
                     Text("로그인")

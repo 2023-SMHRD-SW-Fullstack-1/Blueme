@@ -76,6 +76,7 @@ dependencies {
 
     // 추가(orthh)
     implementation("androidx.compose.material:material:1.0.2")
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha10"
 
     // Health Services
     implementation libs.androidx.health.services

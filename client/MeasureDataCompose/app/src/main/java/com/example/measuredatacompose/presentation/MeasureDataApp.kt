@@ -32,7 +32,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MeasureDataApp(
-    healthServicesRepository: HealthServicesRepository
+    healthServicesRepository: HealthServicesRepository,
+    email: String?
 ) {
     MeasureDataTheme {
         Scaffold(
@@ -41,7 +42,8 @@ fun MeasureDataApp(
         ) {
             val viewModel: MeasureDataViewModel = viewModel(
                 factory = MeasureDataViewModelFactory(
-                    healthServicesRepository = healthServicesRepository
+                    healthServicesRepository = healthServicesRepository,
+                    email = email
                 )
             )
             val enabled by viewModel.enabled.collectAsState()
