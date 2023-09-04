@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import - 이미지
-import likeEmpty from '../img/likeEmpty.png';
-import dummy from '../data/MusicDummy.json';
+import likeEmpty from '../../assets/img/likeEmpty.png';
+import dummy from '../../dummy/MusicDummy.json';
 
 const Music = () => {
     return (
