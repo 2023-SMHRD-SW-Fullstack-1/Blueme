@@ -18,6 +18,7 @@ import './styles/Tailwind.css';
 import './assets/fonts/font.ttf';
 import AddMusicPage from './pages/AddMusicPage';
 import Playlist from './pages/Playlist';
+import SelectGenre from "./pages/join/SelectGenre";
 
 const App = () => {
     return (
@@ -43,6 +44,7 @@ const App = () => {
                     {/* 라이브러리, 음악 재생 관련 */}
                     <Route path="/MusicPlayer" element={<MusicPlayer />} />
                     <Route path="/Playlist" element={<Playlist />} />
+                    <Route path="/SelectGenre" element={<SelectGenre />} />
                 </Routes>
                 <Footer />
             </div>
