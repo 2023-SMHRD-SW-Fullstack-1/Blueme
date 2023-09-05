@@ -31,7 +31,7 @@ public class LikeMusics extends BaseEntity{
 	private Musics music;
 	
 	@Builder
-	public LikeMusics(Users user, Musics music) {
+	public LikeMusics(Musics music, Users user) {
 		this.user = user;
 		this.music = music;
 	}
