@@ -50,6 +50,7 @@ const App = () => {
           <Route path="/SelectGenre" element={<SelectGenre />} />
           {/* 혁 추가 */}
           <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/addmusic" element={<AddMusicPage />} />
           {/* 혁 끝 */}
         </Routes>
         <Footer />

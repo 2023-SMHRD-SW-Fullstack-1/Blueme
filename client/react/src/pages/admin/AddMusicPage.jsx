@@ -31,7 +31,10 @@ const AddMusicPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-custom-blue text-custom-white text-center flex flex-col min-h-screen justify-center items-center"
+    >
       {/* multiple 속성 추가하여 다중 선택 가능하게 함 */}
       <input type="file" onChange={handleFileChange} multiple />
       <button type="submit">Upload</button>

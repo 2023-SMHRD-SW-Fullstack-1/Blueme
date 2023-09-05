@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,18 +42,19 @@ public class MusicsController {
 		// 파일업로드를 위해서는 RequestParam 사용
 		log.info("Starting save music");
 		Long musicId = musicsService.save(files);
-		log.info("Recommendation music save completed", musicId);
+		log.info("Recommendation music save completed with music ID = {}", musicId);
 		return musicId;
 	}
 	
 	/**
 	 *  get musicId에 해당하는 음악 정보 조회
 	 */
+	/* 파일 다운로드 스트리밍에 부족합
 	@GetMapping("/{id}")
-	public ResponseEntity<StreamingResponseBody> streamMusic(@PathVariable Long id) throws FileNotFoundException {
-    
+	public ResponseEntity<StreamingResponseBody> streamMusic(@PathVariable("id") Long id) throws FileNotFoundException {
+    log.info("Starting get musicId = {}", id);
 		InputStream musicStream = musicsService.loadMusicStream(id);
-		
+
     return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + id + ".mp3\"")
@@ -63,15 +66,19 @@ public class MusicsController {
                     while ((bytesRead = musicStream.read(buffer)) != -1) {
                         outStream.write(buffer, 0, bytesRead);
                     }
-
                     musicStream.close();
                 } catch (IOException e) {
                     throw new RuntimeException("Error: " + e.getMessage());
                 }
             });
-}
+}*/
+		/**
+	   *  get musicId에 해당하는 음악 정보 조회 (HTTP Range Request)
+	   */
+		@GetMapping("/{id}")
+    public ResponseEntity<InputStreamResource> streamAudio(@PathVariable("id") String id, 
+        @RequestHeader(value = "Range", required = false) String rangeHeader) throws IOException {    
+    		return musicsService.getAudioResource(id, rangeHeader);
+    }
 
-	
-	
-	
 }
