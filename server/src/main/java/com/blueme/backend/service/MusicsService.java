@@ -1,6 +1,11 @@
 package com.blueme.backend.service;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -15,6 +20,7 @@ import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.utils.FileStorageUtil;
 
 import lombok.RequiredArgsConstructor;
+
 
 @Service
 @RequiredArgsConstructor
@@ -57,4 +63,18 @@ public class MusicsService {
 		return lastId;
 	}
 	
+    /**
+	 *  get musicId에 해당하는 음악 정보 조회
+	 */
+    public InputStream loadMusicStream(Long id) {
+        try {
+            Musics music = musicsJpaRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Music not found"));
+
+            Path filePath = Paths.get(music.getFilePath());
+            return Files.newInputStream(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
 }
