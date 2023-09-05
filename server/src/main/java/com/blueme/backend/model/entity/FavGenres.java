@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class FavGenre {
+public class FavGenres {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +27,14 @@ public class FavGenre {
 	
 	@ManyToOne
 	@JoinColumn(name="genre_id")
-	private Genre genre;
+	private Genres genre;
 	
 	@OneToOne
 	@JoinColumn(name="fav_checklist_id")
-	private FavCheckList favCheckList;
+	private FavCheckLists favCheckList;
 
 	@Builder
-	public FavGenre(Long id, Genre genre, FavCheckList favCheckList) {
+	public FavGenres(Long id, Genres genre, FavCheckLists favCheckList) {
 		this.id=id;
 		this.genre = genre;
 		this.favCheckList = favCheckList;

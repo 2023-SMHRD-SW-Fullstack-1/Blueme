@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Genre {
+public class Genres {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Genre {
 	private String content;
 
 	@Builder
-	public Genre(String name, String content) {
+	public Genres(String name, String content) {
 		this.name = name;
 		this.content = content;
 	}

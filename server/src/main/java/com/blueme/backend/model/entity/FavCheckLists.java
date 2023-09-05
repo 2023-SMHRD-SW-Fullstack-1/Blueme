@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class FavCheckList extends BaseEntity {
+public class FavCheckLists extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class FavCheckList extends BaseEntity {
 	private User user;
 
 	@Builder
-	public FavCheckList(Long id, User user) {
+	public FavCheckLists(Long id, User user) {
 		this.id = id;
 		this.user = user;
 	}

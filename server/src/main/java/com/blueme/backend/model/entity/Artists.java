@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Artist {
+public class Artists {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Artist {
 	private String artist_img;
 
 	@Builder
-	public Artist(String name, String type, String artist_img) {
+	public Artists(String name, String type, String artist_img) {
 		this.name = name;
 		this.type = type;
 		this.artist_img = artist_img;
