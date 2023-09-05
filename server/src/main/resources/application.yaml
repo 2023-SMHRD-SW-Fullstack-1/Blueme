@@ -12,11 +12,10 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 100MB
-    
-  
+
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/**.xml
-  
+
 server:
   port: 8104
   address: 0.0.0.0
@@ -24,6 +23,6 @@ server:
 logging:
   level:
     root: info
-    
+
 api-key:
   chat-gpt: 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

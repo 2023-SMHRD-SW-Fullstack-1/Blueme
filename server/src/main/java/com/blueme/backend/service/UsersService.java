@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.blueme.backend.dto.usersdto.UsersDeleteDto;
 import com.blueme.backend.dto.usersdto.UsersLoginDto;
 import com.blueme.backend.dto.usersdto.UsersRegisterDto;
+import com.blueme.backend.dto.usersdto.UsersUpdateDto;
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 
@@ -62,7 +63,6 @@ public class UsersService {
 		log.info("userService method login start...");
 		Users user = usersJpaRepository.findByEmailAndPasswordAndActiveStatus(requestDto.getEmail(), requestDto.getPassword(), "Y");
 		return (user == null) ? -1L : user.getId();
-		
 	}
 	/*
     @Transactional
@@ -92,6 +92,20 @@ public class UsersService {
 	    } else {
 	        return -1L;
 	    }
+	}
+
+	/**
+	 *  patch 유저 수정 
+	 */
+	
+	@Transactional
+	public Long update(UsersUpdateDto requestDto) {
+	    log.info("userService method update start...");
+	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
+			user.setPassword(requestDto.getPassword());
+			user.setNickname(requestDto.getNickname());
+			System.out.println(user.getNickname());
+			return user.getId();
 	}
 
 }

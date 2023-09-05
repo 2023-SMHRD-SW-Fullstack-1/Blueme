@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UsersRegisterDto {
+public class UsersUpdateDto {
 	
 	private String email;
 	
@@ -15,14 +15,8 @@ public class UsersRegisterDto {
 	
 	private String nickname;
 	
-	private String platform_type;
-	
-	private String accessToken;
-	
-	private String activeStatus;
-	
 	public Users toEntity() {
-        return Users.builder().email(email).password(password).nickname(nickname).platformType(platform_type).accessToken(accessToken).build();
+        return Users.builder().email(email).password(password).nickname(nickname).build();
     }
 	
 }

@@ -29,9 +29,6 @@ import lombok.Setter;
 public class Users extends BaseEntity{
 	
 	 //253000 번부터 시작
-	 
-	
-	
 	/*
 	@Id 
 	@GeneratedValue(generator = "uuid2")
@@ -41,11 +38,14 @@ public class Users extends BaseEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="user_id")*/
 
-	@Id
+	/*@Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "user_id_generator")
     @TableGenerator(name = "user_id_generator", table = "id_generator", pkColumnName = "id_key",
             valueColumnName = "id_value", allocationSize = 1, initialValue = 7480000)
-    @Column(name="user_id")
+    @Column(name="user_id")*/
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="user_id")
 	private Long id;
 	
 	@Column(length=100, unique=true, nullable=false)
