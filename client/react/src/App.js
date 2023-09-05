@@ -15,7 +15,7 @@ import JoinComplete from "./pages/join/JoinComplete";
 import Library from "./pages/Library";
 import "./styles/Tailwind.css";
 import "./assets/fonts/font.ttf";
-import AddMusicPage from "./pages/AddMusicPage";
+import AddMusicPage from "./pages/admin/AddMusicPage";
 
 const App = () => {
   return (
