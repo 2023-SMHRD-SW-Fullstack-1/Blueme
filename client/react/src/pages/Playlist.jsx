@@ -1,5 +1,5 @@
 import React from 'react';
-import SingleMusic from '../components/library/SingleMusic';
+import SingleMusic from '../components/Library/SingleMusic';
 import PlaylistDummy from '../dummy/PlaylistDummy.json';
 import MusicDummy from '../dummy/MusicDummy.json';
 import { Swiper, SwiperSlide } from 'swiper/react';

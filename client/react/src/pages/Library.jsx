@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LikedList from '../components/library/LikedList';
-import SavedPlaylist from '../components/library/SavedPlaylist';
+import LikedList from '../components/Library/LikedList';
+import SavedPlaylist from '../components/Library/SavedPlaylist';
 
 const Library = () => {
     return (
