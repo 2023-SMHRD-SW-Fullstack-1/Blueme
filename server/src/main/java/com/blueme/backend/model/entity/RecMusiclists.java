@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import lombok.Builder;
@@ -18,25 +19,28 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Theme {
-
+public class RecMusiclists extends BaseEntity{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="theme_id")
+	@Column(name="rec_musiclist_id")
 	private Long id;
 	
 	private String title;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="theme_id")
-	private List<ThemeMusiclist> themeMusicList;
+	@JoinColumn(name="rec_musiclist_id") // 셀프조인
+	private List<RecMusiclistDetails> recMusicListDetail;
 	
-	private String content;
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private Users user;
 	
 	@Builder
-	public Theme(String title, String content) {
+	public RecMusiclists(String title, Users user, List<RecMusiclistDetails> recMusicListDetail) {
 		this.title = title;
-		this.content = content;
+		this.user = user;
+		this.recMusicListDetail = recMusicListDetail;
 	}
 	
 }

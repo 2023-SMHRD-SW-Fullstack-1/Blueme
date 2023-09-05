@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class HeartRateReqDto {
+public class HeartRatesReqDto {
 	private String user_id;
     private Double heart_rate;
 }

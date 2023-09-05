@@ -15,25 +15,25 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class PlayedMusic {
-
+public class RecMusiclistDetails extends BaseEntity{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="played_music_id")
+	@Column(name="rec_musiclist_detail_id")
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id", insertable=false, updatable=false)
-	private User user;
+	@JoinColumn(name="rec_musiclist_id", insertable=false, updatable=false)
+	private RecMusiclists recMusiclist;
 	
 	@ManyToOne
 	@JoinColumn(name="music_id")
-	private Music music;
-	
+	private Musics music;
 	
 	@Builder
-	public PlayedMusic(User user, Music music) {
-		this.user = user;
+	public RecMusiclistDetails(RecMusiclists recMusiclist,Musics music){
+		this.recMusiclist = recMusiclist;
 		this.music = music;
 	}
+	
 }

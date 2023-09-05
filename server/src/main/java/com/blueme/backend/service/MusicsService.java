@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.blueme.backend.model.entity.Music;
-import com.blueme.backend.model.repository.MusicJpaRepository;
+import com.blueme.backend.model.entity.Musics;
+import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.utils.FileStorageUtil;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MusicService {
+public class MusicsService {
 	
-	private final MusicJpaRepository musicJpaRepository;
+	private final MusicsJpaRepository musicsJpaRepository;
 	
 	/**
 	 *  post 음악 다중등록
@@ -29,7 +29,7 @@ public class MusicService {
 	public Long save (MultipartFile[] files){
 		FileStorageUtil fileStorage = new FileStorageUtil();
 		
-		// 오류나면 저장안됄시 -1 반환 저장시 마지막 음악의ID값 반환
+		// 오류나면 저장안될시 -1 반환 저장시 마지막 음악의ID값 반환
 		Long lastId = -1L;
 		
 		for (MultipartFile file : files) {
@@ -45,10 +45,10 @@ public class MusicService {
                 String bpm = tag.getFirst(FieldKey.BPM);
                 String mood = tag.getFirst(FieldKey.MOOD);
                 String year = tag.getFirst(FieldKey.YEAR);
-                Music music = Music.builder().title(title).album(album).artist(artist).genre(genre)
+                Musics music = Musics.builder().title(title).album(album).artist(artist).genre(genre)
                 		.bpm(bpm).mood(mood).year(year).filePath(filePath).build();
                 
-                lastId = musicJpaRepository.save(music).getId();
+                lastId = musicsJpaRepository.save(music).getId();
                 
             } catch (Exception e) {
                throw new RuntimeException("Failed to extract metadata from the file", e); 

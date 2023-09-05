@@ -26,4 +26,4 @@ logging:
     root: info
     
 api-key:
-  chat-gpt: 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
+  chat-gpt: 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

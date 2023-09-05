@@ -24,12 +24,12 @@ public class HealthInfo extends BaseEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
-	private User user;
+	private Users user;
 	
 	private int avgHearRate;
 
 	@Builder
-	public HealthInfo(User user, int avgHearRate) {
+	public HealthInfo(Users user, int avgHearRate) {
 		this.user = user;
 		this.avgHearRate = avgHearRate;
 	}

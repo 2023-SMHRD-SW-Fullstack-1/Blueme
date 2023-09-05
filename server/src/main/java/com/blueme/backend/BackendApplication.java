@@ -9,8 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.blueme.backend.config.SessionUserRetriever;
-
 @SpringBootApplication
 @EnableJpaAuditing
 public class BackendApplication {

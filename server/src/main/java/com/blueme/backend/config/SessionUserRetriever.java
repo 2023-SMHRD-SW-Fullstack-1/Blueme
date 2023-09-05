@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
-import com.blueme.backend.model.entity.User;
+import com.blueme.backend.model.entity.Users;
 
 // SpringSecurity 사용안하고 세션값 가져올경우 AuditorAware Config
+/*
 @Component
 @RequestScope
 public class SessionUserRetriever {
@@ -29,4 +30,4 @@ public class SessionUserRetriever {
     public Long getId() {
         return user_id;
     }
-}
+}*/

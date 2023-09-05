@@ -25,10 +25,10 @@ public class FavCheckList extends BaseEntity {
 	
 	@OneToOne
 	@JoinColumn(name="user_id")
-	private User user;
+	private Users user;
 
 	@Builder
-	public FavCheckList(Long id, User user) {
+	public FavCheckList(Long id, Users user) {
 		this.id = id;
 		this.user = user;
 	}

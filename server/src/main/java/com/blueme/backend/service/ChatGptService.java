@@ -27,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatGptService {
     private final RestTemplate restTemplate;
 
-	//api key를 application.yml에 넣어두었습니다.
     @Value("${api-key.chat-gpt}")
     private String apiKey;
 
@@ -42,7 +41,7 @@ public class ChatGptService {
 
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(60000);
-        //답변이 길어질 경우 TimeOut Error가 발생하니 1분정도 설정해줍니다.
+        //답변이 길어질 경우 TimeOut Error가 1분 설정
         requestFactory.setReadTimeout(60 * 1000);   //  1min = 60 sec * 1,000ms
         restTemplate.setRequestFactory(requestFactory);
 

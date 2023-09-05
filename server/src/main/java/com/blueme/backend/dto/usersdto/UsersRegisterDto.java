@@ -1,6 +1,6 @@
-package com.blueme.backend.dto.userdto;
+package com.blueme.backend.dto.usersdto;
 
-import com.blueme.backend.model.entity.User;
+import com.blueme.backend.model.entity.Users;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UserRegisterDto {
+public class UsersRegisterDto {
 	
 	private String email;
 	
@@ -22,8 +22,8 @@ public class UserRegisterDto {
 	
 	private String activeStatus;
 	
-	public User toEntity() {
-        return User.builder().email(email).password(password).nickname(nickname).platformType(platform_type).accessToken(accessToken).build();
+	public Users toEntity() {
+        return Users.builder().email(email).password(password).nickname(nickname).platformType(platform_type).accessToken(accessToken).build();
     }
 	
 }

@@ -1,4 +1,4 @@
-package com.blueme.backend.dto.musiclistdto;
+package com.blueme.backend.dto.musiclistsdto;
 
 import java.util.List;
 

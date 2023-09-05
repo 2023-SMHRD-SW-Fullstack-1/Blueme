@@ -40,7 +40,7 @@ public class ChatGptController {
             apiResponse.printErrorMessage(e);
             code = e.getMessage();
         }
-        //return 부분은 자유롭게 수정하시면됩니다. ex)return chatGptResponse;
+     
         return apiResponse.getResponseEntity(locale, code,
                 chatGptResponse != null ? chatGptResponse.getChoices().get(0).getMessage().getContent() : new ChatGptResDto());
     }

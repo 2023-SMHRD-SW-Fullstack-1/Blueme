@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class ThemeMusiclist {
+public class ThemeMusiclists {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +24,15 @@ public class ThemeMusiclist {
 	
 	@ManyToOne
 	@JoinColumn(name="theme_id", insertable=false, updatable=false)
-	private Theme theme;
+	private Themes theme;
 	
 	@ManyToOne
 	@JoinColumn(name="music_id")
-	private Music music;
+	private Musics music;
 	
 	
 	@Builder
-	public ThemeMusiclist(Theme theme, Music music) {
+	public ThemeMusiclists(Themes theme, Musics music) {
 		this.theme = theme;
 		this.music = music;
 	}

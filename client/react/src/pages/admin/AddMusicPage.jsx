@@ -20,7 +20,7 @@ const AddMusicPage = () => {
     console.log("abc");
     try {
       const response = await axios.post(
-        "http://localhost:8104/admin/addmusic",
+        "http://localhost:8104/music/admin/addmusic",
         formData
       );
       console.log("eee");

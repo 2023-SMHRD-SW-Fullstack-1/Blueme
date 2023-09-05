@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import lombok.Builder;
@@ -19,28 +18,25 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class RecMusiclist extends BaseEntity{
-	
+public class Themes {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="rec_musiclist_id")
+	@Column(name="theme_id")
 	private Long id;
 	
 	private String title;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="rec_musiclist_id") // 셀프조인
-	private List<RecMusiclistDetail> recMusicListDetail;
+	@JoinColumn(name="theme_id")
+	private List<ThemeMusiclists> themeMusicList;
 	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
+	private String content;
 	
 	@Builder
-	public RecMusiclist(String title, User user, List<RecMusiclistDetail> recMusicListDetail) {
+	public Themes(String title, String content) {
 		this.title = title;
-		this.user = user;
-		this.recMusicListDetail = recMusicListDetail;
+		this.content = content;
 	}
 	
 }

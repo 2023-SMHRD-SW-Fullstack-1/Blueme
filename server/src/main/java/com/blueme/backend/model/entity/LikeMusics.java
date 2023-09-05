@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class LikeMusic extends BaseEntity{
+public class LikeMusics extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +24,14 @@ public class LikeMusic extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="user_id", insertable=false, updatable=false)
-	private User user;
+	private Users user;
 	
 	@ManyToOne
 	@JoinColumn(name="music_id")
-	private Music music;
+	private Musics music;
 	
 	@Builder
-	public LikeMusic(User user, Music music) {
+	public LikeMusics(Users user, Musics music) {
 		this.user = user;
 		this.music = music;
 	}

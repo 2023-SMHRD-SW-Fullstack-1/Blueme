@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Music{
+public class Musics{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Music{
 	private String year;
 	
 	@Builder
-	public Music(String title, String artist, String album, String filePath
+	public Musics(String title, String artist, String album, String filePath
 			, String genre, String bpm, String mood, String year) {
 		this.title = title;
 		this.artist = artist;

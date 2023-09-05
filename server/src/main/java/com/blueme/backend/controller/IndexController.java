@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blueme.backend.dto.HeartRateReqDto;
+import com.blueme.backend.dto.HeartRatesReqDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class IndexController {
 	}
 	
 	@PostMapping("/health/hearthrate")
-    public Long test222(@RequestBody HeartRateReqDto request) {
+    public Long test222(@RequestBody HeartRatesReqDto request) {
         String userId = request.getUser_id();
         Double averageHeartRate = request.getHeart_rate();
         
