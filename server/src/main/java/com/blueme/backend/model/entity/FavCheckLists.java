@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,29 +16,22 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Artist {
-	
+public class FavCheckLists extends BaseEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="artist_id")
+	@Column(name="fav_checklist_id")
 	private Long id;
 	
-	@Column(length=8, nullable=false)
-	private String name;
-	
-	@Column(length=20)
-	private String type;
-	
-	private String artist_img;
+	@OneToOne
+	@JoinColumn(name="user_id")
+	private Users user;
 
 	@Builder
-	public Artist(String name, String type, String artist_img) {
-		this.name = name;
-		this.type = type;
-		this.artist_img = artist_img;
+	public FavCheckLists(Long id, Users users) {
+		this.id = id;
+		this.users = users;
 	}
 	
 	
-
-
 }

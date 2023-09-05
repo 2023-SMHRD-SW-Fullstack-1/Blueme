@@ -13,23 +13,29 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Genre {
+public class Artists {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="genre_id")
+	@Column(name ="artist_id")
 	private Long id;
 	
-	@Column(nullable=false)
+	@Column(length=8, nullable=false)
 	private String name;
 	
-	private String content;
+	@Column(length=20)
+	private String type;
+	
+	private String artist_img;
 
 	@Builder
-	public Genre(String name, String content) {
+	public Artists(String name, String type, String artist_img) {
 		this.name = name;
-		this.content = content;
+		this.type = type;
+		this.artist_img = artist_img;
 	}
 	
 	
+
+
 }

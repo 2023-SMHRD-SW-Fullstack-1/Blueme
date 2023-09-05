@@ -12,26 +12,37 @@ import javax.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
-public class FavCheckList extends BaseEntity {
-
+public class FavGenres {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="fav_checklist_id")
+	@Column(name="fav_genre_id")
 	private Long id;
 	
+	@ManyToOne
+	@JoinColumn(name="genre_id")
+	private Genres genre;
+	
 	@OneToOne
-	@JoinColumn(name="user_id")
-	private Users user;
+	@JoinColumn(name="fav_checklist_id")
+	private FavCheckLists favCheckList;
 
 	@Builder
-	public FavCheckList(Long id, Users user) {
-		this.id = id;
-		this.user = user;
+	public FavGenres(Long id, Genres genre, FavCheckLists favCheckList) {
+		this.id=id;
+		this.genre = genre;
+		this.favCheckList = favCheckList;
 	}
 	
 	
+	
+	
+	
+
 }

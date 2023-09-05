@@ -18,31 +18,25 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class FavGenre {
+public class FavArtists {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="fav_genre_id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="fav_artist_id")
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="genre_id")
-	private Genre genre;
+	@JoinColumn(name="artist_id", nullable = false)
+	private Artists artist;
 	
 	@OneToOne
 	@JoinColumn(name="fav_checklist_id")
-	private FavCheckList favCheckList;
+	private FavCheckLists favCheckList;
 
 	@Builder
-	public FavGenre(Long id, Genre genre, FavCheckList favCheckList) {
+	public FavArtists(Long id, Artists artist, FavCheckLists favCheckList) {
 		this.id=id;
-		this.genre = genre;
+		this.artist = artist;
 		this.favCheckList = favCheckList;
 	}
-	
-	
-	
-	
-	
-
 }

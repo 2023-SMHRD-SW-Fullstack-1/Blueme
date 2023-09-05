@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class HealthInfo extends BaseEntity {
+public class HealthInfos extends BaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +29,8 @@ public class HealthInfo extends BaseEntity {
 	private int avgHearRate;
 
 	@Builder
-	public HealthInfo(Users user, int avgHearRate) {
-		this.user = user;
+	public HealthInfos(Users users, int avgHearRate) {
+		this.users = users;
 		this.avgHearRate = avgHearRate;
 	}
 	
