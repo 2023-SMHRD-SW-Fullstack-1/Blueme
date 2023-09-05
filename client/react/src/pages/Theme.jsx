@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 
 const Theme = () => {
     return (
-        <div className="flex flex-col justify-center items-center bg-custom-blue text-custom-white overflow-auto flex-grow">
+        <div
+            className="flex flex-col justify-center items-center bg-custom-blue 
+        text-custom-white overflow-auto flex-grow h-full"
+        >
             <h3 class="font-bold text-4xl sm:text-2xl md:text-2xl sm:mb-10">당신이 선호하는 테마는?</h3>
             <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2">
                 {Array(4)

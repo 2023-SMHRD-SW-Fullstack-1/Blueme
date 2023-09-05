@@ -9,6 +9,8 @@ module.exports = {
             'custom-black': '#000000',
             'custom-black2': '#121212',
             'custom-gray': '#A0A0A0',
+            'custom-darkgray': 'rgba(217, 217, 217, 0.10)',
+            'custom-lightpurple': '#C0CBE7',
         },
     },
     variants: {

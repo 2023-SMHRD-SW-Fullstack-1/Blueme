@@ -7,7 +7,7 @@ import google from '../assets/img/google.png';
 
 const Login = () => {
     return (
-        <div className=" bg-custom-blue flex flex-col items-center justify-center px-4 sm:px-8 md:px-16">
+        <div className="h-full bg-custom-blue flex flex-col items-center justify-center px-4 sm:px-8 md:px-16">
             <div className="mt-5 text-custom-white mb-3 text-center  sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
                 <Link to="/Main" className="self-center flex items-center justify-center">
                     <span className="text-xl text-[rgba(255,255,255,0.80)]">Blueme</span>

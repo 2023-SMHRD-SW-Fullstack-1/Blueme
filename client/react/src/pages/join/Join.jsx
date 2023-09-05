@@ -6,7 +6,7 @@ import google from '../../assets/img/google.png';
 
 const Join = () => {
     return (
-        <div className=" bg-custom-blue flex flex-col items-center justify-center px-4 sm:px-8 md:px-16  ">
+        <div className="h-full bg-custom-blue flex flex-col items-center justify-center px-4 sm:px-8 md:px-16  ">
             <div className="mt-5 text-custom-white w-full mb-3 text-left sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
                 Blueme 일반 계정 회원가입
             </div>

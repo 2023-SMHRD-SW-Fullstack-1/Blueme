@@ -1,23 +1,23 @@
 import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 import dummy from '../../dummy/PlaylistDummy.json';
 const SavedPlaylist = () => {
     return (
-        <div className="flex flex-row items-center">
+        <Swiper spaceBetween={1} slidesPerView={2}>
             {dummy.map((item) => {
                 return (
-                    <div key={item.id} className="flex flex-col items-center p-2">
-                        {/* 1. 플레이리스트 커버 */}
-                        <img
-                            src={item.coverImage}
-                            alt="album cover"
-                            className="w-[100px] h-auto object-cover rounded-lg"
-                        />
-                        {/* 2. 플레이리스트명 */}
-                        <span className="text-xs text-gray-500 uppercase font-medium py-2 ">{item.title}</span>
-                    </div>
+                    <SwiperSlide key={item.id}>
+                        <div className="flex flex-col ml-2 mr-2">
+                            {/* 1. 플레이리스트 커버 */}
+                            <img src={item.coverImage} alt="album cover" className="w-[180px] h-auto rounded-lg" />
+                            {/* 2. 플레이리스트명 */}
+                            <span className="py-2 ">{item.title}</span>
+                        </div>
+                    </SwiperSlide>
                 );
             })}
-        </div>
+        </Swiper>
     );
 };
 

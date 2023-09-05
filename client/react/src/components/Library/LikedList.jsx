@@ -1,11 +1,13 @@
 import React from 'react';
-import Music from './Music';
+import SingleMusic from './SingleMusic.jsx';
+import dummy from '../../dummy/MusicDummy.json';
 
 const LikedList = () => {
     return (
         <div>
-            <p className="text-left">내가 좋아요 누른 곡들</p>
-            <Music />
+            {dummy.slice(0, 5).map((item) => (
+                <SingleMusic key={item.id} item={item} />
+            ))}
         </div>
     );
 };

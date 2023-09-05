@@ -4,7 +4,11 @@ import user from '../../assets/img/user.png';
 
 function Header() {
     return (
-        <div className="bg-custom-blue text-sm sm:text-base md:text-lg lg:text-xl xl:text-xl text-custom-white p-3 sm:p-4 flex justify-end items-center">
+        <div
+            className="bg-custom-blue text-sm sm:text-base md:text-lg 
+        lg:text-xl xl:text-xl text-custom-white p-3 sm:p-4 flex 
+        justify-end items-center absolute w-full"
+        >
             <Link to="/Login">
                 <img
                     src={user}
