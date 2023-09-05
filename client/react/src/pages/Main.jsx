@@ -48,7 +48,7 @@ function Main() {
     };
 
     return (
-        <div className=" bg-custom-blue text-white p-12 h-full  ">
+        <div className="bg-custom-blue text-white p-20 h-full">
             <div className="relative mb-5 text-custom-white text-center text-2xl">
                 <h3>더운날 듣는 노래</h3>
                 <button onClick={goPrev1} className=" prev-arrow absolute top-half left-0 z-10">
