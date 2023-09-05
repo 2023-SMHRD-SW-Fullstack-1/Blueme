@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.TableGenerator;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -27,23 +28,10 @@ import lombok.Setter;
 @Entity
 public class Users extends BaseEntity{
 	
-	 //253000 번부터 시작
-	 
-	
-	
-	/*
-	@Id 
-	@GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name="uuid2", strategy = "uuid2")
-    @Column(name="user_id", columnDefinition = "BINARY(16)")*/
-	/*@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="user_id")*/
 	@Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "user_id_generator")
-    @TableGenerator(name = "user_id_generator", table = "id_generator", pkColumnName = "id_key",
-            valueColumnName = "id_value", allocationSize = 1, initialValue = 7480000)
-    @Column(name="user_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_generator")
+    @SequenceGenerator(name = "user_seq_generator", sequenceName = "user_sequence", allocationSize = 1)
+	@Column(name="user_id")
 	private Long id;
 	
 	@Column(length=100, unique=true, nullable=false)
