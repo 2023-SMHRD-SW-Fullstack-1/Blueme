@@ -16,7 +16,7 @@ import Library from "./pages/Library";
 import "./styles/Tailwind.css";
 import "./assets/fonts/font.ttf";
 import AddMusicPage from "./pages/AddMusicPage";
-
+import SelectGenre from "./pages/join/SelectGenre";
 const App = () => {
   return (
     <Router>
@@ -25,21 +25,21 @@ const App = () => {
 
         {/* Routes와 Route를 사용하여 경로에 따라 다른 페이지 렌더링 */}
         <Routes className="">
-          s
-          {/* path 속성은 주어진 경로가 정확히 일치할 때만 해당 Route가 작동하도록 합니다 */}
+          s{/* path 속성은 주어진 경로가 정확히 일치할 때만 해당 Route가 작동하도록 합니다 */}
           {/* 예: /testtest 경로는 Main과 일치하지 않으므로 Main은 렌더링되지 않습니다 */}
           <Route path="/" element={<Main />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Join" element={<Join />} />
-          <Route path="/Memberinfo" element={<MemberInfo />} />
-          <Route path="/Memberinfochange" element={<MyPage />} />
-          <Route path="/Artistrecommend" element={<SelectArtist />} />
-          <Route path="/Themerecommend" element={<Theme />} />
+          <Route path="/MemberInfo" element={<MemberInfo />} />
+          <Route path="/MemberInfochange" element={<MemberInfoChange />} />
           <Route path="/MemberInfoChange" element={<MemberInfoChange />} />
           <Route path="/JoinComplete" element={<JoinComplete />} />
           <Route path="/Library" element={<Library />} />
-          {/* 필요한 경우 추가 Route 설정 */}
+          <Route path="/MyPage" element={<MyPage />} />
+          <Route path="/SelectArtist" element={<SelectArtist />} />
+          <Route path="/SelectGenre" element={<SelectGenre />} />
           <Route path="/addMusic" element={<AddMusicPage />} />
+          <Route path="/Theme" element={<Theme />} />
         </Routes>
 
         <Footer />
