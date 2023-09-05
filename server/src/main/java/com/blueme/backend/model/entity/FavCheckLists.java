@@ -28,9 +28,9 @@ public class FavCheckLists extends BaseEntity {
 	private Users user;
 
 	@Builder
-	public FavCheckLists(Long id, Users users) {
+	public FavCheckLists(Long id, Users user) {
 		this.id = id;
-		this.users = users;
+		this.user = user;
 	}
 	
 	

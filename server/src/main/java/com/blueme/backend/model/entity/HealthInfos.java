@@ -29,8 +29,8 @@ public class HealthInfos extends BaseEntity {
 	private int avgHearRate;
 
 	@Builder
-	public HealthInfos(Users users, int avgHearRate) {
-		this.users = users;
+	public HealthInfos(Users user, int avgHearRate) {
+		this.user = user;
 		this.avgHearRate = avgHearRate;
 	}
 	
