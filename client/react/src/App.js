@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Main from './pages/Main';
+import Main from './pages/main/Main';
 import Join from './pages/join/Join';
 import Login from './pages/Login';
 import Footer from './components/Layout/Footer';
@@ -19,6 +19,10 @@ import './assets/fonts/font.ttf';
 import AddMusicPage from './pages/admin/AddMusicPage';
 import Playlist from './pages/Playlist';
 import SelectGenre from "./pages/join/SelectGenre";
+// 유영 추천 앱 설명
+import RecAppDes from './pages/rec/RecAppDes';
+import PlaylistRename from './pages/rec/PlaylistRename';
+//유영 끝
 
 const App = () => {
     return (
@@ -45,6 +49,10 @@ const App = () => {
                     <Route path="/MusicPlayer" element={<MusicPlayer />} />
                     <Route path="/Playlist" element={<Playlist />} />
                     <Route path="/SelectGenre" element={<SelectGenre />} />
+                    {/* 유영 추천 앱 설명 */}
+                    <Route path='/RecAppDes' element={<RecAppDes/>}/>
+                    <Route path='/PlaylistRename' element={<PlaylistRename/>}/>
+                    {/* 유영 끝 */}
                 </Routes>
                 <Footer />
             </div>
