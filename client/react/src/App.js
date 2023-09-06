@@ -26,6 +26,11 @@ import DashBoard from "./pages/admin/DashBoard";
 import MemberDelete from "./pages/myPage/MemberDelete";
 /* 지훈 끝 */
 
+// 유영 추천 앱 설명
+import RecAppDes from "./pages/rec/RecAppDes";
+import PlaylistRename from "./pages/rec/PlaylistRename";
+//유영 끝
+
 const App = () => {
   return (
     <Router>
@@ -59,6 +64,10 @@ const App = () => {
           {/* 지훈 시작 */}
           <Route path="/MemberDelete" element={<MemberDelete />} />
           {/* 지훈 끝 */}
+          {/* 유영 추천 앱 설명 */}
+          <Route path="/RecAppDes" element={<RecAppDes />} />
+          <Route path="/PlaylistRename" element={<PlaylistRename />} />
+          {/* 유영 끝 */}
         </Routes>
         <Footer />
       </div>
