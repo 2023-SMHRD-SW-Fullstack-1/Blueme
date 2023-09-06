@@ -20,8 +20,8 @@ function Footer() {
                 <FontAwesomeIcon icon={faHome} size="2x" />
                 <button className="text-xs">홈</button>
             </Link>
-
-            <Link to="/" className="flex flex-col items-center w-full text-center">
+        {/* 지희 - 추천 부분 연결 (RecBegin) - 0905 */}
+            <Link to="/RecBegin" className="flex flex-col items-center w-full text-center">
                 <FontAwesomeIcon icon={faThumbsUp} size="2x" />
                 <button className="text-xs">추천</button>
             </Link>
