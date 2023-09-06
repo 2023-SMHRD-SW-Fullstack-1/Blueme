@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.blueme.backend.dto.musiclistsdto.RecMusicListSaveDto;
 import com.blueme.backend.dto.themesdto.ThemeSaveReqDto;
+import com.blueme.backend.dto.themesdto.ThemelistResDto;
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.entity.RecMusiclistDetails;
 import com.blueme.backend.model.entity.RecMusiclists;
@@ -47,6 +48,25 @@ public class ThemesService {
 
     return themesJpaRepository.save(Themes.builder().title(requestDto.getTitle()).content(requestDto.getContent()).themeMusicList(themeMusicList).build()).getId();
 	}
+
+  /**
+	 *  get 모든 테마 조회
+	 */
+  @Transactional
+  public List<ThemelistResDto> getAllThemes(){
+
+    List<Themes> themes = themesJpaRepository.findAll();
+    return themes.stream().map(ThemelistResDto::new).collect(Collectors.toList());
+
+  }
+
+  /**
+	 *  get 단일 테마 상세 조회 (음악 id 포함)
+	 */
+  @Transactional
+  public ThemelistResDto getThemeById(Long id){
+
+  }
 }
 
 
