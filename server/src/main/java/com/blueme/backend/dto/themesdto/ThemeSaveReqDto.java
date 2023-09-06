@@ -1,5 +1,9 @@
 package com.blueme.backend.dto.themesdto;
 
+import java.util.List;
+
+import com.blueme.backend.model.entity.Themes;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
   
@@ -10,5 +14,11 @@ public class ThemeSaveReqDto {
     private String title;
     
     private String content;
+
+    private List<String> musicIds;
   
+    public Themes toEntityThemes(String title, String content){
+      return Themes.builder().title(title).content(content).build();
+    }
+
 }

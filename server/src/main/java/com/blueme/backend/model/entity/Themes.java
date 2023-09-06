@@ -34,9 +34,10 @@ public class Themes {
 	private String content;
 	
 	@Builder
-	public Themes(String title, String content) {
+	public Themes(String title, String content, List<ThemeMusiclists> themeMusicList) {
 		this.title = title;
 		this.content = content;
+		this.themeMusicList = themeMusicList;
 	}
 	
 }

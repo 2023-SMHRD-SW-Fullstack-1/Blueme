@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blueme.backend.dto.themesdto.ThemeSaveReqDto;
+import com.blueme.backend.service.ThemesService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,15 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/theme")
 public class ThemesController {
+
+  private final ThemesService themesService;
   
   /**
-  *  post 유저 로그인 ( 불일치시(+비활성화계정) -1 반환, 일치시 유저의고유ID반환 )
+  *  post theme 등록 
   */
-  @PostMapping("/save")
+  @PostMapping("/register")
   public Long register(@RequestBody ThemeSaveReqDto requestDto) {
     log.info("Starting theme registration");
-    //Long userId = usersService.login(requestDto);
+    Long themeId = themesService.saveThemes(requestDto);
     log.info("theme registration completed");
-    return 1L;
+    return themeId;
   }
 }

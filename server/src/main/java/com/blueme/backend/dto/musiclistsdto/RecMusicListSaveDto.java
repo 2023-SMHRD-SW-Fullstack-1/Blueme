@@ -11,6 +11,6 @@ public class RecMusicListSaveDto {
 	
 	private String title;
 	private String userId;
-	private List<String> recommendedMusicIds;
+	private List<String> musicIds;
 
 }
