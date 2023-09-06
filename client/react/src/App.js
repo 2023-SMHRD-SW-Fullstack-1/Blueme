@@ -31,6 +31,13 @@ import RecAppDes from "./pages/rec/RecAppDes";
 import PlaylistRename from "./pages/rec/PlaylistRename";
 //유영 끝
 
+// 지희 import 시작
+import RecBegin from "./pages/rec/RecBegin";
+import LoadData from "./pages/rec/LoadData";
+import LoadDataCompl from "./pages/rec/LoadDataCompl";
+import LoadGpt from "./pages/rec/LoadGpt";
+// 지희 import 끝
+
 const App = () => {
   return (
     <Router>
@@ -68,6 +75,12 @@ const App = () => {
           <Route path="/RecAppDes" element={<RecAppDes />} />
           <Route path="/PlaylistRename" element={<PlaylistRename />} />
           {/* 유영 끝 */}
+          {/* 지희 시작 */}
+          <Route path="/RecBegin" element={<RecBegin />} />
+          <Route path="/LoadData" element={<LoadData />} />
+          <Route path="/LoadDataCompl" element={<LoadDataCompl />} />
+          <Route path="/LoadGpt" element={<LoadGpt />} />
+          {/* 지희 끝 */}
         </Routes>
         <Footer />
       </div>
