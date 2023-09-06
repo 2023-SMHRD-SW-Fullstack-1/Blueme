@@ -42,6 +42,8 @@ public class UsersController {
 	 */
 	@PostMapping("/login")
 	public Long login(@RequestBody UsersLoginDto requestDto) {
+		System.out.println(requestDto.getEmail());
+		System.out.println(requestDto.getPassword());
 		log.info("Starting user login for email {}", requestDto.getEmail());
 		Long userId = usersService.login(requestDto);
 		log.info("User registration login completed with ID {}", userId);

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blueme.backend.dto.musiclistsdto.RecMusicListSaveDto;
+import com.blueme.backend.dto.themesdto.ThemeDetailsResDto;
 import com.blueme.backend.dto.themesdto.ThemeSaveReqDto;
+import com.blueme.backend.dto.themesdto.ThemelistDetailResDto;
 import com.blueme.backend.dto.themesdto.ThemelistResDto;
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.entity.RecMusiclistDetails;
@@ -54,18 +56,21 @@ public class ThemesService {
 	 */
   @Transactional
   public List<ThemelistResDto> getAllThemes(){
-
     List<Themes> themes = themesJpaRepository.findAll();
     return themes.stream().map(ThemelistResDto::new).collect(Collectors.toList());
-
   }
 
   /**
 	 *  get 단일 테마 상세 조회 (음악 id 포함)
 	 */
   @Transactional
-  public ThemelistResDto getThemeById(Long id){
-
+  public List<ThemeDetailsResDto> getThemeById(Long id){
+    Themes themes = themesJpaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 테마 아이디가 없습니다."));
+    List<ThemeDetailsResDto> res = new ArrayList<ThemeDetailsResDto>();
+    for(ThemeMusiclists t : themes.getThemeMusicList()){
+      res.add(new ThemeDetailsResDto(themes, t));
+    }
+    return res;
   }
 }
 

@@ -2,6 +2,7 @@ package com.blueme.backend.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blueme.backend.dto.themesdto.ThemeDetailsResDto;
+import com.blueme.backend.dto.themesdto.ThemeDetailsResDto;
 import com.blueme.backend.dto.themesdto.ThemeSaveReqDto;
+import com.blueme.backend.dto.themesdto.ThemelistDetailResDto;
 import com.blueme.backend.dto.themesdto.ThemelistResDto;
 import com.blueme.backend.model.entity.Themes;
 import com.blueme.backend.service.ThemesService;
@@ -21,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/theme")
+@CrossOrigin("*")
 public class ThemesController {
 
   private final ThemesService themesService;
@@ -49,9 +54,9 @@ public class ThemesController {
   * get 특정 테마 상세조회 (음악 목록 포함)
   */
   @GetMapping("/themelists/{id}")
-  public ThemelistResDto getThemeById(@PathVariable("id") Long id) {
+  public List<ThemeDetailsResDto> getThemeById(@PathVariable("id") Long id) {
       log.info("Starting theme selection by id: {}" , id);
-      ThemelistResDto result = themesService.getThemeById(id);
+      List<ThemeDetailsResDto> result = themesService.getThemeById(id);
       log.info("Theme selection by id completed");
       return result;
   }
