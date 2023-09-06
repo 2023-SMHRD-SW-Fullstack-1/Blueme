@@ -17,6 +17,10 @@ import "./styles/Tailwind.css";
 import "./assets/fonts/font.ttf";
 import AddMusicPage from "./pages/AddMusicPage";
 import SelectGenre from "./pages/join/SelectGenre";
+/* 지훈 시작 */
+import MemberDelete from "./pages/myPage/MemberDelete";
+/* 지훈 끝 */
+
 const App = () => {
   return (
     <Router>
@@ -25,7 +29,7 @@ const App = () => {
 
         {/* Routes와 Route를 사용하여 경로에 따라 다른 페이지 렌더링 */}
         <Routes className="">
-          s{/* path 속성은 주어진 경로가 정확히 일치할 때만 해당 Route가 작동하도록 합니다 */}
+          {/* path 속성은 주어진 경로가 정확히 일치할 때만 해당 Route가 작동하도록 합니다 */}
           {/* 예: /testtest 경로는 Main과 일치하지 않으므로 Main은 렌더링되지 않습니다 */}
           <Route path="/" element={<Main />} />
           <Route path="/Login" element={<Login />} />
@@ -40,6 +44,9 @@ const App = () => {
           <Route path="/SelectGenre" element={<SelectGenre />} />
           <Route path="/addMusic" element={<AddMusicPage />} />
           <Route path="/Theme" element={<Theme />} />
+          {/* 지훈 시작 */}
+          <Route path="/MemberDelete" element={<MemberDelete />} />
+          {/* 지훈 끝 */}
         </Routes>
 
         <Footer />
