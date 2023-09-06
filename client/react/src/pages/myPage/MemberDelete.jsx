@@ -4,6 +4,7 @@ import axios from "axios";
 const MemberDelete = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [passwordErrorModalIsOpen, setPasswordErrorModalIsOpen] = useState(false);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -15,25 +16,20 @@ const MemberDelete = () => {
   // 모달 닫기 함수
   const closeModal = () => {
     setModalIsOpen(false);
+    setEmail("");
     setPassword("");
     setConfirmPassword("");
-    setPasswordErrorModalIsOpen(false); // 추가: 비밀번호 오류 모달도 닫음
+    setPasswordErrorModalIsOpen(false);
   };
 
-  // 추가: 비밀번호 체크 및 처리 함수
-  //   const handleConfirmDelete = () => {
-  //     if (password === confirmPassword) {
-  //       closeModal(); // 비밀번호가 일치하면 모든 모달 창을 닫음
-  //     } else {
-  //       setPasswordErrorModalIsOpen(true); // 틀리면 오류 모달 창 열기
-  //     }
-  //   };
   const handleConfirmDelete = async () => {
     if (password === confirmPassword) {
       try {
-        // 서버에 DELETE 요청을 보내 회원 탈퇴 처리
-        // 적절한 URL과 인증 토큰(token)으로 수정하세요.
-        await axios.delete("user/deactivate");
+        const response = await axios.delete("user/deactivate", { data: { email: email, password: password } });
+
+        console.log(response);
+        console.log("Sending request with email:", email);
+        console.log("Sending request with email:", password);
 
         alert("회원 탈퇴가 성공적으로 완료되었습니다.");
       } catch (error) {
@@ -41,15 +37,20 @@ const MemberDelete = () => {
         alert("회원 탈퇴에 실패했습니다.");
       }
 
-      closeModal(); // 비밀번호가 일치하면 모든 모달 창을 닫음
+      closeModal();
     } else {
-      setPasswordErrorModalIsOpen(true); // 틀리면 오류 모달 창 열기
+      setPasswordErrorModalIsOpen(true);
     }
   };
-
   return (
     <div className="bg-custom-blue text-custom-white text-center flex flex-col min-h-screen  justify-center items-center text-2xl">
       탈퇴를 진행하시려면<span className="mt-2">비밀번호를 입력해주세요.</span>
+      <input
+        type="email"
+        onChange={(e) => setEmail(e.target.value)}
+        className="focus:border-custom-white pl-2 text-sm text-custom-white w-[80%] mt-10 border border-soild border-[rgba(253,253,253,0.10)] rounded-lg bg-custom-blue text-whitepeer block min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration[200 ease-linear motion-reduce-transition-none dark:text-neutral[200] "
+        placeholder="이메일을 입력해주세요."
+      />
       <input
         type="password"
         onChange={(e) => setPassword(e.target.value)}

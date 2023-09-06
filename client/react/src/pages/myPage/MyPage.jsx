@@ -22,7 +22,7 @@ const MyPage = () => {
     setSingers([...dummySingers, ...selectedArtistsFromRecommendation]);
   }, [selectedArtistsFromRecommendation]);
   return (
-    <div className="bg-custom-blue flex flex-col pl-10 text-custom-white min-h-s">
+    <div className="bg-custom-blue flex flex-col pl-10 text-custom-white justify-center min-h-screen">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <img src={logo} alt="" className="w-[50px] h-auto mb-3 mt-2" />

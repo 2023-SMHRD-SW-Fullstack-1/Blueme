@@ -17,17 +17,21 @@ function MemberInfoChange() {
 
     try {
       // 서버에 PUT 요청을 보내 데이터 업데이트
-      // 적절한 URL과 인증 토큰(token)으로 수정하세요.
-      await axios.put(
+      const response = await axios.patch(
         "user/update",
+
         {
+          email,
           password,
           nickname,
         },
         {
-          //   headers: { Authorization: `Bearer ${token}` },
+          // headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log(response);
+      console.log("Sending request with email:", email);
+      console.log("Sending request with email:", password);
 
       alert("회원 정보가 성공적으로 수정되었습니다.");
     } catch (error) {
