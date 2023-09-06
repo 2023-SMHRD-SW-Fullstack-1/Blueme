@@ -18,7 +18,7 @@ const SelectArtist = () => {
     navigate("/MyPage", { state: { selectedArtists: checkedIndices } });
   };
   return (
-    <div className="h-full flex flex-col justify-center items-center bg-custom-blue text-custom-white overflow-auto flex-grow">
+    <div className="h-fullflex flex-col justify-center items-center bg-custom-blue text-custom-white overflow-auto flex-grow">
       <h3 class="font-bold text-4xl sm:text-2xl md:text-2xl sm:mb-10 pb-10 pt-10">당신이 좋아하는 가수는?</h3>
       <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-gap-x-6 gap-y-4 gap-x-5">
         {Array(12)

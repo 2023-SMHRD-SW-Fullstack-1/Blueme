@@ -22,6 +22,9 @@ import SelectGenre from "./pages/join/SelectGenre";
 import DashBoard from "./pages/admin/DashBoard";
 
 //
+/* 지훈 시작 */
+import MemberDelete from "./pages/myPage/MemberDelete";
+/* 지훈 끝 */
 
 const App = () => {
   return (
@@ -52,6 +55,10 @@ const App = () => {
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/addmusic" element={<AddMusicPage />} />
           {/* 혁 끝 */}
+          <Route path="/Theme" element={<Theme />} />
+          {/* 지훈 시작 */}
+          <Route path="/MemberDelete" element={<MemberDelete />} />
+          {/* 지훈 끝 */}
         </Routes>
         <Footer />
       </div>
