@@ -13,7 +13,7 @@ import {
 function Footer() {
     return (
         <div
-            className="bg-custom-blue text-custom-white p-3 sm:p-4 
+            className="text-custom-white p-3 sm:p-4 
         flex justify-between items-center absolute w-full bottom-0"
         >
             <Link to="/" className="flex flex-col items-center w-full text-center">

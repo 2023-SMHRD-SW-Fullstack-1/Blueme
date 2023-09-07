@@ -66,45 +66,64 @@ const SelectGenre = () => {
     },
   ];
 
-  const [checkedState, setCheckedState] = useState(new Array(dummySingers.length).fill(false));
+  const [checkedState, setCheckedState] = useState(
+    new Array(dummySingers.length).fill(false)
+  );
   const navigate = useNavigate();
 
   const handleOnClick = (index) => {
     const checkedCount = checkedState.filter(Boolean).length;
     if (checkedCount < 2 || checkedState[index]) {
-      setCheckedState(checkedState.map((item, idx) => (idx === index ? !item : item)));
+      setCheckedState(
+        checkedState.map((item, idx) => (idx === index ? !item : item))
+      );
     }
   };
 
   const handleOnSubmit = () => {
-    const selectedArtists = dummySingers.filter((_, index) => checkedState[index]);
+    const selectedArtists = dummySingers.filter(
+      (_, index) => checkedState[index]
+    );
 
     navigate("/MyPage", { state: { selectedArtists } });
   };
 
   return (
-    <div className="h-full flex flex-col justify-center items-center bg-custom-blue text-custom-white overflow-auto flex-grow ">
-      <h3 class="font-bold text-4xl sm:text-2xl md:text-2xl sm:mb-10 pb-10 pt-10">당신이 좋아하는 장르는?</h3>
-      <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-gap-x-6 gap-y-4 gap-x-5">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
+      <h3 class="text-2xl pb-10 pt-16 mt-3">당신이 좋아하는 장르는?</h3>
+      <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5">
         {dummySingers.map((singer, i) => (
-          <button key={i} class="relative flex flex-col items-center space-y-1 mb-10 " onClick={() => handleOnClick(i)}>
-            <img src={singer.image} alt="" class="rounded-lg w-[100px] h-auto object-cover" />
+          <button
+            key={i}
+            class="relative flex flex-col items-center space-y-1 mb-5 justify-center"
+            onClick={() => handleOnClick(i)}
+          >
+            <img
+              src={singer.image}
+              alt=""
+              class="rounded-lg w-[115px] h-auto object-cover blur-sm"
+            />
+            <p className="absolute ">장르명</p>
 
-            {checkedState[i] && <span className="absolute top-[30%] left-[40%] text-xl font-bold">✔</span>}
+            {checkedState[i] && (
+              <span className="absolute top-[30%] left-[40%] text-xl font-bold">
+                ✔
+              </span>
+            )}
           </button>
         ))}
       </div>
-      <div className="w-full h-auto rounded-lg p-4 ">
+      <div>
         <button
           onClick={handleOnSubmit}
           className="
-              mt-5
-              w-full
-              px-3 h-auto relative 
-              bg-[#221a38]
-              rounded-lg border border-soild border-[#fdfdfd]
-              text-custom-white
-              mb-10"
+            mt-5
+            w-full
+            px-3 h-10 relative 
+            bg-[#221a38]  
+            rounded-lg border border-soild border-[#fdfdfd]
+            text-custom-white
+            text-[16px]"
         >
           수정하기
         </button>

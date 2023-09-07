@@ -43,8 +43,8 @@ const MemberDelete = () => {
     }
   };
   return (
-    <div className="bg-custom-blue text-custom-white text-center flex flex-col min-h-screen  justify-center items-center text-2xl">
-      탈퇴를 진행하시려면<span className="mt-2">비밀번호를 입력해주세요.</span>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 flex flex-col min-h-screen text-xl font-semibold tracking-tighter">
+      <p className="mt-72 text-xl text-center ">탈퇴를 진행하시려면 비밀번호를 입력해주세요.</p>
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}
@@ -54,26 +54,25 @@ const MemberDelete = () => {
       <input
         type="password"
         onChange={(e) => setPassword(e.target.value)}
-        className="focus:border-custom-white pl-2 text-sm text-custom-white w-[80%] mt-10 border border-soild border-[rgba(253,253,253,0.10)] rounded-lg bg-custom-blue text-whitepeer block min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration[200 ease-linear motion-reduce-transition-none dark:text-neutral[200] "
+        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] h-[45px] text-base focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
         placeholder="비밀번호를 입력해주세요."
       />
       <input
         type="password"
         onChange={(e) => setConfirmPassword(e.target.value)}
-        className="focus:border-custom-white pl-2 text-sm text-custom-white w-[80%] mt-5 border border-soild border-[rgba(253,253,253,0.10)] rounded-lg bg-custom-blue text-whitepeer block min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration[200 ease-linear motion-reduce-transition-none dark:text-neutral[200] "
+        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] h-[45px] text-base focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
         placeholder="비밀번호를 다시 입력해주세요."
       />
       <button
         onClick={handleDelete}
         className="
-            mt-5
-            w-[80%]
-            px-3 h-auto 
-            bg-[#221a38]  
-            rounded-lg border border-soild border-[#fdfdfd]
-            text-custom-white
-            text-xl
-            "
+        mt-10
+        w-full
+        px-3 h-10 relative 
+        bg-[#221a38]  
+        rounded-lg border border-soild border-[#fdfdfd]
+        text-custom-white
+        text-[16px]"
       >
         탈퇴하기
       </button>

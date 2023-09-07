@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import watchLogin from '../../assets/img/watchlogin.png'
 import watchHeartRate from '../../assets/img/watchheartrate.png'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,8 +6,15 @@ import { Link } from "react-router-dom";
 
 const RecAppDes = () => {
 
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+
+  const handleTransport = () => {
+    setModalIsOpen(true);
+  };
+
+
   return (
-    <div className='bg-custom-blue text-custom-recappdes p-3 h-full '>
+    <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full '>
         <br/><br/><br/>
         {/* 갤럭시 워치에 대한 앱 설명 */}
         <div className='mt-3'>
@@ -34,7 +41,7 @@ const RecAppDes = () => {
                 class="object-cover w-[180px] h-[225px] "/>
             </SwiperSlide> 
         </Swiper>
-        
+
         {/* 샤오미 워치에 대한 앱 설명 */}
         <div className='mt-8'>
         <ul>
@@ -48,8 +55,72 @@ const RecAppDes = () => {
           </ul>     
         </div>
         <div className='text-right p-3 mt-5'>
-            <Link to='/PlaylistRename'><span>SKIP</span></Link>
+          <button onClick={handleTransport}>SKIP</button>
+        
+        {/* 모달 */}
+        <div
+        id="popup-modal"
+        tabIndex="-1"
+        className={`fixed top-0 left-0 right-0 bottom-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${
+          modalIsOpen ? "" : "hidden"
+        } flex items-center justify-center`}
+      >
+        <div class="flex justify-center w-full max-h-full">
+          <div class=" bg-custom-blue border rounded-lg shadow dark:bg-gray-700">
+            <button
+              type="button"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="popup-modal"
+            >
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 text-center">
+              <svg
+                class="mx-auto mb-4 text-gray-400 w-40 h-10 dark:text-gray-200"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              <h3 class="mb-5 text-lg font-semibold text-gray-400 dark:text-gray-400">데이터를 전송하셨습니까?</h3>
+              <Link to='/LoadDataCompl'><button
+                data-modal-hide="popup-modal"
+                type="button"
+                class="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+              >네</button></Link>
+              <Link to='/RecBegin'><button
+                data-modal-hide="popup-modal"
+                type="button"
+                class="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+              >아니오</button></Link>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
   )
 }
