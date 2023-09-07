@@ -52,7 +52,7 @@ public class MusicsService {
 		
 		for (MultipartFile file : files) {
             String filePath = fileStorage.storeFile(file);
-            
+            // 메타데이터 추출 하는 로직
             try {
                 AudioFile audioFile = AudioFileIO.read(new File(filePath));
                 Tag tag = audioFile.getTag();
@@ -76,7 +76,7 @@ public class MusicsService {
 	}
 
     /*
-     * 음악 파일 전송(파일, RangeRequest 두종류)
+     * 음악 파일 전송(파일, RangeRequest 두종류) + 재생이므로 조회수 증가
      */
     @Transactional
     public ResponseEntity<InputStreamResource> getAudioResource(String id, String rangeHeader) {
@@ -84,6 +84,7 @@ public class MusicsService {
         try {
             Musics music = musicsJpaRepository.findById(Long.parseLong(id))
                 .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
+
             if (music == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -98,6 +99,9 @@ public class MusicsService {
                 log.debug("파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
+
+            // 조회수 증가
+            music.setHit(music.getHit() + 1);
 
 			raf = new RandomAccessFile(file, "r");
 			long fileSize = raf.length();

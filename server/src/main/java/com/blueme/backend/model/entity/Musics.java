@@ -6,12 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.PrePersist;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Musics{
@@ -20,7 +23,7 @@ public class Musics{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="music_id")
 	private Long id;
-	
+
 	private String title;
 	
 	private String artist;
@@ -39,14 +42,14 @@ public class Musics{
 	
 	private String time;
 
-	private String hit;
+	private Long hit;
 	
 	@Lob
 	private String lyrics;
 	
 	@Builder
 	public Musics(String title, String artist, String album, String filePath
-			, String genre1, String genre2, String tag, String time, String lyrics) {
+			, String genre1, String genre2, String tag, String time, String lyrics, Long hit) {
 		this.title = title;
 		this.artist = artist;
 		this.album = album;
@@ -56,6 +59,15 @@ public class Musics{
 		this.tag = tag;
 		this.time = time;
 		this.lyrics = lyrics;
+		this.hit = hit;
 	}
+
+	// jpa 에서 등록시 초기값 0 설정
+	@PrePersist
+  public void initializeHit() {
+		if (hit == null) {
+				hit = 0L;
+		}
+  }
 	
 }

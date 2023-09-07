@@ -74,7 +74,7 @@ public class MusicsController {
             });
 }*/
 		/**
-	   *  get musicId에 해당하는 음악 데이터 조회 (HTTP Range Request)
+	   *  get musicId에 해당하는 음악 데이터 조회 (HTTP Range Request) , 음악 조회수 증가
 	   */
 		@GetMapping("/{id}")
     public ResponseEntity<InputStreamResource> streamAudio(@PathVariable("id") String id, 

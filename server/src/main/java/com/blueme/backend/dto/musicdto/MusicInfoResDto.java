@@ -17,7 +17,9 @@ public class MusicInfoResDto {
   private String lyrics;
   private String tag;
   private String time;
+  private Long hit;
   private String img;
+  
 
   public MusicInfoResDto(Musics music, String imgBase64){
     this.musicId = music.getId();
@@ -29,6 +31,7 @@ public class MusicInfoResDto {
     this.lyrics = music.getLyrics();
     this.tag = music.getTag();
     this.time = music.getTime();
+    this.hit = music.getHit();
     this.img = imgBase64;
   }
 
