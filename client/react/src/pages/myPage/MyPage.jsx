@@ -8,14 +8,27 @@ import { useLocation } from "react-router-dom";
 const MyPage = () => {
   const [singers, setSingers] = useState([]);
   const location = useLocation();
-  const selectedArtistsFromRecommendation = location.state?.selectedArtists || [];
+  const selectedArtistsFromRecommendation =
+    location.state?.selectedArtists || [];
 
   useEffect(() => {
     // 가상의 가수 데이터
     const dummySingers = [
-      { id: 1, name: "Adele", image: "https://images.unsplash.com/photo-1569466896818-335b1bedfcce" },
-      { id: 2, name: "Ed Sheeran", image: "https://images.unsplash.com/photo-1569466896818-335b1bedfcce" },
-      { id: 3, name: "Taylor Swift", image: "https://images.unsplash.com/photo-1569466896818-335b1bedfcce" },
+      {
+        id: 1,
+        name: "Adele",
+        image: "https://images.unsplash.com/photo-1569466896818-335b1bedfcce",
+      },
+      {
+        id: 2,
+        name: "Ed Sheeran",
+        image: "https://images.unsplash.com/photo-1569466896818-335b1bedfcce",
+      },
+      {
+        id: 3,
+        name: "Taylor Swift",
+        image: "https://images.unsplash.com/photo-1569466896818-335b1bedfcce",
+      },
     ];
 
     // Merge dummySingers and selectedArtistsFromRecommendation
@@ -30,7 +43,9 @@ const MyPage = () => {
         </div>
         <div className="mt-3 pr-9">
           <Link to="/MemberInfoChange">
-            <button className=" bg-custom-gray rounded-lg text-sm p-1">내 프로필</button>
+            <button className=" bg-custom-gray rounded-lg text-sm p-1">
+              내 프로필
+            </button>
           </Link>
         </div>
       </div>
@@ -77,13 +92,20 @@ const MyPage = () => {
               {singers.map((singer) => (
                 <SwiperSlide key={singer.id}>
                   <button class="flex flex-col items-center space-y-4 mt-1">
-                    <img src={singer.image} alt="" class="rounded-lg img-fixed" />
+                    <img
+                      src={singer.image}
+                      alt=""
+                      class="rounded-lg img-fixed"
+                    />
                     <h5 class="font-semibold text-sm">{singer.name}</h5>
                   </button>
                 </SwiperSlide>
               ))}
             </Swiper>
-            <Link to="/SelectGenre" className="text-custom-white mr-5 self-center text-xs">
+            <Link
+              to="/SelectGenre"
+              className="text-custom-white mr-5 self-center text-xs"
+            >
               더보기
             </Link>
           </div>
@@ -106,7 +128,10 @@ const MyPage = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <Link to="/SelectArtist" className="text-custom-white mr-5 self-center text-xs">
+          <Link
+            to="/SelectArtist"
+            className="text-custom-white mr-5 self-center text-xs"
+          >
             더보기
           </Link>
         </div>
