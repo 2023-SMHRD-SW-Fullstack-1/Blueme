@@ -27,8 +27,9 @@ import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.utils.FileStorageUtil;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MusicsService {
@@ -149,39 +150,42 @@ public class MusicsService {
     /*
      * 실제 서비스에 사용하기 위해서는 RandomAccessFile 사용해야함
      */
+    @Transactional
     public ResponseEntity<InputStreamResource> getAudioResource(String id, String rangeHeader) {
         RandomAccessFile raf = null;
         try {
-            // Fetch the music entity from the database.
-            Musics music = musicsJpaRepository.findById(Long.parseLong(id)).orElse(null);
+            Musics music = musicsJpaRepository.findById(Long.parseLong(id))
+                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
             if (music == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            // Get the file path from the music entity.
-            Path filePath = Paths.get(music.getFilePath());
+            // 파일 경로 설정
+            Path filePath = Paths.get("\\usr\\blueme\\musics\\"+music.getFilePath()+".mp3");
             
             File file = filePath.toFile();
             
+            // 경로에 파일이 없을 경우
 			if (!file.exists()) {
+                log.debug("File does not exist: {}", file.getAbsolutePath());
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 
 			raf = new RandomAccessFile(file, "r");
 			long fileSize = raf.length();
 
-			// Parse range header
+			// Range Header Parser
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Content-Type", "audio/mpeg");
 			headers.add("Accept-Ranges", "bytes");
 
-			if (rangeHeader == null) { // No range request - send whole file
+			if (rangeHeader == null) { // 파일 전체 데이터 전송
 				headers.setContentLength(fileSize);
 
 				InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 				return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 				
-			} else { // Range request - send part of the file
+			} else { // Range request - 부분전송
 				String[] ranges = rangeHeader.replace("bytes=", "").split("-");
 				long startRange = Long.parseLong(ranges[0]);
 				long endRange = ranges.length > 1 ? Long.parseLong(ranges[1]) : fileSize - 1;
