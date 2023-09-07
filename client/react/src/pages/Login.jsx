@@ -12,10 +12,9 @@ const Login = () => {
   // 로그인 버튼 클릭 시 실행되는 함수
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/user/login", { email, password });
+      const response = await axios.post("/user/login", { email, password }, { withCredentials: true });
 
       console.log(response);
-
       if (response.status === 200) {
         alert("로그인에 성공했습니다!");
         // 여기서 필요한 경우 로그인 후의 동작을 수행하실 수 있습니다.
@@ -30,10 +29,7 @@ const Login = () => {
   return (
     <div className=" min-h-screen bg-custom-blue flex flex-col items-center justify-center px-4 sm:px-8 md:px-16">
       <div className="mt-5 text-custom-white mb-3 text-center sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
-        <Link
-          to="/Main"
-          className="self-center flex items-center justify-center"
-        >
+        <Link to="/Main" className="self-center flex items-center justify-center">
           <span className="text-xl text-[rgba(255,255,255,0.80)]">Blueme</span>
           <img src={logo2} className="w-full max-w-[100px] h-auto" alt="" />
         </Link>
@@ -66,13 +62,8 @@ const Login = () => {
         로그인
       </button>
 
-      <hr
-        className="mt-5"
-        style={{ borderTop: "1px solid gray", width: "100%" }}
-      />
-      <div className="text-custom-white mt-5 mb-4 text-lfet w-full ">
-        SNS 로그인
-      </div>
+      <hr className="mt-5" style={{ borderTop: "1px solid gray", width: "100%" }} />
+      <div className="text-custom-white mt-5 mb-4 text-lfet w-full ">SNS 로그인</div>
 
       <button
         className="
@@ -90,16 +81,11 @@ const Login = () => {
         구글로 로그인
       </button>
 
-      <hr
-        className="mt-5"
-        style={{ borderTop: "1px solid gray", width: "100%" }}
-      />
+      <hr className="mt-5" style={{ borderTop: "1px solid gray", width: "100%" }} />
 
       <div>
         <Link to="/Join">
-          <button className="text-custom-white mt-5 mb-5 text-xl">
-            회원가입
-          </button>
+          <button className="text-custom-white mt-5 mb-5 text-xl">회원가입</button>
         </Link>
       </div>
     </div>

@@ -85,7 +85,7 @@ const SelectGenre = () => {
   return (
     <div className="h-full flex flex-col justify-center items-center bg-custom-blue text-custom-white overflow-auto flex-grow ">
       <h3 class="font-bold text-4xl sm:text-2xl md:text-2xl sm:mb-10 pb-10 pt-10">당신이 좋아하는 장르는?</h3>
-      <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5">
+      <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-gap-x-6 gap-y-4 gap-x-5">
         {dummySingers.map((singer, i) => (
           <button key={i} class="relative flex flex-col items-center space-y-1 mb-10 " onClick={() => handleOnClick(i)}>
             <img src={singer.image} alt="" class="rounded-lg w-[100px] h-auto object-cover" />
@@ -103,7 +103,8 @@ const SelectGenre = () => {
               px-3 h-auto relative 
               bg-[#221a38]
               rounded-lg border border-soild border-[#fdfdfd]
-              text-custom-white"
+              text-custom-white
+              mb-10"
         >
           수정하기
         </button>

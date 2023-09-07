@@ -51,7 +51,8 @@ const App = () => {
           <Route path="/Login" element={<Login />} />
           <Route path="/Join" element={<Join />} />
           <Route path="/Memberinfo" element={<MemberInfo />} />
-          <Route path="/Memberinfochange" element={<MyPage />} />
+          {/* 지훈 중복된 Route 삭제 */}
+
           <Route path="/Artistrecommend" element={<SelectArtist />} />
           <Route path="/Themerecommend" element={<Theme />} />
           <Route path="/MemberInfoChange" element={<MemberInfoChange />} />
@@ -70,6 +71,7 @@ const App = () => {
           <Route path="/Theme" element={<Theme />} />
           {/* 지훈 시작 */}
           <Route path="/MemberDelete" element={<MemberDelete />} />
+          <Route path="/MyPage" element={<MyPage />} />
           {/* 지훈 끝 */}
           {/* 유영 추천 앱 설명 */}
           <Route path="/RecAppDes" element={<RecAppDes />} />
