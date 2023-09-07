@@ -24,11 +24,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.example.measuredata.databinding.ActivityLoginBinding
 import com.example.measuredata.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import org.json.JSONObject
 
 /**
  * Activity displaying the app UI. Notably, this binds data from [MainViewModel] to views on screen,
@@ -41,6 +46,33 @@ class MainActivity : AppCompatActivity() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
     private val viewModel: MainViewModel by viewModels()
+
+    // added by orthh
+    private fun sendAverageToServer(averageHeartRate: Double) {
+        val url = "http://172.30.1.27:8104"
+        val tempUserId = 1
+
+        val requestQueue = Volley.newRequestQueue(this)
+
+        val jsonBody = JSONObject()
+        jsonBody.put("userId", tempUserId)
+        jsonBody.put("heart_rate", averageHeartRate)
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, jsonBody,
+            Response.Listener { response ->
+                // 요청 성공 시 처리할 내용을 여기에 작성하세요.
+                Log.d("Volley", "Response: $response")
+            },
+            Response.ErrorListener { error ->
+                // 요청 실패 시 처리할 내용을 여기에 작성하세요.
+                Log.e("Volley", "Error: ${error.localizedMessage}")
+            }
+        )
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,11 +107,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // modify : orthh
-        /*lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenStarted {
             viewModel.heartRateAvailable.collect {
-                binding.statusText.text = getString(R.string.measure_status, it)
+                Log.d("test", getString(R.string.measure_status, it))
+                if(getString(R.string.measure_status, it) == "Status: UNKNOWN"){
+                    binding.statusText.text = "알수없는 오류"
+                }else if(getString(R.string.measure_status, it) == "Status: AVAILABLE"){
+                    binding.statusText.text = "측정중..."
+                }else if(getString(R.string.measure_status, it) == "Status: ACQUIRING"){
+                    binding.statusText.text = "설정중..."
+                }else if(getString(R.string.measure_status, it) == "Status: UNAVAILABLE"){
+                    binding.statusText.text = "Unavailable"
+                }else if(getString(R.string.measure_status, it) == "Status: UNAVAILABLE_DEVICE_OFF_BODY"){
+                    binding.statusText.text = "신체에 접촉해주세요"
+                }else{
+                    binding.statusText.text = "test"
+                }
+                //binding.statusText.text = getString(R.string.measure_status, it)
             }
-        }*/
+        }
         lifecycleScope.launchWhenStarted {
             viewModel.heartRateBpm.collect {
 		binding.lastMeasuredValue.text = String.format("%.1f", it)
@@ -104,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         // These views are visible when the capability is available.
         // modify : orthh
         (uiState is UiState.HeartRateAvailable).let {
-            //binding.statusText.isVisible = it
+            binding.statusText.isVisible = it
             //binding.lastMeasuredLabel.isVisible = it
             binding.lastMeasuredValue.isVisible = it
             binding.heart.isVisible = it

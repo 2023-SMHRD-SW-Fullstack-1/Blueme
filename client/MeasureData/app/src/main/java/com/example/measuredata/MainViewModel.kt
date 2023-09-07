@@ -67,6 +67,7 @@ class MainViewModel @Inject constructor(
             when (it) {
                 is MeasureMessage.MeasureAvailability -> {
                     Log.d(TAG, "Availability changed: ${it.availability}")
+                    //if(it.availability.toString() == ""){                   }
                     _heartRateAvailable.value = it.availability
                 }
                 is MeasureMessage.MeasureData -> {

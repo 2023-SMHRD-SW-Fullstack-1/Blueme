@@ -20,7 +20,6 @@ public class MusicInfoResDto {
   private Long hit;
   private String img;
   
-
   public MusicInfoResDto(Musics music, String imgBase64){
     this.musicId = music.getId();
     this.title = music.getTitle();

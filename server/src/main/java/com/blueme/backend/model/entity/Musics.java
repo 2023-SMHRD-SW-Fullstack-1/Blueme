@@ -48,18 +48,19 @@ public class Musics{
 	private String lyrics;
 	
 	@Builder
-	public Musics(String title, String artist, String album, String filePath
+	public Musics(Long id,String title, String artist, String album, String filePath
 			, String genre1, String genre2, String tag, String time, String lyrics, Long hit) {
-		this.title = title;
-		this.artist = artist;
-		this.album = album;
-		this.filePath = filePath;
-		this.genre1 = genre1;
-		this.genre2 = genre2;
-		this.tag = tag;
-		this.time = time;
-		this.lyrics = lyrics;
-		this.hit = hit;
+				this.id = id;
+				this.title = title;
+				this.artist = artist;
+				this.album = album;
+				this.filePath = filePath;
+				this.genre1 = genre1;
+				this.genre2 = genre2;
+				this.tag = tag;
+				this.time = time;
+				this.lyrics = lyrics;
+				this.hit = hit;
 	}
 
 	// jpa 에서 등록시 초기값 0 설정

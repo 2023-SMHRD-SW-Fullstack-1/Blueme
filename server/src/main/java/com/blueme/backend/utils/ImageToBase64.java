@@ -6,6 +6,7 @@ import java.util.Base64;
 
 import org.apache.commons.io.FileUtils;
 
+
 public class ImageToBase64 extends ImageConverter<File, String> {
 
 	@Override
