@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -29,25 +30,31 @@ public class Musics{
 	
 	private String filePath;
 	
-	private String genre;
+	private String jacketFilePath;
 	
-	private String bpm;
+	private String genre1;
 	
-	private String mood;
+	private String genre2;
 	
-	private String year;
+	private String tag;
+	
+	private String time;
+	
+	@Lob
+	private String lyrics;
 	
 	@Builder
 	public Musics(String title, String artist, String album, String filePath
-			, String genre, String bpm, String mood, String year) {
+			, String genre1, String genre2, String tag, String time, String lyrics) {
 		this.title = title;
 		this.artist = artist;
 		this.album = album;
 		this.filePath = filePath;
-		this.genre = genre;
-		this.bpm = bpm;
-		this.mood = mood;
-		this.year = year;
+		this.genre1 = genre1;
+		this.genre2 = genre2;
+		this.tag = tag;
+		this.time = time;
+		this.lyrics = lyrics;
 	}
 	
 }

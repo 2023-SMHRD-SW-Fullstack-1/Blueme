@@ -55,11 +55,11 @@ public class MusicsService {
                 String album = tag.getFirst(FieldKey.ALBUM);
                 String title = tag.getFirst(FieldKey.TITLE);
                 String genre = tag.getFirst(FieldKey.GENRE);
-                String bpm = tag.getFirst(FieldKey.BPM);
-                String mood = tag.getFirst(FieldKey.MOOD);
-                String year = tag.getFirst(FieldKey.YEAR);
-                Musics music = Musics.builder().title(title).album(album).artist(artist).genre(genre)
-                		.bpm(bpm).mood(mood).year(year).filePath(filePath).build();
+                // String bpm = tag.getFirst(FieldKey.BPM);
+                //String mood = tag.getFirst(FieldKey.MOOD);
+                //String year = tag.getFirst(FieldKey.YEAR);
+                Musics music = Musics.builder().title(title).album(album).artist(artist).genre1(genre)
+                		.filePath(filePath).build();
                 
                 lastId = musicsJpaRepository.save(music).getId();
                 

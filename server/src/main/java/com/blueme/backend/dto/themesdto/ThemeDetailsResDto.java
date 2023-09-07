@@ -15,10 +15,11 @@ public class ThemeDetailsResDto {
   private String title;
   private String album;
   private String artist;
-  private String bpm;
-  private String genre;
-  private String mood;
-  private String year;
+  private String genre1;
+  private String genre2;
+  private String lyrics;
+  private String tag;
+  private String time;
 
   public ThemeDetailsResDto(Themes theme, ThemeMusiclists themeMusiclist) {
     this.themeId = theme.getId();
@@ -27,10 +28,11 @@ public class ThemeDetailsResDto {
     this.title = themeMusiclist.getMusic().getTitle();
     this.album = themeMusiclist.getMusic().getAlbum();
     this.artist = themeMusiclist.getMusic().getArtist();
-    this.bpm = themeMusiclist.getMusic().getBpm();
-    this.genre = themeMusiclist.getMusic().getGenre();
-    this.mood = themeMusiclist.getMusic().getMood();
-    this.year =  themeMusiclist.getMusic().getYear();
-
+    this.genre1 = themeMusiclist.getMusic().getGenre1();
+    this.genre2 = themeMusiclist.getMusic().getGenre2();
+    this.lyrics = themeMusiclist.getMusic().getLyrics();
+    this.tag = themeMusiclist.getMusic().getTag();
+    this.time =  themeMusiclist.getMusic().getTime();
+    
   }
 }
