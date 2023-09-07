@@ -38,15 +38,14 @@ public class LikeMusicsService {
 
     LikeMusics likeMusics = likeMusicsJpaRepository.findByUserIdAndMusicId(user.getId(), music.getId());
 
-
     if (likeMusics!= null) {
       likeMusicsJpaRepository.delete(likeMusics);
+      return -1L;
     } else {
       likeMusics = new LikeMusics(music, user);
       likeMusicsJpaRepository.save(likeMusics);
     }
-
-    return (likeMusics == null)? -1L : likeMusics.getId();
+      return likeMusics.getId();
   }
 
 
