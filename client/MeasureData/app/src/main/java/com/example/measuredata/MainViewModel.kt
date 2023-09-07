@@ -31,6 +31,7 @@ import javax.inject.Inject
 /**
  * Holds most of the interaction logic and UI state for the app.
  */
+// modified by orthh
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val healthServicesManager: HealthServicesManager
@@ -44,6 +45,9 @@ class MainViewModel @Inject constructor(
 
     private val _heartRateBpm = MutableStateFlow(0.0)
     val heartRateBpm: StateFlow<Double> = _heartRateBpm
+
+    private val _speed = MutableStateFlow(0.0)
+    val speed: StateFlow<Double> = _speed
 
     //modified by orthh
     //private val _heartRateBpm = MutableStateFlow<Any>("측정중...")
@@ -61,6 +65,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    // modified by orthh
+
     @ExperimentalCoroutinesApi
     suspend fun measureHeartRate() {
         healthServicesManager.heartRateMeasureFlow().collect {
@@ -75,11 +81,12 @@ class MainViewModel @Inject constructor(
                     Log.d(TAG, "Data update: $bpm")
                     // modify : orthh
                     _heartRateBpm.value = bpm
-
                 }
+
             }
         }
     }
+
 }
 
 sealed class UiState {

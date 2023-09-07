@@ -13,10 +13,6 @@ public class LikemusicReqDto {
   private String userId;
 
   private String musicId;
-  
-  public Users toEntityUser() {
-    return Users.builder().id(Long.parseLong(userId)).build();
-  }
 
   public Musics toEntityMusic() {
     return Musics.builder().id(Long.parseLong(musicId)).build();

@@ -31,14 +31,24 @@ import javax.inject.Inject
 /**
  * Entry point for [HealthServicesClient] APIs, wrapping them in coroutine-friendly APIs.
  */
+
+// modified by orthh
 class HealthServicesManager @Inject constructor(
     healthServicesClient: HealthServicesClient
 ) {
+    // measureClient : 기기에서 건강 데이터를 측정하는 방법을 제공하는 클라이언트
     private val measureClient = healthServicesClient.measureClient
 
+
     suspend fun hasHeartRateCapability(): Boolean {
+        // 이 기기가 사용 가능한 종류 반환
         val capabilities = measureClient.getCapabilitiesAsync().await()
+        Log.d("fff", capabilities.supportedDataTypesMeasure.toString())
         return (DataType.HEART_RATE_BPM in capabilities.supportedDataTypesMeasure)
+    }
+    suspend fun hasSpeedCapability(): Boolean {
+        val capabilities = measureClient.getCapabilitiesAsync().await()
+        return (DataType.SPEED in capabilities.supportedDataTypesMeasure)
     }
 
     /**
@@ -48,11 +58,12 @@ class HealthServicesManager @Inject constructor(
      *
      * [callbackFlow] is used to bridge between a callback-based API and Kotlin flows.
      */
+
+    // modified by orthh
     @ExperimentalCoroutinesApi
     fun heartRateMeasureFlow() = callbackFlow {
         val callback = object : MeasureCallback {
             override fun onAvailabilityChanged(dataType: DeltaDataType<*, *>, availability: Availability) {
-                // Only send back DataTypeAvailability (not LocationAvailability)
                 if (availability is DataTypeAvailability) {
                     trySendBlocking(MeasureMessage.MeasureAvailability(availability))
                 }
@@ -60,23 +71,90 @@ class HealthServicesManager @Inject constructor(
 
             override fun onDataReceived(data: DataPointContainer) {
                 val heartRateBpm = data.getData(DataType.HEART_RATE_BPM)
-                trySendBlocking(MeasureMessage.MeasureData(heartRateBpm))
+                if (heartRateBpm.isNotEmpty()) {
+                    trySendBlocking(MeasureMessage.MeasureData(heartRateBpm))
+                }
+            }
+        }
+
+        Log.d(TAG, "Registering for heart rate data")
+        measureClient.registerMeasureCallback(DataType.HEART_RATE_BPM, callback)
+
+        awaitClose {
+            Log.d(TAG, "Unregistering for heart rate data")
+            runBlocking { measureClient.unregisterMeasureCallbackAsync(DataType.HEART_RATE_BPM, callback) }
+        }
+    }
+
+    /*
+    @ExperimentalCoroutinesApi
+    fun speedMeasureFlow() = callbackFlow {
+        val callback = object : MeasureCallback {
+            override fun onAvailabilityChanged(dataType: DeltaDataType<*, *>, availability: Availability) {
+                if (availability is DataTypeAvailability) {
+                    trySendBlocking(MeasureMessage.speedAvailability(availability))
+                }
+            }
+
+            override fun onDataReceived(data: DataPointContainer) {
+                val speedData = data.getData(DataType.SPEED)
+                if (speedData.isNotEmpty()) {
+                    trySendBlocking(MeasureMessage.MeasureDataSpeed(speedData))
+                }
+            }
+        }
+
+        Log.d(TAG, "Registering for speed data")
+        measureClient.registerMeasureCallback(DataType.SPEED, callback)
+
+        awaitClose {
+            Log.d(TAG, "Unregistering for speed data")
+            runBlocking { measureClient.unregisterMeasureCallbackAsync(DataType.SPEED, callback) }
+        }
+    }*/
+
+
+    // added by orthh
+    // 속도 가져오는 flow
+    /*@ExperimentalCoroutinesApi
+    fun speedMeasureFlow() = callbackFlow {
+        val callback = object : MeasureCallback {
+            override fun onAvailabilityChanged(dataType: DeltaDataType<*, *>, availability: Availability) {
+                if (availability is DataTypeAvailability) {
+                    trySendBlocking(MeaseureMessageSpeed.MeasureAvailabilitySpeed(availability))
+                }
+            }
+
+            override fun onDataReceived(data: DataPointContainer) {
+                val speedData = data.getData(DataType.SPEED)
+                trySendBlocking(MeaseureMessageSpeed.MeasureDataSpeed(speedData))
             }
         }
 
         Log.d(TAG, "Registering for data")
-        measureClient.registerMeasureCallback(DataType.HEART_RATE_BPM, callback)
+        measureClient.registerMeasureCallback(DataType.SPEED, callback)
 
         awaitClose {
             Log.d(TAG, "Unregistering for data")
             runBlocking {
-                measureClient.unregisterMeasureCallbackAsync(DataType.HEART_RATE_BPM, callback)
+                measureClient.unregisterMeasureCallbackAsync(DataType.SPEED, callback)
             }
         }
-    }
+    }*/
+
+
 }
 
 sealed class MeasureMessage {
     class MeasureAvailability(val availability: DataTypeAvailability) : MeasureMessage()
     class MeasureData(val data: List<SampleDataPoint<Double>>): MeasureMessage()
+
 }
+/*
+// added by orthh
+sealed class MeaseureMessageSpeed{
+    // added by orthh
+    class MeasureAvailabilitySpeed(val availability: DataTypeAvailability) : MeasureMessage()
+    class MeasureDataSpeed(val data: List<SampleDataPoint<Double>>): MeasureMessage()
+}
+*/

@@ -23,7 +23,7 @@ public class LikeMusics extends BaseEntity{
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id", insertable=false, updatable=false)
+	@JoinColumn(name="user_id")
 	private Users user;
 	
 	@ManyToOne

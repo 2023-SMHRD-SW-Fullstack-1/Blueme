@@ -16,6 +16,7 @@
 
 package com.example.measuredata
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     // added by orthh
     private fun sendAverageToServer(averageHeartRate: Double) {
-        val url = "http://172.30.1.27:8104"
+        val url = "http://172.30.1.27:8104/health/heartrate"
         val tempUserId = 1
 
         val requestQueue = Volley.newRequestQueue(this)
@@ -61,11 +62,9 @@ class MainActivity : AppCompatActivity() {
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
             Response.Listener { response ->
-                // 요청 성공 시 처리할 내용을 여기에 작성하세요.
                 Log.d("Volley", "Response: $response")
             },
             Response.ErrorListener { error ->
-                // 요청 실패 시 처리할 내용을 여기에 작성하세요.
                 Log.e("Volley", "Error: ${error.localizedMessage}")
             }
         )
@@ -74,6 +73,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //setContentView(R.layout.activity_login)
 
+        // 측정 데이터 모으기
+        var avgHeartRate = mutableListOf<Double>()
 
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
@@ -94,6 +96,8 @@ class MainActivity : AppCompatActivity() {
                         // registered any longer than necessary.
                         lifecycleScope.launchWhenStarted {
                             viewModel.measureHeartRate()
+                            // modified by orthh
+
                         }
                     }
                     false -> Log.i(TAG, "Body sensors permission not granted")
@@ -126,9 +130,15 @@ class MainActivity : AppCompatActivity() {
                 //binding.statusText.text = getString(R.string.measure_status, it)
             }
         }
+
+        // modified by orthh
         lifecycleScope.launchWhenStarted {
+
             viewModel.heartRateBpm.collect {
-		binding.lastMeasuredValue.text = String.format("%.1f", it)
+		        binding.lastMeasuredValue.text = String.format("%.1f", it)
+                if(it != 0.0){
+                    avgHeartRate.add(it)
+                }
             }
         }
     }
