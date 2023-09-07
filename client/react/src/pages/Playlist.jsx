@@ -1,5 +1,7 @@
-import React from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 // import Component
 import SingleMusic from "../components/Library/SingleMusic";
 // import DummyData
@@ -10,6 +12,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 
 const Playlist = () => {
+    
   return (
     <div className="bg-custom-blue text-custom-white h-full pt-20">
       <div className="flex flex-col items-center justify-center">
@@ -22,6 +25,14 @@ const Playlist = () => {
           <button className="bg-custom-darkgray text-custom-lightpurple w-40 h-8">전체 저장</button>
         </Link>
       </div>
+              {/* 더미데이터 이용 */}
+      {/* <Swiper direction={"vertical"} slidesPerView={6} spaceBetween={1} className="h-[50%] ml-3 mr-3">
+        {MusicDummy.map((item) => (
+          <SwiperSlide key={item.id}>
+            <SingleMusic key={item.id} item={item} />
+          </SwiperSlide>
+        ))}
+      </Swiper> */}
       <Swiper direction={"vertical"} slidesPerView={6} spaceBetween={1} className="h-[50%] ml-3 mr-3">
         {MusicDummy.map((item) => (
           <SwiperSlide key={item.id}>
@@ -30,6 +41,7 @@ const Playlist = () => {
         ))}
       </Swiper>
     </div>
+    
   );
 };
 
