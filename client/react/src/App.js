@@ -12,7 +12,10 @@ import SelectArtist from "./pages/join/SelectArtist";
 import Theme from "./pages/Theme";
 import MemberInfoChange from "./pages/myPage/MemberInfoChange";
 import JoinComplete from "./pages/join/JoinComplete";
-import Library from "./pages/Library";
+// 지희 시작 - library 폴더 생성 후 경로 이동 (0907)
+import Library from "./pages/library/Library";
+import LibraryPlaylist from "./pages/library/LibraryPlaylist";
+// 지희 끝
 import MusicPlayer from "./pages/MusicPlayer";
 import "./styles/Tailwind.css";
 import "./assets/fonts/font.ttf";
@@ -83,6 +86,7 @@ const App = () => {
           <Route path="/LoadData" element={<LoadData />} />
           <Route path="/LoadDataCompl" element={<LoadDataCompl />} />
           <Route path="/LoadGpt" element={<LoadGpt />} />
+          <Route path="/LibraryPlaylist" element={<LibraryPlaylist />} />
           {/* 지희 끝 */}
         </Routes>
         <Footer />

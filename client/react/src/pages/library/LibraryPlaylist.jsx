@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // import Component
-import SingleMusic from "../components/Library/SingleMusic";
+import SingleMusic from "../../components/Library/SingleMusic";
 // import DummyData
-import PlaylistDummy from "../dummy/PlaylistDummy.json";
-import MusicDummy from "../dummy/MusicDummy.json";
+import PlaylistDummy from "../../dummy/PlaylistDummy.json";
+import MusicDummy from "../../dummy/MusicDummy.json";
 // import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";

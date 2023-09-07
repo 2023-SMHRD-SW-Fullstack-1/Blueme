@@ -20,6 +20,7 @@ const MusicPlayer = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+
   // URL에서 음악 아이디 추출
   let searchParams = new URLSearchParams(location.search);
   let urlParam = searchParams.get("url");
@@ -38,6 +39,8 @@ const MusicPlayer = () => {
 
   let songId = getSongIdFromUrl(urlParam);
   let urlWithoutSongId = getUrlWithoutSongId(urlParam);
+
+  
 
   // useState
   const [currentTime, setCurrentTime] = useState(0);
@@ -181,6 +184,7 @@ const MusicPlayer = () => {
     return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
+  
   return (
     <div className="flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full ">
       <p className="py-[10px]">{musicInfo.album}</p>
