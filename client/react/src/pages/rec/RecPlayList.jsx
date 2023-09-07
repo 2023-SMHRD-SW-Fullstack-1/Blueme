@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import dummy from '../../dummy/MusicDummy.json';
+import MusicDummy from '../../dummy/MusicDummy.json';
+import SingleMusic from '../../components/Library/SingleMusic';
+import { Link } from 'react-router-dom';
 
 const RecPlayList = () => {
+
+  
+
     return (
-        <div className='flex mt-5'>
-        <Swiper spaceBetween={1} slidesPerView={2.5}>
-            {dummy.map((item) => {
-                return (
-                    <SwiperSlide key={item.id}>
-                        <div className="flex flex-col ml-2 mr-2 w-50 ">
-                            {/* 1. 앨범 이미지 */}
-                            <img src={item.coverImage} alt="album cover" className="w-[180px] h-auto rounded-lg" />
-                            {/* 2. 제목/ 아티스트 */}
-                            <span className="tracking-tighter text-sm text-center mt-2">{item.title}</span>
-                            <span className="tracking-tighter text-sm text-center">{item.artist}</span>
-                        </div>
-                    </SwiperSlide>
-                );
-            })}
-        </Swiper>
+        <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-screen text-custom-white p-3'>
+            <br/><br/><br/>
+            <h1 className='text-center text-2xl font-semibold tracking-tighter mb-6'>
+                현재 당신을 위한 음악</h1>  
+            <div className="flex justify-between mb-3">
+                <button className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl">전체 재생</button>
+            <Link to="/PlayListRename"><button className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl ">전체 저장</button></Link>
+            </div>
+          {MusicDummy.map((item) => (
+            <section key={item.id} >
+              <SingleMusic key={item.id} item={item} />
+            </section>
+          ))}
         </div>
     );
 };

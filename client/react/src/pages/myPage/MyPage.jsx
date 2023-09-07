@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/img/logo.png";
+import user from '../../assets/img/defalut.png'
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useLocation } from "react-router-dom";
@@ -22,91 +22,78 @@ const MyPage = () => {
     setSingers([...dummySingers, ...selectedArtistsFromRecommendation]);
   }, [selectedArtistsFromRecommendation]);
   return (
-    <div className="bg-custom-blue flex flex-col pl-10 text-custom-white min-h-s">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <img src={logo} alt="" className="w-[50px] h-auto mb-3 mt-2" />
-          <span className="pt-1">닉네임닉네임닉네임</span>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 flex flex-col min-h-screen text-2xl font-semibold tracking-tighter">
+      
+      <div className="flex justify-between items-center mt-20">
+        <div className="flex items-center boar">
+          <img src={user} alt="" className="w-[70px] h-[70px] mb-3 mt-2 rounded-lg" />
+          <span className="pt-1 ml-3 text-[20px] ">닉네임</span>
         </div>
-        <div className="mt-3 pr-9">
+        <div className="mt-3 ">
           <Link to="/MemberInfoChange">
-            <button className=" bg-custom-gray rounded-lg text-sm p-1">내 프로필</button>
+            <button className=" bg-gradient-to-t from-gray-600 rounded-2xl text-sm h-8 w-20 p-1">내 프로필</button>
           </Link>
         </div>
       </div>
 
-      <div className="text-xl">내 정보</div>
+      <div className="text-2xl mt-6">내 정보</div>
 
       <div className="mt-2 sm:mt-2 md:mt-2">
         <input
           type="email"
-          className="border-2 border-custom-gray rounded-lg bg-custom-blue text-custom-white peer block min-h-[auto] w-[90%]  bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
-          placeholder="이메일을 입력해주세요."
+          className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-3 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+          value="blueme123@gmail.com"
         />
       </div>
-      <div className="mt-2 sm:mt-2 md:mt-2">
+      <div className="mt-2 sm:mt-2 md:mt-2 ">
         <input
           type="email"
-          className="border-2 border-custom-gray rounded-lg bg-custom-blue text-custom-whitepeer block min-h-[auto] w-[90%]  bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
-          placeholder="비밀번호를 입력해주세요."
+          className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-2 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+          value="닉네임"
         />
-      </div>
-      <div className="mt-2 sm:mt-2 md:mt-2">
-        <input
-          type="email"
-          className="border-2 border-custom-gray rounded-lg bg-custom-blue text-custom-whiter-3 peer block min-h-[auto] w-[90%]  bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
-          placeholder="비밀번호를 다시 입력해주세요."
-        />
-      </div>
-      <div className="mt-2 sm:mt-2 md:mt-2">
-        <input
-          type="email"
-          className="border-2 border-custom-gray rounded-lg bg-custom-blue text-custom-white r-3 peer block min-h-[auto] w-[90%] border-soild bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear   motion-reduce:transition-none dark:text-neutral-200 "
-          placeholder="닉네임을 입력해주세요."
-        />
-        <div className="mt-5">
-          <div className="text-xl mb-2">당신이 좋아하는 음악장르는?</div>
-          <div className="flex items-start w-full mb-5">
+        <div className="mt-10 ">
+          <div className="text-2xl">당신이 좋아하는 음악장르는?</div>
+          <div className="flex w-full mt-5 text-base">
             <Swiper
-              spaceBetween={10}
-              slidesPerView={3}
+              spaceBetween={20}
+              slidesPerView={2}
               onSlideChange={() => console.log("slide change")}
               onSwiper={(swiper) => console.log(swiper)}
-              className="w-3/4"
+              className="w-[280px] flex"
             >
               {singers.map((singer) => (
                 <SwiperSlide key={singer.id}>
-                  <button class="flex flex-col items-center space-y-4 mt-1">
-                    <img src={singer.image} alt="" class="rounded-lg img-fixed" />
-                    <h5 class="font-semibold text-sm">{singer.name}</h5>
+                  <button class="flex flex-col items-center text-center space-y-4 mt-2 justify-center">
+                    <img src={singer.image} alt="singer image" class="rounded-lg border object-cover blur-sm" />
+                    <h5 className="font-semibold absolute">{singer.name}</h5>
                   </button>
                 </SwiperSlide>
               ))}
             </Swiper>
-            <Link to="/SelectGenre" className="text-custom-white mr-5 self-center text-xs">
+            <Link to="/SelectGenre" className="text-custom-lightgray w-30 ml-5 mr-8 self-center text-byte">
               더보기
             </Link>
           </div>
         </div>
-        <div className="text-xl mb-2">당신이 좋아하는 아티스트는?</div>
-        <div className="flex items-start w-full mb-5">
+        <div className="text-2xl mt-5">당신이 좋아하는 아티스트는?</div>
+        <div className="flex items-start w-full mt-5 text-base">
           <Swiper
-            spaceBetween={10}
-            slidesPerView={3} // Reduce the number of slides per view
+            spaceBetween={20}
+            slidesPerView={2} // Reduce the number of slides per view
             onSlideChange={() => console.log("slide change")}
             onSwiper={(swiper) => console.log(swiper)}
-            className="w-3/4"
+            className="w-[280px] flex"
           >
             {singers.map((singer) => (
               <SwiperSlide key={singer.id}>
-                <button class="flex flex-col items-center space-y-4 mt-1">
-                  <img src={singer.image} alt="" class="rounded-lg img-fixed" />
-                  <h5 class="font-semibold text-sm">{singer.name}</h5>
+                <button class="flex flex-col items-center text-center space-y-4 mt-2 justify-center">
+                  <img src={singer.image} alt="" class="rounded-lg img-fixed border object-cover blur-sm" />
+                  <h5 class="font-semibold absolute">{singer.name}</h5>
                 </button>
               </SwiperSlide>
             ))}
           </Swiper>
-          <Link to="/SelectArtist" className="text-custom-white mr-5 self-center text-xs">
+          <Link to="/Artistrecommend" className="text-custom-lightgray w-30 ml-5 mr-8 self-center text-byte" >
             더보기
           </Link>
         </div>

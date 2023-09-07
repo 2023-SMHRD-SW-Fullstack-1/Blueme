@@ -36,6 +36,7 @@ import RecBegin from "./pages/rec/RecBegin";
 import LoadData from "./pages/rec/LoadData";
 import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
+import RecPlayList from "./pages/rec/RecPlayList";
 // 지희 import 끝
 
 const App = () => {
@@ -51,7 +52,7 @@ const App = () => {
           <Route path="/Login" element={<Login />} />
           <Route path="/Join" element={<Join />} />
           <Route path="/Memberinfo" element={<MemberInfo />} />
-          <Route path="/Memberinfochange" element={<MyPage />} />
+          <Route path="/MemberinfoChange" element={<MyPage />} />
           <Route path="/Artistrecommend" element={<SelectArtist />} />
           <Route path="/Themerecommend" element={<Theme />} />
           <Route path="/MemberInfoChange" element={<MemberInfoChange />} />
@@ -71,9 +72,10 @@ const App = () => {
           {/* 지훈 시작 */}
           <Route path="/MemberDelete" element={<MemberDelete />} />
           {/* 지훈 끝 */}
-          {/* 유영 추천 앱 설명 */}
+          {/* 유영 시작 */}
           <Route path="/RecAppDes" element={<RecAppDes />} />
           <Route path="/PlaylistRename" element={<PlaylistRename />} />
+          <Route path="/RecPlayList" element={<RecPlayList />} />
           {/* 유영 끝 */}
           {/* 지희 시작 */}
           <Route path="/RecBegin" element={<RecBegin />} />

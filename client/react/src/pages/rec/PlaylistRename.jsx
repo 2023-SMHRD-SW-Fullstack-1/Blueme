@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const PlaylistRename = () => {
     
@@ -15,7 +16,7 @@ const PlaylistRename = () => {
     }
 
   return (
-    <div className='bg-custom-blue text-custom-white p-3 h-full'>
+    <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full'>
     <br/><br/><br/>
     {/* 추천 리스트 제목 */}
       <div className='mt-52 text-center'>
@@ -34,11 +35,11 @@ const PlaylistRename = () => {
       <div className='flex justify-end space-x-2'>
         <div className="h-9 w-12 mt-5 border-2 border-soild border-#FDFDFD] 
         rounded-lg bg-custom-blue text-custom-white text-sm text-center peer bg-transparent leading-[2.15] outline-none ease-linear">
-            <button>저장</button>
+            <Link to='/RecPlayList'><button>저장</button></Link>
         </div>
         <div className="h-9 w-12 mt-5 border-2 border-soild border-#FDFDFD] 
         rounded-lg bg-custom-blue text-custom-white text-sm text-center peer bg-transparent leading-[2.15] outline-none ease-linear">
-            <button>취소</button>
+             <Link to='/RecPlayList'><button>취소</button></Link>
         </div>
       </div>
       

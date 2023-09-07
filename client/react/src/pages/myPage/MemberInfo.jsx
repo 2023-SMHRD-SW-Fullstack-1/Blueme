@@ -2,21 +2,28 @@ import React from "react";
 
 const Memberinfo = () => {
   return (
-    <div className="bg-custom-blue flex flex-col justify-center items-center text-custom-white min-h-screen">
-      <div className="relative mb-3 text-custom-white " data-te-input-wrapper-init>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
+      <div className="relative mt-[280px] text-custom-white text-xl text-center" data-te-input-wrapper-init>
         비밀번호를 입력해주세요.
       </div>
-      <div className="mb-10">
+      <div>
         <input
           type="password"
-          className="text-custom-black bg-[#070b19] rounded-[10px] border-solid border-[rgba(253,253,253,0.10)] "
+          className="bg-gradient-to-t from-gray-900 tracking-tighter h-[45px] text-base border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
           placeholder="Password"
         />
       </div>
       <div className="">
         <button
           type="submit"
-          className=" bg-custom-blue inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal  text-custom-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+          className="
+            mt-6
+            w-full
+            px-3 h-10 relative 
+            bg-[#221a38]  
+            rounded-lg border border-soild border-[#fdfdfd]
+            text-custom-white
+            text-[16px]"
           data-te-ripple-init
           data-te-ripple-color="light"
         >
