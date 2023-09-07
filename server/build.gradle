@@ -23,6 +23,8 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
 	implementation 'net.jthink:jaudiotagger:3.0.1'
 	//implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	// 파일 변환시 사용
+	implementation 'commons-io:commons-io:2.8.0' 
 	
 	
 	compileOnly 'org.projectlombok:lombok'

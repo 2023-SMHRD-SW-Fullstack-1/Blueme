@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import com.blueme.backend.dto.musicdto.MusicInfoResDto;
 import com.blueme.backend.service.MusicsService;
 
 import lombok.RequiredArgsConstructor;
@@ -73,12 +74,20 @@ public class MusicsController {
             });
 }*/
 		/**
-	   *  get musicId에 해당하는 음악 정보 조회 (HTTP Range Request)
+	   *  get musicId에 해당하는 음악 데이터 조회 (HTTP Range Request)
 	   */
 		@GetMapping("/{id}")
     public ResponseEntity<InputStreamResource> streamAudio(@PathVariable("id") String id, 
         @RequestHeader(value = "Range", required = false) String rangeHeader) throws IOException {    
     		return musicsService.getAudioResource(id, rangeHeader);
+    }
+
+		/**
+	   *  get musicId에 해당하는 음악 정보조회
+	   */
+		@GetMapping("/info/{id}")
+    public MusicInfoResDto musicInfo(@PathVariable("id") String id){    
+    		return musicsService.getMusicInfo(id);
     }
 
 }

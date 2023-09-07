@@ -21,7 +21,6 @@ public class Musics{
 	@Column(name="music_id")
 	private Long id;
 	
-	// 테스트용
 	private String title;
 	
 	private String artist;
@@ -39,6 +38,8 @@ public class Musics{
 	private String tag;
 	
 	private String time;
+
+	private String hit;
 	
 	@Lob
 	private String lyrics;
