@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // import - 이미지
 import likeEmpty from "../../assets/img/likeEmpty.png";
-const paramValue = "http://172.30.1.27:8104/music/";
+const paramValue = "http://172.30.1.27:8104/music/1";
 
 const SingleMusic = ({ item }) => {
-  console.log("singlemusic", item);
-
   return (
     <Link
       to={{
         pathname: "/MusicPlayer",
-        state: { item },
         search: `?url=${paramValue}`,
       }}
     >
