@@ -1,34 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import Component
+
 import SingleMusic from "../components/Library/SingleMusic";
-// import DummyData
-import PlaylistDummy from "../dummy/PlaylistDummy.json";
-import MusicDummy from "../dummy/MusicDummy.json";
-// import Swiper
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 
+import axios from "axios";
+
 const Playlist = () => {
+  const [themeImage, setThemeImage] = useState("");
+  const [themeName, setThemeName] = useState("");
+  const [musicList, setMusicList] = useState([]);
+
+  useEffect(() => {
+    const getPlaylistDetails = async () => {
+      try {
+        const imageFromStorage = localStorage.getItem("themeImage");
+        if (imageFromStorage) {
+          setThemeImage(imageFromStorage);
+        }
+
+        const nameFromStorage = localStorage.getItem("themeName");
+        if (nameFromStorage) {
+          setThemeName(nameFromStorage);
+        }
+
+        const themeIdFromStorage = localStorage.getItem("themeId");
+
+        if (themeIdFromStorage) {
+          const responseMusicList = await axios.get(`/theme/themelists/${themeIdFromStorage}`);
+
+          if (responseMusicList.data) {
+            setMusicList(responseMusicList.data);
+          }
+        }
+      } catch (error) {
+        console.error(`Error: ${error}`);
+      }
+    };
+
+    getPlaylistDetails();
+  }, []);
+
   return (
-    <div className="bg-custom-blue text-custom-white h-full pt-20">
-      <div className="flex flex-col items-center justify-center">
-        <img src={PlaylistDummy[0].coverImage} className="w-[200px] h-auto rounded-lg" />
-        <p className="text-2xl py-5">{PlaylistDummy[0].title}</p>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
+      <br/>
+      <div className="flex flex-col items-center justify-center mt-[80px]">
+        <img src={themeImage} className="w-[160px] h-[160px] rounded-xl" />
+        <p className="text-2xl py-5">{themeName}</p>
       </div>
-      <div className="flex justify-between ml-4 mr-4 py-2">
-        <button className="bg-custom-darkgray text-custom-lightpurple w-40 h-8">전체 재생</button>
+
+      <div className="flex justify-between mb-5 mt-2">
+        <button className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl">전체 재생</button>
         <Link>
-          <button className="bg-custom-darkgray text-custom-lightpurple w-40 h-8">전체 저장</button>
+          <button className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl">전체 저장</button>
         </Link>
       </div>
-      <Swiper direction={"vertical"} slidesPerView={6} spaceBetween={1} className="h-[50%] ml-3 mr-3">
-        {MusicDummy.map((item) => (
-          <SwiperSlide key={item.id}>
-            <SingleMusic key={item.id} item={item} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+
+      {/* Render music list */}
+      {musicList.length > 0 ? (
+        <Swiper direction={"vertical"} slidesPerView={6.2} spaceBetween={1} className="h-[49%] ml-3 mr-3">
+          {musicList.map((item) => (
+            <SwiperSlide key={item.id}>
+              <SingleMusic key={item.id} item={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <p>No music available</p>
+      )}
     </div>
   );
 };

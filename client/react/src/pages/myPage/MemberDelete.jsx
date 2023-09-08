@@ -44,11 +44,11 @@ const MemberDelete = () => {
   };
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 flex flex-col min-h-screen text-xl font-semibold tracking-tighter">
-      <p className="mt-72 text-xl text-center ">탈퇴를 진행하시려면 비밀번호를 입력해주세요.</p>
+      <p className="mt-[240px] text-xl text-center ">탈퇴를 진행하시려면 비밀번호를 입력해주세요.</p>
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}
-        className="focus:border-custom-white pl-2 text-sm text-custom-white w-[80%] mt-10 border border-soild border-[rgba(253,253,253,0.10)] rounded-lg bg-custom-blue text-whitepeer block min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration[200 ease-linear motion-reduce-transition-none dark:text-neutral[200] "
+        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] h-[45px] text-base focus:border-custom-white pl-2 w-full mt-[60px] rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
         placeholder="이메일을 입력해주세요."
       />
       <input
@@ -60,15 +60,15 @@ const MemberDelete = () => {
       <input
         type="password"
         onChange={(e) => setConfirmPassword(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] h-[45px] text-base focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] h-[45px] text-base focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
         placeholder="비밀번호를 다시 입력해주세요."
       />
       <button
         onClick={handleDelete}
         className="
-        mt-10
+        mt-12
         w-full
-        px-3 h-10 relative 
+        px-3 h-[43px] relative 
         bg-[#221a38]  
         rounded-lg border border-soild border-[#fdfdfd]
         text-custom-white
@@ -85,7 +85,7 @@ const MemberDelete = () => {
         } flex items-center justify-center`}
       >
         <div class="flex justify-center w-full max-w-md max-h-full">
-          <div class=" bg-custom-blue  border-2 rounded-lg shadow dark:bg-gray-700">
+          <div class=" bg-custom-blue  border rounded-lg shadow dark:bg-gray-700">
             <button
               type="button"
               class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -110,7 +110,7 @@ const MemberDelete = () => {
             </button>
             <div class="p-6 text-center">
               <svg
-                class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                class="mx-auto mb-4 text-gray-400 w-40 h-10 dark:text-gray-200"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -124,22 +124,22 @@ const MemberDelete = () => {
                   d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
-              <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">정말 탈퇴하시겠습니까?</h3>
+              <h3 class="mb-5 text-lg font-normal text-gray-400 dark:text-gray-400">정말 탈퇴하시겠습니까?</h3>
               <button
                 onClick={handleConfirmDelete}
                 data-modal-hide="popup-modal"
                 type="button"
-                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                class="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
               >
-                Yes, I'm sure
+                네 탈퇴할게요.
               </button>
               <button
                 onClick={closeModal}
                 data-modal-hide="popup-modal"
                 type="button"
-                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                class="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
               >
-                No, cancel
+                아니요 안할래요.
               </button>
               {/* 비밀번호 오류 모달 */}
               <div
