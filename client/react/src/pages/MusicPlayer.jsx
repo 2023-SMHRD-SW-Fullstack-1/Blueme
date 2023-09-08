@@ -40,8 +40,6 @@ const MusicPlayer = () => {
   let songId = getSongIdFromUrl(urlParam);
   let urlWithoutSongId = getUrlWithoutSongId(urlParam);
 
-  
-
   // useState
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -58,6 +56,10 @@ const MusicPlayer = () => {
     artist: "",
     img: "",
   });
+  // 좋아요 버튼
+  const [isLiked, setIsLiked] = useState(false);
+
+
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
