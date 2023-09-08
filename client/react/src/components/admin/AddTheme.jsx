@@ -48,7 +48,11 @@ const AddTheme = () => {
     e.preventDefault();
 
     try {
-      await axios.post("/api/your-endpoint", { title, content, musicIds });
+      await axios.post("http://172.30.1.27:8104/theme/register", {
+        title,
+        content,
+        musicIds,
+      });
       alert("테마가 성공적으로 등록되었습니다.");
     } catch (error) {
       console.error("테마 등록 중 오류가 발생했습니다:", error);
