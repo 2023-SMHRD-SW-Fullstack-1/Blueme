@@ -46,18 +46,19 @@ const Playlist = () => {
   }, []);
 
   return (
-    <div className="bg-custom-blue text-custom-white h-full pt-20">
-      <div className="flex flex-col items-center justify-center">
-        <img src={themeImage} className="w-[200px] h-auto rounded-lg" />
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
+      <br />
+      <div className="flex flex-col items-center justify-center mt-[80px]">
+        <img src={themeImage} className="w-[160px] h-[160px] rounded-xl" />
         <p className="text-2xl py-5">{themeName}</p>
       </div>
 
-      <div className="flex justify-between ml-4 mr-4 py-2">
-        <button className="bg-custom-darkgray text-custom-lightpurple w-40 h-8">
+      <div className="flex justify-between mb-5 mt-2">
+        <button className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl">
           전체 재생
         </button>
         <Link>
-          <button className="bg-custom-darkgray text-custom-lightpurple w-40 h-8">
+          <button className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl">
             전체 저장
           </button>
         </Link>
@@ -68,9 +69,9 @@ const Playlist = () => {
       {musicList.length > 0 ? (
         <Swiper
           direction={"vertical"}
-          slidesPerView={6}
+          slidesPerView={6.2}
           spaceBetween={1}
-          className="h-[50%] ml-3 mr-3"
+          className="h-[49%] ml-3 mr-3"
         >
           {musicList.map((item) => (
             <SwiperSlide key={item.id}>

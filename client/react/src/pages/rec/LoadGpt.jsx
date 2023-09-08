@@ -9,8 +9,8 @@ import { OrbitControls } from "@react-three/drei";
 
 const LoadGpt = () => {
   const navigate = useNavigate();
-  const color = "white"; // 색상을 white로 설정
-  const intensity = 1; // 강도를 1로 설정
+
+  //3초 후 RecPlayList로 이동
   const timeout = () => {
     setTimeout(() => {
       navigate("/RecPlayList");
@@ -24,37 +24,14 @@ const LoadGpt = () => {
   });
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white flex flex-col h-full justify-center items-center text-2xl font-semibold tracking-tighter space-y-10">
+    // GPT 추천 로딩 화면
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white flex flex-col min-h-screen justify-center items-center text-2xl font-semibold tracking-tighter">
       <p className="mb-3">GPT가 추천해주고 있어요</p>
-
-      <div className=" from-gray-900 via-stone-950 to-gray-700 mb-10 ">
-        <Canvas
-          camera={{
-            fov: 30,
-            near: 1,
-            aspect: window.innerWidth / window.innerHeight,
-            far: 100,
-            position: [0, 0, 1],
-          }}
-        >
-          <pointLight color={color} intensity={10} />
-          <ambientLight intensity={10} />
-          <directionalLight
-            castShadow
-            position={[0, 20, 0]}
-            intensity={10}
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
-            shadow-camera-far={50}
-            shadow-camera-left={-10}
-            shadow-camera-right={10}
-            shadow-camera-top={10}
-            shadow-camera-bottom={-10}
-          />
-          <Model />
-          <OrbitControls />
-        </Canvas>
-      </div>
+      <img
+        src={loading}
+        alt="내 데이터 로딩 중"
+        class="object-cover w-[180px] h-[20px] mb-28"
+      />
     </div>
   );
 };

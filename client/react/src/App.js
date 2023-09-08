@@ -74,7 +74,6 @@ const App = () => {
           <Route path="/Theme" element={<Theme />} />
           {/* 지훈 시작 */}
           <Route path="/MemberDelete" element={<MemberDelete />} />
-          <Route path="/MyPage" element={<MyPage />} />
           {/* 지훈 끝 */}
           {/* 유영 시작 */}
           <Route path="/RecAppDes" element={<RecAppDes />} />

@@ -31,13 +31,14 @@ const PlaylistRename = () => {
         placeholder= {todayTime()}
       />
       </div>
+      
       {/* 저장과 취소 버튼 */}
       <div className='flex justify-end space-x-2'>
-        <div className="h-9 w-12 mt-5 border-2 border-soild border-#FDFDFD] 
+        <div className="h-[35px] w-[53px] mt-5 border border-soild border-#FDFDFD] 
         rounded-lg bg-custom-blue text-custom-white text-sm text-center peer bg-transparent leading-[2.15] outline-none ease-linear">
             <Link to='/RecPlayList'><button>저장</button></Link>
         </div>
-        <div className="h-9 w-12 mt-5 border-2 border-soild border-#FDFDFD] 
+        <div className="h-[35px] w-[53px] mt-5 border border-soild border-#FDFDFD] 
         rounded-lg bg-custom-blue text-custom-white text-sm text-center peer bg-transparent leading-[2.15] outline-none ease-linear">
              <Link to='/RecPlayList'><button>취소</button></Link>
         </div>

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const MainWatch = () => {
   return (
     <div>
-        <div className='flex justify-center items-center p-10'>
+        <div className='flex justify-center items-center p-5 mt-3'>
           <img src={watch}
           alt='워치 이미지'
           class="object-cover blur-sm w-[150px] h-[210px] "/>

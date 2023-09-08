@@ -1,39 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faHome,
-    faSearch,
-    faBookOpen,
-    faThumbsUp,
-    faMagnifyingGlass,
-    faHashtag,
-} from '@fortawesome/free-solid-svg-icons';
+import gpt from '../../assets/img/gpt.png'
+import home from '../../assets/img/home.png'
+import tag from '../../assets/img/tag.png'
+import library from '../../assets/img/library.png'
 
 function Footer() {
     return (
         <div
             className="text-custom-white p-3 sm:p-4 
-        flex justify-between items-center absolute w-full bottom-0"
+        flex justify-between items-center absolute w-full h-[70px] bottom-1"
         >
-            <Link to="/" className="flex flex-col items-center w-full text-center">
-                <FontAwesomeIcon icon={faHome} size="2x" />
-                <button className="text-xs">홈</button>
+            <Link to="/" className="flex flex-col items-center w-full text-center">   
+                <img src={home} className='h-[39px] w-[45px] mt-[4px]'></img>
+                <p className="text-sm h-[15px]">홈</p>
             </Link>
         {/* 지희 - 추천 부분 연결 (RecBegin) - 0905 */}
             <Link to="/RecBegin" className="flex flex-col items-center w-full text-center">
-                <FontAwesomeIcon icon={faThumbsUp} size="2x" />
-                <button className="text-xs">추천</button>
+                <img src={gpt} className='w-[37px] h-[35px] mb-[2px] mt-[5px] '></img>
+                <p className="text-sm h-[15px]">추천</p>
             </Link>
 
             <Link to="/Themerecommend" className="flex flex-col items-center w-full text-center">
-                <FontAwesomeIcon icon={faHashtag} size="2x" />
-                <button className="text-xs">테마</button>
+                <img src={tag} className='w-[33px] h-[35px] mt-[7px] mb-[2px]'></img>
+                <button className="text-sm h-[15px]">테마</button>
             </Link>
 
             <Link to="/library" className="flex flex-col items-center w-full text-center">
-                <FontAwesomeIcon icon={faBookOpen} size="2x" />
-                <button className="text-xs">라이브러리</button>
+                <img src={library} className='w-[35px] h-[35px] mt-[4px] mb-[4px]'></img>
+                <button className="text-sm h-[15px]">라이브러리</button>
             </Link>
         </div>
     );

@@ -43,14 +43,14 @@ const Join = () => {
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tighter flex flex-col px-4 sm:px-8 md:px-16">
       <br/>
-      <div className="text-custom-white w-full text-left mt-28 text-xl font-semibold sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
+      <div className="text-custom-white w-full text-left mt-[100px] text-xl font-semibold sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
         Blueme 일반 계정 회원가입
       </div>
 
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-4 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
+        className="bg-gradient-to-t from-gray-900 tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
         placeholder="이메일을 입력해주세요."
       />
 

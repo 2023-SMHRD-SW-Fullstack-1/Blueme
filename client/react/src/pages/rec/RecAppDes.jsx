@@ -6,8 +6,9 @@ import { Link } from "react-router-dom";
 
 const RecAppDes = () => {
 
-  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [modalIsOpen, setModalIsOpen] = useState(false) //모달 열림 여부
 
+  //모달창 열리면 true로 바꿔주는 함수
   const handleTransport = () => {
     setModalIsOpen(true);
   };
@@ -29,11 +30,12 @@ const RecAppDes = () => {
           </ul>
         </div>
 
+        {/* 위치 이미지  */}
         <Swiper slidesPerView={2} className='mt-10'>
             <SwiperSlide >
                 <img src={watchLogin}
                 alt='워치 이미지'
-                class="object-cover w-[180px] h-[230px] "/>
+                class="object-cover w-[200px] h-[230px] "/>
             </SwiperSlide> 
             <SwiperSlide>
                 <img src={watchHeartRate}
@@ -57,7 +59,7 @@ const RecAppDes = () => {
         <div className='text-right p-3 mt-5'>
           <button onClick={handleTransport}>SKIP</button>
         
-        {/* 모달 */}
+        {/* 데이터 전송 여부 판단하는 모달찬 => Skip 클릭 시 열림 */}
         <div
         id="popup-modal"
         tabIndex="-1"
@@ -110,12 +112,12 @@ const RecAppDes = () => {
                 data-modal-hide="popup-modal"
                 type="button"
                 class="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
-              >네</button></Link>
+              >네 전송했어요.</button></Link>
               <Link to='/RecBegin'><button
                 data-modal-hide="popup-modal"
                 type="button"
                 class="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
-              >아니오</button></Link>
+              >아니요 안할래요.</button></Link>
               </div>
             </div>
           </div>
