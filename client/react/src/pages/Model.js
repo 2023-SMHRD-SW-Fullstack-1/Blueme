@@ -13,19 +13,24 @@ export function Model(props) {
       const bbox = new THREE.Box3().setFromObject(gltf.scene);
       const center = bbox.getCenter(new THREE.Vector3());
 
-      // Use this center for offsetting the model
-      gltf.scene.position.x += -0.5 * center.x;
-      gltf.scene.position.y += -0.5 * center.y;
+      gltf.scene.position.x = -center.x;
+      gltf.scene.position.y = -center.y;
+
+      // Change the color of all meshes to green
+      gltf.scene.traverse((object) => {
+        if (object.isMesh) {
+          object.material.color.setRGB(16, 163, 127);
+        }
+      });
     }
   }, [gltf]);
-
   useFrame(() => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += 0.01;
+      groupRef.current.rotation.y += 0.03;
     }
   });
 
   return <primitive object={gltf.scene} ref={groupRef} position={[0, 0, 0]} />;
 }
 
-useGLTF.preload("/public/scene.gltf");
+useGLTF.preload("/scene.gltf");
