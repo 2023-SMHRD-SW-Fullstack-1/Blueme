@@ -9,7 +9,7 @@ import MusicDummy from "../../dummy/MusicDummy.json";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 
-const Playlist = () => {
+const LikedPlaylist = () => {
     
   return (
     <div className="bg-custom-blue text-custom-white h-full pt-20">
@@ -35,4 +35,4 @@ const Playlist = () => {
   );
 };
 
-export default Playlist;
+export default LikedPlaylist;

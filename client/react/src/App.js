@@ -9,13 +9,14 @@ import Header from "./components/Layout/Header";
 import MyPage from "./pages/myPage/MyPage";
 import MemberInfo from "./pages/myPage/MemberInfo";
 import SelectArtist from "./pages/join/SelectArtist";
-import Theme from "./pages/Theme";
+// 지희 시작 - theme 폴더 생성 후 경로 이동 & ThemePlaylist추가 (0908)
+import Theme from "./pages/theme/Theme";
+import ThemePlaylist from "./pages/theme/ThemePlaylist"
+import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경 
+// 지희 끝
 import MemberInfoChange from "./pages/myPage/MemberInfoChange";
 import JoinComplete from "./pages/join/JoinComplete";
-// 지희 시작 - library 폴더 생성 후 경로 이동 (0907)
 import Library from "./pages/library/Library";
-import LibraryPlaylist from "./pages/library/LibraryPlaylist";
-// 지희 끝
 import MusicPlayer from "./pages/MusicPlayer";
 import "./styles/Tailwind.css";
 import "./assets/fonts/font.ttf";
@@ -23,6 +24,7 @@ import AddMusicPage from "./pages/admin/AddMusicPage";
 import Playlist from "./pages/Playlist";
 import SelectGenre from "./pages/join/SelectGenre";
 import DashBoard from "./pages/admin/DashBoard";
+
 
 //
 /* 지훈 시작 */
@@ -80,12 +82,13 @@ const App = () => {
           <Route path="/PlaylistRename" element={<PlaylistRename />} />
           <Route path="/RecPlayList" element={<RecPlayList />} />
           {/* 유영 끝 */}
-          {/* 지희 시작 */}
           <Route path="/RecBegin" element={<RecBegin />} />
           <Route path="/LoadData" element={<LoadData />} />
           <Route path="/LoadDataCompl" element={<LoadDataCompl />} />
           <Route path="/LoadGpt" element={<LoadGpt />} />
-          <Route path="/LibraryPlaylist" element={<LibraryPlaylist />} />
+          {/* 지희 시작 */}
+          <Route path="/LikedPlaylist" element={<LikedPlaylist />} />
+          <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
           {/* 지희 끝 */}
         </Routes>
         <Footer />
