@@ -86,20 +86,20 @@ class HealthServicesManager @Inject constructor(
         }
     }
 
-    /*
+
     @ExperimentalCoroutinesApi
     fun speedMeasureFlow() = callbackFlow {
         val callback = object : MeasureCallback {
-            override fun onAvailabilityChanged(dataType: DeltaDataType<*, *>, availability: Availability) {
-                if (availability is DataTypeAvailability) {
-                    trySendBlocking(MeasureMessage.speedAvailability(availability))
+            override fun onAvailabilityChanged(dataType: DeltaDataType<*, *>, availability2: Availability) {
+                if (availability2 is DataTypeAvailability) {
+                    trySendBlocking(MeasureMessage.SpeedAvailability(availability2))
                 }
             }
 
             override fun onDataReceived(data: DataPointContainer) {
                 val speedData = data.getData(DataType.SPEED)
                 if (speedData.isNotEmpty()) {
-                    trySendBlocking(MeasureMessage.MeasureDataSpeed(speedData))
+                    trySendBlocking(MeasureMessage.SpeedData(speedData))
                 }
             }
         }
@@ -111,7 +111,7 @@ class HealthServicesManager @Inject constructor(
             Log.d(TAG, "Unregistering for speed data")
             runBlocking { measureClient.unregisterMeasureCallbackAsync(DataType.SPEED, callback) }
         }
-    }*/
+    }
 
 
     // added by orthh
@@ -148,6 +148,9 @@ class HealthServicesManager @Inject constructor(
 sealed class MeasureMessage {
     class MeasureAvailability(val availability: DataTypeAvailability) : MeasureMessage()
     class MeasureData(val data: List<SampleDataPoint<Double>>): MeasureMessage()
+    // added by orthh
+    class SpeedAvailability(val availability2: DataTypeAvailability) : MeasureMessage()
+    class SpeedData(val data2: List<SampleDataPoint<Double>>): MeasureMessage()
 
 }
 /*

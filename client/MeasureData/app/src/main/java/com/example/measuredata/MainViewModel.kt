@@ -66,7 +66,6 @@ class MainViewModel @Inject constructor(
     }
 
     // modified by orthh
-
     @ExperimentalCoroutinesApi
     suspend fun measureHeartRate() {
         healthServicesManager.heartRateMeasureFlow().collect {
@@ -83,9 +82,30 @@ class MainViewModel @Inject constructor(
                     _heartRateBpm.value = bpm
                 }
 
+                else -> {}
             }
         }
     }
+
+    @ExperimentalCoroutinesApi
+    suspend fun measureSpeedRate() {
+        healthServicesManager.speedMeasureFlow().collect {
+            when (it) {
+                // added by orthh
+                is MeasureMessage.SpeedAvailability -> {
+                    Log.d(TAG, "Availability2 changed: ${it.availability2}")
+                    //if(it.availability.toString() == ""){                   }
+                    _heartRateAvailable.value = it.availability2
+                }
+                is MeasureMessage.SpeedData -> {
+                    Log.d(TAG, "data2 spped changed: ${it.data2}")
+                }
+
+                else -> {}
+            }
+        }
+    }
+
 
 }
 

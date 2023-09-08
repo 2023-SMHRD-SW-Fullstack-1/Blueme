@@ -79,6 +79,7 @@ public class MusicsController {
 		@GetMapping("/{id}")
     public ResponseEntity<InputStreamResource> streamAudio(@PathVariable("id") String id, 
         @RequestHeader(value = "Range", required = false) String rangeHeader) throws IOException {    
+				log.info("Starting send music data");
     		return musicsService.getAudioResource(id, rangeHeader);
     }
 
@@ -86,7 +87,8 @@ public class MusicsController {
 	   *  get musicId에 해당하는 음악 정보조회
 	   */
 		@GetMapping("/info/{id}")
-    public MusicInfoResDto musicInfo(@PathVariable("id") String id){    
+    public MusicInfoResDto musicInfo(@PathVariable("id") String id){
+				log.info("Starting send music info");   
     		return musicsService.getMusicInfo(id);
     }
 

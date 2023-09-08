@@ -17,12 +17,16 @@
 package com.example.measuredata
 
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.android.volley.Request
@@ -45,8 +49,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    //private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
 
     private val viewModel: MainViewModel by viewModels()
+
+    private lateinit var btnSend : Button
+
+
 
     // added by orthh
     private fun sendAverageToServer(averageHeartRate: Double) {
@@ -73,7 +82,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    @SuppressLint("SuspiciousIndentation")
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +90,74 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //setContentView(R.layout.activity_login)
 
+        btnSend = findViewById(R.id.btnSend)
+
+        // permissin Check
+        btnSend.setOnClickListener {
+            val permission = android.Manifest.permission.BODY_SENSORS
+            val permission2 = android.Manifest.permission.ACTIVITY_RECOGNITION
+            val permission3 = android.Manifest.permission.ACCESS_FINE_LOCATION
+            val permission4 = android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            val grant = ContextCompat.checkSelfPermission(this, permission)
+            val grant2 = ContextCompat.checkSelfPermission(this, permission2)
+            val grant3 = ContextCompat.checkSelfPermission(this, permission3)
+            val grant4 = ContextCompat.checkSelfPermission(this, permission4)
+
+            if (grant == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted, you can perform your operation here.
+                Log.d("permissionCheck", "BODY_SENSORS permission granted!")
+            } else {
+                // Permission is not granted. Request for the permission.
+                Log.d("permissionCheck", "BODY_SENSORS permission not granted ㅠㅠ")
+            }
+            if (grant2 == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted, you can perform your operation here.
+                Log.d("permissionCheck", "ACTIVITY_RECOGNITION permission granted!")
+            } else {
+                // Permission is not granted. Request for the permission.
+                Log.d("permissionCheck", "ACTIVITY_RECOGNITION permission not granted ㅠㅠ")
+            }
+            if (grant3 == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted, you can perform your operation here.
+                Log.d("permissionCheck", "ACCESS_FINE_LOCATION permission granted!")
+            } else {
+                // Permission is not granted. Request for the permission.
+                Log.d("permissionCheck", "ACCESS_FINE_LOCATION permission not granted ㅠㅠ")
+            }
+            if (grant4 == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted, you can perform your operation here.
+                Log.d("permissionCheck", "ACCESS_BACKGROUND_LOCATION permission granted!")
+            } else {
+                // Permission is not granted. Request for the permission.
+                Log.d("permissionCheck", "ACCESS_BACKGROUND_LOCATION permission not granted ㅠㅠ")
+            }
+        }
+
+
         // 측정 데이터 모으기
         var avgHeartRate = mutableListOf<Double>()
+
+        /*permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            // This callback is called when the user responds to the permission request dialog.
+            permissions.entries.forEach {
+                if (it.value) {
+                    Log.i(TAG, "Body sensors permission granted")
+
+                } else {
+                    Log.i(TAG, "Body sensors permission not granted")
+                }
+
+                // Only measure while the activity is at least in STARTED state.
+                // MeasureClient provides frequent updates, which requires increasing the
+                // sampling rate of device sensors, so we must be careful not to remain
+                // registered any longer than necessary.
+            }
+            lifecycleScope.launchWhenStarted {
+                viewModel.measureHeartRate()
+                // modified by orthh
+
+            }
+        }*/
 
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
@@ -96,6 +170,7 @@ class MainActivity : AppCompatActivity() {
                         // registered any longer than necessary.
                         lifecycleScope.launchWhenStarted {
                             viewModel.measureHeartRate()
+                            viewModel.measureSpeedRate()
                             // modified by orthh
 
                         }
@@ -103,6 +178,30 @@ class MainActivity : AppCompatActivity() {
                     false -> Log.i(TAG, "Body sensors permission not granted")
                 }
             }
+
+        /*permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())  { result ->
+                if (result[android.Manifest.permission.BODY_SENSORS] == true) {
+                    Log.d("bodysensor", "bodysensor 권한있음")
+                } else {
+                    Log.d("bodysensor", "bodysensor 권한없음")
+                }
+                if(result[android.Manifest.permission.ACTIVITY_RECOGNITION] == true) {
+                    Log.d("ACTIVITY_RECOGNITION", "ACTIVITY_RECOGNITION 권한있음")
+                } else {
+                    Log.d("ACTIVITY_RECOGNITION", "ACTIVITY_RECOGNITION 권한없음")
+                }
+                if(result[android.Manifest.permission.ACCESS_FINE_LOCATION] == true){
+                    Log.d("ACCESS_FINE_LOCATION", "ACCESS_FINE_LOCATION 권한있음")
+                }else {
+                    Log.d("ACCESS_FINE_LOCATION", "ACCESS_FINE_LOCATION 권한없음")
+                }
+                if(result[android.Manifest.permission.ACCESS_BACKGROUND_LOCATION] == true){
+                    Log.d("ACCESS_BACKGROUND_LOCATION", "ACCESS_BACKGROUND_LOCATION 권한있음")
+                }else{
+                    Log.d("ACCESS_BACKGROUND_LOCATION", "ACCESS_BACKGROUND_LOCATION 권한없음")
+                }
+            }*/
 
         // Bind viewmodel state to the UI.
         lifecycleScope.launchWhenStarted {
@@ -145,7 +244,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        /*permissionLauncher.launch(arrayOf(android.Manifest.permission.BODY_SENSORS
+            , android.Manifest.permission.ACCESS_FINE_LOCATION
+            , android.Manifest.permission.ACTIVITY_RECOGNITION
+            , android.Manifest.permission.ACCESS_BACKGROUND_LOCATION))*/
+        permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
         permissionLauncher.launch(android.Manifest.permission.BODY_SENSORS)
+        permissionLauncher.launch(android.Manifest.permission.ACTIVITY_RECOGNITION)
+
+        permissionLauncher.launch(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+
+        /*permissionLauncher.launch(arrayOf(
+            android.Manifest.permission.BODY_SENSORS,
+            android.Manifest.permission.ACTIVITY_RECOGNITION,
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        ))*/
     }
 
     private fun updateViewVisiblity(uiState: UiState) {
@@ -166,4 +280,6 @@ class MainActivity : AppCompatActivity() {
             binding.heart.isVisible = it
         }
     }
+
+
 }
