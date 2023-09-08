@@ -26,9 +26,9 @@ public class LikeMusicsController {
   private final LikeMusicsService likeMusicsService;
 
   /*
-   * get 사용자가 단일음악 저장 했는지 조회
+   * post 사용자가 단일음악 저장 했는지 조회
    */
-  @GetMapping("/issave")
+  @PostMapping("/issave")
   public Long isSaveOne(@RequestBody LikemusicIsSaveReqDto requestDto){
     log.info("Starting LikeMusics isSaveOne for userId {}", requestDto.getUserId());
     return likeMusicsService.isSaveOne(requestDto);

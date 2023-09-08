@@ -3,8 +3,11 @@ package com.blueme.backend.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.blueme.backend.dto.musicdto.MusicInfoResDto;
+import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.service.MusicsService;
 
 import lombok.RequiredArgsConstructor;
@@ -46,50 +50,46 @@ public class MusicsController {
 		log.info("Recommendation music save completed with music ID = {}", musicId);
 		return musicId;
 	}
+
+	/**
+   *  get 음악 페이징 조회
+	 */
+	@GetMapping("/page")
+	public Page<Musics> getMusic(Pageable pageable){
+		log.info("Starting paging music");
+		return musicsService.findAll(pageable);
+	}
+
+	/*
+	 * 음악 검색
+	 */
+	@GetMapping("/search")
+	public List<Musics> searchMusic(@RequestParam("keyword") String keyword) {
+		log.info("Starting search music info");
+		// 테스트
+		List<Musics> musics = musicsService.searchMusic(keyword);
+		System.out.println(musics.size());
+		return musics;
+		//return musicsService.searchMusic(keyword);
+	}
 	
 	/**
-	 *  get musicId에 해당하는 음악 정보 조회
+	 *  get musicId에 해당하는 음악 데이터 조회 (HTTP Range Request) , 음악 조회수 증가
 	 */
-	/* 파일 다운로드 스트리밍에 부족합
 	@GetMapping("/{id}")
-	public ResponseEntity<StreamingResponseBody> streamMusic(@PathVariable("id") Long id) throws FileNotFoundException {
-    log.info("Starting get musicId = {}", id);
-		InputStream musicStream = musicsService.loadMusicStream(id);
+	public ResponseEntity<InputStreamResource> streamAudio(@PathVariable("id") String id, 
+			@RequestHeader(value = "Range", required = false) String rangeHeader) throws IOException {    
+			log.info("Starting send music data");
+			return musicsService.getAudioResource(id, rangeHeader);
+	}
 
-    return ResponseEntity.ok()
-            .contentType(MediaType.APPLICATION_OCTET_STREAM)
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + id + ".mp3\"")
-            .body(outStream -> {
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-
-                try {
-                    while ((bytesRead = musicStream.read(buffer)) != -1) {
-                        outStream.write(buffer, 0, bytesRead);
-                    }
-                    musicStream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException("Error: " + e.getMessage());
-                }
-            });
-}*/
-		/**
-	   *  get musicId에 해당하는 음악 데이터 조회 (HTTP Range Request) , 음악 조회수 증가
-	   */
-		@GetMapping("/{id}")
-    public ResponseEntity<InputStreamResource> streamAudio(@PathVariable("id") String id, 
-        @RequestHeader(value = "Range", required = false) String rangeHeader) throws IOException {    
-				log.info("Starting send music data");
-    		return musicsService.getAudioResource(id, rangeHeader);
-    }
-
-		/**
-	   *  get musicId에 해당하는 음악 정보조회
-	   */
-		@GetMapping("/info/{id}")
-    public MusicInfoResDto musicInfo(@PathVariable("id") String id){
-				log.info("Starting send music info");   
-    		return musicsService.getMusicInfo(id);
-    }
+	/**
+	 *  get musicId에 해당하는 음악 정보조회
+	 */
+	@GetMapping("/info/{id}")
+	public MusicInfoResDto musicInfo(@PathVariable("id") String id){
+			log.info("Starting send music info");   
+			return musicsService.getMusicInfo(id);
+	}
 
 }

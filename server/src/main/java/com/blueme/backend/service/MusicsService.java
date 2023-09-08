@@ -9,6 +9,7 @@ import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.jaudiotagger.audio.AudioFile;
@@ -16,6 +17,9 @@ import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +43,23 @@ import lombok.extern.slf4j.Slf4j;
 public class MusicsService {
 	
 	private final MusicsJpaRepository musicsJpaRepository;
+
+    /*
+     * 음악 페이징 조회
+     */
+    @Transactional
+    public Page<Musics> findAll(Pageable pageable) {
+        Page<Musics> musicsPage = musicsJpaRepository.findAll(pageable);
+        return musicsPage;
+    }
+
+    /*
+     * 음악 조회
+     */
+    @Transactional
+    public List<Musics> searchMusic(String keyword) {
+        return musicsJpaRepository.findByTitleContaining(keyword);
+    }
 	
 	/**
 	 *  post 음악 다중등록
