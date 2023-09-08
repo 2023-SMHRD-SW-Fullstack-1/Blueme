@@ -58,7 +58,6 @@ const AddTheme = () => {
       console.error("테마 등록 중 오류가 발생했습니다:", error);
     }
 
-    // 필요에 따라 상태 초기화
     setTitle("");
     setContent("");
     setMusicIds([]);
@@ -154,8 +153,7 @@ const AddTheme = () => {
               <table className="w-full table-auto border-collapse mb-4">
                 <thead>
                   <tr>
-                    <th className="border p-2"></th> {/* 체크박스용 열 */}
-                    {/* 필요한 만큼의 열을 추가하세요. */}
+                    <th className="border p-2"></th>
                     <th className="border p-2">제목</th>
                     <th className="border p-2">아티스트</th>
                     <th className="border p-2">앨범명</th>
@@ -176,7 +174,6 @@ const AddTheme = () => {
                             onChange={() => handleCheckboxClick(music.id)}
                           />
                         </td>
-                        {/* 필요한 만큼의 열을 추가하세요. */}
                         <td className="border p-2">{music.title}</td>
                         <td className="border p-2">{music.artist}</td>
                         <td className="border p-2">{music.album}</td>
@@ -192,7 +189,6 @@ const AddTheme = () => {
               <thead>
                 <tr>
                   <th className="border p-2"></th> {/* 체크박스용 열 */}
-                  {/* 필요한 만큼의 열을 추가하세요. */}
                   <th className="border p-2">제목</th>
                   <th className="border p-2">아티스트</th>
                   <th className="border p-2">앨범명</th>
@@ -214,7 +210,6 @@ const AddTheme = () => {
                           onChange={() => handleCheckboxClick(music.id)}
                         />
                       </td>
-                      {/* 필요한 만큼의 열을 추가하세요. */}
                       <td className="border p-2">{music.title}</td>
                       <td className="border p-2">{music.artist}</td>
                       <td className="border p-2">{music.album}</td>

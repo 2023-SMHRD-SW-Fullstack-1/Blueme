@@ -3,7 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 
 import SidebarLinkGroup from "./SidebarLinkGroup";
 
-function Sidebar({ sidebarOpen, setSidebarOpen }) {
+function Sidebar({ sidebarOpen, setSidebarOpen, setPageView }) {
   const location = useLocation();
   const { pathname } = location;
 
@@ -223,14 +223,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
-                              end
-                              to="/"
+                              //end
+                              //to="/dashboard"
                               className={({ isActive }) =>
                                 "block transition duration-150 truncate " +
                                 (isActive
                                   ? "text-indigo-500"
                                   : "text-slate-400 hover:text-slate-200")
                               }
+                              onClick={() => setPageView("maincontent")}
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Main
@@ -316,10 +317,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
-                              end
-                              to="/ecommerce/customers"
+                              // end
+                              // to="/ecommerce/customers"
                               className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
+                                "block transition duration-150 truncate text-slate-400 hover:text-slate-200" +
                                 (isActive
                                   ? "text-indigo-500"
                                   : "text-slate-400 hover:text-slate-200")
@@ -332,10 +333,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </li>
                           <li className="mb-1 last:mb-0">
                             <NavLink
-                              end
-                              to="/ecommerce/orders"
+                              // end
+                              // to="/ecommerce/orders"
                               className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
+                                "block transition duration-150 truncate text-slate-400 hover:text-slate-200" +
                                 (isActive
                                   ? "text-indigo-500"
                                   : "text-slate-400 hover:text-slate-200")
@@ -417,14 +418,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
-                              end
-                              to="/community/users-tabs"
+                              // end
+                              // to="/community/users-tabs"
                               className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
+                                "block transition duration-150 truncate text-slate-400 hover:text-slate-200" +
                                 (isActive
                                   ? "text-indigo-500"
                                   : "text-slate-400 hover:text-slate-200")
                               }
+                              onClick={() => setPageView("addmusicpage")}
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 음악 등록
@@ -433,10 +435,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </li>
                           <li className="mb-1 last:mb-0">
                             <NavLink
-                              end
-                              to="/community/users-tiles"
+                              //end
+                              //to="/community/users-tiles"
                               className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
+                                "block transition duration-150 truncate text-slate-400 hover:text-slate-200" +
                                 (isActive
                                   ? "text-indigo-500"
                                   : "text-slate-400 hover:text-slate-200")
@@ -517,14 +519,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
-                              end
-                              to="/community/users-tabs"
+                              //end
+                              //to="/community/users-tabs"
                               className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
+                                "block transition duration-150 truncate text-slate-400 hover:text-slate-200" +
                                 (isActive
                                   ? "text-indigo-500"
                                   : "text-slate-400 hover:text-slate-200")
                               }
+                              onClick={() => setPageView("addtheme")}
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 테마 등록
@@ -533,10 +536,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </li>
                           <li className="mb-1 last:mb-0">
                             <NavLink
-                              end
-                              to="/community/users-tiles"
+                              //end
+                              //to="/community/users-tiles"
                               className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
+                                "block transition duration-150 truncate text-slate-400 hover:text-slate-200" +
                                 (isActive
                                   ? "text-indigo-500"
                                   : "text-slate-400 hover:text-slate-200")

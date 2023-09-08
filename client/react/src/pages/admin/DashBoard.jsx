@@ -9,16 +9,18 @@ import AddTheme from "../../components/admin/AddTheme";
 
 const DashBoard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [pageView, setPageView] = useState("maincontent");
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        setPageView={setPageView}
+      />
       {/* Content area */}
-      {/* <MainContent /> */}
-
-      {/* <AddMusicPage /> */}
-
-      {/* AddThemePage */}
-      <AddTheme />
+      {pageView === "maincontent" && <MainContent />}
+      {pageView === "addmusicpage" && <AddMusicPage />}
+      {pageView === "addtheme" && <AddTheme />}
     </div>
   );
 };
