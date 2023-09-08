@@ -1,11 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import gpt from '../../assets/img/gpt.png'
 import home from '../../assets/img/home.png'
 import tag from '../../assets/img/tag.png'
 import library from '../../assets/img/library.png'
 
 function Footer() {
+
+    //musicplayer에서 footer숨기기 => 유영 추가
+    const locationNow = useLocation()
+    if(locationNow.pathname === '/MusicPlayer') return null;
+
+
+
     return (
         <div
             className="text-custom-white p-3 sm:p-4 

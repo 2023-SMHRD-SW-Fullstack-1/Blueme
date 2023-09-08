@@ -12,13 +12,10 @@ const Login = () => {
   // 로그인 버튼 클릭 시 실행되는 함수
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        "/user/login",
-        { email, password },
-        { withCredentials: true }
-      );
+      const response = await axios.post("/user/login", { email, password });
 
       console.log(response);
+
       if (response.status === 200) {
         alert("로그인에 성공했습니다!");
         // 여기서 필요한 경우 로그인 후의 동작을 수행하실 수 있습니다.
@@ -37,14 +34,8 @@ const Login = () => {
           to="/Main"
           className="self-center flex items-center justify-center"
         >
-          <span className="text-3xl tracking-tighter font-bold text-[rgba(255,255,255,0.80)]">
-            Blueme
-          </span>
-          <img
-            src={logo2}
-            className="w-full max-w-[60px] h-auto"
-            alt="Blueme 로고"
-          />
+          <span className="text-3xl tracking-tighter font-bold text-[rgba(255,255,255,0.80)]">Blueme</span>
+          <img src={logo2} className="w-full max-w-[60px] h-auto" alt="Blueme 로고" />
         </Link>
       </div>
 
@@ -73,6 +64,7 @@ const Login = () => {
              text-custom-white
              tracking-tighter
              font-bold"
+             
       >
         로그인
       </button>
@@ -89,11 +81,7 @@ const Login = () => {
         className="
      flex items-center justify-center pl-2 w-full mt-6 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
       >
-        <img
-          src={kakao}
-          alt="Kakao logo"
-          className="w-[6%] h-auto mr-1 tracking-tighter"
-        />
+        <img src={kakao} alt="Kakao logo" className="w-[6%] h-auto mr-1 tracking-tighter" />
         카카오로 로그인
       </button>
 
@@ -101,11 +89,7 @@ const Login = () => {
         className="
   flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
       >
-        <img
-          src={google}
-          alt="Google logo"
-          className="mr-1 w-[5%] h-auto tracking-tighter"
-        />
+        <img src={google} alt="Google logo" className="mr-1 w-[5%] h-auto tracking-tighter" />
         구글로 로그인
       </button>
 
@@ -116,7 +100,9 @@ const Login = () => {
 
       <div className="text-custom-white mt-6 text-xl font-semibold tracking-tighter text-center">
         <Link to="/Join">
-          <button>회원가입</button>
+          <button >
+            회원가입
+          </button>
         </Link>
       </div>
     </div>
