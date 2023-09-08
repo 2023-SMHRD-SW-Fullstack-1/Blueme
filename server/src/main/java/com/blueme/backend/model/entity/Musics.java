@@ -33,6 +33,8 @@ public class Musics{
 	private String filePath;
 	
 	private String jacketFilePath;
+
+	private String artistFilePath;
 	
 	private String genre1;
 	
@@ -41,11 +43,14 @@ public class Musics{
 	private String tag;
 	
 	private String time;
-
+	@Column(name = "hit", columnDefinition = "bigint default 0")
 	private Long hit;
 	
 	@Lob
 	private String lyrics;
+
+	@Column(name = "release_date", columnDefinition = "VARCHAR(50)")
+	private String releaseDate;
 	
 	@Builder
 	public Musics(Long id,String title, String artist, String album, String filePath
