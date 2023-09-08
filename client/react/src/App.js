@@ -19,7 +19,7 @@ import LibraryPlaylist from "./pages/library/LibraryPlaylist";
 import MusicPlayer from "./pages/MusicPlayer";
 import "./styles/Tailwind.css";
 import "./assets/fonts/font.ttf";
-import AddMusicPage from "./pages/admin/AddMusicPage";
+import AddMusicPage from "./components/admin/AddMusicPage";
 import Playlist from "./pages/Playlist";
 import SelectGenre from "./pages/join/SelectGenre";
 import DashBoard from "./pages/admin/DashBoard";
@@ -62,7 +62,7 @@ const App = () => {
           <Route path="/JoinComplete" element={<JoinComplete />} />
           <Route path="/Library" element={<Library />} />
           {/* 필요한 경우 추가 Route 설정 */}
-          <Route path="/addMusic" element={<AddMusicPage />} />
+
           {/* 라이브러리, 음악 재생 관련 */}
           <Route path="/MusicPlayer" element={<MusicPlayer />} />
           <Route path="/Playlist" element={<Playlist />} />

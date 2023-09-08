@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.blueme.backend.dto.likemusicsDto.LikemusicIsSaveReqDto;
 import com.blueme.backend.dto.likemusicsDto.LikemusicReqDto;
 import com.blueme.backend.model.entity.LikeMusics;
 import com.blueme.backend.model.entity.Musics;
@@ -25,6 +26,15 @@ public class LikeMusicsService {
   private final LikeMusicsJpaRepository likeMusicsJpaRepository;
   private final UsersJpaRepository usersJpaRepository;
   private final MusicsJpaRepository musicsJpaRepository;
+
+  /*
+   * get 사용자가 음악저장 했는지 조회
+   */
+  @Transactional
+  public Long isSaveOne(LikemusicIsSaveReqDto requestdDto){
+    LikeMusics likeMusic = likeMusicsJpaRepository.findByUserIdAndMusicId(Long.parseLong(requestdDto.getUserId()), Long.parseLong(requestdDto.getMusicId()));
+    return likeMusic == null? -1L : likeMusic.getId();
+  }
 
   /**
   * put	저장된 음악 토글 (이미 있는 저장음악일시 삭제, 없을시 등록)
