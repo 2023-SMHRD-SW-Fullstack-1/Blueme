@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import SingleMusic from "../components/Library/SingleMusic";
+import SingleMusic from "../../components/Library/SingleMusic";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 
 import axios from "axios";
 
-const Playlist = () => {
+const ThemePlaylist = () => {
 const [themeImage, setThemeImage] = useState("");
 const [themeName, setThemeName] = useState("");
 const [musicList, setMusicList] = useState([]);
@@ -86,4 +86,4 @@ return (
 );
 };
 
-export default Playlist;
+export default ThemePlaylist;

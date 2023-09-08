@@ -15,13 +15,12 @@ function Footer() {
                 <img src={home} className='h-[39px] w-[45px] mt-[4px]'></img>
                 <p className="text-sm h-[15px]">홈</p>
             </Link>
-        {/* 지희 - 추천 부분 연결 (RecBegin) - 0905 */}
             <Link to="/RecBegin" className="flex flex-col items-center w-full text-center">
                 <img src={gpt} className='w-[37px] h-[35px] mb-[2px] mt-[5px] '></img>
                 <p className="text-sm h-[15px]">추천</p>
             </Link>
-
-            <Link to="/Themerecommend" className="flex flex-col items-center w-full text-center">
+{/* 지희 - 연결변경 to Theme.jsx (0908) */}
+            <Link to="/Theme" className="flex flex-col items-center w-full text-center">
                 <img src={tag} className='w-[33px] h-[35px] mt-[7px] mb-[2px]'></img>
                 <button className="text-sm h-[15px]">테마</button>
             </Link>

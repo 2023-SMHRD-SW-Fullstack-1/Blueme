@@ -10,7 +10,7 @@ const Library = () => {
       <div className="flex mt-[90px] mb-3">
         <span className="text-left text-2xl ml-2">좋아요 누른 음악 목록</span>
         <button className="ml-auto text-custom-gray mr-2 text-sm">
-          <Link to="/Playlist">더보기</Link>
+          <Link to="/LibraryPlaylist">더보기</Link>
         </button>
       </div>
       <LikedList />
