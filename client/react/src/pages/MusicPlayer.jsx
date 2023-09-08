@@ -46,19 +46,19 @@ const MusicPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState(null);
-    // 재생바 이동 관련 useState
+  // 재생바 이동 관련 useState
   const [isDragging, setIsDragging] = useState(false);
-    // 한곡반복
+  // 한곡반복
   const [isRepeatMode, setIsRepeatMode] = useState(false);
   const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
-   // 음악 관련 정보
+  // 음악 관련 정보
   const [musicInfo, setMusicInfo] = useState({
     album: "",
     title: "",
     artist: "",
     img: "",
   });
-   // 좋아요 버튼 관련
+  // 좋아요 버튼 관련
   const [isSaved, setIsSaved] = useState(-1); // 초기 좋아요 상태 불러오기
   const [isLiked, setIsLiked] = useState(isSaved > 0 ? true : false);
 
@@ -80,10 +80,10 @@ const MusicPlayer = () => {
     fetchMusicInfo();
   }, [songId]); // songId 변경 시마다 재실행
 
- // 한곡반복 Ref
- useEffect(() => {
-  isRepeatModeRef.current = isRepeatMode; 
-}, [isRepeatMode]);
+  // 한곡반복 Ref
+  useEffect(() => {
+    isRepeatModeRef.current = isRepeatMode;
+  }, [isRepeatMode]);
 
   // 음악 파일 불러오기
   useEffect(() => {
@@ -101,12 +101,13 @@ const MusicPlayer = () => {
         newSound.play();
       },
       onend() {
-        if (isRepeatModeRef.current) { // 반복 모드 확인
+        if (isRepeatModeRef.current) {
+          // 반복 모드 확인
           newSound.seek(0);
           setCurrentTime(0);
           newSound.play();
         } else {
-          nextTrack(); 
+          nextTrack();
         }
       },
       onplay() {
@@ -122,14 +123,31 @@ const MusicPlayer = () => {
     return () => {
       if (sound) sound.unload();
     };
-  }, [urlParam]); 
+  }, [urlParam]);
+
+  // 좋아요 상태 확인
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      try {
+        const response = await axios.post("/likemusics/issave", {
+          userId: userId.toString(),
+          musicId: songId.toString(),
+        });
+        setIsSaved(parseInt(response.data));
+        setIsLiked(parseInt(response.data) > 0);
+      } catch (error) {
+        console.error("좋아요 불러오기 실패", error);
+      }
+    };
+    fetchLikeStatus();
+  }, [userId, songId]);
 
   // 좋아요 상태 확인
   useEffect(() => {
     const fetchLikeStatus = async () => {
       try {
         const response = await axios.post(
-          "/likemusics/issave",
+          "http://172.30.1.27:8104/likemusics/issave",
           { userId: userId.toString(), musicId: songId.toString() }
         );
         setIsSaved(parseInt(response.data));
@@ -144,7 +162,7 @@ const MusicPlayer = () => {
   // 좋아요버튼 누르기
   const toggleLike = async () => {
     try {
-      await axios.put("/likemusics/toggleLike", {
+      await axios.put("http://172.30.1.27:8104/likemusics/toggleLike", {
         userId: userId,
         musicId: songId,
       });
@@ -215,21 +233,28 @@ const MusicPlayer = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full ">
-      <p className="py-[10px]">{musicInfo.album}</p>
-      <div className=" w-[300px]">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full font-semibold tracking-tighter ">
+      <img
+        src={scroll}
+        onClick={() => navigate(-1)}
+        className="w-[40px] h-auto fixed top-[30px]"
+      />
+      <div className="mt-[200px] flex flex-col items-center">
+        <p className="mb-8 text-center">{musicInfo.album}</p>
         <img
           src={"data:image/;base64," + musicInfo.img}
-          className="h-auto rounded-lg"
+          className="h-[250px] w-[250px] rounded-xl"
         />
-        <p className="text-2xl pt-[10px] ">{musicInfo.title}</p>
-        <p>{musicInfo.artist}</p>
+      </div>
+      <div className="ml-[70px] mt-[13px] text-custom-white">
+        <p className="text-[23px]">{musicInfo.title}</p>
+        <p className="text-[16px] mt-2">{musicInfo.artist}</p>
       </div>
       {/* 재생바 */}
-      <div className="w-[85%] h-2.5 bg-black rounded-full mt-10 relative">
+      <div className="w-[100%] h-3 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 rounded mt-[60px] relative">
         <div
           style={{ width: `${(currentTime / duration) * 100}%` }}
-          className="h-2 bg-white rounded-full absolute"
+          className="h-1 bg-white rounded-full absolute text-sm"
         />
         <input
           type="range"
@@ -244,40 +269,38 @@ const MusicPlayer = () => {
           className="w-full h-2 opacity-0 absolute appearance-none cursor-pointer"
         />
         <div className="flex justify-between text-custom-gray mt-4">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
+          <span className="mt-3 text-[13px] text-#e2e2e2e">
+            {formatTime(currentTime)}
+          </span>
+          <span className="mt-3 text-[13px] text-#e2e2e2e">
+            {formatTime(duration)}
+          </span>
         </div>
       </div>
 
-      <div className="flex flex-row justify-center items-center gap-10 mt-20">
+      <div className="flex flex-row justify-center items-center gap-[60px] mt-[60px]">
         <img
-          className="w-[25px] h-auto"
+          className="w-[20px] h-auto"
           src={isRepeatMode ? rotating : rotate}
           onClick={() => setIsRepeatMode(!isRepeatMode)}
         />
-        <Prev className="w-[40px] h-auto" onClick={prevTrack} />
+        <Prev className="w-[35px] h-auto" onClick={prevTrack} />
         {isPlaying ? (
-          <Pause className="w-[50px] h-auto" onClick={() => sound.pause()} />
+          <Pause className="w-[30px] h-auto " onClick={() => sound.pause()} />
         ) : (
-          <Play className="w-[50px] h-auto" onClick={() => sound.play()} />
+          <Play className="w-[30px] h-auto" onClick={() => sound.play()} />
         )}
 
-        <Next className="w-[40px] h-auto" onClick={nextTrack} />
-        <div className="ml-auto">
-          <button onClick={toggleLike}>
-            <img
-              className="w-[30px] h-auto"
-              src={isLiked ? likeFull : likeEmpty}
-              alt="like-button"
-            />
-          </button>
-        </div>
+        <Next className="w-[30px] h-auto" onClick={nextTrack} />
+
+        <button onClick={toggleLike}>
+          <img
+            className="w-[25px] h-[25px]"
+            src={isLiked ? likeFull : likeEmpty}
+            alt="like-button"
+          />
+        </button>
       </div>
-      <img
-        src={scroll}
-        onClick={() => navigate(-1)}
-        className="w-[40px] h-auto fixed bottom-[10%]"
-      />
     </div>
   );
 };
