@@ -80,6 +80,14 @@ public class MusicsController {
 		return musics;
 		//return musicsService.searchMusic(keyword);
 	}
+	/*
+	 * get 음악스트리밍 테스트 (기존방식과 차이 없으므로 삭제)
+	 */
+	// @GetMapping("/streaming/{id}")
+	// public StreamingResponseBody streamMusic(@PathVariable("id") String id) {
+  //   log.info("Starting streaming music for ID = {}", id);
+  //   return musicsService.streamMusic(id);
+  // }
 	
 	/**
 	 *  get musicId에 해당하는 음악 데이터 조회 (HTTP Range Request) , 음악 조회수 증가

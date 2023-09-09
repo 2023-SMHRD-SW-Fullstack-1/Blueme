@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.blueme.backend.dto.musicdto.MusicInfoResDto;
 import com.blueme.backend.model.entity.Musics;
@@ -101,6 +102,37 @@ public class MusicsService {
         }
 		return lastId;
 	}
+
+    /*
+     * 음악파일전송 테스트 (StreamingResponseBody 사용)
+     */
+    @Transactional
+    public StreamingResponseBody streamMusic(String id){
+        try {
+            Musics music = musicsJpaRepository.findById(Long.parseLong(id))
+                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
+
+            // 파일 경로 설정
+            Path filePath = Paths.get("\\usr\\blueme\\musics\\"+music.getFilePath()+".mp3");
+            File file = filePath.toFile();
+            return outputStream -> {
+                int nRead;
+                //byte[] data = new byte[1024];
+                byte[] data = new byte[256];
+                try (InputStream inputStream = new FileInputStream(file)) {
+                    while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                        outputStream.write(data, 0, nRead);
+                    }
+                } catch (IOException e) {
+                    
+                }
+            };
+            
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 
     /*
      * 음악 파일 전송(파일, RangeRequest 두종류) + 재생이므로 조회수 증가
