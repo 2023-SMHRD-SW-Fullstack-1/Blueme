@@ -66,10 +66,11 @@ class PrepareFragment : Fragment(R.layout.fragment_prepare) {
             checkNotNull(serviceConnection.exerciseService) {
                 "Failed to achieve ExerciseService instance"
             }.startExercise()
-            findNavController().navigate(R.id.exerciseFragment)
+//            findNavController().navigate(R.id.exerciseFragment)
             // added by orthh
 //            val it = Intent(requireContext(), LoginActivity::class.java)
 //            startActivity(it)
+              findNavController().navigate(R.id.loginFragment)
 
         }
         // Check permissions first.

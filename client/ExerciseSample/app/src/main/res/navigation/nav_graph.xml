@@ -51,6 +51,16 @@
             app:destination="@id/newExerciseConfirmationFragment" />
     </fragment>
 
+    <!-- added by orthh-->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.exercise.LoginFragment"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_exercise"
+            app:destination="@id/exerciseFragment" />
+    </fragment>
+
     <dialog
         android:id="@+id/newExerciseConfirmationFragment"
         android:name="com.example.exercise.NewExerciseConfirmationFragment"
