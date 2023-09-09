@@ -1,18 +1,25 @@
 package com.blueme.backend.service;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blueme.backend.dto.likemusicsDto.LikemusicIsSaveReqDto;
 import com.blueme.backend.dto.likemusicsDto.LikemusicReqDto;
+import com.blueme.backend.dto.musicdto.MusicInfoResDto;
 import com.blueme.backend.model.entity.LikeMusics;
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.LikeMusicsJpaRepository;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.blueme.backend.utils.ImageConverter;
+import com.blueme.backend.utils.ImageToBase64;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +64,41 @@ public class LikeMusicsService {
     }
       return likeMusics.getId();
   }
+
+  /*
+   * get 사용자가 저장한 음악리스트 조회
+   */
+  @Transactional
+  public List<MusicInfoResDto> getMusicsByUserId(String userId) {
+    try {
+      List<LikeMusics> likeMusics = likeMusicsJpaRepository.findByUserId(Long.parseLong(userId));
+      List<MusicInfoResDto> musicInfoResDtos = new ArrayList<>();
+      for (LikeMusics likeMusic : likeMusics) {
+        Musics music = musicsJpaRepository.findById(likeMusic.getId())
+          .orElseThrow(() -> new IllegalArgumentException("해당하는 음악ID가 없습니다."));
+        
+          // 앨범재킷 파일 불러오기
+          // 파일 경로 설정
+          Path filePath = Paths.get("\\usr\\blueme\\jackets\\"+music.getJacketFilePath()+".jpg");
+          File file = filePath.toFile();
+
+          // 경로에 파일이 없을 경우
+          if (!file.exists()) {
+              log.debug("재킷파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
+          }
+          // base64로 변환
+          ImageConverter<File, String> converter = new ImageToBase64();
+          String base64 = null;
+          base64 = converter.convert(file);
+          MusicInfoResDto res = new MusicInfoResDto(music, base64);
+          musicInfoResDtos.add(res);
+      }
+      return musicInfoResDtos;
+    } catch (Exception e) {
+      throw new RuntimeException("저장리스트 - 재킷파일 전송 실패", e); 
+    }
+  }
+
 
 
 }

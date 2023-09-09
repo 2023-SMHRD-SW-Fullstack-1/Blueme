@@ -1,5 +1,7 @@
 package com.blueme.backend.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blueme.backend.dto.likemusicsDto.LikemusicIsSaveReqDto;
 import com.blueme.backend.dto.likemusicsDto.LikemusicReqDto;
+import com.blueme.backend.dto.musicdto.MusicInfoResDto;
 import com.blueme.backend.service.LikeMusicsService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +48,16 @@ public class LikeMusicsController {
     return likeMusicsId ;
   }
 
+  /*
+   * get 사용자가 저장한 음악리스트 조회
+   */
+  @GetMapping("/{userId}")
+  public List<MusicInfoResDto> getMusics(@PathVariable("userId") String userId) {
+    log.info("Starting LikeMusics getMusics for userId {}", userId);
+    return likeMusicsService.getMusicsByUserId(userId);
+  }
+
+  
 
 
 }
