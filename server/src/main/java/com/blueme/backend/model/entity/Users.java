@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.TableGenerator;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -60,7 +61,7 @@ public class Users extends BaseEntity{
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'blueme'")
 	private String platformType;
 	
-	private String accessToken;
+	private String refreshToken;
 	
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'Y'")
 	private String activeStatus;
@@ -79,7 +80,7 @@ public class Users extends BaseEntity{
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
-		this.accessToken = accessToken;
+		this.refreshToken = refreshToken;
 		this.platformType = platformType;
 		this.activeStatus = "Y";
 		this.role = UserRole.ADMIN;
@@ -88,6 +89,24 @@ public class Users extends BaseEntity{
 	public enum UserRole {
 	    USER,
 	    ADMIN
+	}
+	
+	
+//	/* 유저 권한 설정 (USER) */
+//	public void authorizeUser() {
+//        this.role = UserRole.USER;
+//    }
+	
+	/* 비밀번호 암호화 */
+	@Builder
+	public void passwordEncode(BCryptPasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
+	
+	/* 리프레시 토큰(refresh token) 값 갱신 */
+	@Builder
+	public void updateRefreshToken(String updateRefreshToken) {
+		this.refreshToken=updateRefreshToken;
 	}
 	
 }
