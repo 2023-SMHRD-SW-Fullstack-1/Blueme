@@ -37,6 +37,9 @@ class StartupFragment : Fragment(R.layout.fragment_startup) {
     @Inject
     lateinit var healthServicesManager: HealthServicesManager
 
+    // startup 시작지점
+    // 권한 모두 있을시 prepareFragment로 이동
+    // 권한 없을시 notAvailableFragment로 이동
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {

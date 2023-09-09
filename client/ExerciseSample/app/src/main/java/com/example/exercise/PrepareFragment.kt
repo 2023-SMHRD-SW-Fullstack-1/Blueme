@@ -1,6 +1,7 @@
 package com.example.exercise
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -60,11 +61,16 @@ class PrepareFragment : Fragment(R.layout.fragment_prepare) {
         ExerciseService.bindService(requireContext().applicationContext, serviceConnection)
         bindViewsToService()
 
+        // 스타트업 버튼 누르면 excerciseFragment로 이동하는 부분 (nav로 구현)
         binding.startButton.setOnClickListener {
             checkNotNull(serviceConnection.exerciseService) {
                 "Failed to achieve ExerciseService instance"
             }.startExercise()
             findNavController().navigate(R.id.exerciseFragment)
+            // added by orthh
+//            val it = Intent(requireContext(), LoginActivity::class.java)
+//            startActivity(it)
+
         }
         // Check permissions first.
         Log.d(TAG, "Checking permissions")
@@ -92,7 +98,7 @@ class PrepareFragment : Fragment(R.layout.fragment_prepare) {
         val gpsText = when (locationAvailability) {
             LocationAvailability.ACQUIRED_TETHERED,
             LocationAvailability.ACQUIRED_UNTETHERED -> R.string.gps_acquired
-            LocationAvailability.NO_GNSS -> R.string.gps_disabled // TODO Consider redirecting user to change device settings in this case
+            LocationAvailability.NO_GNSS -> R.string.gps_disabled
             LocationAvailability.ACQUIRING -> R.string.gps_acquiring
             else -> R.string.gps_unavailable
         }
