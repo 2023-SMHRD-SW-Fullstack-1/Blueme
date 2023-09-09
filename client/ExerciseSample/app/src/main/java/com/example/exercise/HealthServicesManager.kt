@@ -79,7 +79,8 @@ class HealthServicesManager @Inject constructor(
             DataType.CALORIES_TOTAL,
             DataType.DISTANCE,
             // modified by orthh
-            DataType.SPEED
+            DataType.SPEED,
+            DataType.STEPS_PER_MINUTE
         ).intersect(capabilities.supportedDataTypes)
         Log.d("서포트 데이터타입 확인", capabilities.supportedDataTypes.toString())
         // speed찍힘
@@ -149,7 +150,8 @@ class HealthServicesManager @Inject constructor(
             setOf(
                 DataType.HEART_RATE_BPM,
                 DataType.LOCATION,
-                DataType.SPEED
+                DataType.SPEED,
+                DataType.STEPS_PER_MINUTE
             )
         )
 

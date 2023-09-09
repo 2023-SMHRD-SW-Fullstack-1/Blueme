@@ -19,6 +19,7 @@ package com.example.exercise
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -106,6 +107,7 @@ class ExerciseFragment : Fragment() {
                 binding.distanceText.isEnabled = DataType.DISTANCE in supportedTypes
                 // added by orthh
                 binding.speedText.isEnabled = DataType.SPEED in supportedTypes
+                binding.stepsText.isEnabled = DataType.STEPS_PER_MINUTE in supportedTypes
                 binding.lapsText.isEnabled = true
             }
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -248,13 +250,18 @@ class ExerciseFragment : Fragment() {
         }
         // added by orthh
         latestMetrics.getData(DataType.SPEED).let{
-
             if (it.isNotEmpty()) {
                 Log.d("speed-it = ", it.last().value.toString())
                 binding.speedText.text = it.last().value.toString()
                 //binding.speedText.text = it.last().value.roundToInt().toString()
             }
-
+        }
+        latestMetrics.getData(DataType.STEPS_PER_MINUTE).let{
+            if (it.isNotEmpty()) {
+                Log.d("step-it = ", it.last().value.toString())
+                binding.stepsText.text = it.last().value.toString()
+                //binding.speedText.text = it.last().value.roundToInt().toString()
+            }
         }
     }
 
@@ -296,6 +303,7 @@ class ExerciseFragment : Fragment() {
             binding.lapsText.text = it
             // added by orthh
             binding.speedText.text = it
+            binding.stepsText.text = it
         }
         binding.elapsedTime.text = formatElapsedTime(Duration.ZERO, true)
     }
