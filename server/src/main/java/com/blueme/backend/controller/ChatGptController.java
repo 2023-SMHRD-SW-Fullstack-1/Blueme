@@ -19,6 +19,14 @@ import com.blueme.backend.utils.ResponseCode;
 
 import lombok.RequiredArgsConstructor;
 
+
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-07
+설명: ChatGpt 컨트롤러
+*/
+
+
 @RequiredArgsConstructor
 @RequestMapping("/chat-gpt")
 @RestController

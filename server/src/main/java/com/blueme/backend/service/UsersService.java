@@ -16,6 +16,12 @@ import com.blueme.backend.model.repository.UsersJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-07
+설명: 회원 관련 서ㅣㅂ스
+*/
+
 @Slf4j
 @RequiredArgsConstructor
 @Service

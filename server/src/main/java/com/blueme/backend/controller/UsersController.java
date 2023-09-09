@@ -17,6 +17,12 @@ import com.blueme.backend.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-03
+설명: 회원관련 컨트롤러
+*/
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController

@@ -8,6 +8,12 @@ import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-06
+설명: 파일저장 유틸 클래스
+*/
+
 public class FileStorageUtil {
 	private final String STORAGE_FOLDER = "/usr/blueme/musics/";
 

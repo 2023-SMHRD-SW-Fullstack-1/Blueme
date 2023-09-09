@@ -24,6 +24,12 @@ import com.blueme.backend.utils.ImageToBase64;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-09
+설명: 음악저장 관련 서비스
+*/
+
 @Slf4j
 @RequiredArgsConstructor
 @Service

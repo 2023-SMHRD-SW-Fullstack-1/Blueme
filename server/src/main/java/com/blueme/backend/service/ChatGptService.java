@@ -21,6 +21,12 @@ import com.blueme.backend.model.vo.ChatGptMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-04
+설명: ChatGpt 서비스
+*/
+
 @Slf4j
 @RequiredArgsConstructor
 @Service

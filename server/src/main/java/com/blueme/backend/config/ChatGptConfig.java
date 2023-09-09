@@ -2,6 +2,12 @@ package com.blueme.backend.config;
 
 import org.springframework.context.annotation.Configuration;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-07
+설명: ChatGpt 설정파일
+*/
+
 @Configuration
 public class ChatGptConfig {
     public static final String AUTHORIZATION = "Authorization";
