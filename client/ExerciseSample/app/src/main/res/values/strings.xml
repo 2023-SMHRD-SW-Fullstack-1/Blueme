@@ -27,7 +27,7 @@
     <string name="resume">재개</string>
     <string name="new_exercise_confirmation">An exercise is running in another app. End it and start this one?</string>
     <string name="empty_time">00:00</string>
-    <string name="empty_metric">—</string>
+    <string name="empty_metric">0</string>
     <string name="preparing">Blueme</string>
     <string name="gps_acquiring">GPS 가동중...</string>
     <string name="gps_acquired">설정완료</string>

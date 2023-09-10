@@ -63,9 +63,9 @@ class PrepareFragment : Fragment(R.layout.fragment_prepare) {
 
         // 스타트업 버튼 누르면 excerciseFragment로 이동하는 부분 (nav로 구현)
         binding.startButton.setOnClickListener {
-            checkNotNull(serviceConnection.exerciseService) {
-                "Failed to achieve ExerciseService instance"
-            }.startExercise()
+//            checkNotNull(serviceConnection.exerciseService) {
+//                "Failed to achieve ExerciseService instance"
+//            }.startExercise()
 //            findNavController().navigate(R.id.exerciseFragment)
             // added by orthh
 //            val it = Intent(requireContext(), LoginActivity::class.java)

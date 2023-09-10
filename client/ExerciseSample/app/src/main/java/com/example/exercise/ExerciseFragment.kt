@@ -42,6 +42,8 @@ import com.example.exercise.databinding.FragmentExerciseBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.Instant
@@ -72,6 +74,15 @@ class ExerciseFragment : Fragment() {
 
     private lateinit var ambientController: AmbientModeSupport.AmbientController
     private lateinit var ambientModeHandler: AmbientModeHandler
+
+    // 정보 저장용 변수
+    private var saveHeartRate = mutableListOf<Int>()
+    private var saveSpeed = mutableListOf<Int>()
+    private var saveCalorie = 0
+    private var saveStep = mutableListOf<Int>()
+
+    // 시작했는지 체크하는 변수
+    private var isStart = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -135,6 +146,11 @@ class ExerciseFragment : Fragment() {
         // Bind to our service. Views will only update once we are connected to it.
         ExerciseService.bindService(requireContext().applicationContext, serviceConnection)
         bindViewsToService()
+
+        //시작할떄 이미 시작되어있으면 종료.
+        checkNotNull(serviceConnection.exerciseService) {
+            "Failed to achieve ExerciseService instance"
+        }.endExercise()
     }
 
     override fun onDestroyView() {
@@ -143,15 +159,76 @@ class ExerciseFragment : Fragment() {
         ExerciseService.unbindService(requireContext().applicationContext, serviceConnection)
         _binding = null
     }
+    
+    // 커스텀 스타트바
+    private fun customStartExcecise(){
+        tryStartExercise()
+        val animator = ObjectAnimator.ofInt(binding.progressStart, "progress", 0, 100).apply {
+            duration = 40000 // 30 seconds in milliseconds
+            start()
+        }
+
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(p0: Animator) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onAnimationEnd(p0: Animator) {
+                // 일시정지
+                //tryPauseExercise()
+                pauseResumeExercise()
+                // 전송 완료 표시
+                Toast.makeText(requireContext(), "데이터 전송완료", Toast.LENGTH_SHORT).show()
+                // 서버로 데이터 전송
+                // 데이터 확인
+                Log.d("평균심박수", saveHeartRate.average().toString())
+                Log.d("칼로리", saveCalorie.toString())
+                Log.d("평균속도", saveSpeed.average().toString())
+                Log.d("걸음수", saveStep.toString())
+
+                // 종료하기( 실제 기기로 테스트해보기 팅기나)
+//                    checkNotNull(serviceConnection.exerciseService) {
+//                        "Failed to achieve ExerciseService instance"
+//                    }.endExercise()
+
+                // 프로그래스바 초기화, 상태 초기화
+                binding.progressStart.setProgress(0)
+                saveHeartRate.clear()
+                saveCalorie = 0
+                saveSpeed.clear()
+                saveStep.clear()
+                resetDisplayedFields()
+            }
+
+            override fun onAnimationCancel(p0: Animator) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onAnimationRepeat(p0: Animator) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 
     // modified by orthh
     private fun startEndExercise() {
+
         if (cachedExerciseState.isEnded) {
             // 시작 버튼 누를시
             tryStartExercise()
+
+            isStart = true
+
+            // 기본상태 초기화
+            binding.progressStart.setProgress(0)
+            saveHeartRate.clear()
+            saveCalorie = 0
+            saveSpeed.clear()
+            saveStep.clear()
+            resetDisplayedFields()
             // 프로그래스바 증가(일단 30초)
             val animator = ObjectAnimator.ofInt(binding.progressStart, "progress", 0, 100).apply {
-                duration = 30000 // 30 seconds in milliseconds
+                duration = 40000 // 30 seconds in milliseconds
                 start()
             }
 
@@ -167,14 +244,25 @@ class ExerciseFragment : Fragment() {
                     // 전송 완료 표시
                     Toast.makeText(requireContext(), "데이터 전송완료", Toast.LENGTH_SHORT).show()
                     // 서버로 데이터 전송
+                    // 데이터 확인
+                    Log.d("평균심박수", saveHeartRate.average().toString())
+                    Log.d("칼로리", saveCalorie.toString())
+                    Log.d("평균속도", saveSpeed.average().toString())
+                    Log.d("걸음수", saveStep.toString())
 
-                    // 종료하기
-                    checkNotNull(serviceConnection.exerciseService) {
-                        "Failed to achieve ExerciseService instance"
-                    }.endExercise()
+                    // 종료하기( 실제 기기로 테스트해보기 팅기나)
+//                    checkNotNull(serviceConnection.exerciseService) {
+//                        "Failed to achieve ExerciseService instance"
+//                    }.endExercise()
 
                     // 프로그래스바 초기화, 상태 초기화
-                    //resetDisplayedFields()
+                    binding.progressStart.setProgress(0)
+                    saveHeartRate.clear()
+                    saveCalorie = 0
+                    saveSpeed.clear()
+                    saveStep.clear()
+                    resetDisplayedFields()
+                    isStart = false
                 }
 
                 override fun onAnimationCancel(p0: Animator) {
@@ -189,7 +277,6 @@ class ExerciseFragment : Fragment() {
             
         } else {
             // 종료
-            //requireActivity().finishAffinity()
 //            checkNotNull(serviceConnection.exerciseService) {
 //                "Failed to achieve ExerciseService instance"
 //            }.endExercise()
@@ -286,6 +373,9 @@ class ExerciseFragment : Fragment() {
     private fun updateMetrics(latestMetrics: DataPointContainer) {
         latestMetrics.getData(DataType.HEART_RATE_BPM).let {
             if (it.isNotEmpty()) {
+                if(isStart && it.last().value.roundToInt() != 0){
+                    saveHeartRate.add(it.last().value.roundToInt())
+                }
                 binding.heartRateText.text = it.last().value.roundToInt().toString()
             }
         }
@@ -294,6 +384,9 @@ class ExerciseFragment : Fragment() {
         }
         latestMetrics.getData(DataType.CALORIES_TOTAL)?.let {
             binding.caloriesText.text = formatCalories(it.total)
+            if(isStart){
+                saveCalorie = it.total.roundToInt()
+            }
         }
         // added by orthh
         latestMetrics.getData(DataType.SPEED).let{
@@ -304,13 +397,15 @@ class ExerciseFragment : Fragment() {
 //                Log.d("speed-it = ", it.last().value.toString())
 //                binding.speedText.text = it.last().value.toString()
                 //binding.speedText.text = it.last().value.roundToInt().toString()
+                saveSpeed.add((it.last().value*3.6).toInt())
             }
         }
         latestMetrics.getData(DataType.STEPS_PER_MINUTE).let{
-            if (it.isNotEmpty()) {
+            if (isStart && it.isNotEmpty()) {
                 Log.d("step-it = ", it.last().value.toString())
                 binding.stepsText.text = it.last().value.toString()
                 //binding.speedText.text = it.last().value.roundToInt().toString()
+                saveStep.add(it.last().value.toInt())
             }
         }
     }

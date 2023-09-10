@@ -100,6 +100,7 @@ class ExerciseService : LifecycleService() {
      */
     fun startExercise() {
         lifecycleScope.launch {
+            //modieifed by orthh
             healthServicesManager.startExercise()
         }
         postOngoingActivityNotification()
