@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blueme.backend.dto.musicdto.MusicInfoResDto;
 import com.blueme.backend.dto.playedmusicdto.PlayedMusicsSaveReqDto;
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.service.PlayedMusicsService;
@@ -38,8 +39,8 @@ public class PlayedMusicsController {
    * 재생된 음악 조회
    */
   @GetMapping("/get/{userId}")
-  public List<Musics> getPlayedMusic(@PathVariable("userId") Long userId) {
-    log.info("playedmusics get start for userID = {}", userId);
+  public List<MusicInfoResDto> getPlayedMusic(@PathVariable("userId") Long userId) {
+    log.info("playedmusics get start by userID = {}", userId);
     return playedMusicsService.getPlayedMusic(userId);
   }
   
@@ -49,7 +50,7 @@ public class PlayedMusicsController {
    */
   @PostMapping("/add")
   public Long savePlayedMusic(@RequestBody PlayedMusicsSaveReqDto request) {
-    log.info("playedmusics post save start for userID = {}", request.getUserId());
+    log.info("playedmusics post save start by userID = {}", request.getUserId());
     return playedMusicsService.savePlayedMusic(request);
   }
 
