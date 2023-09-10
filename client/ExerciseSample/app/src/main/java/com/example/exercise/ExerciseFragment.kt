@@ -16,6 +16,7 @@
 
 package com.example.exercise
 
+import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -86,6 +87,7 @@ class ExerciseFragment : Fragment() {
             // App could take a perceptible amount of time to transition between states; put button into
             // an intermediary "disabled" state to provide UI feedback.
             it.isEnabled = false
+            // modified by orthh
             startEndExercise()
         }
         binding.pauseResumeButton.setOnClickListener {
@@ -140,21 +142,40 @@ class ExerciseFragment : Fragment() {
         _binding = null
     }
 
+    // modified by orthh
     private fun startEndExercise() {
         if (cachedExerciseState.isEnded) {
+            // 시작 버튼 누를시
             tryStartExercise()
+            // 프로그래스바 증가(일단 30초로)
+            ObjectAnimator.ofInt(binding.progressStart, "progress", 0, 100).apply {
+                duration = 30000 //
+                start()
+            }
+            // 30초 지날시 일시정지(정지)
+            
+            // 전송 완료 표시
+            
+            // 서버로 30초후 전송
+        
+            // 다시 start 버튼으로 변경
+            
+            
         } else {
-            checkNotNull(serviceConnection.exerciseService) {
-                "Failed to achieve ExerciseService instance"
-            }.endExercise()
+            // 종료
+            //requireActivity().finishAffinity()
+//            checkNotNull(serviceConnection.exerciseService) {
+//                "Failed to achieve ExerciseService instance"
+//            }.endExercise()
         }
     }
 
+    // modified by orthh
     private fun tryStartExercise() {
         viewLifecycleOwner.lifecycleScope.launch {
             if (healthServicesManager.isTrackingExerciseInAnotherApp()) {
                 // Show the user a confirmation screen.
-                findNavController().navigate(R.id.to_newExerciseConfirmation)
+                //findNavController().navigate(R.id.to_newExerciseConfirmation)
             } else if (!healthServicesManager.isExerciseInProgress()) {
                 checkNotNull(serviceConnection.exerciseService) {
                     "Failed to achieve ExerciseService instance"
@@ -251,8 +272,11 @@ class ExerciseFragment : Fragment() {
         // added by orthh
         latestMetrics.getData(DataType.SPEED).let{
             if (it.isNotEmpty()) {
-                Log.d("speed-it = ", it.last().value.toString())
-                binding.speedText.text = it.last().value.toString()
+                val speedInKmPerHour = (it.last().value * 3.6).toInt()
+                Log.d("speed-it = ", speedInKmPerHour.toString())
+                binding.speedText.text = formatSpeed(speedInKmPerHour.toString())
+//                Log.d("speed-it = ", it.last().value.toString())
+//                binding.speedText.text = it.last().value.toString()
                 //binding.speedText.text = it.last().value.roundToInt().toString()
             }
         }

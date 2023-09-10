@@ -16,7 +16,7 @@
   -->
 
 <resources>
-    <dimen name="icon_size">24dp</dimen>
+    <dimen name="icon_size">10dp</dimen>
     <dimen name="space_2dp">2dp</dimen>
     <dimen name="space_4dp">4dp</dimen>
     <dimen name="default_padding">16dp</dimen>

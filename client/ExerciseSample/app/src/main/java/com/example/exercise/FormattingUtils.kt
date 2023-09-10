@@ -68,3 +68,11 @@ fun formatCalories(calories: Double) = buildSpannedString {
         append(" cal")
     }
 }
+
+// added by orthh
+fun formatSpeed(speed: String) = buildSpannedString{
+    append(speed)
+    inSpans(RelativeSizeSpan(UNITS_RELATIVE_SIZE)) {
+        append("km/h")
+    }
+}

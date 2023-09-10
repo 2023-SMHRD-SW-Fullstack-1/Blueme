@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 
 // added by orthh 왠진 모르겠지만 kotlin 파일 적용이 안되서java로 생성
-// 현재 이어진거
+// 실제 사용 프래그먼트
 public class LoginFragment extends Fragment {
 
     private EditText etLoginEmail, etLoginPw;

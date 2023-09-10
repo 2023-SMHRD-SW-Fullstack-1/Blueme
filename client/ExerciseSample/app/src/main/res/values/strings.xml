@@ -21,8 +21,8 @@
     <string name="last_measured">Last measured:</string>
     <string name="starting_up">시작중...</string>
     <string name="exercise_not_available">이 기기에서는 지원하지 않습니다.</string>
-    <string name="start">로그인</string>
-    <string name="end">종료</string>
+    <string name="start">start</string>
+    <string name="end">측정중...</string>
     <string name="pause">일시정지</string>
     <string name="resume">재개</string>
     <string name="new_exercise_confirmation">An exercise is running in another app. End it and start this one?</string>
