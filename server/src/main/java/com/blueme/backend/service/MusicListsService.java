@@ -43,7 +43,7 @@ public class MusicListsService {
 		Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getUserId()))
 				.orElseThrow(() -> new IllegalArgumentException("User with id " + requestDto.getUserId() + " does not exist."));
 		
-		// musicIds 를 music Entity담긴 리스트로 변환
+		// id를 music Entity담은 리스트로 변환
 		List<Musics> musics = requestDto.getMusicIds().stream()
 				.map((id) -> musicsJpaRepository.findById(Long.parseLong(id))
 				.orElseThrow(() -> new IllegalArgumentException("해당 음악ID를 찾을 수 없습니다"))).collect(Collectors.toList());

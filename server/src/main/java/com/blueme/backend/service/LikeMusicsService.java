@@ -92,7 +92,7 @@ public class LikeMusicsService {
           if (!file.exists()) {
               log.debug("재킷파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
           }
-          // base64로 변환
+          // 이미지 base64로 인코딩
           ImageConverter<File, String> converter = new ImageToBase64();
           String base64 = null;
           base64 = converter.convert(file);

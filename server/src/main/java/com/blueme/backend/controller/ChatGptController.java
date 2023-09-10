@@ -18,6 +18,7 @@ import com.blueme.backend.utils.APIResponse;
 import com.blueme.backend.utils.ResponseCode;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 /*
@@ -26,11 +27,12 @@ import lombok.RequiredArgsConstructor;
 설명: ChatGpt 컨트롤러
 */
 
-
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/chat-gpt")
 @RestController
 public class ChatGptController {
+
     private final APIResponse apiResponse;
     private final ChatGptService chatGptService;
 
@@ -42,6 +44,7 @@ public class ChatGptController {
             @RequestBody QuestionReqDto questionRequest) {
         String code = ResponseCode.CD_SUCCESS;
         ChatGptResDto chatGptResponse = null;
+        log.info("start gpt question");
         try {
             chatGptResponse = chatGptService.askQuestion(questionRequest);
         } catch (Exception e) {

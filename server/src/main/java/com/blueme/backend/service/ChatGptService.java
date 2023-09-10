@@ -38,7 +38,9 @@ public class ChatGptService {
 
     public HttpEntity<ChatGptReqDto> buildHttpEntity(ChatGptReqDto chatGptRequest){
         HttpHeaders httpHeaders = new HttpHeaders();
+        // json 으로 설정
         httpHeaders.setContentType(MediaType.parseMediaType(ChatGptConfig.MEDIA_TYPE));
+        // 요청헤더 추가
         httpHeaders.add(ChatGptConfig.AUTHORIZATION, ChatGptConfig.BEARER + apiKey);
         return new HttpEntity<>(chatGptRequest, httpHeaders);
     }

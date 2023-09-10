@@ -104,7 +104,7 @@ public class MusicsService {
 	}
 
     /*
-     * 음악파일전송 테스트 (StreamingResponseBody 사용)
+     * 음악파일전송 테스트 (StreamingResponseBody 사용)(현재 사용x)
      */
     @Transactional
     public StreamingResponseBody streamMusic(String id){
@@ -136,6 +136,7 @@ public class MusicsService {
 
     /*
      * 음악 파일 전송(파일, RangeRequest 두종류) + 재생이므로 조회수 증가
+     * Header에 Range설정하지 않은경우 일반 Audio 타입 데이터 반환
      */
     @Transactional
     public ResponseEntity<InputStreamResource> getAudioResource(String id, String rangeHeader) {
