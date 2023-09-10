@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blueme.backend.dto.HeartRatesReqDto;
+import com.blueme.backend.dto.healthinfodto.HealthInfoSaveReqDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +24,15 @@ public class IndexController {
 	}
 	
 	@PostMapping("/health/hearthrate")
-    public Long test222(@RequestBody HeartRatesReqDto request) {
+    public Long test222(@RequestBody HealthInfoSaveReqDto request) {
         String userId = request.getUser_id();
-        Double averageHeartRate = request.getHeart_rate();
+        String heartRate = request.getHeartrate();
+        String calorie = request.getCalorie();
+        String speed = request.getSpeed();
+        String step = request.getStep();
         
         System.out.println(userId);
-        System.out.println(averageHeartRate);
+        System.out.println(heartRate);
 
         // 여기에서 userId와 averageHeartRate를 사용하여 필요한 처리 수행...
 

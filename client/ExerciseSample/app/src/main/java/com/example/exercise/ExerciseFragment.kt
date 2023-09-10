@@ -16,6 +16,7 @@
 
 package com.example.exercise
 
+import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -25,6 +26,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.health.services.client.data.DataPointContainer
@@ -147,18 +149,42 @@ class ExerciseFragment : Fragment() {
         if (cachedExerciseState.isEnded) {
             // 시작 버튼 누를시
             tryStartExercise()
-            // 프로그래스바 증가(일단 30초로)
-            ObjectAnimator.ofInt(binding.progressStart, "progress", 0, 100).apply {
-                duration = 30000 //
+            // 프로그래스바 증가(일단 30초)
+            val animator = ObjectAnimator.ofInt(binding.progressStart, "progress", 0, 100).apply {
+                duration = 30000 // 30 seconds in milliseconds
                 start()
             }
-            // 30초 지날시 일시정지(정지)
-            
-            // 전송 완료 표시
-            
-            // 서버로 30초후 전송
-        
-            // 다시 start 버튼으로 변경
+
+            animator.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(p0: Animator) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onAnimationEnd(p0: Animator) {
+                    // 일시정지
+                    //tryPauseExercise()
+                    pauseResumeExercise()
+                    // 전송 완료 표시
+                    Toast.makeText(requireContext(), "데이터 전송완료", Toast.LENGTH_SHORT).show()
+                    // 서버로 데이터 전송
+
+                    // 종료하기
+                    checkNotNull(serviceConnection.exerciseService) {
+                        "Failed to achieve ExerciseService instance"
+                    }.endExercise()
+
+                    // 프로그래스바 초기화, 상태 초기화
+                    //resetDisplayedFields()
+                }
+
+                override fun onAnimationCancel(p0: Animator) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onAnimationRepeat(p0: Animator) {
+                    TODO("Not yet implemented")
+                }
+            })
             
             
         } else {

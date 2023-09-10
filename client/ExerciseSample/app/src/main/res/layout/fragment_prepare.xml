@@ -70,9 +70,8 @@
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:backgroundTint="@color/blueme_color"
         android:text="@string/start"
-        android:backgroundTint="#673AB7"
         android:textColor="#FFFFFF"
 
         app:layout_constraintLeft_toLeftOf="parent"

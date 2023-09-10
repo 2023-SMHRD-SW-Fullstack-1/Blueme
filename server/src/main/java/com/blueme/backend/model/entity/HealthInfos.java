@@ -26,12 +26,22 @@ public class HealthInfos extends BaseEntity {
 	@JoinColumn(name="user_id")
 	private Users user;
 	
-	private int avgHearRate;
+	private String heartrate;
+
+	private String calorie;
+
+	private String speed;
+
+	private String step;
+	
 
 	@Builder
-	public HealthInfos(Users user, int avgHearRate) {
+	public HealthInfos(Users user, String heartrate, String calorie, String speed, String step) {
 		this.user = user;
-		this.avgHearRate = avgHearRate;
+		this.heartrate = heartrate;
+		this.calorie = calorie;
+		this.speed = speed;
+		this.step = step;
 	}
 	
 	

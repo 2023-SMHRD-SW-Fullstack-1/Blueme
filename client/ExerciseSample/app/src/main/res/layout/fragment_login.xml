@@ -52,7 +52,7 @@
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#673AB7"
+        android:backgroundTint="@color/blueme_color"
         android:text="로그인"
 
         android:textColor="#FFFFFF"
