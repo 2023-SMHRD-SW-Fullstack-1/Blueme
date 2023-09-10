@@ -1,9 +1,5 @@
 package com.blueme.backend.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,13 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.TableGenerator;
-
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -75,7 +65,7 @@ public class Users extends BaseEntity{
 	@Builder
 	public Users(Long id,String email, String password
 			,String nickname, String platformType
-			, String accessToken) {
+			, String refreshToken) {
 		this.id = id;
 		this.email = email;
 		this.password = password;

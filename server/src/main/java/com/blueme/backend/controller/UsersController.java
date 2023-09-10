@@ -1,5 +1,7 @@
 package com.blueme.backend.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import com.blueme.backend.dto.usersdto.UsersUpdateDto;
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.blueme.backend.security.login.service.LoginService;
 import com.blueme.backend.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-//@RequestMapping("/user")
+@RequestMapping("/user")
 @CrossOrigin("*")
 public class UsersController {
 	
@@ -70,6 +73,11 @@ public class UsersController {
 //		log.info("User registration login completed with ID {}", userId);
 //		return userId;
 //	}
+	
+	/**
+	 *  post 유저 로그아웃
+	 */
+
 
 	
 	
@@ -88,12 +96,12 @@ public class UsersController {
 	 *  PATCH 유저 수정 
 	 */
 
-	@PatchMapping("/update")
-	public Long update(@RequestBody UsersUpdateDto requestDto){
-		log.info("Starting user update for email{}", requestDto.getEmail());
-		Long userId = usersService.update(requestDto);
-		log.info("User update completed with ID {}", userId);
-		return userId;
-	}
+//	@PatchMapping("/update")
+//	public Long update(@RequestBody UsersUpdateDto requestDto){
+//		log.info("Starting user update for email{}", requestDto.getEmail());
+//		Long userId = usersService.update(requestDto);
+//		log.info("User update completed with ID {}", userId);
+//		return userId;
+//	}
 
 }

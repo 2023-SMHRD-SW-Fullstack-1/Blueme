@@ -15,7 +15,9 @@ public interface UsersJpaRepository extends JpaRepository<Users, Long>{
 	
 //	Optional<Users> findByNickname(String nickname);
 	
-	Users findByEmailAndPasswordAndActiveStatus(String email, String password, String activeStatus);
+//	Users findByEmailAndPasswordAndActiveStatus(String email, String password, String activeStatus);
+	
+	Users findByEmailAndActiveStatus(String email, String activeStatus);
 	
 	Optional<Users> findByRefreshToken(String refreshToken);
 	

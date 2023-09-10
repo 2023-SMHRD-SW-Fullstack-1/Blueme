@@ -1,5 +1,6 @@
 package com.blueme.backend.security.login.service;
 
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class LoginService implements UserDetailsService {
 	
 	private final UsersJpaRepository usersJpaRepository;
+	
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -27,9 +29,6 @@ public class LoginService implements UserDetailsService {
 				.password(user.getPassword())
 				.roles(user.getRole().name())
 				.build();
-		
-	}
-	
-	
+	}	
 
 }

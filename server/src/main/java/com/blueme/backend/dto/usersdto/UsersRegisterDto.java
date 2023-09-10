@@ -17,12 +17,12 @@ public class UsersRegisterDto {
 	
 	private String platform_type;
 	
-	private String accessToken;
+	private String refreshToken;
 	
 	private String activeStatus;
 	
 	public Users toEntity() {
-        return Users.builder().email(email).password(password).nickname(nickname).platformType(platform_type).accessToken(accessToken).build();
+        return Users.builder().email(email).password(password).nickname(nickname).platformType(platform_type).refreshToken(refreshToken).build();
     }
 	
 }

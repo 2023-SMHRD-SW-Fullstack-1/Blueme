@@ -48,7 +48,7 @@ public class UsersService {
 				.email(usersRegisterDto.getEmail())
 				.password(bCryptPasswordEncoder.encode(usersRegisterDto.getPassword()))
 				.nickname(usersRegisterDto.getNickname())
-				.accessToken(usersRegisterDto.getAccessToken())
+				.refreshToken(usersRegisterDto.getRefreshToken())
 				.build();
 		user.setPlatformType("blueme");
 		
@@ -115,13 +115,22 @@ public class UsersService {
 	@Transactional
 	public Long deactivate(UsersDeleteDto requestDto) {
 	    log.info("userService method delete start...");
-	    Users user = usersJpaRepository.findByEmailAndPasswordAndActiveStatus(requestDto.getEmail(), requestDto.getPassword(), "Y");
-	    if (user != null) {
-	        user.setActiveStatus("N");
-	        return user.getId();
-	    } else {
-	        return -1L;
-	    }
+	    Users user = usersJpaRepository.findByEmailAndActiveStatus(requestDto.getEmail(), "Y");
+		if (user==null) {
+		    log.info("No matching user found...");
+		    return -1L; // or throw an exception
+		}
+		/* 비밀번호 검증 */
+		boolean isMatch = bCryptPasswordEncoder.matches(requestDto.getPassword(), user.getPassword());
+		
+		if(!isMatch) {
+			log.info("No Matching password found...");
+			return -1L;
+		}else {
+			user.setActiveStatus("N");
+			return user.getId();
+		}
+
 	}
 
 	/**
