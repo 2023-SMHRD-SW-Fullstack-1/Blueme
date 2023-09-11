@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-10
+날짜(수정포함): 2023-09-11
 설명: 워치로부터 받는 건강정보 서비스
 */
 
@@ -29,8 +29,8 @@ public class HealthInfosService {
    */
   public Long saveHealthInfo(HealthInfoSaveReqDto request){
 
-    Users user = usersJpaRepository.findById(Long.parseLong(request.getUser_id()))
-      .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+    Users user = usersJpaRepository.findByEmail(request.getUserEmail())
+      .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다 "));
 
     return healthInfosJpaRepository.save(request.toEntity(user)).getId();
 

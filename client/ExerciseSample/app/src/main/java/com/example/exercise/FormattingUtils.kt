@@ -81,6 +81,6 @@ fun formatSpeed(speed: String) = buildSpannedString {
 fun formatSteps(steps: String) = buildSpannedString {
     append(steps)
     inSpans(RelativeSizeSpan(UNITS_RELATIVE_SIZE)) {
-        append("steps/m")
+        append("st/m")
     }
 }

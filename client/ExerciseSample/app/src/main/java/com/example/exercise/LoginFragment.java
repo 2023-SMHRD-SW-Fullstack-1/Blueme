@@ -75,7 +75,7 @@ public class LoginFragment extends Fragment {
 
                 StringRequest request = new StringRequest(
                         Request.Method.POST,
-                        "http://172.30.1.27:8104/user/login",
+                        "http://172.30.1.27:8104/login",
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -86,7 +86,7 @@ public class LoginFragment extends Fragment {
 
                                     SharedPreferences.Editor editor = spf.edit();
                                     // editor를 통해 로그인한 회원의 이메일 저장.
-                                    editor.putString("user", inputEmail);
+                                    editor.putString("userEmail", inputEmail);
                                     editor.commit();
 
                                     NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.exerciseFragment);  // 로그인 성공 후 Fragment 이동.
@@ -105,7 +105,9 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public String getBodyContentType(){
-                        return "application/json; charset=utf-8";
+                        //return "application/json; charset=utf-8";
+                        //return "application/x-www-form-urlencoded";
+                        return "application/json";
                     }
 
                     @Override

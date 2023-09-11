@@ -16,8 +16,7 @@
 
 <!-- modified by orthh -->
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -42,7 +41,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
 
-
     <ImageView
         android:id="@+id/clock_icon"
         android:layout_width="@dimen/icon_size"
@@ -62,8 +60,8 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="43dp"
-        android:layout_height="28dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +94,7 @@
         android:id="@+id/heart_rate_icon"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:layout_marginLeft="24dp"
+        android:layout_marginLeft="26dp"
         android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="@id/heart_rate_text"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -109,13 +107,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/space_4dp"
-        android:layout_marginTop="@dimen/space_4dp"
+        android:layout_marginTop="16dp"
         android:enabled="false"
         android:gravity="center_vertical"
         android:minHeight="10dp"
         android:text="@string/empty_metric"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:textSize="10sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toTopOf="@id/distance_text"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@id/heart_rate_icon"
@@ -128,7 +126,7 @@
         android:id="@+id/calories_icon"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="22dp"
         android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="@id/calories_text"
         app:layout_constraintLeft_toRightOf="@id/guide_v50pct"
@@ -147,7 +145,7 @@
         android:minHeight="10dp"
         android:text="@string/empty_metric"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:textSize="10sp"
+        android:textSize="11sp"
         app:layout_constraintLeft_toRightOf="@id/calories_icon"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/heart_rate_text"
@@ -175,9 +173,9 @@
         android:gravity="center_vertical"
         android:minHeight="10dp"
         android:text="@string/empty_metric"
-        android:visibility="gone"
-
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/start_end_button"
         app:layout_constraintLeft_toRightOf="@id/heart_rate_icon"
         app:layout_constraintRight_toLeftOf="@id/guide_v50pct"
@@ -219,8 +217,8 @@
 
     <Button
         android:id="@+id/start_end_button"
-        android:layout_width="50dp"
-        android:layout_height="35dp"
+        android:layout_width="55dp"
+        android:layout_height="36dp"
         android:layout_marginHorizontal="@dimen/space_2dp"
         android:layout_marginBottom="2dp"
         android:backgroundTint="@color/blueme_color"
@@ -259,7 +257,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="#FFFFFF"
 
-        android:textSize="10sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/calories_text"
         app:layout_constraintStart_toEndOf="@+id/imageView7"
@@ -280,7 +278,7 @@
         android:text="0"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="#FFFFFF"
-        android:textSize="10sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toStartOf="@+id/guide_v50pct"
         app:layout_constraintHorizontal_bias="0.0"
@@ -291,8 +289,8 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
@@ -303,13 +301,25 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
+        android:layout_marginStart="22dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/calories_icon"
         app:layout_constraintStart_toStartOf="@+id/guide_v50pct"
         app:layout_constraintTop_toBottomOf="@+id/calories_icon"
         app:srcCompat="@drawable/img_step" />
+
+    <TextView
+        android:id="@+id/tv_act_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="현재 하던 활동을 유지해주세요"
+        android:textSize="8sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/progress_start"
+        app:layout_constraintStart_toStartOf="@+id/progress_start"
+        app:layout_constraintTop_toBottomOf="@+id/progress_start" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

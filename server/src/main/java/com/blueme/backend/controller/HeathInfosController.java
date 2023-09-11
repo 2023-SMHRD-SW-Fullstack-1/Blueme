@@ -34,14 +34,14 @@ public class HeathInfosController {
 
   @PostMapping("/add")
     public Long saveHealthInfo(@RequestBody HealthInfoSaveReqDto request) {
-      log.info("start saveHealthInfo for UserId = {}", request.getUser_id());
-      String userId = request.getUser_id();
+      log.info("start saveHealthInfo for userEmail = {}", request.getUserEmail());
+      String userEmail = request.getUserEmail();
       String heartRate = request.getHeartrate();
       String calorie = request.getCalorie();
       String speed = request.getSpeed();
       String step = request.getStep();
       
-      System.out.println(userId);
+      System.out.println(userEmail);
       System.out.println(heartRate);
       System.out.println(calorie);
       System.out.println(speed);

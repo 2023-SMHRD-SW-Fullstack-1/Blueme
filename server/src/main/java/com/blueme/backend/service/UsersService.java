@@ -61,8 +61,7 @@ public class UsersService {
 		usersJpaRepository.save(user);
 	}
 	}
-	
-//	@Transactional
+
 //	public Long save(UsersRegisterDto requestDto) {
 //		log.info("userService method save start...");
 //		Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
@@ -94,12 +93,12 @@ public class UsersService {
 	/**
 	 *  유저 로그인확인
 	 */
-//	@Transactional
-//	public Long login(UsersLoginDto requestDto) {
-//		log.info("userService method login start...");
-//		Users user = usersJpaRepository.findByEmailAndPasswordAndActiveStatus(requestDto.getEmail(), requestDto.getPassword(), "Y");
-//		return (user == null) ? -1L : user.getId();
-//	}
+	//@Transactional
+	//public Long login(UsersLoginDto requestDto) {
+	//	log.info("userService method login start...");
+	//	Users user = usersJpaRepository.findByEmailAndPasswordAndActiveStatus(requestDto.getEmail(), requestDto.getPassword(), "Y");
+	//	return (user == null) ? -1L : user.getId();
+	//}
 	/*
     @Transactional
 	public UUID login(UserLoginDto requestDto) {

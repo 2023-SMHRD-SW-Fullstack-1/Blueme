@@ -18,10 +18,10 @@ package com.example.exercise
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,19 +36,24 @@ import androidx.health.services.client.data.ExerciseUpdate
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.wear.ambient.AmbientModeSupport
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.exercise.databinding.FragmentExerciseBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
 import java.time.Duration
 import java.time.Instant
 import javax.inject.Inject
 import kotlin.math.roundToInt
+
 
 /**
  * Fragment showing the exercise controls and current exercise metrics.
@@ -84,6 +89,11 @@ class ExerciseFragment : Fragment() {
     // 시작했는지 체크하는 변수
     private var isStart = false
 
+    // volley
+    private lateinit var reqQueue: RequestQueue
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -95,6 +105,8 @@ class ExerciseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        reqQueue = Volley.newRequestQueue(requireContext())
 
         binding.startEndButton.setOnClickListener {
             // App could take a perceptible amount of time to transition between states; put button into
@@ -159,15 +171,11 @@ class ExerciseFragment : Fragment() {
         bindViewsToService()
 
         //시작할떄 이미 시작되어있으면 종료.
-        //checkNotNull(serviceConnection.exerciseService) {
-          //  "Failed to achieve ExerciseService instance"
-       //}.endExercise()
-
-        //viewLifecycleOwner.lifecycleScope.launch {
-          //  serviceConnection.repeatWhenConnected { exerciseService ->
-            //    exerciseService.endExercise()
-            //}
-        //}
+        if (!cachedExerciseState.isEnded) {
+            checkNotNull(serviceConnection.exerciseService) {
+                "Failed to achieve ExerciseService instance"
+            }.endExercise()
+        }
 
     }
 
@@ -183,31 +191,78 @@ class ExerciseFragment : Fragment() {
         tryStartExercise()
         val animator = ObjectAnimator.ofInt(binding.progressStart, "progress", 0, 100).apply {
             duration = 40000 // 30 seconds in milliseconds
+            binding.tvActMsg.visibility = View.VISIBLE
             start()
         }
 
         animator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(p0: Animator) {
-                TODO("Not yet implemented")
             }
 
             override fun onAnimationEnd(p0: Animator) {
+                // 임시 이메일
+                var userId = 1
                 // 일시정지
                 //tryPauseExercise()
-                pauseResumeExercise()
+                //pauseResumeExercise()
                 // 전송 완료 표시
                 Toast.makeText(requireContext(), "데이터 전송완료", Toast.LENGTH_SHORT).show()
-                // 서버로 데이터 전송
+
                 // 데이터 확인
                 Log.d("평균심박수", saveHeartRate.average().toString())
                 Log.d("칼로리", saveCalorie.toString())
                 Log.d("평균속도", saveSpeed.average().toString())
                 Log.d("걸음수", saveStep.average().toString())
 
-                // 종료하기( 실제 기기로 테스트해보기 팅기나)
-//                    checkNotNull(serviceConnection.exerciseService) {
-//                        "Failed to achieve ExerciseService instance"
-//                    }.endExercise()
+                // 서버로 데이터 전송
+                var heartRateToServer = saveHeartRate.average().toString()
+                var calorieToServer = saveCalorie.toString()
+                lateinit var speedToServer: String
+                if(saveSpeed.average().toString() == "NaN"){
+                    speedToServer = "0"
+                }else{
+                    speedToServer = saveSpeed.average().toString()
+                }
+                var stepsPerMinuteToServer = saveStep.average().toString()
+
+                val jsonBody = JSONObject()
+
+                try {
+                    jsonBody.put("email", userId)
+                    jsonBody.put("heartrate", heartRateToServer)
+                    jsonBody.put("calorie", calorieToServer)
+                    jsonBody.put("speed", speedToServer)
+                    jsonBody.put("step", stepsPerMinuteToServer)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+                // 전송
+                val request: StringRequest = object : StringRequest(
+                    Method.POST,
+                    "http://172.30.1.27:8104/healthinfo/add",
+                    Response.Listener<String> { response ->
+                        Log.d("response", response)
+                        if (response != "-1") {
+                        }
+                    },
+                    Response.ErrorListener { error -> Log.d("error", error.toString()) }) {
+                    override fun getBodyContentType(): String {
+                        //return "application/json; charset=utf-8";
+                        //return "application/x-www-form-urlencoded";
+                        return "application/json"
+                    }
+
+                    override fun getBody(): ByteArray {
+                        return jsonBody.toString().toByteArray(StandardCharsets.UTF_8)
+                    }
+                }
+                reqQueue?.add(request)
+
+                // 종료하기
+                checkNotNull(serviceConnection.exerciseService) {
+                    "Failed to achieve ExerciseService instance"
+                }.endExercise()
 
                 // 프로그래스바 초기화, 상태 초기화
                 binding.progressStart.setProgress(0)
@@ -216,6 +271,7 @@ class ExerciseFragment : Fragment() {
                 saveSpeed.clear()
                 saveStep.clear()
                 resetDisplayedFields()
+                binding.tvActMsg.visibility = View.INVISIBLE
             }
 
             override fun onAnimationCancel(p0: Animator) {
@@ -244,7 +300,7 @@ class ExerciseFragment : Fragment() {
             saveSpeed.clear()
             saveStep.clear()
             resetDisplayedFields()
-            // 프로그래스바 증가(일단 30초)
+            // 프로그래스바 증가(일단 40초)
             val animator = ObjectAnimator.ofInt(binding.progressStart, "progress", 0, 100).apply {
                 duration = 40000 // 30 seconds in milliseconds
                 start()
@@ -256,6 +312,10 @@ class ExerciseFragment : Fragment() {
                 }
 
                 override fun onAnimationEnd(p0: Animator) {
+                    // spf의 이메일
+                    val spf = activity!!.getSharedPreferences("mySPF", Context.MODE_PRIVATE)
+                    val userEmail = spf.getString("userEmail", null)
+
                     // 일시정지
                     //tryPauseExercise()
                     pauseResumeExercise()
@@ -268,10 +328,54 @@ class ExerciseFragment : Fragment() {
                     Log.d("평균속도", saveSpeed.average().toString())
                     Log.d("걸음수", saveStep.toString())
 
+                    var heartRateToServer = saveHeartRate.average().toString()
+                    var calorieToServer = saveCalorie.toString()
+                    lateinit var speedToServer: String
+                    if(saveSpeed.average().toString() == "NaN"){
+                        speedToServer = "0"
+                    }else{
+                        speedToServer = saveSpeed.average().toString()
+                    }
+                    var stepsPerMinuteToServer = saveStep.average().toString()
+
+                    val jsonBody = JSONObject()
+
+                    try {
+                        jsonBody.put("userEmail", userEmail)
+                        jsonBody.put("heartrate", heartRateToServer)
+                        jsonBody.put("calorie", calorieToServer)
+                        jsonBody.put("speed", speedToServer)
+                        jsonBody.put("step", stepsPerMinuteToServer)
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+
+                    // 전송
+                    val request: StringRequest = object : StringRequest(
+                        Method.POST,
+                        "http://172.30.1.27:8104/healthinfo/add",
+                        Response.Listener<String> { response ->
+                            Log.d("response", response)
+                            if (response != "-1") {
+                            }
+                        },
+                        Response.ErrorListener { error -> Log.d("error", error.toString()) }) {
+                        override fun getBodyContentType(): String {
+                            //return "application/json; charset=utf-8";
+                            //return "application/x-www-form-urlencoded";
+                            return "application/json"
+                        }
+
+                        override fun getBody(): ByteArray {
+                            return jsonBody.toString().toByteArray(StandardCharsets.UTF_8)
+                        }
+                    }
+                    reqQueue?.add(request)
+
                     // 종료하기( 실제 기기로 테스트해보기 팅기나)
-//                    checkNotNull(serviceConnection.exerciseService) {
-//                        "Failed to achieve ExerciseService instance"
-//                    }.endExercise()
+                    checkNotNull(serviceConnection.exerciseService) {
+                        "Failed to achieve ExerciseService instance"
+                    }.endExercise()
 
                     // 프로그래스바 초기화, 상태 초기화
                     binding.progressStart.setProgress(0)
@@ -295,9 +399,9 @@ class ExerciseFragment : Fragment() {
             
         } else {
             // 종료
-//            checkNotNull(serviceConnection.exerciseService) {
-//                "Failed to achieve ExerciseService instance"
-//            }.endExercise()
+            checkNotNull(serviceConnection.exerciseService) {
+               "Failed to achieve ExerciseService instance"
+            }.endExercise()
         }
     }
 
@@ -391,6 +495,7 @@ class ExerciseFragment : Fragment() {
     private fun updateMetrics(latestMetrics: DataPointContainer) {
         latestMetrics.getData(DataType.HEART_RATE_BPM).let {
             if (it.isNotEmpty()) {
+                Log.d("heart", it.last().value.toString())
                 if(isStart && it.last().value.roundToInt() != 0){
                     saveHeartRate.add(it.last().value.roundToInt())
                 }
@@ -412,12 +517,13 @@ class ExerciseFragment : Fragment() {
                 val speedInKmPerHour = it.last().value * 3.6
                 Log.d("speed-it = ", speedInKmPerHour.toString())
                 binding.speedText.text = formatSpeed(speedInKmPerHour.toString())
+                saveSpeed.add(it.last().value*3.6)
 //                Log.d("speed-it = ", it.last().value.toString())
 //                binding.speedText.text = it.last().value.toString()
                 //binding.speedText.text = it.last().value.roundToInt().toString()
-                if((it.last().value*3.6) != 0.0){
-                    saveSpeed.add(it.last().value*3.6)
-                }
+                //if((it.last().value*3.6) != 0.0){
+                //    saveSpeed.add(it.last().value*3.6)
+                //}
             }
         }
         latestMetrics.getData(DataType.STEPS_PER_MINUTE).let{
@@ -425,9 +531,10 @@ class ExerciseFragment : Fragment() {
                 Log.d("step-it = ", it.last().value.toString())
                 binding.stepsText.text = formatSteps(it.last().value.toString())
                 //binding.speedText.text = it.last().value.roundToInt().toString()
-                if(it.last().value.toInt() != 0){
-                    saveStep.add(it.last().value.toInt())
-                }
+                saveStep.add(it.last().value.toInt())
+                //if(it.last().value.toInt() != 0){
+                //    saveStep.add(it.last().value.toInt())
+                //}
             }
         }
     }
@@ -486,17 +593,17 @@ class ExerciseFragment : Fragment() {
         }
         ColorStateList.valueOf(iconTint).let {
             binding.clockIcon.imageTintList = it
-            binding.heartRateIcon.imageTintList = it
-            binding.caloriesIcon.imageTintList = it
-            binding.distanceIcon.imageTintList = it
-            binding.lapsIcon.imageTintList = it
+            //binding.heartRateIcon.imageTintList = it
+            //binding.caloriesIcon.imageTintList = it
+            //binding.distanceIcon.imageTintList = it
+            //binding.lapsIcon.imageTintList = it
         }
 
         // Hide the buttons in ambient mode.
         val buttonVisibility = if (isAmbient) View.INVISIBLE else View.VISIBLE
         buttonVisibility.let {
-            binding.startEndButton.visibility = it
-            binding.pauseResumeButton.visibility = it
+            //binding.startEndButton.visibility = it
+            //binding.pauseResumeButton.visibility = it
         }
     }
 

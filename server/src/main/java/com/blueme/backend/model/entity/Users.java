@@ -55,6 +55,8 @@ public class Users extends BaseEntity{
 	
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'Y'")
 	private String activeStatus;
+
+	private String imgUrl;
 	
 	@Enumerated(EnumType.STRING)
     private UserRole role;
@@ -67,7 +69,7 @@ public class Users extends BaseEntity{
 	@Builder
 	public Users(Long id,String email, String password
 			,String nickname, String platformType
-			, String refreshToken, String socialId) {
+			, String refreshToken, String socialId, String imgUrl) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -77,6 +79,7 @@ public class Users extends BaseEntity{
 		this.activeStatus = "Y";
 		this.role = UserRole.ADMIN;
 		this.socialId=socialId;
+		this.imgUrl = imgUrl;
 	}
 	
 	public enum UserRole {

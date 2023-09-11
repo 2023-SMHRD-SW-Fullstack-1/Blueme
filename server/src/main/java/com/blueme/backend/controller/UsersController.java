@@ -72,13 +72,13 @@ public class UsersController {
 	/**
 	 *  post 유저 로그인 ( 불일치시(+비활성화계정) -1 반환, 일치시 유저의고유ID반환 )
 	 */
-//	@PostMapping("/login")
-//	public Long login(@RequestBody UsersLoginDto requestDto) {
-//		log.info("Starting user login for email {}", requestDto.getEmail());
-//		Long userId = usersService.login(requestDto);
-//		log.info("User registration login completed with ID {}", userId);
-//		return userId;
-//	}
+	//@PostMapping("/login")
+	//public Long login(@RequestBody UsersLoginDto requestDto) {
+	//	log.info("Starting user login for email {}", requestDto.getEmail());
+	//	Long userId = usersService.login(requestDto);
+	//	log.info("User registration login completed with ID {}", userId);
+	//	return userId;
+	//}
 	
 	/**
 	 *  post 유저 로그아웃

@@ -23,19 +23,4 @@ public class IndexController {
 		return "index.html";
 	}
 	
-	@PostMapping("/health/hearthrate")
-    public Long test222(@RequestBody HealthInfoSaveReqDto request) {
-        String userId = request.getUser_id();
-        String heartRate = request.getHeartrate();
-        String calorie = request.getCalorie();
-        String speed = request.getSpeed();
-        String step = request.getStep();
-        
-        System.out.println(userId);
-        System.out.println(heartRate);
-
-        // 여기에서 userId와 averageHeartRate를 사용하여 필요한 처리 수행...
-
-        return 1L;  // 일련번호 반환. 실제로는 DB에 저장된 데이터의 ID 등이 될 수 있습니다.
-    }
 }

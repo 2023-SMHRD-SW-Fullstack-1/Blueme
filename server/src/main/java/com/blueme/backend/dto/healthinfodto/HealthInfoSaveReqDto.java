@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class HealthInfoSaveReqDto {
-	private String user_id;
+	private String userEmail;
     private String heartrate;
     private String calorie;
     private String speed;
