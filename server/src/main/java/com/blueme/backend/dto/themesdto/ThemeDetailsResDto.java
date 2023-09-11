@@ -20,8 +20,9 @@ public class ThemeDetailsResDto {
   private String lyrics;
   private String tag;
   private String time;
+  private String img;
 
-  public ThemeDetailsResDto(Themes theme, ThemeMusiclists themeMusiclist) {
+  public ThemeDetailsResDto(Themes theme, ThemeMusiclists themeMusiclist, String img) {
     this.themeId = theme.getId();
     this.themeMusiclistId = themeMusiclist.getId();
     this.musicId = themeMusiclist.getMusic().getId();
@@ -33,6 +34,6 @@ public class ThemeDetailsResDto {
     this.lyrics = themeMusiclist.getMusic().getLyrics();
     this.tag = themeMusiclist.getMusic().getTag();
     this.time =  themeMusiclist.getMusic().getTime();
-    
+    this.img = img;
   }
 }

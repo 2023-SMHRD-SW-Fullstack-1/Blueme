@@ -107,12 +107,25 @@ public class ThemesService {
 	 */
   @Transactional
   public List<ThemeDetailsResDto> getThemeById(Long id){
-    Themes themes = themesJpaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 테마 아이디가 없습니다."));
-    List<ThemeDetailsResDto> res = new ArrayList<ThemeDetailsResDto>();
-    for(ThemeMusiclists t : themes.getThemeMusicList()){
-      res.add(new ThemeDetailsResDto(themes, t));
+    try{
+      Themes themes = themesJpaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 테마 아이디가 없습니다."));
+      List<ThemeDetailsResDto> res = new ArrayList<ThemeDetailsResDto>();
+      for(ThemeMusiclists t : themes.getThemeMusicList()){
+        Path filePath = Paths.get("\\usr\\blueme\\jackets\\" + t.getMusic().getJacketFilePath() + ".jpg");
+        File file = filePath.toFile();
+        if(!file.exists()){
+          log.debug("재킷사진이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
+        }
+        ImageConverter<File, String> converter = new ImageToBase64();
+        String base64 = null;
+        base64 = converter.convert(file);
+        res.add(new ThemeDetailsResDto(themes, t, base64));
+      }
+      return res;
+    }catch(Exception e){
+      throw new RuntimeException("재킷파일 전송 실패", e); 
     }
-    return res;
+    
   }
 }
 
