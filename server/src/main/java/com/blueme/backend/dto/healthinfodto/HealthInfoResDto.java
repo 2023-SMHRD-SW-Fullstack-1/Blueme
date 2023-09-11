@@ -9,7 +9,7 @@ import lombok.Getter;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-011
+날짜(수정포함): 2023-09-11
 설명: 건강정보 조회 resDto
 */
 
@@ -21,6 +21,8 @@ public class HealthInfoResDto {
   public String calorie;
   public String avgSpeed;
   public String stepsPerMinute;
+  public String lat;
+  public String lon;
 
   public HealthInfoResDto(HealthInfos healthInfo) {
     this.healthInfoId = healthInfo.getId().toString();
@@ -29,6 +31,8 @@ public class HealthInfoResDto {
     this.stepsPerMinute = formatToInt(healthInfo.getStep());
     this.calorie = healthInfo.getCalorie();
     this.avgSpeed = formatToDouble(healthInfo.getSpeed());
+    this.lat = healthInfo.getLat();
+    this.lon = healthInfo.getLon();
   }
 
   // 스피드 소수점두자리까지 포매팅

@@ -85,6 +85,9 @@ class ExerciseFragment : Fragment() {
     private var saveSpeed = mutableListOf<Double>()
     private var saveCalorie = 0
     private var saveStep = mutableListOf<Int>()
+    private var saveLon = 0.0
+    private var saveLat = 0.0
+
 
     // 시작했는지 체크하는 변수
     private var isStart = false
@@ -233,6 +236,8 @@ class ExerciseFragment : Fragment() {
                     jsonBody.put("calorie", calorieToServer)
                     jsonBody.put("speed", speedToServer)
                     jsonBody.put("step", stepsPerMinuteToServer)
+                    jsonBody.put("lat", saveLat.toString())
+                    jsonBody.put("lon", saveLon.toString())
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -330,6 +335,7 @@ class ExerciseFragment : Fragment() {
                     Toast.makeText(requireContext(), "데이터 전송완료", Toast.LENGTH_SHORT).show()
                     // 서버로 데이터 전송
                     // 데이터 확인
+
                     Log.d("평균심박수", saveHeartRate.average().toString())
                     Log.d("칼로리", saveCalorie.toString())
                     Log.d("평균속도", saveSpeed.average().toString())
@@ -353,6 +359,8 @@ class ExerciseFragment : Fragment() {
                         jsonBody.put("calorie", calorieToServer)
                         jsonBody.put("speed", speedToServer)
                         jsonBody.put("step", stepsPerMinuteToServer)
+                        jsonBody.put("lat", saveLat.toString())
+                        jsonBody.put("lon", saveLon.toString())
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
@@ -542,6 +550,19 @@ class ExerciseFragment : Fragment() {
                 //if(it.last().value.toInt() != 0){
                 //    saveStep.add(it.last().value.toInt())
                 //}
+            }
+        }
+        latestMetrics.getData(DataType.LOCATION).let{
+            if (isStart && it.isNotEmpty()) {
+                Log.d("위도 = ", it.last().value.latitude.toString())
+                if(it.last().value.latitude != 0.0){
+                    saveLat = it.last().value.latitude
+                }
+                Log.d("경도 = ", it.last().value.longitude.toString())
+                if( it.last().value.longitude != 0.0){
+                    saveLon = it.last().value.longitude
+                }
+
             }
         }
     }

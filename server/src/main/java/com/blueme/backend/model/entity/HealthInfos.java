@@ -34,13 +34,22 @@ public class HealthInfos extends BaseEntity {
 
 	private String step;
 	
+	// 위도
+	private String lat;
+
+	// 경도
+	private String lon;
+
+	
 	@Builder
-	public HealthInfos(Users user, String heartrate, String calorie, String speed, String step) {
+	public HealthInfos(Users user, String heartrate, String calorie, String speed, String step, String lat, String lon) {
 		this.user = user;
 		this.heartrate = heartrate;
 		this.calorie = calorie;
 		this.speed = speed;
 		this.step = step;
+		this.lat = lat;
+		this.lon = lon;
 	}
 	
 	

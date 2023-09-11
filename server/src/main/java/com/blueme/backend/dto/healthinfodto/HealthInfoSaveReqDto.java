@@ -14,9 +14,12 @@ public class HealthInfoSaveReqDto {
     private String calorie;
     private String speed;
     private String step;
+    private String lat;
+    private String lon;
 
     public HealthInfos toEntity(Users user){
-        return HealthInfos.builder().user(user).heartrate(heartrate).calorie(calorie).speed(speed).step(step).build();
+        return HealthInfos.builder().user(user).heartrate(heartrate)
+        .calorie(calorie).speed(speed).step(step).lat(lat).lon(lon).build();
     }
 
 }
