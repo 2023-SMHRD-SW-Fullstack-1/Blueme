@@ -1,16 +1,27 @@
 package com.blueme.backend.model.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.blueme.backend.model.entity.Users;
+import com.blueme.backend.security.oauth2.SocialType;
 
 @Repository
 public interface UsersJpaRepository extends JpaRepository<Users, Long>{
-	Users findByEmail(String email);
 	
-	Users findByEmailAndPasswordAndActiveStatus(String email, String password, String activeStatus);
+	Optional<Users> findByEmail(String email);
+	
+	Optional<Users> findByNickname(String nickname);
+	
+//	Users findByEmailAndPasswordAndActiveStatus(String email, String password, String activeStatus);
+	
+	Users findByEmailAndActiveStatus(String email, String activeStatus);
+	
+	Optional<Users> findByRefreshToken(String refreshToken);
+
+	Optional<Users> findByPlatformTypeAndSocialId(String platformType, String id);
 	
 }

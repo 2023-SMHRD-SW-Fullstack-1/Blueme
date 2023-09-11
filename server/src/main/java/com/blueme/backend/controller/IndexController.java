@@ -18,9 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 public class IndexController {
 	
 	// 테스트용
-	@GetMapping("/")
-	public Long reservation() {
-		return 1L;
+	@GetMapping("/index")
+	public String reservation() {
+		return "index.html";
 	}
 	
 	@PostMapping("/health/hearthrate")

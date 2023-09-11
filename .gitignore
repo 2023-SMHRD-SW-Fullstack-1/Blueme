@@ -146,3 +146,6 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 /.metadata/
+
+application-oauth.yml
+application-jwt.yml

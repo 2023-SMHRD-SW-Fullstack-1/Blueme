@@ -1,9 +1,5 @@
 package com.blueme.backend.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,12 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.TableGenerator;
-
-import org.hibernate.annotations.GenericGenerator;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,7 +51,7 @@ public class Users extends BaseEntity{
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'blueme'")
 	private String platformType;
 	
-	private String accessToken;
+	private String refreshToken;
 	
 	@Column(nullable=true, columnDefinition="VARCHAR(255) default 'Y'")
 	private String activeStatus;
@@ -68,27 +59,56 @@ public class Users extends BaseEntity{
 	@Enumerated(EnumType.STRING)
     private UserRole role;
 	
+	private String socialId;
+	
 //	@OneToMany(mappedBy = "user")
 //	private List<RecMusiclist> music_list = new ArrayList<RecMusiclist>();
 	
 	@Builder
 	public Users(Long id,String email, String password
 			,String nickname, String platformType
-			, String accessToken) {
+			, String refreshToken, String socialId) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
-		this.accessToken = accessToken;
+		this.refreshToken = refreshToken;
 		this.platformType = platformType;
 		this.activeStatus = "Y";
 		this.role = UserRole.ADMIN;
+		this.socialId=socialId;
 	}
 	
 	public enum UserRole {
 	    USER,
 	    ADMIN
 	}
+	
+	
+//	/* 유저 권한 설정 (USER) */
+//	public void authorizeUser() {
+//        this.role = UserRole.USER;
+//    }
+	
+	/* 비밀번호 암호화 */
+	@Builder
+	public void passwordEncode(BCryptPasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
+	
+	/* 리프레시 토큰(refresh token) 값 갱신 */
+	@Builder
+	public void updateRefreshToken(String updateRefreshToken) {
+		this.refreshToken=updateRefreshToken;
+	}
+	
+	/* nickname과 password만 수정 가능 */
+	@Builder
+	public void update(String nickname, String password) {
+		this.nickname=nickname;
+		this.password=password;
+	}
+	
 	
 }
 
