@@ -61,13 +61,13 @@ public class SecurityConfig{
 				.antMatchers("signup", "deactivate","login","update","/index").permitAll() // "/signup" 회원가입페이지 접근 가능
 				.antMatchers("/login/oauth2/code/kakao", "/login/oauth2/code/google").permitAll()
 //				.antMatchers("/admin").hasRole("ADMIN")
-                .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
-                .and()
+                .anyRequest().authenticated(); // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
+                //.and();
                 // 소셜 로그인 설정
-                .oauth2Login()
-                .successHandler(oAuth2LoginSuccessHandler)
-                .failureHandler(oAuth2LoginFailureHandler)
-                .userInfoEndpoint().userService(customOAuth2UserService);
+                //.oauth2Login()
+                //.successHandler(oAuth2LoginSuccessHandler)
+                //.failureHandler(oAuth2LoginFailureHandler)
+                //.userInfoEndpoint().userService(customOAuth2UserService);
 		
 
 		

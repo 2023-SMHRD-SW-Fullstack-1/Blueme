@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
-작성자: 김혁
+작성자: 김혁, 손지연
 날짜(수정포함): 2023-09-07
 설명: 회원 관련 서비스
 */
