@@ -24,7 +24,7 @@ dependencies {
 	implementation 'net.jthink:jaudiotagger:3.0.1'
 	// jwt
 	implementation 'com.auth0:java-jwt:4.2.1'
-	//implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	// 파일 변환시 사용
 	implementation 'commons-io:commons-io:2.8.0' 
 	

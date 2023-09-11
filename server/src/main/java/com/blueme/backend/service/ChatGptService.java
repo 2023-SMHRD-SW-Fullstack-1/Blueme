@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 public class ChatGptService {
+
     private final RestTemplate restTemplate;
 
     @Value("${api-key.chat-gpt}")
@@ -79,4 +80,6 @@ public class ChatGptService {
                 )
         );
     }
+
+    
 }
