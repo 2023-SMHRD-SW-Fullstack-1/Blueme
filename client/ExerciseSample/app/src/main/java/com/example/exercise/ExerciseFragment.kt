@@ -77,7 +77,7 @@ class ExerciseFragment : Fragment() {
 
     // 정보 저장용 변수
     private var saveHeartRate = mutableListOf<Int>()
-    private var saveSpeed = mutableListOf<Int>()
+    private var saveSpeed = mutableListOf<Double>()
     private var saveCalorie = 0
     private var saveStep = mutableListOf<Int>()
 
@@ -99,9 +99,20 @@ class ExerciseFragment : Fragment() {
         binding.startEndButton.setOnClickListener {
             // App could take a perceptible amount of time to transition between states; put button into
             // an intermediary "disabled" state to provide UI feedback.
-            it.isEnabled = false
+
             // modified by orthh
+             it.isEnabled = false
             startEndExercise()
+//            it.isEnabled = false
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                serviceConnection.repeatWhenConnected { exerciseService ->
+//                    if (exerciseService.isExerciseInProgress()) {
+//                        exerciseService.endExercise()
+//                    } else {
+//                        startEndExercise()
+//                    }
+//                }
+//            }
         }
         binding.pauseResumeButton.setOnClickListener {
             // App could take a perceptible amount of time to transition between states; put button into
@@ -148,9 +159,16 @@ class ExerciseFragment : Fragment() {
         bindViewsToService()
 
         //시작할떄 이미 시작되어있으면 종료.
-        checkNotNull(serviceConnection.exerciseService) {
-            "Failed to achieve ExerciseService instance"
-        }.endExercise()
+        //checkNotNull(serviceConnection.exerciseService) {
+          //  "Failed to achieve ExerciseService instance"
+       //}.endExercise()
+
+        //viewLifecycleOwner.lifecycleScope.launch {
+          //  serviceConnection.repeatWhenConnected { exerciseService ->
+            //    exerciseService.endExercise()
+            //}
+        //}
+
     }
 
     override fun onDestroyView() {
@@ -184,7 +202,7 @@ class ExerciseFragment : Fragment() {
                 Log.d("평균심박수", saveHeartRate.average().toString())
                 Log.d("칼로리", saveCalorie.toString())
                 Log.d("평균속도", saveSpeed.average().toString())
-                Log.d("걸음수", saveStep.toString())
+                Log.d("걸음수", saveStep.average().toString())
 
                 // 종료하기( 실제 기기로 테스트해보기 팅기나)
 //                    checkNotNull(serviceConnection.exerciseService) {
@@ -391,21 +409,25 @@ class ExerciseFragment : Fragment() {
         // added by orthh
         latestMetrics.getData(DataType.SPEED).let{
             if (it.isNotEmpty()) {
-                val speedInKmPerHour = (it.last().value * 3.6).toInt()
+                val speedInKmPerHour = it.last().value * 3.6
                 Log.d("speed-it = ", speedInKmPerHour.toString())
                 binding.speedText.text = formatSpeed(speedInKmPerHour.toString())
 //                Log.d("speed-it = ", it.last().value.toString())
 //                binding.speedText.text = it.last().value.toString()
                 //binding.speedText.text = it.last().value.roundToInt().toString()
-                saveSpeed.add((it.last().value*3.6).toInt())
+                if((it.last().value*3.6) != 0.0){
+                    saveSpeed.add(it.last().value*3.6)
+                }
             }
         }
         latestMetrics.getData(DataType.STEPS_PER_MINUTE).let{
             if (isStart && it.isNotEmpty()) {
                 Log.d("step-it = ", it.last().value.toString())
-                binding.stepsText.text = it.last().value.toString()
+                binding.stepsText.text = formatSteps(it.last().value.toString())
                 //binding.speedText.text = it.last().value.roundToInt().toString()
-                saveStep.add(it.last().value.toInt())
+                if(it.last().value.toInt() != 0){
+                    saveStep.add(it.last().value.toInt())
+                }
             }
         }
     }

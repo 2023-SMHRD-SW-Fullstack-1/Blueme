@@ -70,9 +70,17 @@ fun formatCalories(calories: Double) = buildSpannedString {
 }
 
 // added by orthh
-fun formatSpeed(speed: String) = buildSpannedString{
-    append(speed)
+fun formatSpeed(speed: String) = buildSpannedString {
+    val formattedSpeed = String.format("%.2f", speed.toDouble())
+    append(formattedSpeed)
     inSpans(RelativeSizeSpan(UNITS_RELATIVE_SIZE)) {
         append("km/h")
+    }
+}
+
+fun formatSteps(steps: String) = buildSpannedString {
+    append(steps)
+    inSpans(RelativeSizeSpan(UNITS_RELATIVE_SIZE)) {
+        append("steps/m")
     }
 }
