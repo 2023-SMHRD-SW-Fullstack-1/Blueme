@@ -206,7 +206,7 @@ class ExerciseFragment : Fragment() {
                 //tryPauseExercise()
                 //pauseResumeExercise()
                 // 전송 완료 표시
-                Toast.makeText(requireContext(), "데이터 전송완료", Toast.LENGTH_SHORT).show()
+
 
                 // 데이터 확인
                 Log.d("평균심박수", saveHeartRate.average().toString())
@@ -237,42 +237,49 @@ class ExerciseFragment : Fragment() {
                     e.printStackTrace()
                 }
 
-                // 전송
-                val request: StringRequest = object : StringRequest(
-                    Method.POST,
-                    "http://172.30.1.27:8104/healthinfo/add",
-                    Response.Listener<String> { response ->
-                        Log.d("response", response)
-                        if (response != "-1") {
+                if(heartRateToServer.toDoubleOrNull()?.isNaN() == true){
+                    Toast.makeText(requireContext(), "오류 발생! 워치를 신체에 접촉해주세요", Toast.LENGTH_SHORT).show()
+                }else{
+                    // 전송
+                    val request: StringRequest = object : StringRequest(
+                        Method.POST,
+                        "http://172.30.1.27:8104/healthinfo/add",
+                        Response.Listener<String> { response ->
+                            Log.d("response", response)
+                            if (response != "-1") {
+                                Toast.makeText(requireContext(), "데이터 전송완료", Toast.LENGTH_SHORT).show()
+                            }
+                        },
+                        Response.ErrorListener { error -> Log.d("error", error.toString()) }) {
+                        override fun getBodyContentType(): String {
+                            //return "application/json; charset=utf-8";
+                            //return "application/x-www-form-urlencoded";
+                            return "application/json"
                         }
-                    },
-                    Response.ErrorListener { error -> Log.d("error", error.toString()) }) {
-                    override fun getBodyContentType(): String {
-                        //return "application/json; charset=utf-8";
-                        //return "application/x-www-form-urlencoded";
-                        return "application/json"
-                    }
 
-                    override fun getBody(): ByteArray {
-                        return jsonBody.toString().toByteArray(StandardCharsets.UTF_8)
+                        override fun getBody(): ByteArray {
+                            return jsonBody.toString().toByteArray(StandardCharsets.UTF_8)
+                        }
                     }
+                    reqQueue?.add(request)
+
+                    // 종료하기
+                    checkNotNull(serviceConnection.exerciseService) {
+                        "Failed to achieve ExerciseService instance"
+                    }.endExercise()
+
+                    // 프로그래스바 초기화, 상태 초기화
+                    binding.progressStart.setProgress(0)
+                    saveHeartRate.clear()
+                    saveCalorie = 0
+                    saveSpeed.clear()
+                    saveStep.clear()
+                    resetDisplayedFields()
+                    binding.tvActMsg.visibility = View.INVISIBLE
                 }
-                reqQueue?.add(request)
+                }
 
-                // 종료하기
-                checkNotNull(serviceConnection.exerciseService) {
-                    "Failed to achieve ExerciseService instance"
-                }.endExercise()
 
-                // 프로그래스바 초기화, 상태 초기화
-                binding.progressStart.setProgress(0)
-                saveHeartRate.clear()
-                saveCalorie = 0
-                saveSpeed.clear()
-                saveStep.clear()
-                resetDisplayedFields()
-                binding.tvActMsg.visibility = View.INVISIBLE
-            }
 
             override fun onAnimationCancel(p0: Animator) {
                 TODO("Not yet implemented")

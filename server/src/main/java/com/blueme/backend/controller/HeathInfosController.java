@@ -1,12 +1,16 @@
 package com.blueme.backend.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blueme.backend.dto.healthinfodto.HealthInfoResDto;
 import com.blueme.backend.dto.healthinfodto.HealthInfoSaveReqDto;
+import com.blueme.backend.model.entity.HealthInfos;
 import com.blueme.backend.service.HealthInfosService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,24 +33,22 @@ public class HeathInfosController {
   private final HealthInfosService healthInfosService;
 
   /*
+   * get 건강정보 조회
+   */
+  @GetMapping("/get/{userId}")
+  public HealthInfoResDto getHealthInfo(@PathVariable("userId") String id) {
+    log.info("start getHealthInfo for id = {}", id);
+    return healthInfosService.getHealthInfo(Long.parseLong(id));
+  }
+
+
+  /*
    * post 건강정보 등록
    */
 
   @PostMapping("/add")
     public Long saveHealthInfo(@RequestBody HealthInfoSaveReqDto request) {
       log.info("start saveHealthInfo for userEmail = {}", request.getUserEmail());
-      String userEmail = request.getUserEmail();
-      String heartRate = request.getHeartrate();
-      String calorie = request.getCalorie();
-      String speed = request.getSpeed();
-      String step = request.getStep();
-      
-      System.out.println(userEmail);
-      System.out.println(heartRate);
-      System.out.println(calorie);
-      System.out.println(speed);
-      System.out.println(step);
-
       return healthInfosService.saveHealthInfo(request);
     }
 }

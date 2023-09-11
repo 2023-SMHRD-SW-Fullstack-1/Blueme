@@ -1,8 +1,12 @@
 package com.blueme.backend.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
+import com.blueme.backend.dto.healthinfodto.HealthInfoResDto;
 import com.blueme.backend.dto.healthinfodto.HealthInfoSaveReqDto;
+import com.blueme.backend.model.entity.HealthInfos;
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.HealthInfosJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
@@ -23,6 +27,14 @@ public class HealthInfosService {
   
   private final HealthInfosJpaRepository healthInfosJpaRepository;
   private final UsersJpaRepository usersJpaRepository;
+
+  /*
+   * get 건강정보 조회
+   */
+  public HealthInfoResDto getHealthInfo(Long userId){
+    Optional<HealthInfos> healthInfo = healthInfosJpaRepository.findFirstByUserIdOrderByCreatedAtDesc(userId);
+    return healthInfo.isPresent() ? new HealthInfoResDto(healthInfo.get()) : null;
+  }
 
   /*
    * post 건강정보 등록
