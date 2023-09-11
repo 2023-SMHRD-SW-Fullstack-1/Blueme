@@ -1,7 +1,14 @@
+/*
+작성자: 이지희
+날짜(수정포함): 2023-09-11
+설명: 사용자 라이브러리
+*/
+
 import React from "react";
 import { Link } from "react-router-dom";
 import LikedList from "../../components/Library/LikedList";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
+
 
 const Library = () => {
   return (
@@ -10,7 +17,7 @@ const Library = () => {
       <div className="flex mt-[90px] mb-3">
         <span className="text-left text-2xl ml-2">좋아요 누른 음악 목록</span>
         <button className="ml-auto text-custom-gray mr-2 text-sm">
-          <Link to="/LibraryPlaylist">더보기</Link>
+          <Link to="/LikedPlaylist">더보기</Link>
         </button>
       </div>
       <LikedList />
