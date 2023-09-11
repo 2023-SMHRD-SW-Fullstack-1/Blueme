@@ -149,3 +149,5 @@ lint/tmp/
 
 application-oauth.yml
 application-jwt.yml
+
+application-API-KEY.yaml

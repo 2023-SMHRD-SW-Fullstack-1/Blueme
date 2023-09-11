@@ -1,6 +1,8 @@
 spring:
   profiles:
-    include: oauth
+    include:
+      - oauth
+      - API-KEY
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://project-db-campus.smhrd.com:3308/blueme_sys
@@ -25,10 +27,3 @@ server:
 logging:
   level:
     root: info
-
-api-key:
-  chat-gpt: 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
-  
-
-  
-
