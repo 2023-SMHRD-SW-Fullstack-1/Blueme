@@ -137,15 +137,20 @@ public class UsersService {
 	 *  patch 유저 수정 
 	 */
 	
-//	@Transactional
-//	public Long update(UsersUpdateDto requestDto) {
-//	    log.info("userService method update start...");
+	@Transactional
+	public Long update(UsersUpdateDto requestDto) {
+	    log.info("userService method update start...");
+	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail())
+	        .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. email=" + requestDto.getEmail()));
+	    
+	    user.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()));
+	    return user.getId();
 //	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
 //			user.setPassword(requestDto.getPassword());
 //			user.setNickname(requestDto.getNickname());
 //			System.out.println(user.getNickname());
 //			return user.getId();
 //	    return null;
-//	}
+	}
 
 }

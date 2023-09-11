@@ -77,6 +77,7 @@ public class UsersController {
 	/**
 	 *  post 유저 로그아웃
 	 */
+	
 
 
 	
@@ -95,13 +96,12 @@ public class UsersController {
 	/**
 	 *  PATCH 유저 수정 
 	 */
-
-//	@PatchMapping("/update")
-//	public Long update(@RequestBody UsersUpdateDto requestDto){
-//		log.info("Starting user update for email{}", requestDto.getEmail());
-//		Long userId = usersService.update(requestDto);
-//		log.info("User update completed with ID {}", userId);
-//		return userId;
-//	}
+	@PatchMapping("/update")
+	public Long update(@RequestBody UsersUpdateDto requestDto){
+		log.info("Starting user update for email{}", requestDto.getEmail());
+		Long userId = usersService.update(requestDto);
+		log.info("User update completed with ID {}", userId);
+		return userId;
+	}
 
 }

@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.blueme.backend.model.entity.Users;
@@ -31,6 +32,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	
 	private final JwtService jwtService;
 	private final UsersJpaRepository usersJpaRepository;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 	
@@ -86,7 +88,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	     */
 	    public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
 	                                                  FilterChain filterChain) throws ServletException, IOException {
-	        log.info("checkAccessTokenAndAuthentication() 호출");
+//	        log.info("checkAccessTokenAndAuthentication() 호출");
 	        jwtService.extractAccessToken(request)
 	                .filter(jwtService::isTokenValid)
 	                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
@@ -101,8 +103,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	     */
 	    public void saveAuthentication(Users myUser) {
 	        String password = myUser.getPassword();
+	        System.out.println("Password====>"+password);
 	        if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
-	            password = PasswordUtil.generateRandomPassword();
+	            password = bCryptPasswordEncoder.encode(PasswordUtil.generateRandomPassword());
 	        }
 
 	        UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()

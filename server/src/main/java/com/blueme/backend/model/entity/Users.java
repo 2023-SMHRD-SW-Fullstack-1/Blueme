@@ -59,13 +59,15 @@ public class Users extends BaseEntity{
 	@Enumerated(EnumType.STRING)
     private UserRole role;
 	
+	private String socialId;
+	
 //	@OneToMany(mappedBy = "user")
 //	private List<RecMusiclist> music_list = new ArrayList<RecMusiclist>();
 	
 	@Builder
 	public Users(Long id,String email, String password
 			,String nickname, String platformType
-			, String refreshToken) {
+			, String refreshToken, String socialId) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -74,6 +76,7 @@ public class Users extends BaseEntity{
 		this.platformType = platformType;
 		this.activeStatus = "Y";
 		this.role = UserRole.ADMIN;
+		this.socialId=socialId;
 	}
 	
 	public enum UserRole {
@@ -98,6 +101,14 @@ public class Users extends BaseEntity{
 	public void updateRefreshToken(String updateRefreshToken) {
 		this.refreshToken=updateRefreshToken;
 	}
+	
+	/* nickname과 password만 수정 가능 */
+	@Builder
+	public void update(String nickname, String password) {
+		this.nickname=nickname;
+		this.password=password;
+	}
+	
 	
 }
 
