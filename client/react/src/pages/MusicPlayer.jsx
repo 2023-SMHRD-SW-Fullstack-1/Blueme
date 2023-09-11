@@ -3,7 +3,6 @@
 날짜(수정포함): 2023-09-11
 설명: 라이브러리 페이지 내 좋아요 누른 곡 리스트 
 */
-
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -23,7 +22,8 @@ import rotate from "../assets/img/musicPlayer/rotate.png";
 import rotating from "../assets/img/musicPlayer/rotating.png";
 import { log } from "react-modal/lib/helpers/ariaAppHider";
 
-const MusicPlayer = () => {
+const MusicPlayer = ({item}) => {
+  // console.log('mp',item);
   const navigate = useNavigate();
   const location = useLocation();
   // 임의 사용자 user_id
