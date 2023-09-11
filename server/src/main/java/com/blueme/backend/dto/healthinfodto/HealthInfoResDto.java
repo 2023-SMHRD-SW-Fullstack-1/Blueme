@@ -7,6 +7,12 @@ import com.blueme.backend.model.entity.HealthInfos;
 
 import lombok.Getter;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-011
+설명: 건강정보 조회 resDto
+*/
+
 @Getter
 public class HealthInfoResDto {
   public String healthInfoId;

@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.blueme.backend.dto.themesdto.ThemeDetailsResDto;
 import com.blueme.backend.dto.themesdto.ThemeDetailsResDto;
@@ -17,6 +20,8 @@ import com.blueme.backend.dto.themesdto.ThemelistDetailResDto;
 import com.blueme.backend.dto.themesdto.ThemelistResDto;
 import com.blueme.backend.model.entity.Themes;
 import com.blueme.backend.service.ThemesService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-06
+날짜(수정포함): 2023-09-11
 설명: 음악테마 관련 컨트롤러
 */
 
@@ -42,12 +47,21 @@ public class ThemesController {
   *  post theme 등록 
   */
   @PostMapping("/register")
-  public Long register(@RequestBody ThemeSaveReqDto requestDto) {
+  public Long register(@RequestPart("theme_img_file") MultipartFile imageFile,
+                     @RequestPart("requestDto") String requestDtoString) {
+    ThemeSaveReqDto requestDto = null;
     log.info("Starting theme registration");
-    Long themeId = themesService.saveThemes(requestDto);
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+        requestDto = objectMapper.readValue(requestDtoString, ThemeSaveReqDto.class);
+    } catch (JsonProcessingException e) {
+        log.error("objectMapper 변환 실패!");
+    }
+    Long themeId = themesService.saveThemes(imageFile, requestDto);
     log.info("theme registration completed");
     return themeId;
   }
+
 
   /**
   *  get 모든 테마 조회

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 const AddTheme = () => {
@@ -10,7 +10,9 @@ const AddTheme = () => {
   const [searchList, setSearchList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 50;
-
+  const [isImgUploaded, setIsImgUploaded] = useState(false);
+  const [imgFile, setImgFile] = useState("");
+  const imgRef = useRef();
   // 음악 데이터 가져오기
   useEffect(() => {
     const fetchMusicData = async () => {
@@ -47,6 +49,7 @@ const AddTheme = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    /*
     try {
       await axios.post("http://172.30.1.27:8104/theme/register", {
         title,
@@ -54,6 +57,42 @@ const AddTheme = () => {
         musicIds,
       });
       alert("테마가 성공적으로 등록되었습니다.");
+    } catch (error) {
+      console.error("테마 등록 중 오류가 발생했습니다:", error);
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("theme_img_file", imgRef.current.files[0]);
+
+      await axios.post(
+        "http://172.30.1.27:8104/theme/register/image",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    } catch (error) {
+      console.error("이미지 업로드 중 오류가 발생했습니다:", error);
+    }*/
+
+    try {
+      const formData = new FormData();
+      formData.append("theme_img_file", imgRef.current.files[0]);
+      formData.append(
+        "requestDto",
+        JSON.stringify({ title, content, musicIds })
+      );
+
+      await axios.post("http://172.30.1.27:8104/theme/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // 요청 성공 후의 로직...
     } catch (error) {
       console.error("테마 등록 중 오류가 발생했습니다:", error);
     }
@@ -81,6 +120,23 @@ const AddTheme = () => {
     }
   };
 
+  // 이미지 업로드 검사(파일 업로드 안할시 인증하기 막음)
+  const handleIsImgUploaded = () => {
+    setIsImgUploaded(true);
+  };
+
+  // 사진 미리보기
+  const saveImgFile = () => {
+    handleIsImgUploaded();
+    const file = imgRef.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImgFile(reader.result);
+      setIsImgUploaded(true);
+    };
+  };
+
   return (
     <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
       <main>
@@ -89,8 +145,31 @@ const AddTheme = () => {
           <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-4 text-[#1E293B]">
             테마 등록
           </h1>
-          <form onSubmit={handleSubmit}>
+          <form>
             <div className="mb-4">
+              <div className="flex flex-col items-center">
+                <img
+                  className="w-32 h-32 object-cover rounded-full shadow-md"
+                  src={imgFile ? imgFile : `previewimg.png`}
+                  alt=""
+                />
+                <label
+                  className="mt-4 text-lg font-semibold text-gray-700"
+                  htmlFor="profileImg"
+                >
+                  테마사진
+                </label>
+                <input
+                  className="mt-2"
+                  type="file"
+                  accept="image/*"
+                  id="profileImg"
+                  onChange={saveImgFile}
+                  ref={imgRef}
+                  name="theme_img_file"
+                />
+              </div>
+
               <label htmlFor="title" className="block mb-2">
                 제목:
               </label>
@@ -122,6 +201,7 @@ const AddTheme = () => {
               type="submit"
               value="등록"
               className="py-1 px-3 bg-[#1E293B] hover:bg-blue700 text-white font-bold rounded cursor-pointer"
+              onClick={handleSubmit}
             />
           </form>
           <div>

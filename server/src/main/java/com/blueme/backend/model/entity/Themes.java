@@ -14,10 +14,12 @@ import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
 @Entity
+@Setter
 public class Themes {
 
 	@Id
@@ -32,12 +34,15 @@ public class Themes {
 	private List<ThemeMusiclists> themeMusicList;
 	
 	private String content;
+
+	private String themeImgPath;
 	
 	@Builder
-	public Themes(String title, String content, List<ThemeMusiclists> themeMusicList) {
+	public Themes(String title, String content, List<ThemeMusiclists> themeMusicList, String themeImgPath) {
 		this.title = title;
 		this.content = content;
 		this.themeMusicList = themeMusicList;
+		this.themeImgPath = themeImgPath;
 	}
 	
 }

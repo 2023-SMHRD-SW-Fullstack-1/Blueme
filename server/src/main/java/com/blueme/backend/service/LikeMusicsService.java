@@ -80,7 +80,7 @@ public class LikeMusicsService {
       List<LikeMusics> likeMusics = likeMusicsJpaRepository.findByUserId(Long.parseLong(userId));
       List<MusicInfoResDto> musicInfoResDtos = new ArrayList<>();
       for (LikeMusics likeMusic : likeMusics) {
-        Musics music = musicsJpaRepository.findById(likeMusic.getId())
+        Musics music = musicsJpaRepository.findById(likeMusic.getMusic().getId())
           .orElseThrow(() -> new IllegalArgumentException("해당하는 음악ID가 없습니다."));
         
           // 앨범재킷 파일 불러오기

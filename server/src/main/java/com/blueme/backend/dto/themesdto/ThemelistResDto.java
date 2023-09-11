@@ -13,10 +13,13 @@ public class ThemelistResDto {
 
   String content;
 
-  public ThemelistResDto(Themes theme) {
+  String img;
+
+  public ThemelistResDto(Themes theme, String imgBase64) {
     this.themeId = theme.getId();
     this.title = theme.getTitle();
     this.content = theme.getContent();
+    this.img = imgBase64;
   }
   
 }

@@ -34,7 +34,6 @@ public class HealthInfos extends BaseEntity {
 
 	private String step;
 	
-
 	@Builder
 	public HealthInfos(Users user, String heartrate, String calorie, String speed, String step) {
 		this.user = user;

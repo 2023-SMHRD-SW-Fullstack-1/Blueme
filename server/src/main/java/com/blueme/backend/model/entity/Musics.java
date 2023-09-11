@@ -40,6 +40,7 @@ public class Musics{
 	
 	private String genre2;
 	
+	@Lob
 	private String tag;
 	
 	private String time;
