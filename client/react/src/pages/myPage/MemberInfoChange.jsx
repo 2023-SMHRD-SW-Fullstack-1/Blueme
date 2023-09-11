@@ -1,15 +1,38 @@
-import React, { useState } from "react";
+/*
+작성자: 신지훈
+날짜: 2023-09-11
+설명: 사용자 프로필사진 등록
+*/
+
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo2 from "../../assets/img/logo2.png";
 import axios from "axios";
-import user from '../../assets/img/defalut.png'
+import user from "../../assets/img/defalut.png";
 
 function MemberInfoChange() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [imgFile, setImgFile] = useState("");
+  const imgRef = useRef();
 
+  // 선택된 이미지 파일을 저장하는 함수
+  const saveImgFile = () => {
+    if (!imgRef.current.files[0]) {
+      console.log("No file selected");
+      return;
+    }
+    const file = imgRef.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImgFile(reader.result);
+      previewRef.current.src = reader.result;
+      console.log("File selected and read");
+    };
+  };
   const handleUpdate = async () => {
     if (password !== confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
@@ -41,13 +64,39 @@ function MemberInfoChange() {
     }
   };
 
+  const previewRef = useRef();
   return (
     <div className=" bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16 min-h-screen font-semibold tracking-tighter">
       <div className="mt-36 text-custom-white mb-3 text-center  sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
-        <Link to="/Main" className="self-center flex flex-col items-center justify-center">
-          <img src={user} className="w-[120px] h-[120px] rounded-xl " alt="" />
+        <div className="self-center flex flex-col items-center justify-center">
+          <label htmlFor="profileImg">
+            <img
+              // src={imgFile ? imgFile : `data:image/;base64,${myFeed[0]?.myFeed.mem_photo}`}
+              src={imgFile || user}
+              alt=""
+              ref={previewRef}
+              onChange={saveImgFile}
+              //사진 꾸미기
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                cursor: "pointer",
+              }}
+            />
+          </label>
+          <input
+            className="hidden"
+            type="file"
+            accept="image/*"
+            id="profileImg"
+            onChange={saveImgFile}
+            ref={imgRef}
+            name="b_file"
+          />
           <span className="text-xl mt-3">닉네임</span>
-        </Link>
+        </div>
       </div>
       <div className="text-2xl text-custom-white te mt-5 text-left w-full">내 정보</div>
       <input

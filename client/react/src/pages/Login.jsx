@@ -18,8 +18,6 @@ const Login = () => {
 
       if (response.status === 200) {
         alert("로그인에 성공했습니다!");
-        // 여기서 필요한 경우 로그인 후의 동작을 수행하실 수 있습니다.
-        // 예: 페이지 이동 등
       }
     } catch (error) {
       console.error(error);
@@ -30,10 +28,7 @@ const Login = () => {
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16">
       <div className="mt-36 text-custom-white mb-3 text-center sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
-        <Link
-          to="/Main"
-          className="self-center flex items-center justify-center"
-        >
+        <Link to="/Main" className="self-center flex items-center justify-center">
           <span className="text-3xl tracking-tighter font-bold text-[rgba(255,255,255,0.80)]">Blueme</span>
           <img src={logo2} className="w-full max-w-[60px] h-auto" alt="Blueme 로고" />
         </Link>
@@ -64,15 +59,11 @@ const Login = () => {
              text-custom-white
              tracking-tighter
              font-bold"
-             
       >
         로그인
       </button>
 
-      <hr
-        className="mt-10"
-        style={{ borderTop: "1px solid gray", width: "100%" }}
-      />
+      <hr className="mt-10" style={{ borderTop: "1px solid gray", width: "100%" }} />
       <div className="text-custom-white mt-10 mb-4 text-left w-full text-2xl font-semibold tracking-tighter">
         SNS 로그인
       </div>
@@ -93,16 +84,11 @@ const Login = () => {
         구글로 로그인
       </button>
 
-      <hr
-        className="mt-10"
-        style={{ borderTop: "1px solid gray", width: "100%" }}
-      />
+      <hr className="mt-10" style={{ borderTop: "1px solid gray", width: "100%" }} />
 
       <div className="text-custom-white mt-6 text-xl font-semibold tracking-tighter text-center">
         <Link to="/Join">
-          <button >
-            회원가입
-          </button>
+          <button>회원가입</button>
         </Link>
       </div>
     </div>
