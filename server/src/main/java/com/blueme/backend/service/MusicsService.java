@@ -181,29 +181,20 @@ public class MusicsService {
 				String[] ranges = rangeHeader.replace("bytes=", "").split("-");
 				long startRange = Long.parseLong(ranges[0]);
 				long endRange = ranges.length > 1 ? Long.parseLong(ranges[1]) : fileSize - 1;
-
 				long length = endRange - startRange + 1;
 				
                 headers.setContentLength(length);
-
                 headers.add("Content-Range", "bytes " + startRange + "-" 
                         + endRange + "/" + fileSize);
-
                 raf.seek(startRange); 
-
-                byte[] buffer= new byte[(int)length];
-                
+                byte[] buffer= new byte[(int)length];         
                 raf.read(buffer, 0, (int)length);
-
-                InputStream is=new ByteArrayInputStream(buffer);
-                
+                InputStream is=new ByteArrayInputStream(buffer);        
                 InputStreamResource resource =
                         new InputStreamResource(is);
-
                 return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
                         .headers(headers)
-                        .body(resource); 
-                
+                        .body(resource);               
                }
         } catch (Exception e) {
            throw new RuntimeException("오디오 스트림 전송 실패", e); 

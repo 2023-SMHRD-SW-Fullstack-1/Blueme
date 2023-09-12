@@ -36,6 +36,9 @@ public class ChatGptController {
     private final APIResponse apiResponse;
     private final ChatGptService chatGptService;
 
+    /*
+     * 질의 테스트 나중에 모듈화 시키기
+     */
     @PostMapping("/question")
     public ResponseEntity sendQuestion(
             Locale locale,

@@ -5,6 +5,9 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.blueme.backend.model.vo.WeatherInfo;
+
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -18,7 +21,6 @@ import java.util.Map;
 
 @Component
 public class WeatherAPIClient {
-
     @Value("${api-key.open-weather}")
     private String appid;
 
@@ -29,19 +31,19 @@ public class WeatherAPIClient {
     }
 
     // 위도와 경도값을 받아 날씨 데이터 받는 로직
-    public Mono<Map<String, Object>> getWeather(String lat, String lon) {
+    public Mono<WeatherInfo> getWeather(String lat, String lon) {
       return webClient.get()
             .uri(uriBuilder -> uriBuilder
                     .path("/data/2.5/weather")
                     .queryParam("lat", lat)
-                    .queryParam("lng", lon)
+                    .queryParam("lon", lon)
                     .queryParam("appid", appid)
                     .build())
             .retrieve()
             .onStatus(HttpStatus::isError, clientResponse ->
                 Mono.error(new RuntimeException("Weather API request failed with status: " + clientResponse.statusCode()))
             )
-            .bodyToMono(new ParameterizedTypeReference<>() {});
+            .bodyToMono(WeatherInfo.class);
     }
 
 }

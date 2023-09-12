@@ -12,4 +12,5 @@ import com.google.protobuf.Option;
 public interface HealthInfosJpaRepository extends JpaRepository<HealthInfos, Long>{
   Optional<HealthInfos> findFirstByUserIdOrderByCreatedAtDesc(Long userId);
 
+
 }
