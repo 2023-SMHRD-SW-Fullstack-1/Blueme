@@ -5,6 +5,12 @@ import { OrbitControls } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-07
+설명: 사용자의 데이터 받아오는 로딩 화면
+*/
+
 const DirectionalLightWithCamera = () => {
   const { camera } = useThree();
   const lightRef = React.useRef();

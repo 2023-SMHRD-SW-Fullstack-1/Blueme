@@ -5,6 +5,12 @@ import MusicDummy from '../../dummy/MusicDummy.json';
 import SingleMusic from '../../components/Library/SingleMusic';
 import { Link } from 'react-router-dom';
 
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-07
+설명: 추천 음악 재생
+*/
+
 const RecPlayList = () => {
 
   

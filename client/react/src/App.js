@@ -34,6 +34,7 @@ import MemberDelete from "./pages/myPage/MemberDelete";
 // 유영 추천 앱 설명
 import RecAppDes from "./pages/rec/RecAppDes";
 import PlaylistRename from "./pages/rec/PlaylistRename";
+import { useSelector } from "react-redux";
 //유영 끝
 
 // 지희 import 시작
@@ -42,9 +43,11 @@ import LoadData from "./pages/rec/LoadData";
 import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
+
 // 지희 import 끝
 
 const App = () => {
+
   return (
     <Router>
       <div className="app">
@@ -81,6 +84,8 @@ const App = () => {
           <Route path="/RecAppDes" element={<RecAppDes />} />
           <Route path="/PlaylistRename" element={<PlaylistRename />} />
           <Route path="/RecPlayList" element={<RecPlayList />} />
+          <Route path="/MyPage" element={<MyPage />} /> 
+          
           {/* 유영 끝 */}
           <Route path="/RecBegin" element={<RecBegin />} />
           <Route path="/LoadData" element={<LoadData />} />

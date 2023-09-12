@@ -1,14 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo2 from "../../assets/img/logo2.png";
 import axios from "axios";
 import user from '../../assets/img/defalut.png'
+import { useDispatch } from "react-redux";
 
 function MemberInfoChange() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
+
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+
 
   const handleUpdate = async () => {
     if (password !== confirmPassword) {
@@ -49,6 +55,7 @@ function MemberInfoChange() {
           <span className="text-xl mt-3">닉네임</span>
         </Link>
       </div>
+      <form>
       <div className="text-2xl text-custom-white te mt-5 text-left w-full">내 정보</div>
       <input
         type="email"
@@ -89,9 +96,14 @@ function MemberInfoChange() {
       >
         수정하기
       </button>
+      </form>
       <Link to="/MemberDelete">
         <div className="text-custom-gray mt-6 text-sm text-center">탈퇴하기</div>
       </Link>
+      <Link to="/MemberDelete">
+        <div className="text-custom-gray mt-6 text-sm text-center">로그아웃</div>
+      </Link>
+      
     </div>
   );
 }

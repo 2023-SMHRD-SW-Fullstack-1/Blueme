@@ -4,6 +4,12 @@ import watchHeartRate from '../../assets/img/watchheartrate.png'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Link } from "react-router-dom";
 
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-07
+설명: 워치 앱 사용 설명서
+*/
+
 const RecAppDes = () => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false) //모달 열림 여부
