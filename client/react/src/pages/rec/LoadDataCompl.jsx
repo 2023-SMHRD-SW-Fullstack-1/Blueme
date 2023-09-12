@@ -1,6 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import UserDummy from '../../dummy/UserDummy.json'
+
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-07
+설명: 사용자 데이터 결과 및 현재 데이터 가져오는 화면 
+*/
+
 const LoadDataCompl = () => {
   const now = new Date();
 

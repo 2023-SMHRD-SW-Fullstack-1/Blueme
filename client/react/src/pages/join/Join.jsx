@@ -1,35 +1,49 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
 import kakao from "../../assets/img/kakao.png";
 import google from "../../assets/img/google.png";
+// import { join } from "../../store/user/user_action";
 
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-11
+설명: 회원가입 구현
+*/
 const Join = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
 
+  const navigate = useNavigate()
+  // const dispatch = useDispatch()
+
+
   // 회원가입 버튼 클릭 시 실행되는 함수
-  const handleJoin = async () => {
+  const handleJoin = async (e) => {
+    e.preventDefault();
+    // dispatch(join({email, password, nickname}))
+
+    // console.log("join", email,password,nickname);
+
+    // navigate('/JoinComplete')
+
     if (password !== confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-
     try {
-      const response = await axios.post("/user/signup", {
+      const response = await axios.post("http://172.30.1.27:8104/user/signup", {
         email,
         password,
-        nickname,
-        platform_type: "blueme",
-        active_status: "Y",
+        nickname
       });
 
       console.log(response);
 
-      alert("회원가입에 성공했습니다!");
+      navigate('/JoinComplete')
     } catch (error) {
       if (error.response && error.response.status === 409) {
         console.error("이미 존재하는 계정:", error.response.data);
@@ -46,7 +60,7 @@ const Join = () => {
       <div className="text-custom-white w-full text-left mt-[100px] text-xl font-semibold sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
         Blueme 일반 계정 회원가입
       </div>
-
+      
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}

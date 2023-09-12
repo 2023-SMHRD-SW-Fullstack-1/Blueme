@@ -1,6 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-07
+설명: 추천 받은 음악 제목 수정
+*/
+
 const PlaylistRename = () => {
     
     // 현재 날짜와 시간 구하기

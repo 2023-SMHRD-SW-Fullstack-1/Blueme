@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom';
 import watch from '../../assets/img/recPages/pinkwatch.svg'
 import gpt from '../../assets/img/recPages/gpt.svg'
 
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-07
+설명: 추천 소개 페이지
+*/
+
 const RecBegin = () => {
 
   return (
