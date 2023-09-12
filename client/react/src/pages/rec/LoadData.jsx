@@ -1,3 +1,9 @@
+/*
+작성자: 신지훈
+날짜: 2023-09-08
+설명: Three.js 적용
+*/
+
 import React from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { Watch } from "../Watch";

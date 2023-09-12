@@ -8,19 +8,34 @@ import "swiper/swiper-bundle.css";
 
 import axios from "axios";
 
-const ThemePlaylist = ({ themeImage, themeName }) => {
+const ThemePlaylist = () => {
+  const [themeImage, setThemeImage] = useState("");
+  const [themeName, setThemeName] = useState("");
   const [musicList, setMusicList] = useState([]);
 
   useEffect(() => {
     const getPlaylistDetails = async () => {
       try {
+        // Get the image URL and theme name directly from local storage
+        const imageFromStorage = localStorage.getItem("themeImage");
+        if (imageFromStorage) {
+          console.log(imageFromStorage);
+          setThemeImage(imageFromStorage);
+        }
+
+        const nameFromStorage = localStorage.getItem("themeName");
+        if (nameFromStorage) {
+          setThemeName(nameFromStorage);
+        }
+
+        // Fetch the music list for this theme
         const themeIdFromStorage = localStorage.getItem("themeId");
 
         if (themeIdFromStorage) {
           const responseMusicList = await axios.get(`/theme/themelists/${themeIdFromStorage}`);
-
-          if (responseMusicList.data) {
-            setMusicList(responseMusicList.data);
+          console.log(responseMusicList);
+          if (responseMusicList.data.data) {
+            setMusicList(responseMusicList.data.data);
           }
         }
       } catch (error) {
