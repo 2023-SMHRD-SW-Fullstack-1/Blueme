@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
 날짜(수정포함): 2023-09-11
-설명: 라이브러리 페이지 내 좋아요 누른 곡 리스트 
+설명: 좋아요 누른 곡 전체리스트 (더보기 클릭 시)
 */
 
 import { useEffect, useState } from "react";
@@ -22,23 +22,20 @@ const LikedPlaylist = () => {
 
   const [likedMusics, setLikedMusics] = useState([]);
 
-  useEffect(() => {
-    const fetchLikedList = async () => {
-      try {
-        const response = await axios.get(`/likemusics/${userId}`);
-        let musicArray = response.data.map((item) => ({
-          id: item.musicId,
-          title: item.title,
-          artist: item.artist,
-          img: item.img,
-        }));
-        setLikedMusics(musicArray);
-      } catch (error) {
-        console.error("좋아요 목록 불러오기 실패", error);
-      }
-    };
-    fetchLikedList();
-  }, [userId]);
+useEffect(() => {
+  const fetchLikedList = async () => {
+    try { 
+      const response = await axios.get(`/likemusics/${userId}`);
+      // console.log(response.data);
+      setLikedMusics(response.data);
+    } catch (error) {
+      console.error(`Error: ${error}`);
+    }
+  };
+
+  fetchLikedList();
+}, []);
+
 
   return (
     <div className="bg-custom-blue text-custom-white h-full pt-20">
@@ -67,9 +64,9 @@ const LikedPlaylist = () => {
         spaceBetween={1}
         className="h-[50%] ml-3 mr-3"
       >
-        {likedMusics.map((music) => (
-          <SwiperSlide key={music.id}>
-            <SingleMusic item={music} />
+        {likedMusics.map((song) => (
+          <SwiperSlide key={song.id}>
+            <SingleMusic item={song} />
           </SwiperSlide>
         ))}
       </Swiper>

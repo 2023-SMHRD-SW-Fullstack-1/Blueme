@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
 날짜(수정포함): 2023-09-11
-설명: 라이브러리 페이지 내 좋아요 누른 곡 리스트 
+설명: 음악 플레이어
 */
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -26,6 +26,7 @@ const MusicPlayer = ({item}) => {
   // console.log('mp',item);
   const navigate = useNavigate();
   const location = useLocation();
+
   // 임의 사용자 user_id
   const userId = 1;
 
@@ -211,7 +212,7 @@ const MusicPlayer = ({item}) => {
   // 이전곡&다음곡
   const prevTrack = () => {
     if (songId - 1 < 0) {
-      songId = 10;
+      songId = 100;
     } else {
       songId -= 1;
     }
@@ -219,7 +220,7 @@ const MusicPlayer = ({item}) => {
   };
 
   const nextTrack = () => {
-    if (songId + 1 > 10) {
+    if (songId + 1 > 100) {
       songId = 1;
     } else {
       songId += 1;
