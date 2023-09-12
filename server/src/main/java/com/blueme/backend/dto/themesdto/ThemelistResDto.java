@@ -21,5 +21,5 @@ public class ThemelistResDto {
     this.content = theme.getContent();
     this.img = imgBase64;
   }
-  
+
 }

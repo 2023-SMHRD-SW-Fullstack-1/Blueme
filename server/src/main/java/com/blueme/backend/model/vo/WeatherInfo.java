@@ -1,8 +1,8 @@
 package com.blueme.backend.model.vo;
 
 import java.util.List;
-
 import lombok.Data;
+import lombok.Getter;
 
 /*
 작성자: 김혁
@@ -12,47 +12,56 @@ import lombok.Data;
 
 @Data
 public class WeatherInfo {
-    private Coord coord;
-    private List<Weather> weather;
-    private String base;
-    private Main main;
-    private int visibility;
-    private Wind wind;
-    private Clouds clouds;
-    private long dt;
-    private Sys sys;
-    private int timezone;
-    private long id;
-    private String name;
-    private int cod;
+
+  private Coord coord;
+  private List<Weather> weather;
+  private String base;
+  private Main main;
+  private int visibility;
+  private Wind wind;
+  private Clouds clouds;
+  private long dt;
+  private Sys sys;
+  private int timezone;
+  private long id;
+  private String name;
+  private int cod;
 
   public static class Coord {
-        double lon, lat;
+
+    double lon, lat;
   }
 
+  @Data
   public static class Weather {
-        int id; 
-        String main, description, icon;
+
+    int id;
+    String main, description, icon;
   }
 
+  @Data
   public static class Main {
-        double temp, feels_like, temp_min, temp_max; 
-        int pressure, humidity; 
-        int sea_level, grnd_level;
+
+    double temp, feels_like, temp_min, temp_max;
+    int pressure, humidity;
+    int sea_level, grnd_level;
   }
 
   public static class Wind {
-      double speed; 
-      int deg; 
-      double gust;
+
+    double speed;
+    int deg;
+    double gust;
   }
 
   public static class Clouds {
-      int all;
+
+    int all;
   }
 
   public static class Sys {
-      String country; 
-      long sunrise,sunset;
+
+    String country;
+    long sunrise, sunset;
   }
 }

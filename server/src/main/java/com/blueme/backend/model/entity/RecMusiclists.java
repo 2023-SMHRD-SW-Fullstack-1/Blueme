@@ -19,28 +19,31 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class RecMusiclists extends BaseEntity{
-	
+public class RecMusiclists extends BaseEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="rec_musiclist_id")
+	@Column(name = "rec_musiclist_id")
 	private Long id;
-	
+
 	private String title;
-	
+
+	private String reason;
+
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="rec_musiclist_id") // 셀프조인
+	@JoinColumn(name = "rec_musiclist_id") // 셀프조인
 	private List<RecMusiclistDetails> recMusicListDetail;
-	
+
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private Users user;
-	
+
 	@Builder
-	public RecMusiclists(String title, Users user, List<RecMusiclistDetails> recMusicListDetail) {
+	public RecMusiclists(String title, Users user, String reason, List<RecMusiclistDetails> recMusicListDetail) {
 		this.title = title;
 		this.user = user;
+		this.reason = reason;
 		this.recMusicListDetail = recMusicListDetail;
 	}
-	
+
 }

@@ -16,11 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @CrossOrigin("*")
 public class IndexController {
-	
+
 	// 테스트용
 	@GetMapping("/index")
 	public String reservation() {
 		return "index.html";
 	}
-	
+
 }

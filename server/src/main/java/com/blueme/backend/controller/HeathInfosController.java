@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 설명: 워치로부터 받는 건강정보 컨트롤러
 */
 
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -41,14 +40,12 @@ public class HeathInfosController {
     return healthInfosService.getHealthInfo(Long.parseLong(id));
   }
 
-
   /*
    * post 건강정보 등록
    */
-
   @PostMapping("/add")
-    public Long saveHealthInfo(@RequestBody HealthInfoSaveReqDto request) {
-      log.info("start saveHealthInfo for userEmail = {}", request.getUserEmail());
-      return healthInfosService.saveHealthInfo(request);
-    }
+  public Long saveHealthInfo(@RequestBody HealthInfoSaveReqDto request) {
+    log.info("start saveHealthInfo for userEmail = {}", request.getUserEmail());
+    return healthInfosService.saveHealthInfo(request);
+  }
 }

@@ -12,7 +12,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-
 /*
 작성자: 김혁
 날짜(수정포함): 2023-09-11
@@ -30,21 +29,21 @@ public class WeatherAPIClient {
         this.webClient = WebClient.builder().baseUrl("https://api.openweathermap.org").build();
     }
 
-    // 위도와 경도값을 받아 날씨 데이터 받는 로직
-    public Mono<WeatherInfo> getWeather(String lat, String lon) {
-      return webClient.get()
-            .uri(uriBuilder -> uriBuilder
-                    .path("/data/2.5/weather")
-                    .queryParam("lat", lat)
-                    .queryParam("lon", lon)
-                    .queryParam("appid", appid)
-                    .build())
-            .retrieve()
-            .onStatus(HttpStatus::isError, clientResponse ->
-                Mono.error(new RuntimeException("Weather API request failed with status: " + clientResponse.statusCode()))
-            )
-            .bodyToMono(WeatherInfo.class);
+    // 위도와 경도값을 받아 실시간날씨 데이터 받는 로직
+    public WeatherInfo getWeather(String lat, String lon) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/data/2.5/weather")
+                        .queryParam("lat", lat)
+                        .queryParam("lon", lon)
+                        .queryParam("appid", appid)
+                        .build())
+                .retrieve()
+                .onStatus(HttpStatus::isError,
+                        clientResponse -> Mono.error(new RuntimeException(
+                                "Weather API request failed with status: " + clientResponse.statusCode())))
+                .bodyToMono(WeatherInfo.class)
+                .block();
     }
 
 }
-

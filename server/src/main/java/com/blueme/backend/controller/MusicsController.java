@@ -29,13 +29,11 @@ import com.blueme.backend.service.MusicsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
 /*
 작성자: 김혁
 날짜(수정포함): 2023-09-09
 설명: 음악 관련 컨트롤러
 */
-
 
 @Slf4j
 @RestController
@@ -43,11 +41,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/music")
 @CrossOrigin("http://localhost:3000")
 public class MusicsController {
-	
+
 	private final MusicsService musicsService;
-	
+
 	/**
-	 *  post 다중 음악 등록
+	 * post 다중 음악 등록
 	 */
 	@PostMapping("/admin/addmusic")
 	public Long saveMusic(@RequestParam("files") MultipartFile[] files) {
@@ -60,10 +58,10 @@ public class MusicsController {
 	}
 
 	/**
-   *  get 음악 페이징 조회
+	 * get 음악 페이징 조회
 	 */
 	@GetMapping("/page")
-	public Page<Musics> getMusic(Pageable pageable){
+	public Page<Musics> getMusic(Pageable pageable) {
 		log.info("Starting paging music");
 		return musicsService.findAll(pageable);
 	}
@@ -78,34 +76,34 @@ public class MusicsController {
 		List<Musics> musics = musicsService.searchMusic(keyword);
 		System.out.println(musics.size());
 		return musics;
-		//return musicsService.searchMusic(keyword);
+		// return musicsService.searchMusic(keyword);
 	}
 	/*
 	 * get 음악스트리밍 테스트 (기존방식과 차이 없으므로 삭제)
 	 */
 	// @GetMapping("/streaming/{id}")
 	// public StreamingResponseBody streamMusic(@PathVariable("id") String id) {
-  //   log.info("Starting streaming music for ID = {}", id);
-  //   return musicsService.streamMusic(id);
-  // }
-	
+	// log.info("Starting streaming music for ID = {}", id);
+	// return musicsService.streamMusic(id);
+	// }
+
 	/**
-	 *  get musicId에 해당하는 음악 데이터 조회 (HTTP Range Request) , 음악 조회수 증가
+	 * get musicId에 해당하는 음악 데이터 조회 (HTTP Range Request) , 음악 조회수 증가
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<InputStreamResource> streamAudio(@PathVariable("id") String id, 
-			@RequestHeader(value = "Range", required = false) String rangeHeader) throws IOException {    
-			log.info("Starting send music data");
-			return musicsService.getAudioResource(id, rangeHeader);
+	public ResponseEntity<InputStreamResource> streamAudio(@PathVariable("id") String id,
+			@RequestHeader(value = "Range", required = false) String rangeHeader) throws IOException {
+		log.info("Starting send music data");
+		return musicsService.getAudioResource(id, rangeHeader);
 	}
 
 	/**
-	 *  get musicId에 해당하는 음악 정보조회
+	 * get musicId에 해당하는 음악 정보조회
 	 */
 	@GetMapping("/info/{id}")
-	public MusicInfoResDto musicInfo(@PathVariable("id") String id){
-			log.info("Starting send music info");   
-			return musicsService.getMusicInfo(id);
+	public MusicInfoResDto musicInfo(@PathVariable("id") String id) {
+		log.info("Starting send music info");
+		return musicsService.getMusicInfo(id);
 	}
 
 }

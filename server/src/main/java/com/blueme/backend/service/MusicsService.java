@@ -12,6 +12,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.tag.FieldKey;
@@ -48,8 +53,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class MusicsService {
-	
-	private final MusicsJpaRepository musicsJpaRepository;
+
+    private final MusicsJpaRepository musicsJpaRepository;
 
     /*
      * 음악 페이징 조회
@@ -67,18 +72,18 @@ public class MusicsService {
     public List<Musics> searchMusic(String keyword) {
         return musicsJpaRepository.findByTitleContaining(keyword);
     }
-	
-	/**
-	 *  post 음악 다중등록
-	 */
-	@Transactional
-	public Long save (MultipartFile[] files){
-		FileStorageUtil fileStorage = new FileStorageUtil();
-		
-		// 오류나면 저장안될시 -1 반환 저장시 마지막 음악의ID값 반환
-		Long lastId = -1L;
-		
-		for (MultipartFile file : files) {
+
+    /**
+     * post 음악 다중등록
+     */
+    @Transactional
+    public Long save(MultipartFile[] files) {
+        FileStorageUtil fileStorage = new FileStorageUtil();
+
+        // 오류나면 저장안될시 -1 반환 저장시 마지막 음악의ID값 반환
+        Long lastId = -1L;
+
+        for (MultipartFile file : files) {
             String filePath = fileStorage.storeFile(file);
             // 메타데이터 추출 하는 로직
             try {
@@ -89,50 +94,49 @@ public class MusicsService {
                 String title = tag.getFirst(FieldKey.TITLE);
                 String genre = tag.getFirst(FieldKey.GENRE);
                 // String bpm = tag.getFirst(FieldKey.BPM);
-                //String mood = tag.getFirst(FieldKey.MOOD);
-                //String year = tag.getFirst(FieldKey.YEAR);
+                // String mood = tag.getFirst(FieldKey.MOOD);
+                // String year = tag.getFirst(FieldKey.YEAR);
                 Musics music = Musics.builder().title(title).album(album).artist(artist).genre1(genre)
-                		.filePath(filePath).build();
-                
+                        .filePath(filePath).build();
+
                 lastId = musicsJpaRepository.save(music).getId();
-                
+
             } catch (Exception e) {
-               throw new RuntimeException("메타데이터 추출 실패", e); 
+                throw new RuntimeException("메타데이터 추출 실패", e);
             }
         }
-		return lastId;
-	}
+        return lastId;
+    }
 
     /*
      * 음악파일전송 테스트 (StreamingResponseBody 사용)(현재 사용x)
      */
     @Transactional
-    public StreamingResponseBody streamMusic(String id){
+    public StreamingResponseBody streamMusic(String id) {
         try {
             Musics music = musicsJpaRepository.findById(Long.parseLong(id))
-                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
 
             // 파일 경로 설정
-            Path filePath = Paths.get("\\usr\\blueme\\musics\\"+music.getFilePath()+".mp3");
+            Path filePath = Paths.get("\\usr\\blueme\\musics\\" + music.getFilePath() + ".mp3");
             File file = filePath.toFile();
             return outputStream -> {
                 int nRead;
-                //byte[] data = new byte[1024];
+                // byte[] data = new byte[1024];
                 byte[] data = new byte[256];
                 try (InputStream inputStream = new FileInputStream(file)) {
                     while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
                         outputStream.write(data, 0, nRead);
                     }
                 } catch (IOException e) {
-                    
+
                 }
             };
-            
+
         } catch (Exception e) {
             throw e;
         }
     }
-
 
     /*
      * 음악 파일 전송(파일, RangeRequest 두종류) + 재생이므로 조회수 증가
@@ -143,69 +147,68 @@ public class MusicsService {
         RandomAccessFile raf = null;
         try {
             Musics music = musicsJpaRepository.findById(Long.parseLong(id))
-                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
 
             if (music == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
             // 파일 경로 설정
-            Path filePath = Paths.get("\\usr\\blueme\\musics\\"+music.getFilePath()+".mp3");
-            
+            Path filePath = Paths.get("\\usr\\blueme\\musics\\" + music.getFilePath() + ".mp3");
+
             File file = filePath.toFile();
-            
+
             // 경로에 파일이 없을 경우
-			if (!file.exists()) {
+            if (!file.exists()) {
                 log.debug("파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
             // 조회수 증가
             music.setHit(music.getHit() + 1);
 
-			raf = new RandomAccessFile(file, "r");
-			long fileSize = raf.length();
+            raf = new RandomAccessFile(file, "r");
+            long fileSize = raf.length();
 
-			// Range Header Parser
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Content-Type", "audio/mpeg");
-			headers.add("Accept-Ranges", "bytes");
+            // Range Header Parser
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "audio/mpeg");
+            headers.add("Accept-Ranges", "bytes");
 
-			if (rangeHeader == null) { // 파일 전체 데이터 전송
-				headers.setContentLength(fileSize);
+            if (rangeHeader == null) { // 파일 전체 데이터 전송
+                headers.setContentLength(fileSize);
 
-				InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-				return new ResponseEntity<>(resource, headers, HttpStatus.OK);
-				
-			} else { // Range request - 부분전송
-				String[] ranges = rangeHeader.replace("bytes=", "").split("-");
-				long startRange = Long.parseLong(ranges[0]);
-				long endRange = ranges.length > 1 ? Long.parseLong(ranges[1]) : fileSize - 1;
-				long length = endRange - startRange + 1;
-				
+                InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+                return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+
+            } else { // Range request - 부분전송
+                String[] ranges = rangeHeader.replace("bytes=", "").split("-");
+                long startRange = Long.parseLong(ranges[0]);
+                long endRange = ranges.length > 1 ? Long.parseLong(ranges[1]) : fileSize - 1;
+                long length = endRange - startRange + 1;
+
                 headers.setContentLength(length);
-                headers.add("Content-Range", "bytes " + startRange + "-" 
+                headers.add("Content-Range", "bytes " + startRange + "-"
                         + endRange + "/" + fileSize);
-                raf.seek(startRange); 
-                byte[] buffer= new byte[(int)length];         
-                raf.read(buffer, 0, (int)length);
-                InputStream is=new ByteArrayInputStream(buffer);        
-                InputStreamResource resource =
-                        new InputStreamResource(is);
+                raf.seek(startRange);
+                byte[] buffer = new byte[(int) length];
+                raf.read(buffer, 0, (int) length);
+                InputStream is = new ByteArrayInputStream(buffer);
+                InputStreamResource resource = new InputStreamResource(is);
                 return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
                         .headers(headers)
-                        .body(resource);               
-               }
+                        .body(resource);
+            }
         } catch (Exception e) {
-           throw new RuntimeException("오디오 스트림 전송 실패", e); 
+            throw new RuntimeException("오디오 스트림 전송 실패", e);
         } finally {
-           if(raf != null){
-               try{
-                   raf.close();
-               }catch(IOException e){
-                   throw new RuntimeException("Random Access File 닫기 실패", e); 
-               }
-           }
+            if (raf != null) {
+                try {
+                    raf.close();
+                } catch (IOException e) {
+                    throw new RuntimeException("Random Access File 닫기 실패", e);
+                }
+            }
         }
     }
 
@@ -213,15 +216,15 @@ public class MusicsService {
      * 음악 정보 전송
      */
     @Transactional(readOnly = true)
-    public MusicInfoResDto getMusicInfo(String id){
+    public MusicInfoResDto getMusicInfo(String id) {
         try {
             Musics music = musicsJpaRepository.findById(Long.parseLong(id))
-                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
             // 앨범재킷 파일 불러오기
             // 파일 경로 설정
-            Path filePath = Paths.get("\\usr\\blueme\\jackets\\"+music.getJacketFilePath()+".jpg");
+            Path filePath = Paths.get("\\usr\\blueme\\jackets\\" + music.getJacketFilePath() + ".jpg");
             File file = filePath.toFile();
-            
+
             // 경로에 파일이 없을 경우
             if (!file.exists()) {
                 log.debug("재킷파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
@@ -230,12 +233,22 @@ public class MusicsService {
             ImageConverter<File, String> converter = new ImageToBase64();
             String base64 = null;
             base64 = converter.convert(file);
+            if (base64 == null) {
+                log.debug("재킷파일을 base64로 변환할 수 없습니다");
+            }
             MusicInfoResDto res = new MusicInfoResDto(music, base64);
 
             return res;
         } catch (Exception e) {
-           throw new RuntimeException("재킷파일 전송 실패", e); 
+            throw new RuntimeException("재킷파일 전송 실패", e);
         }
+    }
+
+    /*
+     * 카운트에 해당하는 랜덤한음악 리스트 반환
+     */
+    public List<Musics> getRandomEntities(int count) {
+        return musicsJpaRepository.findRandomMusics(count);
     }
 
 }

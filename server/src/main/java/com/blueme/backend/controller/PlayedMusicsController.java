@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PlayedMusicsController {
 
   private final PlayedMusicsService playedMusicsService;
-  
+
   /*
    * 재생된 음악 조회
    */
@@ -43,10 +43,9 @@ public class PlayedMusicsController {
     log.info("playedmusics get start by userID = {}", userId);
     return playedMusicsService.getPlayedMusic(userId);
   }
-  
-  
+
   /**
-   *  재생된 음악 등록
+   * 재생된 음악 등록
    */
   @PostMapping("/add")
   public Long savePlayedMusic(@RequestBody PlayedMusicsSaveReqDto request) {
@@ -55,4 +54,3 @@ public class PlayedMusicsController {
   }
 
 }
-

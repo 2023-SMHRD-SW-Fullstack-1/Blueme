@@ -12,13 +12,11 @@ import com.blueme.backend.service.MusicListsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
 /*
 작성자: 김혁
 날짜(수정포함): 2023-09-07
 설명: 음악리스트 관련 컨트롤러
 */
-
 
 @Slf4j
 @RestController
@@ -26,11 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/musiclist")
 @CrossOrigin("http://localhost:3000")
 public class MusicListsController {
-	
+
 	private final MusicListsService musicListsService;
-	
+
 	/**
-	 *  post 추천음악 리스트 등록
+	 * post 추천음악 리스트 등록
 	 */
 	@PostMapping("/recommendations")
 	public Long saveMusicRecList(@RequestBody RecMusicListSaveDto requestDto) {
@@ -39,6 +37,4 @@ public class MusicListsController {
 		log.info("Recommendation MusicList save completed with reqMusicListId = {}", reqMusicListId);
 		return reqMusicListId;
 	}
-	
-	
 }
