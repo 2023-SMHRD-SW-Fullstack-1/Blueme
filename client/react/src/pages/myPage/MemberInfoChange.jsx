@@ -1,9 +1,8 @@
 /*
 작성자: 신지훈
 날짜: 2023-09-11
-설명: 사용자 프로필사진 등록
+설명: 사용자 프로필사진 등록기능 추가
 */
-
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo2 from "../../assets/img/logo2.png";

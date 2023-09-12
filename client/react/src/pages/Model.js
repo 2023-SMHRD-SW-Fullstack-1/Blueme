@@ -1,3 +1,9 @@
+/*
+작성자: 신지훈
+날짜: 2023-09-08
+설명: Three.js 상세 설정
+*/
+
 import React, { useRef, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";

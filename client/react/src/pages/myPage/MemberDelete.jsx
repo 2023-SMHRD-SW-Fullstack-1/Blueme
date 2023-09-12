@@ -1,3 +1,9 @@
+/*
+작성자: 신지훈
+날짜: 2023-09-08
+설명: 회원탈퇴 페이지 및 모달창 구현
+*/
+
 import React, { useState } from "react";
 import axios from "axios";
 
