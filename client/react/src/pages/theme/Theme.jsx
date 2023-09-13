@@ -26,7 +26,7 @@ const Theme = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-screen text-byte text-custom-white font-semibold tracking-tighter">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-screen text-byte text-custom-white font-semibold tracking-tighter overflow-scroll	">
       <br />
       <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 mt-[120px] text-custom-black">
         {themes.map((theme, i) => {

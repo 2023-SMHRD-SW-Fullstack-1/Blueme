@@ -1,11 +1,12 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-11
-설명: 음악 플레이어
+날짜(수정포함): 2023-09-12
+설명: 음악 플레이어 - 리덕스 활용 추가
 */
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 import { Howl } from "howler";
 
 // import - 플레이어 아이콘
@@ -20,17 +21,45 @@ import likeFull from "../assets/img/likeFull.png";
 import scroll from "../assets/img/musicPlayer/scrollDown.png";
 import rotate from "../assets/img/musicPlayer/rotate.png";
 import rotating from "../assets/img/musicPlayer/rotating.png";
-import { log } from "react-modal/lib/helpers/ariaAppHider";
 
-const MusicPlayer = ({item}) => {
-  // console.log('mp',item);
+// Redux
+import { SET_PLAYING_STATUS, SET_CURRENT_SONG_ID } from '../store/music/musicActions';
+
+
+const MusicPlayer = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+
+// useState
+const [currentTime, setCurrentTime] = useState(0);
+const [duration, setDuration] = useState(0);
+const [isPlaying, setIsPlaying] = useState(false);
+const [sound, setSound] = useState(null);
+// 재생바 이동 관련 useState
+const [isDragging, setIsDragging] = useState(false);
+// 한곡반복
+const [isRepeatMode, setIsRepeatMode] = useState(false);
+const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
+// 음악 관련 정보
+const [musicInfo, setMusicInfo] = useState({
+  album: "",
+  title: "",
+  artist: "",
+  img: "",
+});
+// 좋아요 버튼 관련
+const [isSaved, setIsSaved] = useState(-1); // 초기 좋아요 상태 불러오기
+const [isLiked, setIsLiked] = useState(isSaved > 0 ? true : false);
+// 음악 재생 인덱스 (리덕스 활용)
+const musicIds = useSelector((state) => state.musicIds);
+const [currentSongIndex, setCurrentSongIndex] = useState(-1);
+const currentSongId = useSelector((state) => state.currentSongId);
 
   // 임의 사용자 user_id
   const userId = 1;
 
-  // URL에서 음악 아이디 추출 
+  // URL에서 음악 아이디 추출
   let searchParams = new URLSearchParams(location.search);
   let urlParam = searchParams.get("url");
 
@@ -48,26 +77,6 @@ const MusicPlayer = ({item}) => {
   let songId = getSongIdFromUrl(urlParam);
   let urlWithoutSongId = getUrlWithoutSongId(urlParam);
 
-  // useState
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [sound, setSound] = useState(null);
-    // 재생바 이동 관련 useState
-  const [isDragging, setIsDragging] = useState(false);
-    // 한곡반복
-  const [isRepeatMode, setIsRepeatMode] = useState(false);
-  const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
-   // 음악 관련 정보
-  const [musicInfo, setMusicInfo] = useState({
-    album: "",
-    title: "",
-    artist: "",
-    img: "",
-  });
-   // 좋아요 버튼 관련
-  const [isSaved, setIsSaved] = useState(-1); // 초기 좋아요 상태 불러오기
-  const [isLiked, setIsLiked] = useState(isSaved > 0 ? true : false);
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
@@ -78,7 +87,7 @@ const MusicPlayer = ({item}) => {
           album: response.data.album,
           title: response.data.title,
           artist: response.data.artist,
-          img: response.data.img
+          img: response.data.img,
         });
       } catch (error) {
         console.error("음악 불러오기 실패", error);
@@ -87,10 +96,10 @@ const MusicPlayer = ({item}) => {
     fetchMusicInfo();
   }, [songId]); // songId 변경 시마다 재실행
 
- // 한곡반복 Ref
- useEffect(() => {
-  isRepeatModeRef.current = isRepeatMode; 
-}, [isRepeatMode]);
+  // 한곡반복 Ref
+  useEffect(() => {
+    isRepeatModeRef.current = isRepeatMode;
+  }, [isRepeatMode]);
 
   // 음악 파일 불러오기
   useEffect(() => {
@@ -108,12 +117,13 @@ const MusicPlayer = ({item}) => {
         newSound.play();
       },
       onend() {
-        if (isRepeatModeRef.current) { // 반복 모드 확인
+        if (isRepeatModeRef.current) {
+          // 반복 모드 확인
           newSound.seek(0);
           setCurrentTime(0);
           newSound.play();
         } else {
-          nextTrack(); 
+          nextTrack();
         }
       },
       onplay() {
@@ -129,16 +139,16 @@ const MusicPlayer = ({item}) => {
     return () => {
       if (sound) sound.unload();
     };
-  }, [urlParam]); 
+  }, [urlParam]);
 
   // 좋아요 상태 확인
   useEffect(() => {
     const fetchLikeStatus = async () => {
       try {
-        const response = await axios.post(
-          "/likemusics/issave",
-          { userId: userId.toString(), musicId: songId.toString() }
-        );
+        const response = await axios.post("/likemusics/issave", {
+          userId: userId.toString(),
+          musicId: songId.toString(),
+        });
         setIsSaved(parseInt(response.data));
         setIsLiked(parseInt(response.data) > 0);
       } catch (error) {
@@ -165,17 +175,17 @@ const MusicPlayer = ({item}) => {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        await axios.post(
-          "/playedmusic/add",
-          { userId: userId.toString(), musicId: songId.toString() }
-        );
+        await axios.post("/playedmusic/add", {
+          userId: userId.toString(),
+          musicId: songId.toString(),
+        });
       } catch (error) {
         console.error("최근재생 실패", error);
       }
     };
     fetchRecent();
   }, [userId, songId]);
-  
+
   // 사용자 재생바 조작
   const changeCurrentTime = (e) => {
     let newCurrentTime = e.target.value;
@@ -210,23 +220,48 @@ const MusicPlayer = ({item}) => {
   }, [sound]);
 
   // 이전곡&다음곡
+  useEffect(() => {
+    const index = musicIds.indexOf(songId);
+    setCurrentSongIndex(index);
+  }, [musicIds, songId]);
+
   const prevTrack = () => {
-    if (songId - 1 < 0) {
-      songId = 100;
-    } else {
-      songId -= 1;
+    let prevIndex = currentSongIndex - 1;
+
+    if (prevIndex < 0) {
+      prevIndex = musicIds.length - 1; // 마지막 곡으로 순환
     }
-    navigate(`/MusicPlayer?url=${urlWithoutSongId}/${songId}`);
+
+    const prevSongId = musicIds[prevIndex];
+
+    navigate(`/MusicPlayer?url=${urlWithoutSongId}/${prevSongId}`);
   };
 
   const nextTrack = () => {
-    if (songId + 1 > 100) {
-      songId = 1;
-    } else {
-      songId += 1;
+    let nextIndex = currentSongIndex + 1;
+
+    if (nextIndex >= musicIds.length) {
+      nextIndex = 0; // 첫 번째 곡으로 순환
     }
-    navigate(`/MusicPlayer?url=${urlWithoutSongId}/${songId}`);
+
+    const nextSongId = musicIds[nextIndex];
+
+    navigate(`/MusicPlayer?url=${urlWithoutSongId}/${nextSongId}`);
   };
+
+  const setPlayingStatus = (isPlaying) => {
+    return {
+      type: SET_PLAYING_STATUS,
+      payload: isPlaying,
+    };
+  }
+  
+  const setCurrentSongId = (songId) => {
+    return {
+      type: SET_CURRENT_SONG_ID,
+      payload: songId,
+    };
+  }
 
   // 재생시간 표시
   const formatTime = (timeInSeconds) => {
@@ -297,7 +332,7 @@ const MusicPlayer = ({item}) => {
       </div>
       <img
         src={scroll}
-        onClick={() => navigate('/library')}
+        onClick={() => navigate("/library")}
         className="w-[40px] h-auto fixed bottom-[10%]"
       />
     </div>
