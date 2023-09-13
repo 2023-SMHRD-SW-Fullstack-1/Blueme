@@ -1,22 +1,18 @@
 package com.blueme.backend.controller;
 
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blueme.backend.dto.gptdto.ChatGptMusicsDto;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.gptdto.QuestionReqDto;
-import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.service.ChatGptService;
 import com.blueme.backend.utils.APIResponse;
 import com.blueme.backend.utils.ResponseCode;

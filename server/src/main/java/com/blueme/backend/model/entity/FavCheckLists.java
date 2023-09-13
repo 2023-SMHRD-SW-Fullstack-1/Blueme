@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.Builder;
@@ -20,11 +19,11 @@ public class FavCheckLists extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="fav_checklist_id")
+	@Column(name = "fav_checklist_id")
 	private Long id;
-	
+
 	@OneToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private Users user;
 
 	@Builder
@@ -32,6 +31,5 @@ public class FavCheckLists extends BaseEntity {
 		this.id = id;
 		this.user = user;
 	}
-	
-	
+
 }

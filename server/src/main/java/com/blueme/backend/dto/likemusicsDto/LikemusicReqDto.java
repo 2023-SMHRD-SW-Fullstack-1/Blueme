@@ -1,7 +1,6 @@
 package com.blueme.backend.dto.likemusicsDto;
 
 import com.blueme.backend.model.entity.Musics;
-import com.blueme.backend.model.entity.Users;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LikemusicReqDto {
-  
+
   private String userId;
 
   private String musicId;

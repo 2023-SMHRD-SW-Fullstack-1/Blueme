@@ -1,15 +1,6 @@
 package com.blueme.backend.dto.recmusiclistsdto;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.blueme.backend.model.entity.RecMusiclistDetails;
-import com.blueme.backend.model.entity.RecMusiclists;
-import com.blueme.backend.utils.ImageConverter;
-import com.blueme.backend.utils.ImageToBase64;
 
 import lombok.Getter;
 

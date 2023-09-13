@@ -2,19 +2,16 @@ package com.blueme.backend.controller;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blueme.backend.dto.musicdto.MusicInfoResDto;
 import com.blueme.backend.dto.playedmusicdto.PlayedMusicsSaveReqDto;
-import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.service.PlayedMusicsService;
 
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,6 @@ package com.blueme.backend.dto.gptdto;
 import com.blueme.backend.model.entity.Musics;
 
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
 public class ChatGptMusicsDto {

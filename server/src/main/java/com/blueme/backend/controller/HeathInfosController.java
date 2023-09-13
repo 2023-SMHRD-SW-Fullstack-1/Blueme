@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blueme.backend.dto.healthinfodto.HealthInfoResDto;
 import com.blueme.backend.dto.healthinfodto.HealthInfoSaveReqDto;
-import com.blueme.backend.model.entity.HealthInfos;
 import com.blueme.backend.service.HealthInfosService;
 
 import lombok.RequiredArgsConstructor;
