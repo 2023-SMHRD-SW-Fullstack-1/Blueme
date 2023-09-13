@@ -2,7 +2,6 @@ package com.blueme.backend.model.vo;
 
 import java.util.List;
 import lombok.Data;
-import lombok.Getter;
 
 /*
 작성자: 김혁

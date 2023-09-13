@@ -12,6 +12,7 @@ public class MusicInfoResDto {
   private String album;
   private String artist;
   private String genre1;
+  private String genre2;
   private String lyrics;
   private String tag;
   private String time;
@@ -19,11 +20,13 @@ public class MusicInfoResDto {
   private String img;
 
   public MusicInfoResDto(Musics music) {
+
     this.musicId = music.getId();
     this.title = music.getTitle();
     this.album = music.getAlbum();
     this.artist = music.getArtist();
     this.genre1 = music.getGenre1();
+    this.genre2 = music.getGenre2();
     this.lyrics = music.getLyrics();
     this.tag = music.getTag();
     this.time = music.getTime();

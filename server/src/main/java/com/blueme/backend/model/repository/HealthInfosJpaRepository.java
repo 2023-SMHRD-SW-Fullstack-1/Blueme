@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.blueme.backend.model.entity.HealthInfos;
 
 public interface HealthInfosJpaRepository extends JpaRepository<HealthInfos, Long> {
-  Optional<HealthInfos> findFirstByUserIdOrderByCreatedAtDesc(Long userId);
+  HealthInfos findFirstByUserIdOrderByCreatedAtDesc(Long userId);
 
 }

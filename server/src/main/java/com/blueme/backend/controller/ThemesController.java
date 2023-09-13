@@ -68,7 +68,7 @@ public class ThemesController {
     @GetMapping("/themelists/{id}")
     public List<ThemeDetailsResDto> getThemeById(@PathVariable("id") Long id) {
         log.info("Starting theme selection by id: {}", id);
-        return themesService.getThemeById(id);
+        return themesService.getThemeDetailsById(id);
     }
 
 }

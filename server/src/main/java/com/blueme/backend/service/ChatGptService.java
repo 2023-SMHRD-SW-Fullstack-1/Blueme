@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.blueme.backend.config.ChatGptConfig;
@@ -19,8 +20,6 @@ import com.blueme.backend.dto.gptdto.ChatGptReqDto;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.gptdto.QuestionReqDto;
 import com.blueme.backend.model.entity.HealthInfos;
-import com.blueme.backend.model.entity.Musics;
-import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.vo.ChatGptMessage;
 import com.blueme.backend.model.vo.WeatherSummary;
 
@@ -29,17 +28,15 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-04
+날짜(수정포함): 2023-09-12
 설명: ChatGpt 서비스
 */
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ChatGptService {
 
         private final RestTemplate restTemplate;
-        private final MusicsJpaRepository musicsJpaRepository;
         private final MusicsService musicsService;
 
         @Value("${api-key.chat-gpt}")
@@ -70,6 +67,7 @@ public class ChatGptService {
                 return responseEntity.getBody();
         }
 
+        // ChatGPT 에 질문하기
         public ChatGptResDto askQuestion(QuestionReqDto questionRequest) {
                 List<ChatGptMessage> messages = new ArrayList<>();
                 messages.add(ChatGptMessage.builder()
@@ -88,15 +86,63 @@ public class ChatGptService {
                                                 )));
         }
 
-        /*
-         * ChatGPT 질의문 만들기
-         */
-        public String makeQuestion(WeatherSummary weatherSummary, HealthInfos healthInfo) {
+        // 심장박동수 상태
+        public String getHeartRateStatus(double avgHeartRate) {
+                final double VERY_LOW_THRESHOLD = 60;
+                final double LOW_THRESHOLD = 80;
+                final double NORMAL_THRESHOLD = 110;
+                final double HIGH_THRESHOLD = 130;
+                if (avgHeartRate <= VERY_LOW_THRESHOLD)
+                        return "매우 낮은 상태";
+                if (avgHeartRate <= LOW_THRESHOLD)
+                        return "낮은 상태";
+                if (avgHeartRate <= NORMAL_THRESHOLD)
+                        return "안정된 상태";
+                if (avgHeartRate <= HIGH_THRESHOLD)
+                        return "높은 상태";
+
+                return "매우 높은 상태";
+        }
+
+        // 속도 상태
+        public String getSpeedStatus(double avgSpeed, double stepsPerMinute, double avgHeartRate) {
+                final double STATIONARY_SPEED = 1.5;
+                final double WALKING_RUNNING_SPEED = 5.0;
+                final double RUNNING_BICYCLE_SPEED = 15.0;
+                final double CAR_SPEED = 25;
+                final double AIRPLANE_SPEED = 180;
+
+                if (avgSpeed <= STATIONARY_SPEED) {
+                        return "가만히 있는 중";
+                } else if (avgSpeed <= WALKING_RUNNING_SPEED && stepsPerMinute >= 50) {
+                        return "걷는 중";
+                } else if (avgSpeed <= RUNNING_BICYCLE_SPEED) {
+                        if (avgHeartRate >= 100 && avgHeartRate < 150) {
+                                return "뛰는 중";
+                        } else if (stepsPerMinute >= 50 || avgHeartRate >= 100) {
+                                return "운동중";
+                        } else {
+                                return "자전거타는중 이거나 운전중이거나 차에 타있는중";
+                        }
+                } else if (avgSpeed <= CAR_SPEED) {
+                        return "차량 이동중";
+                } else {
+                        return "비행기 타는 중 혹은 기차 타는 중";
+                }
+
+        }
+
+        // 뮤직리스트 질의하기 적합한 문자열로 변환
+        public String getMusicList() {
                 List<ChatGptMusicsDto> musicsList = musicsService.getRandomEntities(100)
                                 .stream().map(ChatGptMusicsDto::new).collect(Collectors.toList());
-                // 질의문에 추가할 음악데이터 문자
                 String musicsString = musicsList.stream().map(ChatGptMusicsDto::toString)
                                 .collect(Collectors.joining(""));
+                return musicsString;
+        }
+
+        // 질의문 만들기
+        public String makeQuestion(WeatherSummary weatherSummary, HealthInfos healthInfo) {
                 // 날씨 데이터
                 String condition = weatherSummary.getCondition();
                 String temperature = String.valueOf(Double.parseDouble(weatherSummary.getTemp()) - 273) + "도";
@@ -105,49 +151,16 @@ public class ChatGptService {
                 // 건강 데이터
                 String avgHeartRate = healthInfo.getHeartrate();
                 String avgSpeed = healthInfo.getSpeed();
-                String calorie = healthInfo.getCalorie();
+                // String calorie = healthInfo.getCalorie();
                 String stepsPerMinute = healthInfo.getStep();
-
-                // 건강 데이터 처리
-                String heartRateData = "";
-                String speedData = "";
-
-                if (Double.parseDouble(avgHeartRate) <= 60) {
-                        heartRateData = "매우 낮은 상태";
-                } else if (Double.parseDouble(avgHeartRate) <= 80) {
-                        heartRateData = "낮은 상태";
-                } else if (Double.parseDouble(avgHeartRate) <= 110) {
-                        heartRateData = "안정된 상태";
-                } else if (Double.parseDouble(avgHeartRate) <= 130) {
-                        heartRateData = "높은 상태";
-                } else {
-                        heartRateData = "매우 높은 상태";
-                }
-
-                if (Double.parseDouble(avgSpeed) <= 1.5) {
-                        speedData = "가만히 있는 중";
-                } else if (Double.parseDouble(avgSpeed) <= 5 && Double.parseDouble(stepsPerMinute) >= 50) {
-                        speedData = "걷는 중";
-                } else if ((Double.parseDouble(avgSpeed) > 5 && Double.parseDouble(avgSpeed) <= 10)
-                                || (Double.parseDouble(avgHeartRate) >= 100
-                                                && Double.parseDouble(avgHeartRate) < 150)) {
-                        speedData = "뛰는 중";
-                } else if (Double.parseDouble(avgSpeed) > 10 && Double.parseDouble(avgSpeed) <= 25) {
-                        // 분당 걸음수와 심박수로 추가 판단
-                        if (Double.parseDouble(stepsPerMinute) >= 50 || Double.parseDouble(avgHeartRate) >= 100) {
-                                speedData = "운동중";
-                        } else {
-                                speedData = "자전거타는중 이거나 운전중이거나 차에 타있는중";
-                        }
-                } else if (Double.parseDouble(avgSpeed) > 25 && Double.parseDouble(avgSpeed) <= 90) {
-                        speedData = "차량 이동중";
-                } else {
-                        speedData = "비행기 타는 중 혹은 기차 타는 중";
-                }
-
-                // 질의문 생성
-                String question = String.format(ChatGptConfig.QUESTION_TEMPLATE, condition, temperature, humidity,
-                                avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, musicsString);
+                String musicsString = getMusicList();
+                String heartRateData = getHeartRateStatus(Double.parseDouble(avgHeartRate));
+                String speedData = getSpeedStatus(Double.parseDouble(avgSpeed),
+                                Double.parseDouble(stepsPerMinute), Double.parseDouble(avgHeartRate));
+                String question = String.format(ChatGptConfig.QUESTION_TEMPLATE, condition,
+                                temperature, humidity,
+                                avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
+                                musicsString);
                 return question;
         }
 

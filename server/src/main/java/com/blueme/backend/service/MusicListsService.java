@@ -16,15 +16,13 @@ import com.blueme.backend.model.repository.RecMusicListsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-04
+날짜(수정포함): 2023-09-13
 설명: 음악리스트 관련 서비스
 */
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class MusicListsService {

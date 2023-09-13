@@ -15,11 +15,11 @@ public class ThemelistResDto {
 
   String img;
 
-  public ThemelistResDto(Themes theme, String imgBase64) {
+  public ThemelistResDto(Themes theme) {
     this.themeId = theme.getId();
     this.title = theme.getTitle();
     this.content = theme.getContent();
-    this.img = imgBase64;
+    this.img = theme.getThemeImgFile();
   }
 
 }

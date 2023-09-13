@@ -22,8 +22,23 @@ public class ThemeDetailsResDto {
   private String time;
   private String img;
 
-  public ThemeDetailsResDto(Themes theme, ThemeMusiclists themeMusiclist, String img) {
-    this.themeId = theme.getId();
+  // public ThemeDetailsResDto(Themes theme, ThemeMusiclists themeMusiclist,
+  // String img) {
+  // this.themeId = theme.getId();
+  // this.themeMusiclistId = themeMusiclist.getId();
+  // this.musicId = themeMusiclist.getMusic().getId();
+  // this.title = themeMusiclist.getMusic().getTitle();
+  // this.album = themeMusiclist.getMusic().getAlbum();
+  // this.artist = themeMusiclist.getMusic().getArtist();
+  // this.genre1 = themeMusiclist.getMusic().getGenre1();
+  // this.genre2 = themeMusiclist.getMusic().getGenre2();
+  // this.lyrics = themeMusiclist.getMusic().getLyrics();
+  // this.tag = themeMusiclist.getMusic().getTag();
+  // this.time = themeMusiclist.getMusic().getTime();
+  // this.img = img;
+  // }
+  public ThemeDetailsResDto(ThemeMusiclists themeMusiclist) {
+    this.themeId = themeMusiclist.getTheme().getId();
     this.themeMusiclistId = themeMusiclist.getId();
     this.musicId = themeMusiclist.getMusic().getId();
     this.title = themeMusiclist.getMusic().getTitle();
@@ -33,7 +48,7 @@ public class ThemeDetailsResDto {
     this.genre2 = themeMusiclist.getMusic().getGenre2();
     this.lyrics = themeMusiclist.getMusic().getLyrics();
     this.tag = themeMusiclist.getMusic().getTag();
-    this.time =  themeMusiclist.getMusic().getTime();
-    this.img = img;
+    this.time = themeMusiclist.getMusic().getTime();
+    this.img = themeMusiclist.getMusic().getJacketFile();
   }
 }

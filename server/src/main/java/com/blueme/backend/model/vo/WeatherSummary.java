@@ -1,7 +1,5 @@
 package com.blueme.backend.model.vo;
 
-import lombok.Data;
-import lombok.Getter;
 import lombok.Value;
 
 /*

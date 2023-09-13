@@ -13,35 +13,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.blueme.backend.config.FilePathConfig;
-import com.blueme.backend.dto.musiclistsdto.RecMusicListSaveDto;
 import com.blueme.backend.dto.themesdto.ThemeDetailsResDto;
 import com.blueme.backend.dto.themesdto.ThemeSaveReqDto;
-import com.blueme.backend.dto.themesdto.ThemelistDetailResDto;
 import com.blueme.backend.dto.themesdto.ThemelistResDto;
 import com.blueme.backend.model.entity.Musics;
-import com.blueme.backend.model.entity.RecMusiclistDetails;
-import com.blueme.backend.model.entity.RecMusiclists;
 import com.blueme.backend.model.entity.ThemeMusiclists;
 import com.blueme.backend.model.entity.Themes;
-import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
-import com.blueme.backend.utils.ImageConverter;
-import com.blueme.backend.utils.ImageToBase64;
+import com.blueme.backend.model.repository.ThemeMusiclistsJpaRepository;
 import com.blueme.backend.model.repository.ThemesJpaRepository;
-import com.blueme.backend.utils.FileStorageUtil;
 import com.blueme.backend.utils.ImgStorageUtil;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-04
+날짜(수정포함): 2023-09-13
 설명: 테마 단일 관련 서비스
 */
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ThemesService {
@@ -49,85 +39,49 @@ public class ThemesService {
   private final ThemesJpaRepository themesJpaRepository;
   private final MusicsJpaRepository musicsJpaRepository;
 
+  private final ThemeMusiclistsJpaRepository themeMusiclistsJpaRepository;
+
   /**
-   * post 테마 등록 (음악과 함께)
+   * post 테마 등록
    */
   @Transactional
-  public Long saveThemes(MultipartFile imageFile,
-      ThemeSaveReqDto requestDto) {
-    log.info("ThemeService post registerTheme start...");
-    // 테마 등록
-    // musicIds 를 music Entity담긴 리스트로 변환
+  public Long saveThemes(MultipartFile imageFile, ThemeSaveReqDto requestDto) {
     List<Musics> musics = requestDto.getMusicIds().stream()
         .map((id) -> musicsJpaRepository.findById(Long.parseLong(id))
-            .orElseThrow(() -> new IllegalArgumentException("해당 음악ID를 찾을 수 없습니다")))
+            .orElseThrow(() -> new IllegalArgumentException("음악ID " + id + "를 찾을 수 없습니다")))
         .collect(Collectors.toList());
 
-    List<ThemeMusiclists> themeMusicList = new ArrayList<>();
-    for (int i = 0; i < musics.size(); i++) {
-      themeMusicList.add(ThemeMusiclists.builder().music(musics.get(i)).build());
-    }
-    // 테마 이미지 저장
+    List<ThemeMusiclists> themeMusicList = musics.stream()
+        .map(music -> ThemeMusiclists.builder().music(music).build())
+        .collect(Collectors.toList());
+
     ImgStorageUtil imgStorage = new ImgStorageUtil();
-
     String filePath = imgStorage.storeFile(imageFile);
-
-    return themesJpaRepository.save(Themes.builder().title(requestDto.getTitle()).content(requestDto.getContent())
-        .themeImgPath(filePath).themeMusicList(themeMusicList).build()).getId();
+    return themesJpaRepository.save(Themes.builder()
+        .title(requestDto.getTitle())
+        .content(requestDto.getContent())
+        .themeImgPath(filePath)
+        .themeMusicList(themeMusicList)
+        .build())
+        .getId();
   }
 
   /**
    * get 모든 테마 조회
    */
-  @Transactional
+  @Transactional(readOnly = true)
   public List<ThemelistResDto> getAllThemes() {
-    try {
-      List<Themes> themes = themesJpaRepository.findAll();
-      List<ThemelistResDto> themelistResDtos = new ArrayList<ThemelistResDto>();
-      // 이미지 추가(base64로 인코딩)
-      for (Themes t : themes) {
-        Path filePath = Paths.get(FilePathConfig.THEMES_IMG_PATH + t.getThemeImgPath());
-        File file = filePath.toFile();
-        if (!file.exists()) {
-          log.debug("테마사진이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
-        }
-        // 이미지 base64로 인코딩
-        ImageConverter<File, String> converter = new ImageToBase64();
-        String base64 = null;
-        base64 = converter.convert(file);
-        ThemelistResDto res = new ThemelistResDto(t, base64);
-        themelistResDtos.add(res);
-      }
-      return themelistResDtos;
-    } catch (Exception e) {
-      throw new RuntimeException("테마이미지파일 전송 실패", e);
-    }
+    List<Themes> themes = themesJpaRepository.findAll();
+    return themes.stream().map(ThemelistResDto::new).collect(Collectors.toList());
   }
 
   /**
    * get 단일 테마 상세 조회 (음악 id 포함)
    */
-  @Transactional
-  public List<ThemeDetailsResDto> getThemeById(Long id) {
-    try {
-      Themes themes = themesJpaRepository.findById(id)
-          .orElseThrow(() -> new IllegalArgumentException("해당 테마 아이디가 없습니다."));
-      List<ThemeDetailsResDto> res = new ArrayList<ThemeDetailsResDto>();
-      for (ThemeMusiclists t : themes.getThemeMusicList()) {
-        Path filePath = Paths.get("\\usr\\blueme\\jackets\\" + t.getMusic().getJacketFilePath() + ".jpg");
-        File file = filePath.toFile();
-        if (!file.exists()) {
-          log.debug("재킷사진이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
-        }
-        ImageConverter<File, String> converter = new ImageToBase64();
-        String base64 = null;
-        base64 = converter.convert(file);
-        res.add(new ThemeDetailsResDto(themes, t, base64));
-      }
-      return res;
-    } catch (Exception e) {
-      throw new RuntimeException("재킷파일 전송 실패", e);
-    }
+  @Transactional(readOnly = true)
+  public List<ThemeDetailsResDto> getThemeDetailsById(Long id) {
+    List<ThemeMusiclists> themeDetails = themeMusiclistsJpaRepository.findByThemeId(id);
+    return themeDetails.stream().map(ThemeDetailsResDto::new).collect(Collectors.toList());
 
   }
 }

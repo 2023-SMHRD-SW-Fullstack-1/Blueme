@@ -74,7 +74,7 @@ public class Musics {
 	@Transient
 	public String getArtistFile() {
 		try {
-			Path filePath = Paths.get(FilePathConfig.ARTIST_PATH + jacketFilePath + ".jpg");
+			Path filePath = Paths.get(FilePathConfig.ARTIST_PATH + artistFilePath + ".jpg");
 			File file = filePath.toFile();
 			ImageConverter<File, String> converter = new ImageToBase64();
 			String base64 = null;

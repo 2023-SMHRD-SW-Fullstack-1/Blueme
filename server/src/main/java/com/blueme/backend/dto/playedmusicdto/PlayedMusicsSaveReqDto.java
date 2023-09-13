@@ -10,6 +10,11 @@ public class PlayedMusicsSaveReqDto {
 
   private String musicId;
 
-  
-}
+  public Long getParsedUserId() {
+    return Long.parseLong(userId);
+  }
 
+  public Long getParsedMusicId() {
+    return Long.parseLong(musicId);
+  }
+}
