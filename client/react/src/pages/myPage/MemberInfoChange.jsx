@@ -33,9 +33,6 @@ function MemberInfoChange() {
       console.log("File selected and read");
     };
   };
-  const dispatch = useDispatch();
-
-  const navigate = useNavigate();
 
   const handleUpdate = async () => {
     if (password !== confirmPassword) {
@@ -103,9 +100,7 @@ function MemberInfoChange() {
         </div>
       </div>
       <form>
-        <div className="text-2xl text-custom-white te mt-5 text-left w-full">
-          내 정보
-        </div>
+        <div className="text-2xl text-custom-white te mt-5 text-left w-full">내 정보</div>
         <input
           type="email"
           onChange={(e) => setEmail(e.target.value)}
@@ -147,14 +142,10 @@ function MemberInfoChange() {
         </button>
       </form>
       <Link to="/MemberDelete">
-        <div className="text-custom-gray mt-6 text-sm text-center">
-          탈퇴하기
-        </div>
+        <div className="text-custom-gray mt-6 text-sm text-center">탈퇴하기</div>
       </Link>
       <Link to="/MemberDelete">
-        <div className="text-custom-gray mt-6 text-sm text-center">
-          로그아웃
-        </div>
+        <div className="text-custom-gray mt-6 text-sm text-center">로그아웃</div>
       </Link>
     </div>
   );

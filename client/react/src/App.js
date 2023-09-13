@@ -11,8 +11,8 @@ import MemberInfo from "./pages/myPage/MemberInfo";
 import SelectArtist from "./pages/join/SelectArtist";
 // 지희 시작 - theme 폴더 생성 후 경로 이동 & ThemePlaylist추가 (0908)
 import Theme from "./pages/theme/Theme";
-import ThemePlaylist from "./pages/theme/ThemePlaylist"
-import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경 
+import ThemePlaylist from "./pages/theme/ThemePlaylist";
+import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경
 // 지희 끝
 import MemberInfoChange from "./pages/myPage/MemberInfoChange";
 import JoinComplete from "./pages/join/JoinComplete";
@@ -25,10 +25,10 @@ import Playlist from "./pages/Playlist";
 import SelectGenre from "./pages/join/SelectGenre";
 import DashBoard from "./pages/admin/DashBoard";
 
-
 //
 /* 지훈 시작 */
 import MemberDelete from "./pages/myPage/MemberDelete";
+
 /* 지훈 끝 */
 
 // 유영 추천 앱 설명
@@ -47,7 +47,6 @@ import RecPlayList from "./pages/rec/RecPlayList";
 // 지희 import 끝
 
 const App = () => {
-
   return (
     <Router>
       <div className="app">
@@ -84,8 +83,8 @@ const App = () => {
           <Route path="/RecAppDes" element={<RecAppDes />} />
           <Route path="/PlaylistRename" element={<PlaylistRename />} />
           <Route path="/RecPlayList" element={<RecPlayList />} />
-          <Route path="/MyPage" element={<MyPage />} /> 
-          
+          <Route path="/MyPage" element={<MyPage />} />
+
           {/* 유영 끝 */}
           <Route path="/RecBegin" element={<RecBegin />} />
           <Route path="/LoadData" element={<LoadData />} />

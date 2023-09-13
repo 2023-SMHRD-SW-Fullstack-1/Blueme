@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
 날짜(수정포함): 2023-09-11
-설명: 음악 플레이어
+설명: 라이브러리 페이지 내 좋아요 누른 곡 리스트 
 */
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,15 +22,14 @@ import rotate from "../assets/img/musicPlayer/rotate.png";
 import rotating from "../assets/img/musicPlayer/rotating.png";
 import { log } from "react-modal/lib/helpers/ariaAppHider";
 
-const MusicPlayer = ({item}) => {
+const MusicPlayer = ({ item }) => {
   // console.log('mp',item);
   const navigate = useNavigate();
   const location = useLocation();
-
   // 임의 사용자 user_id
   const userId = 1;
 
-  // URL에서 음악 아이디 추출 
+  // URL에서 음악 아이디 추출
   let searchParams = new URLSearchParams(location.search);
   let urlParam = searchParams.get("url");
 
@@ -53,19 +52,20 @@ const MusicPlayer = ({item}) => {
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState(null);
-    // 재생바 이동 관련 useState
+  const [showPlayerBar, setShowPlayerBar] = useState(false);
+  // 재생바 이동 관련 useState
   const [isDragging, setIsDragging] = useState(false);
-    // 한곡반복
+  // 한곡반복
   const [isRepeatMode, setIsRepeatMode] = useState(false);
   const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
-   // 음악 관련 정보
+  // 음악 관련 정보
   const [musicInfo, setMusicInfo] = useState({
     album: "",
     title: "",
     artist: "",
     img: "",
   });
-   // 좋아요 버튼 관련
+  // 좋아요 버튼 관련
   const [isSaved, setIsSaved] = useState(-1); // 초기 좋아요 상태 불러오기
   const [isLiked, setIsLiked] = useState(isSaved > 0 ? true : false);
 
@@ -78,7 +78,7 @@ const MusicPlayer = ({item}) => {
           album: response.data.album,
           title: response.data.title,
           artist: response.data.artist,
-          img: response.data.img
+          img: response.data.img,
         });
       } catch (error) {
         console.error("음악 불러오기 실패", error);
@@ -87,10 +87,10 @@ const MusicPlayer = ({item}) => {
     fetchMusicInfo();
   }, [songId]); // songId 변경 시마다 재실행
 
- // 한곡반복 Ref
- useEffect(() => {
-  isRepeatModeRef.current = isRepeatMode; 
-}, [isRepeatMode]);
+  // 한곡반복 Ref
+  useEffect(() => {
+    isRepeatModeRef.current = isRepeatMode;
+  }, [isRepeatMode]);
 
   // 음악 파일 불러오기
   useEffect(() => {
@@ -108,12 +108,13 @@ const MusicPlayer = ({item}) => {
         newSound.play();
       },
       onend() {
-        if (isRepeatModeRef.current) { // 반복 모드 확인
+        if (isRepeatModeRef.current) {
+          // 반복 모드 확인
           newSound.seek(0);
           setCurrentTime(0);
           newSound.play();
         } else {
-          nextTrack(); 
+          nextTrack();
         }
       },
       onplay() {
@@ -129,16 +130,16 @@ const MusicPlayer = ({item}) => {
     return () => {
       if (sound) sound.unload();
     };
-  }, [urlParam]); 
+  }, [urlParam]);
 
   // 좋아요 상태 확인
   useEffect(() => {
     const fetchLikeStatus = async () => {
       try {
-        const response = await axios.post(
-          "/likemusics/issave",
-          { userId: userId.toString(), musicId: songId.toString() }
-        );
+        const response = await axios.post("/likemusics/issave", {
+          userId: userId.toString(),
+          musicId: songId.toString(),
+        });
         setIsSaved(parseInt(response.data));
         setIsLiked(parseInt(response.data) > 0);
       } catch (error) {
@@ -165,17 +166,14 @@ const MusicPlayer = ({item}) => {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        await axios.post(
-          "/playedmusic/add",
-          { userId: userId.toString(), musicId: songId.toString() }
-        );
+        await axios.post("/playedmusic/add", { userId: userId.toString(), musicId: songId.toString() });
       } catch (error) {
         console.error("최근재생 실패", error);
       }
     };
     fetchRecent();
   }, [userId, songId]);
-  
+
   // 사용자 재생바 조작
   const changeCurrentTime = (e) => {
     let newCurrentTime = e.target.value;
@@ -212,7 +210,7 @@ const MusicPlayer = ({item}) => {
   // 이전곡&다음곡
   const prevTrack = () => {
     if (songId - 1 < 0) {
-      songId = 100;
+      songId = 10;
     } else {
       songId -= 1;
     }
@@ -220,7 +218,7 @@ const MusicPlayer = ({item}) => {
   };
 
   const nextTrack = () => {
-    if (songId + 1 > 100) {
+    if (songId + 1 > 10) {
       songId = 1;
     } else {
       songId += 1;
@@ -240,19 +238,13 @@ const MusicPlayer = ({item}) => {
     <div className="flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full ">
       <p className="py-[10px]">{musicInfo.album}</p>
       <div className=" w-[300px]">
-        <img
-          src={"data:image/;base64," + musicInfo.img}
-          className="h-auto rounded-lg"
-        />
+        <img src={"data:image/;base64," + musicInfo.img} className="h-auto rounded-lg" />
         <p className="text-2xl pt-[10px] ">{musicInfo.title}</p>
         <p>{musicInfo.artist}</p>
       </div>
       {/* 재생바 */}
       <div className="w-[85%] h-2.5 bg-black rounded-full mt-10 relative">
-        <div
-          style={{ width: `${(currentTime / duration) * 100}%` }}
-          className="h-2 bg-white rounded-full absolute"
-        />
+        <div style={{ width: `${(currentTime / duration) * 100}%` }} className="h-2 bg-white rounded-full absolute" />
         <input
           type="range"
           min={0}
@@ -287,17 +279,16 @@ const MusicPlayer = ({item}) => {
         <Next className="w-[40px] h-auto" onClick={nextTrack} />
         <div className="ml-auto">
           <button onClick={toggleLike}>
-            <img
-              className="w-[30px] h-auto"
-              src={isLiked ? likeFull : likeEmpty}
-              alt="like-button"
-            />
+            <img className="w-[30px] h-auto" src={isLiked ? likeFull : likeEmpty} alt="like-button" />
           </button>
         </div>
       </div>
       <img
         src={scroll}
-        onClick={() => navigate('/library')}
+        onClick={() => {
+          navigate("/library");
+          setShowPlayerBar(true);
+        }}
         className="w-[40px] h-auto fixed bottom-[10%]"
       />
     </div>
