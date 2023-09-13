@@ -4,6 +4,7 @@ import com.blueme.backend.api.client.WeatherAPIClient;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.gptdto.QuestionReqDto;
 import com.blueme.backend.dto.musiclistsdto.RecMusicListSaveDto;
+import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsDetailResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsResDto;
 import com.blueme.backend.model.entity.HealthInfos;
 import com.blueme.backend.model.entity.RecMusiclists;
@@ -95,8 +96,13 @@ public class RecMusiclistsService {
   }
 
   /*
-   * 
+   * get (사용자에 해당하는) 최근 추천리스트 조회
    */
+  public RecMusiclistsDetailResDto getRecentRecMusiclists(String userId) {
+    Optional<RecMusiclists> recMusicList = recMusicListsJpaRepository
+        .findFirstByUserIdOrderByCreatedAtDesc(Long.parseLong(userId));
+    return recMusicList.isPresent() ? new RecMusiclistsDetailResDto(recMusicList.get()) : null;
+  }
 
   /*
    * get 모든 추천리스트 조회
