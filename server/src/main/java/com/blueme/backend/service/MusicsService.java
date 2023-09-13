@@ -62,12 +62,11 @@ public class MusicsService {
      */
     @Transactional
     public Page<Musics> findAll(Pageable pageable) {
-        Page<Musics> musicsPage = musicsJpaRepository.findAll(pageable);
-        return musicsPage;
+        return musicsJpaRepository.findAll(pageable);
     }
 
     /*
-     * 음악 조회
+     * 음악 검색
      */
     @Transactional
     public List<Musics> searchMusic(String keyword) {
@@ -103,35 +102,6 @@ public class MusicsService {
     }
 
     /*
-     * 음악파일전송 테스트 (StreamingResponseBody 사용)(현재 사용x)
-     */
-    @Transactional
-    public StreamingResponseBody streamMusic(String id) {
-        try {
-            Musics music = musicsJpaRepository.findById(Long.parseLong(id))
-                    .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
-            // 파일 경로 설정
-            Path filePath = Paths.get("\\usr\\blueme\\musics\\" + music.getFilePath() + ".mp3");
-            File file = filePath.toFile();
-            return outputStream -> {
-                int nRead;
-                // byte[] data = new byte[1024];
-                byte[] data = new byte[256];
-                try (InputStream inputStream = new FileInputStream(file)) {
-                    while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                        outputStream.write(data, 0, nRead);
-                    }
-                } catch (IOException e) {
-
-                }
-            };
-
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    /*
      * 음악 파일 전송(파일, RangeRequest 두종류) + 재생이므로 조회수 증가
      * Header에 Range설정하지 않은경우 일반 Audio 타입 데이터 반환
      */
@@ -141,14 +111,11 @@ public class MusicsService {
         try {
             Musics music = musicsJpaRepository.findById(Long.parseLong(id))
                     .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
-
             if (music == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
             // 파일 경로 설정
-            Path filePath = Paths.get("\\usr\\blueme\\musics\\" + music.getFilePath() + ".mp3");
-
+            Path filePath = Paths.get(FilePathConfig.MUSIC_PATH + music.getFilePath() + ".mp3");
             File file = filePath.toFile();
 
             // 경로에 파일이 없을 경우
@@ -210,31 +177,9 @@ public class MusicsService {
      */
     @Transactional(readOnly = true)
     public MusicInfoResDto getMusicInfo(String id) {
-        try {
-            Musics music = musicsJpaRepository.findById(Long.parseLong(id))
-                    .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
-            // 앨범재킷 파일 불러오기
-            // 파일 경로 설정
-            Path filePath = Paths.get(FilePathConfig.JACKET_PATH + music.getJacketFilePath() + ".jpg");
-            File file = filePath.toFile();
-
-            // 경로에 파일이 없을 경우
-            if (!file.exists()) {
-                log.debug("재킷파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
-            }
-            // base64로 변환
-            ImageConverter<File, String> converter = new ImageToBase64();
-            String base64 = null;
-            base64 = converter.convert(file);
-            if (base64 == null) {
-                log.debug("재킷파일을 base64로 변환할 수 없습니다");
-            }
-            MusicInfoResDto res = new MusicInfoResDto(music, base64);
-
-            return res;
-        } catch (Exception e) {
-            throw new RuntimeException("재킷파일 전송 실패", e);
-        }
+        Musics music = musicsJpaRepository.findById(Long.parseLong(id))
+                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
+        return music == null ? null : new MusicInfoResDto(music);
     }
 
     /*

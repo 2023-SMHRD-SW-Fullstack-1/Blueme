@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-09
+날짜(수정포함): 2023-09-13
 설명: 음악저장 관련 서비스
 */
 
@@ -34,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 public class LikeMusicsService {
-  
 
   private final LikeMusicsJpaRepository likeMusicsJpaRepository;
   private final UsersJpaRepository usersJpaRepository;
@@ -44,14 +43,15 @@ public class LikeMusicsService {
    * get 사용자가 음악저장 했는지 조회
    */
   @Transactional
-  public Long isSaveOne(LikemusicIsSaveReqDto requestdDto){
-    LikeMusics likeMusic = likeMusicsJpaRepository.findByUserIdAndMusicId(Long.parseLong(requestdDto.getUserId()), Long.parseLong(requestdDto.getMusicId()));
-    return likeMusic == null? -1L : likeMusic.getId();
+  public Long isSaveOne(LikemusicIsSaveReqDto requestdDto) {
+    LikeMusics likeMusic = likeMusicsJpaRepository.findByUserIdAndMusicId(Long.parseLong(requestdDto.getUserId()),
+        Long.parseLong(requestdDto.getMusicId()));
+    return likeMusic == null ? -1L : likeMusic.getId();
   }
 
   /**
-  * put	저장된 음악 토글 (이미 있는 저장음악일시 삭제, 없을시 등록)
-  */
+   * put 저장된 음악 토글 (이미 있는 저장음악일시 삭제, 없을시 등록)
+   */
   @Transactional
   public Long toggleLikeMusics(LikemusicReqDto requestDto) {
     Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getUserId()))
@@ -61,14 +61,14 @@ public class LikeMusicsService {
 
     LikeMusics likeMusics = likeMusicsJpaRepository.findByUserIdAndMusicId(user.getId(), music.getId());
 
-    if (likeMusics!= null) {
+    if (likeMusics != null) {
       likeMusicsJpaRepository.delete(likeMusics);
       return -1L;
     } else {
       likeMusics = new LikeMusics(music, user);
       likeMusicsJpaRepository.save(likeMusics);
     }
-      return likeMusics.getId();
+    return likeMusics.getId();
   }
 
   /*
@@ -81,30 +81,14 @@ public class LikeMusicsService {
       List<MusicInfoResDto> musicInfoResDtos = new ArrayList<>();
       for (LikeMusics likeMusic : likeMusics) {
         Musics music = musicsJpaRepository.findById(likeMusic.getMusic().getId())
-          .orElseThrow(() -> new IllegalArgumentException("해당하는 음악ID가 없습니다."));
-        
-          // 앨범재킷 파일 불러오기
-          // 파일 경로 설정
-          Path filePath = Paths.get("\\usr\\blueme\\jackets\\"+music.getJacketFilePath()+".jpg");
-          File file = filePath.toFile();
-
-          // 경로에 파일이 없을 경우
-          if (!file.exists()) {
-              log.debug("재킷파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
-          }
-          // 이미지 base64로 인코딩
-          ImageConverter<File, String> converter = new ImageToBase64();
-          String base64 = null;
-          base64 = converter.convert(file);
-          MusicInfoResDto res = new MusicInfoResDto(music, base64);
-          musicInfoResDtos.add(res);
+            .orElseThrow(() -> new IllegalArgumentException("해당하는 음악ID가 없습니다."));
+        MusicInfoResDto res = new MusicInfoResDto(music);
+        musicInfoResDtos.add(res);
       }
       return musicInfoResDtos;
     } catch (Exception e) {
-      throw new RuntimeException("저장리스트 - 재킷파일 전송 실패", e); 
+      throw new RuntimeException("저장리스트 - 재킷파일 전송 실패", e);
     }
   }
-
-
 
 }

@@ -35,29 +35,23 @@ public class PlayedMusicsService {
   private final PlayedMusicsJpaRepository playedMusicsJpaRepository;
   private final UsersJpaRepository usersJpaRepository;
   private final MusicsJpaRepository musicsJpaRepository;
-  
+
   /*
-  * 최근재생된 음악 조회
-  */
+   * 최근재생된 음악 조회
+   */
   @Transactional
-  public List<MusicInfoResDto> getPlayedMusic(Long userId){
+  public List<MusicInfoResDto> getPlayedMusic(Long userId) {
     try {
       List<Musics> musicsList = playedMusicsJpaRepository.findDistinctMusicByUserId(userId);
       List<MusicInfoResDto> musicInfoResDtos = new ArrayList<>();
       // 음악이미지 추가
-      for(Musics music: musicsList){
-        Path filePath = Paths.get("\\usr\\blueme\\jackets\\"+music.getJacketFilePath()+".jpg");
-        File file = filePath.toFile();
-
-        ImageConverter<File, String> converter = new ImageToBase64();
-        String base64 = null;
-        base64 = converter.convert(file);
-        MusicInfoResDto res = new MusicInfoResDto(music, base64);
+      for (Musics music : musicsList) {
+        MusicInfoResDto res = new MusicInfoResDto(music);
         musicInfoResDtos.add(res);
       }
       return musicInfoResDtos;
     } catch (Exception e) {
-      throw new RuntimeException("저장리스트 - 재킷파일 전송 실패", e); 
+      throw new RuntimeException("저장리스트 - 재킷파일 전송 실패", e);
     }
   }
 
@@ -65,13 +59,13 @@ public class PlayedMusicsService {
    * 재생된 음악 등록
    */
   @Transactional
-  public Long savePlayedMusic(PlayedMusicsSaveReqDto request){
+  public Long savePlayedMusic(PlayedMusicsSaveReqDto request) {
 
     Users user = usersJpaRepository.findById(Long.parseLong(request.getUserId()))
-      .orElseThrow(() -> new IllegalArgumentException("해당 ID에 해당하는 회원이 존재하지 않습니다."));
-    
+        .orElseThrow(() -> new IllegalArgumentException("해당 ID에 해당하는 회원이 존재하지 않습니다."));
+
     Musics music = musicsJpaRepository.findById(Long.parseLong(request.getMusicId()))
-      .orElseThrow(() -> new IllegalArgumentException("해당 ID에 해당하는 음악이 존재하지 않습니다."));
+        .orElseThrow(() -> new IllegalArgumentException("해당 ID에 해당하는 음악이 존재하지 않습니다."));
 
     return playedMusicsJpaRepository.save(PlayedMusics.builder().user(user).music(music).build()).getId();
   }

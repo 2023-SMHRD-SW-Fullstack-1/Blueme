@@ -22,6 +22,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-13
+설명: 음악 엔터티
+*/
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -50,7 +56,7 @@ public class Musics {
 	@Column(name = "release_date", columnDefinition = "VARCHAR(50)")
 	private String releaseDate;
 
-	// 파일경로 파일 매핑(DB에 영속X)
+	// 파일경로 base64로 변환되게 사용(코드중복최소화, 유지보수)(DB에 영속X)
 	@Transient
 	public String getJacketFile() {
 		try {
