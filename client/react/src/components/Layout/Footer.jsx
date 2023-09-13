@@ -5,7 +5,7 @@ import home from "../../assets/img/home.png";
 import tag from "../../assets/img/tag.png";
 import library from "../../assets/img/library.png";
 import recommendAnimationData from "../../assets/img/recommend3.json";
-import Lottie from "react-lottie";
+//import Lottie from "react-lottie";
 import Search from "../../assets/img/search.png";
 
 function Footer() {
@@ -36,7 +36,7 @@ function Footer() {
       </Link>
       {/* 지훈 - 검색 , 추천 애니메이션 추가  (0912) */}
       <Link to="/RecBegin" className="flex flex-col items-center w-full text-center mt-4">
-        <Lottie options={defaultOptions} height={70} width={70} />
+        {/* <Lottie options={defaultOptions} height={70} width={70} /> */}
         <p className="text-sm h-[15px]"></p>
       </Link>
 

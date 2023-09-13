@@ -10,14 +10,8 @@ import MyPage from "./pages/myPage/MyPage";
 import MemberInfo from "./pages/myPage/MemberInfo";
 import SelectArtist from "./pages/join/SelectArtist";
 import Theme from "./pages/theme/Theme";
-<<<<<<< HEAD
-import ThemePlaylist from "./pages/theme/ThemePlaylist";
-import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경
-// 지희 끝
-=======
 import ThemePlaylist from "./pages/theme/ThemePlaylist"
 import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경 
->>>>>>> origin/jihee
 import MemberInfoChange from "./pages/myPage/MemberInfoChange";
 import JoinComplete from "./pages/join/JoinComplete";
 import Library from "./pages/library/Library";
@@ -29,12 +23,8 @@ import Playlist from "./pages/Playlist";
 import SelectGenre from "./pages/join/SelectGenre";
 import DashBoard from "./pages/admin/DashBoard";
 
-<<<<<<< HEAD
-//
-=======
 
 
->>>>>>> origin/jihee
 /* 지훈 시작 */
 import MemberDelete from "./pages/myPage/MemberDelete";
 
