@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import com.blueme.backend.config.FilePathConfig;
 import com.blueme.backend.dto.musicdto.MusicInfoResDto;
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
@@ -214,7 +215,7 @@ public class MusicsService {
                     .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
             // 앨범재킷 파일 불러오기
             // 파일 경로 설정
-            Path filePath = Paths.get("\\usr\\blueme\\jackets\\" + music.getJacketFilePath() + ".jpg");
+            Path filePath = Paths.get(FilePathConfig.JACKET_PATH + music.getJacketFilePath() + ".jpg");
             File file = filePath.toFile();
 
             // 경로에 파일이 없을 경우
