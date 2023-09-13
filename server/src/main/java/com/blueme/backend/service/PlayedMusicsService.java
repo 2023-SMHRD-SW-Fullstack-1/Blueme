@@ -14,6 +14,8 @@ import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.PlayedMusicsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.blueme.backend.service.exception.MusicNotFoundException;
+import com.blueme.backend.service.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,9 +48,9 @@ public class PlayedMusicsService {
   @Transactional
   public Long savePlayedMusic(PlayedMusicsSaveReqDto request) {
     Users user = usersJpaRepository.findById(request.getParsedUserId())
-        .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+        .orElseThrow(() -> new UserNotFoundException(request.getParsedUserId()));
     Musics music = musicsJpaRepository.findById(request.getParsedMusicId())
-        .orElseThrow(() -> new IllegalArgumentException("음악이 존재하지 않습니다."));
+        .orElseThrow(() -> new MusicNotFoundException(request.getParsedMusicId()));
 
     return playedMusicsJpaRepository.save(PlayedMusics.builder().user(user).music(music).build()).getId();
   }

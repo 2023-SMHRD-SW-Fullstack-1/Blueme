@@ -2,6 +2,8 @@ package com.blueme.backend.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,9 +47,10 @@ public class PlayedMusicsController {
    * 재생된 음악 등록
    */
   @PostMapping("/add")
-  public Long savePlayedMusic(@RequestBody PlayedMusicsSaveReqDto request) {
+  public ResponseEntity<Long> savePlayedMusic(@RequestBody PlayedMusicsSaveReqDto request) {
     log.info("playedmusics post save start by userID = {}", request.getUserId());
-    return playedMusicsService.savePlayedMusic(request);
+    Long savedId = playedMusicsService.savePlayedMusic(request);
+    return new ResponseEntity<>(savedId, HttpStatus.CREATED);
   }
 
 }

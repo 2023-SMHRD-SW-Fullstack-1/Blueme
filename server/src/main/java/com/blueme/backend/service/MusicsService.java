@@ -56,7 +56,7 @@ public class MusicsService {
     }
 
     /*
-     * 음악 검색
+     * get 음악 검색
      */
     @Transactional(readOnly = true)
     public List<Musics> searchMusic(String keyword) {
@@ -109,7 +109,7 @@ public class MusicsService {
     }
 
     /*
-     * 음악 파일 전송(파일, RangeRequest 두종류) + 재생이므로 조회수 증가
+     * get 음악 파일 전송(파일, RangeRequest 두종류) + 재생이므로 조회수 증가
      * Header에 Range설정하지 않은경우 일반 Audio 타입 데이터 반환
      */
     @Transactional
@@ -191,7 +191,7 @@ public class MusicsService {
     }
 
     /*
-     * 음악 정보 전송
+     * get 음악 정보 전송
      */
     @Transactional(readOnly = true)
     public MusicInfoResDto getMusicInfo(String id) {

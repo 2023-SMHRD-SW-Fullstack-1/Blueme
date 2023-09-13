@@ -207,7 +207,7 @@ class ExerciseFragment : Fragment() {
             resetDisplayedFields()
             // 프로그래스바 증가(일단 40초)
             val animator = ObjectAnimator.ofInt(binding.progressStart, "progress", 0, 100).apply {
-                duration = 40000 // 30 seconds in milliseconds
+                duration = 30000 // 30 seconds in milliseconds
                 start()
             }
 
