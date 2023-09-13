@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import com.blueme.backend.model.vo.WeatherInfo;
 import reactor.core.publisher.Mono;
 

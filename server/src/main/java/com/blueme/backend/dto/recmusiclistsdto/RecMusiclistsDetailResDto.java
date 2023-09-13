@@ -15,32 +15,35 @@ import lombok.Getter;
 
 @Getter
 public class RecMusiclistsDetailResDto {
-  private Long recMusiclistId;
-  private String title;
-  private String reason;
-  List<RecMusiclistDetails> recMusicListDetail;
 
-  public RecMusiclistsDetailResDto(RecMusiclists recMusiclist) {
-    this.recMusiclistId = recMusiclist.getId();
-    this.title = recMusiclist.getTitle();
-    this.reason = recMusiclist.getReason();
-    // this.recMusicListDetail = addImage(recMusiclist.getRecMusicListDetail());
-    this.recMusicListDetail = recMusiclist.getRecMusicListDetail();
+  private Long recMusiclistDetailId;
+  private Long musicId;
+  private String img;
+  private String musicTitle;
+  private String musicArtist;
+  private String musicAlbum;
+  private String musicGenre;
+
+  public RecMusiclistsDetailResDto(RecMusiclistDetails detailResDto) {
+    this.recMusiclistDetailId = detailResDto.getId();
+    this.musicId = detailResDto.getMusic().getId();
+    this.img = addImage(detailResDto.getMusic().getJacketFilePath());
+    this.musicTitle = detailResDto.getMusic().getTitle();
+    this.musicAlbum = detailResDto.getMusic().getArtist();
+    this.musicAlbum = detailResDto.getMusic().getAlbum();
+    this.musicGenre = detailResDto.getMusic().getGenre1();
   }
 
   // base64로 이미지 변환하기
-  public List<RecMusiclistDetails> addImage(List<RecMusiclistDetails> recMusicListDetail) {
-    List<RecMusiclistDetails> result = recMusicListDetail;
+  public String addImage(String path) {
     try {
-      for (RecMusiclistDetails rmd : recMusicListDetail) {
-        Path filePath = Paths.get("\\usr\\blueme\\jackets\\" + rmd.getMusic().getJacketFilePath() + ".jpg");
-        File file = filePath.toFile();
-        ImageConverter<File, String> converter = new ImageToBase64();
-        String base64 = null;
-        base64 = converter.convert(file);
-        // rmd.getMusic().setJacketFilePath(base64);
-      }
-      return result;
+      Path filePath = Paths.get("\\usr\\blueme\\jackets\\" +
+          path + ".jpg");
+      File file = filePath.toFile();
+      ImageConverter<File, String> converter = new ImageToBase64();
+      String base64 = null;
+      base64 = converter.convert(file);
+      return base64;
     } catch (Exception e) {
       throw new RuntimeException("재킷파일 전송 실패", e);
     }

@@ -3,6 +3,7 @@ package com.blueme.backend.controller;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsDetailResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsResDto;
+import com.blueme.backend.model.entity.RecMusiclists;
 import com.blueme.backend.service.RecMusiclistsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,17 +36,18 @@ public class RecMusiclistsController {
   /*
    * get 추천음악 조회
    */
-  @GetMapping("/{userId}")
-  public List<RecMusiclistsResDto> getAllRecMusiclists(@PathVariable("userId") String userId) {
-    log.info("start register RecMusiclist for userId = {}", userId);
-    return recMusiclistsService.getAllRecMusiclists(userId);
-  }
+  // @GetMapping("/{userId}")
+  // public List<RecMusiclistsResDto> getAllRecMusiclists(@PathVariable("userId")
+  // String userId) {
+  // log.info("start register RecMusiclist for userId = {}", userId);
+  // return recMusiclistsService.getAllRecMusiclists(userId);
+  // }
 
   /*
    * (사용자에 해당하는) 최근 추천리스트 조회
    */
   @GetMapping("/recent/{userId}")
-  public RecMusiclistsDetailResDto getRecentRecMusiclists(@PathVariable("userId") String userId) {
+  public RecMusiclistsResDto getRecentRecMusiclists(@PathVariable("userId") String userId) {
     return recMusiclistsService.getRecentRecMusiclists(userId);
   }
 

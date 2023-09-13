@@ -13,6 +13,7 @@ public class ChatGptConfig {
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
     public static final String CHAT_MODEL = "gpt-3.5-turbo";
+    // 답변 최대 토큰수
     public static final Integer MAX_TOKEN = 500;
     public static final Boolean STREAM = false;
     public static final String ROLE = "user";

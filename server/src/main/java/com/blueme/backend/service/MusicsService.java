@@ -79,10 +79,8 @@ public class MusicsService {
     @Transactional
     public Long save(MultipartFile[] files) {
         FileStorageUtil fileStorage = new FileStorageUtil();
-
         // 오류나면 저장안될시 -1 반환 저장시 마지막 음악의ID값 반환
         Long lastId = -1L;
-
         for (MultipartFile file : files) {
             String filePath = fileStorage.storeFile(file);
             // 메타데이터 추출 하는 로직
@@ -93,14 +91,9 @@ public class MusicsService {
                 String album = tag.getFirst(FieldKey.ALBUM);
                 String title = tag.getFirst(FieldKey.TITLE);
                 String genre = tag.getFirst(FieldKey.GENRE);
-                // String bpm = tag.getFirst(FieldKey.BPM);
-                // String mood = tag.getFirst(FieldKey.MOOD);
-                // String year = tag.getFirst(FieldKey.YEAR);
                 Musics music = Musics.builder().title(title).album(album).artist(artist).genre1(genre)
                         .filePath(filePath).build();
-
                 lastId = musicsJpaRepository.save(music).getId();
-
             } catch (Exception e) {
                 throw new RuntimeException("메타데이터 추출 실패", e);
             }
@@ -116,7 +109,6 @@ public class MusicsService {
         try {
             Musics music = musicsJpaRepository.findById(Long.parseLong(id))
                     .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 음악이 없습니다."));
-
             // 파일 경로 설정
             Path filePath = Paths.get("\\usr\\blueme\\musics\\" + music.getFilePath() + ".mp3");
             File file = filePath.toFile();

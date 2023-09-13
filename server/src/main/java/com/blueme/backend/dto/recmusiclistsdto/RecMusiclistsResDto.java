@@ -1,12 +1,12 @@
 package com.blueme.backend.dto.recmusiclistsdto;
 
+import java.util.List;
+
 import com.blueme.backend.model.entity.RecMusiclists;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class RecMusiclistsResDto {
 
   private Long recMusiclistId;
@@ -15,13 +15,13 @@ public class RecMusiclistsResDto {
 
   private String reason;
 
-  private String img;
+  List<RecMusiclistsDetailResDto> recMusiclistDetails;
 
-  public RecMusiclistsResDto(RecMusiclists recMusiclist, String img) {
+  public RecMusiclistsResDto(RecMusiclists recMusiclist, List<RecMusiclistsDetailResDto> detailResDto) {
     this.recMusiclistId = recMusiclist.getId();
     this.title = recMusiclist.getTitle();
     this.reason = recMusiclist.getReason();
-    this.img = img;
+    this.recMusiclistDetails = detailResDto;
   }
 
 }

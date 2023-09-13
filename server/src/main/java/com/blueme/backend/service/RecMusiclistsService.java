@@ -98,45 +98,54 @@ public class RecMusiclistsService {
   /*
    * get (사용자에 해당하는) 최근 추천리스트 조회
    */
-  public RecMusiclistsDetailResDto getRecentRecMusiclists(String userId) {
-    Optional<RecMusiclists> recMusicList = recMusicListsJpaRepository
+  @Transactional
+  public RecMusiclistsResDto getRecentRecMusiclists(String userId) {
+    RecMusiclists recMusicList = recMusicListsJpaRepository
         .findFirstByUserIdOrderByCreatedAtDesc(Long.parseLong(userId));
-    return recMusicList.isPresent() ? new RecMusiclistsDetailResDto(recMusicList.get()) : null;
+    if (recMusicList == null) {
+      return null;
+    }
+    List<RecMusiclistsDetailResDto> results = recMusicList.getRecMusicListDetail()
+        .stream().map(RecMusiclistsDetailResDto::new).collect(Collectors.toList());
+    return new RecMusiclistsResDto(recMusicList, results);
   }
 
   /*
    * get 모든 추천리스트 조회
    */
-  @Transactional
-  public List<RecMusiclistsResDto> getAllRecMusiclists(String userId) {
-    try {
-      List<RecMusiclists> recMusiclistsList = recMusicListsJpaRepository.findByUserId(Long.parseLong(userId));
-      if (recMusiclistsList.size() >= 1) {
-        // 추천음악이 있으면
-        List<RecMusiclistsResDto> result = new ArrayList<>();
-        for (RecMusiclists recMusiclist : recMusiclistsList) {
-          Path filePath = Paths.get("\\usr\\blueme\\jackets\\"
-              + recMusiclist.getRecMusicListDetail().get(0).getMusic().getJacketFilePath() + ".jpg");
-          File file = filePath.toFile();
-          if (!file.exists()) {
-            log.debug("재킷파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
-          }
-          ImageConverter<File, String> converter = new ImageToBase64();
-          String base64 = null;
-          base64 = converter.convert(file);
-          if (base64 == null) {
-            log.debug("재킷파일을 base64로 변환할 수 없습니다");
-          }
-          RecMusiclistsResDto recMusiclistsResDto = new RecMusiclistsResDto(recMusiclist, base64);
-          result.add(recMusiclistsResDto);
-        }
-        return result;
-      } else {
-        return null;
-      }
+  // @Transactional
+  // public List<RecMusiclistsResDto> getAllRecMusiclists(String userId) {
+  // try {
+  // List<RecMusiclists> recMusiclistsList =
+  // recMusicListsJpaRepository.findByUserId(Long.parseLong(userId));
+  // if (recMusiclistsList.size() >= 1) {
+  // // 추천음악이 있으면
+  // List<RecMusiclistsResDto> result = new ArrayList<>();
+  // for (RecMusiclists recMusiclist : recMusiclistsList) {
+  // Path filePath = Paths.get("\\usr\\blueme\\jackets\\"
+  // + recMusiclist.getRecMusicListDetail().get(0).getMusic().getJacketFilePath()
+  // + ".jpg");
+  // File file = filePath.toFile();
+  // if (!file.exists()) {
+  // log.debug("재킷파일이 존재하지 않습니다 경로 = {}", file.getAbsolutePath());
+  // }
+  // ImageConverter<File, String> converter = new ImageToBase64();
+  // String base64 = null;
+  // base64 = converter.convert(file);
+  // if (base64 == null) {
+  // log.debug("재킷파일을 base64로 변환할 수 없습니다");
+  // }
+  // RecMusiclistsResDto recMusiclistsResDto = new
+  // RecMusiclistsResDto(recMusiclist, base64);
+  // result.add(recMusiclistsResDto);
+  // }
+  // return result;
+  // } else {
+  // return null;
+  // }
 
-    } catch (Exception e) {
-      throw new RuntimeException("추천음악이미지파일 전송 실패", e);
-    }
-  }
+  // } catch (Exception e) {
+  // throw new RuntimeException("추천음악이미지파일 전송 실패", e);
+  // }
+  // }
 }

@@ -12,5 +12,5 @@ import com.blueme.backend.model.entity.RecMusiclists;
 public interface RecMusicListsJpaRepository extends JpaRepository<RecMusiclists, Long> {
   List<RecMusiclists> findByUserId(Long userId);
 
-  Optional<RecMusiclists> findFirstByUserIdOrderByCreatedAtDesc(Long userId);
+  RecMusiclists findFirstByUserIdOrderByCreatedAtDesc(Long userId);
 }
