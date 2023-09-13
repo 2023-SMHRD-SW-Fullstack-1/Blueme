@@ -1,12 +1,15 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-11
+날짜(수정포함): 2023-09-12
 설명: 좋아요 누른 곡 전체리스트 (더보기 클릭 시)
 */
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+// 리덕스
+import { useDispatch, useSelector } from "react-redux";
+import { setMusicIds } from "../../store/music/setMusicIds";
 
 // import Component
 import SingleMusic from "../../components/Library/SingleMusic";
@@ -20,14 +23,19 @@ const LikedPlaylist = () => {
   // 임의의 사용자 아이디
   let userId = 1;
 
+  const dispatch = useDispatch();
+  const musicIds = useSelector(state => state);
+
   const [likedMusics, setLikedMusics] = useState([]);
 
 useEffect(() => {
   const fetchLikedList = async () => {
     try { 
       const response = await axios.get(`/likemusics/${userId}`);
-      // console.log(response.data);
       setLikedMusics(response.data);
+      let ids = response.data.map(music => music.musicId);
+      // console.log('ids', ids);
+      dispatch(setMusicIds(ids));
     } catch (error) {
       console.error(`Error: ${error}`);
     }
@@ -36,25 +44,25 @@ useEffect(() => {
   fetchLikedList();
 }, []);
 
+// 리덕스에 저장됐는지 확인
+//  useEffect(() => {
+//    console.log('Updated music IDs:', musicIds);
+//  }, [musicIds]);
 
   return (
     <div className="bg-custom-blue text-custom-white h-full pt-20">
       {/* 플레이리스트 */}
       <div className="flex flex-col items-center justify-center">
-        <img
-          src={PlaylistDummy[0].coverImage}
-          className="w-[200px] h-auto rounded-lg"
-        />
-        <p className="text-2xl py-5">{PlaylistDummy[0].title}</p>
+        <p className="text-3xl py-5">내가 좋아요 누른 곡</p>
       </div>
       <div className="flex justify-between ml-4 mr-4 py-2">
         <button className="bg-custom-darkgray text-custom-lightpurple w-40 h-8">
-          전체 재생
+          랜덤 재생
         </button>
         <Link>
-          <button className="bg-custom-darkgray text-custom-lightpurple w-40 h-8">
+          {/* <button className="bg-custom-darkgray text-custom-lightpurple w-40 h-8">
             전체 저장
-          </button>
+          </button> */}
         </Link>
       </div>
       {/* 음악 데이터 */}

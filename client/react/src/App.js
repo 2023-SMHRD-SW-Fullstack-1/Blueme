@@ -9,11 +9,15 @@ import Header from "./components/Layout/Header";
 import MyPage from "./pages/myPage/MyPage";
 import MemberInfo from "./pages/myPage/MemberInfo";
 import SelectArtist from "./pages/join/SelectArtist";
-// 지희 시작 - theme 폴더 생성 후 경로 이동 & ThemePlaylist추가 (0908)
 import Theme from "./pages/theme/Theme";
+<<<<<<< HEAD
 import ThemePlaylist from "./pages/theme/ThemePlaylist";
 import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경
 // 지희 끝
+=======
+import ThemePlaylist from "./pages/theme/ThemePlaylist"
+import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경 
+>>>>>>> origin/jihee
 import MemberInfoChange from "./pages/myPage/MemberInfoChange";
 import JoinComplete from "./pages/join/JoinComplete";
 import Library from "./pages/library/Library";
@@ -25,7 +29,12 @@ import Playlist from "./pages/Playlist";
 import SelectGenre from "./pages/join/SelectGenre";
 import DashBoard from "./pages/admin/DashBoard";
 
+<<<<<<< HEAD
 //
+=======
+
+
+>>>>>>> origin/jihee
 /* 지훈 시작 */
 import MemberDelete from "./pages/myPage/MemberDelete";
 
@@ -43,7 +52,8 @@ import LoadData from "./pages/rec/LoadData";
 import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
-
+// 0912 - 하단바 시도 중
+import MiniPlayer from "./pages/MiniPlayer";
 // 지희 import 끝
 
 const App = () => {
@@ -93,8 +103,9 @@ const App = () => {
           {/* 지희 시작 */}
           <Route path="/LikedPlaylist" element={<LikedPlaylist />} />
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
-          {/* 지희 끝 */}
         </Routes>
+        <MiniPlayer />
+        {/* 지희 끝 */}
         <Footer />
       </div>
     </Router>
