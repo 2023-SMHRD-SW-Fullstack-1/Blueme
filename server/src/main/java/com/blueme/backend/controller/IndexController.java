@@ -19,8 +19,8 @@ public class IndexController {
 
 	// 테스트용
 	@GetMapping("/index")
-	public String reservation() {
-		return "index.html";
+	public String test() {
+		return "";
 	}
 
 }

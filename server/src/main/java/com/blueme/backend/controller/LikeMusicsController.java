@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-09
+날짜(수정포함): 2023-09-13
 설명: 저장음악관련 컨트롤러
 */
 
@@ -39,7 +39,8 @@ public class LikeMusicsController {
    */
   @PostMapping("/issave")
   public Long isSaveOne(@RequestBody LikemusicIsSaveReqDto requestDto) {
-    log.info("Starting LikeMusics isSaveOne for userId {}", requestDto.getUserId());
+    log.info("Starting LikeMusics isSaved with musicId {} for userId {}", requestDto.getMusicId(),
+        requestDto.getUserId());
     return likeMusicsService.isSaveOne(requestDto);
   }
 
@@ -49,9 +50,7 @@ public class LikeMusicsController {
   @PutMapping("/toggleLike")
   public Long login(@RequestBody LikemusicReqDto requestDto) {
     log.info("Starting LikeMusics toggle for userId {}", requestDto.getUserId());
-    Long likeMusicsId = likeMusicsService.toggleLikeMusics(requestDto);
-    log.info("Likemusics toggle completed with ID {}", likeMusicsId);
-    return likeMusicsId;
+    return likeMusicsService.toggleLikeMusics(requestDto);
   }
 
   /*

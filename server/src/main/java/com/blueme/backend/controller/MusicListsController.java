@@ -33,8 +33,6 @@ public class MusicListsController {
 	@PostMapping("/recommendations")
 	public Long saveMusicRecList(@RequestBody RecMusicListSaveDto requestDto) {
 		log.info("Starting Recommendation MusicList save for userId = {}", requestDto.getUserId());
-		Long reqMusicListId = musicListsService.save(requestDto);
-		log.info("Recommendation MusicList save completed with reqMusicListId = {}", reqMusicListId);
-		return reqMusicListId;
+		return musicListsService.save(requestDto);
 	}
 }

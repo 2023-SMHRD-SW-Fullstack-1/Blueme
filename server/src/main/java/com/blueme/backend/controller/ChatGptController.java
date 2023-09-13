@@ -63,11 +63,4 @@ public class ChatGptController {
                         : new ChatGptResDto());
     }
 
-    /*
-     * 테스트용
-     */
-    // @GetMapping("/")
-    // public String makeQuestion() {
-    // return chatGptService.makeQuestion();
-    // }
 }

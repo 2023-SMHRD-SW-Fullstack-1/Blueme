@@ -48,6 +48,7 @@ public class RecMusiclistsController {
    */
   @GetMapping("/recent/{userId}")
   public RecMusiclistsResDto getRecentRecMusiclists(@PathVariable("userId") String userId) {
+    log.info("starting getRecentRecMusiclists for userId = {}", userId);
     return recMusiclistsService.getRecentRecMusiclists(userId);
   }
 

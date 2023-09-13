@@ -21,6 +21,7 @@ import com.blueme.backend.dto.themesdto.ThemelistResDto;
 import com.blueme.backend.model.entity.Themes;
 import com.blueme.backend.service.ThemesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -43,21 +44,18 @@ public class ThemesController {
 
     /**
      * post theme 등록
+     * 
+     * @throws JsonProcessingException
+     * @throws JsonMappingException
      */
     @PostMapping("/register")
     public Long register(@RequestPart("theme_img_file") MultipartFile imageFile,
-            @RequestPart("requestDto") String requestDtoString) {
+            @RequestPart("requestDto") String requestDtoString) throws JsonMappingException, JsonProcessingException {
         ThemeSaveReqDto requestDto = null;
         log.info("Starting theme registration");
         ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            requestDto = objectMapper.readValue(requestDtoString, ThemeSaveReqDto.class);
-        } catch (JsonProcessingException e) {
-            log.error("objectMapper 변환 실패!");
-        }
-        Long themeId = themesService.saveThemes(imageFile, requestDto);
-        log.info("theme registration completed");
-        return themeId;
+        requestDto = objectMapper.readValue(requestDtoString, ThemeSaveReqDto.class);
+        return themesService.saveThemes(imageFile, requestDto);
     }
 
     /**
@@ -75,9 +73,7 @@ public class ThemesController {
     @GetMapping("/themelists/{id}")
     public List<ThemeDetailsResDto> getThemeById(@PathVariable("id") Long id) {
         log.info("Starting theme selection by id: {}", id);
-        List<ThemeDetailsResDto> result = themesService.getThemeById(id);
-        log.info("Theme selection by id completed");
-        return result;
+        return themesService.getThemeById(id);
     }
 
 }
