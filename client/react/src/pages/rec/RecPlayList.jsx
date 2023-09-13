@@ -1,26 +1,39 @@
-import React, { useEffect } from 'react';
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-07
+설명: 추천 음악 플레이 리스트
+*/
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import MusicDummy from '../../dummy/MusicDummy.json';
 import SingleMusic from '../../components/Library/SingleMusic';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
+import SingleRecPlayList from './SingleRecPlayList'
 
-/*
-작성자: 이유영
-날짜(수정포함): 2023-09-07
-설명: 추천 음악 재생
-*/
+
 
 const RecPlayList = () => {
+    const id = localStorage.getItem('id')
+    const [musiclist, setMusiclist] = useState([])
+
+    useEffect(()=> {
+        axios.get(`http://172.30.1.27:8104/recMusiclist/${id}`)
+        .then((res) => {
+            // console.log(res.data[0])
+            setMusiclist(res.data[0])
+            // localStorage.setItem('recMusiclist', res.data[0].img, res.data[0].reason)
+        }).catch((err) => console.log(err))
+    }, [])
 
   
-
     return (
         // 추천 받은 음악 리스트
         <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-screen text-custom-white p-3'>
             <br/><br/><br/>
-            <h1 className='text-center text-2xl font-semibold tracking-tighter mb-8 mt-5'>
-                현재 당신을 위한 음악</h1>  
+            <h1 className='text-center text-xl font-semibold tracking-tight mb-2 p-5'>
+                {musiclist.reason}</h1>  
 
         {/* 전체 재생/ 전체 저장 버튼 */}
             <div className="flex justify-between mb-6">
@@ -29,11 +42,10 @@ const RecPlayList = () => {
             </div>
         
         {/* 추천 받은 음악 리스트 목록 */}
-            <Swiper direction={'vertical'} slidesPerView={9.1} className="h-[69%]">
+            <Swiper direction={'vertical'} slidesPerView={8.2} className="h-[64%]">
                 {MusicDummy.map((item) => (
                     <SwiperSlide key={item.id}>
-                        <SingleMusic key={item.id} item={item} />
-
+                        <SingleRecPlayList key={item.id} item={item} />
                     </SwiperSlide>
                 ))}
             </Swiper>

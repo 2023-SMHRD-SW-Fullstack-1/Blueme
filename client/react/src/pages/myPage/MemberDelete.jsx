@@ -3,23 +3,36 @@
 날짜: 2023-09-08
 설명: 회원탈퇴 페이지 및 모달창 구현
 */
+/*
+작성자: 이유영
+날짜: 2023-09-12
+설명: 회원탈퇴 기능 구현
+*/
 
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const MemberDelete = () => {
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [passwordErrorModalIsOpen, setPasswordErrorModalIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [nickname, setNickname] = useState('')
+  
+  const navigate = useNavigate()
+  const id = localStorage.getItem('id')
+ 
 
   // 탈퇴하기 버튼 클릭 시 실행되는 함수
   const handleDelete = () => {
     setModalIsOpen(true);
   };
 
-  // 모달 닫기 함수
+
+  //모달 닫기 함수
   const closeModal = () => {
     setModalIsOpen(false);
     setEmail("");
@@ -28,28 +41,29 @@ const MemberDelete = () => {
     setPasswordErrorModalIsOpen(false);
   };
 
-  const handleConfirmDelete = async () => {
-    if (password === confirmPassword) {
-      try {
-        const response = await axios.delete("user/deactivate", { data: { email: email, password: password } });
-
-        console.log(response);
-        console.log("Sending request with email:", email);
-        console.log("Sending request with email:", password);
-
-        alert("회원 탈퇴가 성공적으로 완료되었습니다.");
-      } catch (error) {
-        console.error(error);
-        alert("회원 탈퇴에 실패했습니다.");
-      }
-
-      closeModal();
-    } else {
-      setPasswordErrorModalIsOpen(true);
+  //모달창 탈퇴하기 클릭 시 실행되는 함수
+  const handleConfirmDelete = async (e) => {
+    e.preventDefault()
+    const requestData = {
+       email: email, password : password
     }
+    console.log(requestData);
+
+    await axios.delete("http://172.30.1.45:8104/user/deactivate", requestData)
+        .then((res) => {
+          // localStorage.clear()
+          alert("회원 탈퇴가 성공적으로 완료되었습니다.");
+          navigate('/')
+          console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+   
+      closeModal();
+    
   };
+
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 flex flex-col min-h-screen text-xl font-semibold tracking-tighter">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 flex flex-col min-h-screen text-xl font-semibold tracking-tight">
       <p className="mt-[240px] text-xl text-center ">탈퇴를 진행하시려면 비밀번호를 입력해주세요.</p>
       <input
         type="email"
@@ -171,12 +185,12 @@ const MemberDelete = () => {
                         }}
                         type="button"
                         class="
-    mt-5 
-    px-3 
-    h-auto 
-    bg-[#221a38]  
-    rounded-lg border border-soild border-[#fdfdfd]
-    text-custom-white"
+                        mt-5 
+                        px-3 
+                        h-auto 
+                        bg-[#221a38]  
+                        rounded-lg border border-soild border-[#fdfdfd]
+                        text-custom-white"
                       >
                         OK
                       </button>

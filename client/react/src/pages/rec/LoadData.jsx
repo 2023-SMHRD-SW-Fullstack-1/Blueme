@@ -3,6 +3,11 @@
 날짜: 2023-09-08
 설명: Three.js 적용
 */
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-07
+설명: 사용자의 데이터 받아오는 로딩 화면
+*/
 
 import React from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
@@ -11,12 +16,8 @@ import { OrbitControls } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 
-/*
-작성자: 이유영
-날짜(수정포함): 2023-09-07
-설명: 사용자의 데이터 받아오는 로딩 화면
-*/
 
+//Three.js
 const DirectionalLightWithCamera = () => {
   const { camera } = useThree();
   const lightRef = React.useRef();
@@ -46,6 +47,9 @@ const DirectionalLightWithCamera = () => {
 const LoadData = () => {
   const navigate = useNavigate();
 
+  const nickname = localStorage.getItem('nickname')
+
+  //3초 로딩
   const timeout = () => {
     setTimeout(() => {
       navigate("/RecAppDes");
@@ -58,10 +62,11 @@ const LoadData = () => {
       clearTimeout(timeout);
     };
   });
+  
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white flex flex-col h-full justify-center items-center text-2xl font-semibold tracking-tighter space-y-10">
-      <p className="mb-3">데이터 받아오는중</p>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 p-3 text-center text-custom-white flex flex-col h-full justify-center items-center text-2xl font-semibold tracking-tighter space-y-10">
+      <p className="">{nickname}님의 건강데이터를 <br/> 불러오고 있어요</p>
 
       <div className="from-gray-900 via-stone-950 to-gray-700 w-[100%]">
         <Canvas

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const SelectArtist = () => {
   const [checkedState, setCheckedState] = useState(new Array(12).fill(false));
@@ -11,12 +12,20 @@ const SelectArtist = () => {
       setCheckedState(checkedState.map((item, idx) => (idx === index ? !item : item)));
     }
   };
-
-  const handleOnSubmit = () => {
+   //회원가입 시 아티스트 선택
+   const handleSelect = async (e) => {
+    await axios.post("")
+    .then((res) => console.log(res))
+    .catch((e) => console.log(e))
+    navigate('/Artistrecommend')
+   };
+   //아티스트 수정
+   const handleUpdate = () => {
     const checkedIndices = checkedState.reduce((indices, item, index) => [...indices, ...(item ? [index] : [])], []);
 
     navigate("/MyPage", { state: { selectedArtists: checkedIndices } });
-  };
+   };
+
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
       <h3 class="text-2xl pb-10 pt-16">당신이 좋아하는 가수는?</h3>
@@ -40,9 +49,21 @@ const SelectArtist = () => {
             </button>
           ))}
       </div>
-      <div>
-        <button
-          onClick={handleOnSubmit}
+      {localStorage.getItem('email') === null ?
+      <button
+      onClick={handleSelect}
+      className="
+        mt-5
+        w-full
+        px-3 h-10 relative 
+        bg-[#221a38]  
+        rounded-lg border border-soild border-[#fdfdfd]
+        text-custom-white
+        text-[16px]"
+    >
+      선택하기
+    </button> : <button
+          onClick={handleUpdate}
           className="
             mt-5
             w-full
@@ -53,8 +74,8 @@ const SelectArtist = () => {
             text-[16px]"
         >
           수정하기
-        </button>
-      </div>
+        </button>}
+     
     </div>
   );
 };

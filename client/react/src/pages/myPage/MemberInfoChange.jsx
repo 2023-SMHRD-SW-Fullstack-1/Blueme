@@ -3,20 +3,30 @@
 날짜: 2023-09-11
 설명: 사용자 프로필사진 등록기능 추가
 */
-import React, { useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import logo2 from "../../assets/img/logo2.png";
+/*
+작성자: 이유영
+날짜: 2023-09-12
+설명: 회원정보 수정
+*/
+
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import user from "../../assets/img/defalut.png";
-import { useDispatch } from "react-redux";
+
 
 function MemberInfoChange() {
+
+  const navigate = useNavigate();
+  const id = localStorage.getItem('id')
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [imgFile, setImgFile] = useState("");
   const imgRef = useRef();
+
 
   // 선택된 이미지 파일을 저장하는 함수
   const saveImgFile = () => {
@@ -33,40 +43,26 @@ function MemberInfoChange() {
       console.log("File selected and read");
     };
   };
-  const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  //회원정보 수정
+  const handleUpdate = async (e) => {
+    let storageEmail = localStorage.getItem('email')
+    e.preventDefault()
+    const requestData = {id : id, email: storageEmail, password : password, nickname: nickname}
 
-  const handleUpdate = async () => {
-    if (password !== confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
-      return;
-    }
+    await axios.patch(`http://172.30.1.45:8104/user/update`, requestData)
+    .then((res) => {
+      console.log(requestData); 
+      localStorage.removeItem('nickname')
+      localStorage.setItem("nickname", nickname)
+      localStorage.setItem('password', password)
+      alert('수정완료')
+      navigate('/MyPage')
+      console.log(res)})
+    .catch((err) => console.log(err))
+  }
 
-    try {
-      // 서버에 PUT 요청을 보내 데이터 업데이트
-      const response = await axios.patch(
-        "user/update",
-
-        {
-          email,
-          password,
-          nickname,
-        },
-        {
-          // headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      console.log(response);
-      console.log("Sending request with email:", email);
-      console.log("Sending request with email:", password);
-
-      alert("회원 정보가 성공적으로 수정되었습니다.");
-    } catch (error) {
-      console.error(error);
-      alert("회원 정보 수정에 실패했습니다.");
-    }
-  };
+  
 
   const previewRef = useRef();
   return (
@@ -108,9 +104,8 @@ function MemberInfoChange() {
         </div>
         <input
           type="email"
-          onChange={(e) => setEmail(e.target.value)}
           className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-          value="blueme123@gmail.com"
+          value={localStorage.getItem('email')}
         />
         <input
           type="password"
@@ -121,15 +116,14 @@ function MemberInfoChange() {
 
         <input
           type="password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
           className="bg-gradient-to-t from-gray-900 tracking-tighter h-[45px] text-base border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-3 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-          placeholder="비밀번호를 다시 입력해주세요.."
+          placeholder="비밀번호를 다시 입력해주세요."
         />
         <input
           type="text"
           onChange={(e) => setNickname(e.target.value)}
           className="bg-gradient-to-t from-gray-900 tracking-tighter h-[45px] text-base border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-3 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-          placeholder="로그인닉네임 가져올 예정"
+          placeholder="닉네임을 입력해주세요"
         />
 
         <button
@@ -145,17 +139,12 @@ function MemberInfoChange() {
         >
           수정하기
         </button>
-      </form>
-      <Link to="/MemberDelete">
-        <div className="text-custom-gray mt-6 text-sm text-center">
-          탈퇴하기
-        </div>
-      </Link>
-      <Link to="/MemberDelete">
-        <div className="text-custom-gray mt-6 text-sm text-center">
-          로그아웃
-        </div>
-      </Link>
+      </form>   
+            
+      <button className="text-custom-gray mt-6 text-sm text-center"
+        onClick={() => {navigate('/MemberDelete')}}>탈퇴하기</button>
+
+
     </div>
   );
 }

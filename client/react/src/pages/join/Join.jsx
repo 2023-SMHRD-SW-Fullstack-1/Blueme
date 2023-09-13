@@ -43,7 +43,7 @@ const Join = () => {
 
       console.log(response);
 
-      navigate('/JoinComplete')
+      navigate('/SelectGenre')
     } catch (error) {
       if (error.response && error.response.status === 409) {
         console.error("이미 존재하는 계정:", error.response.data);

@@ -1,8 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import user from "../../assets/img/user.png";
 
+
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-12
+설명: 로그인 마이페이지 이동
+*/
 function Header() {
+  const navigator = useNavigate()
+
+  const handleNav = () => {
+    if(localStorage.getItem('accessToken') === null) {
+      navigator('/Login')
+    }else {
+      navigator('/MyPage')
+    }
+  }
   return (
     <div
       className=" text-sm sm:text-base md:text-lg 
@@ -14,12 +29,17 @@ function Header() {
           관리자페이지
         </button>
       </Link>
-      <Link to="/Login">
-        <img
-          src={user}
-          className=" justify-right max-h-[4vh] mt-2 sm:max-h-[4vh] object-contain"
-        />
-      </Link>
+
+       <img
+        onClick={handleNav}
+         src={user}
+         className=" justify-right max-h-[4vh] mt-2 sm:max-h-[4vh] object-contain"
+       />
+
+
+
+    
+      
     </div>
   );
 }

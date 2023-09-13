@@ -69,7 +69,7 @@ const Main = () => {
 
       {/* 최근에 재생한 목록 */}
       <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-8 mb-2">최근에 재생한 목록</h1>
-      <Swiper direction={"vertical"} slidesPerView={2.2} className="h-[16%]">
+      <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]">
         {recentlyPlayed.map((song) => (
           <SwiperSlide key={song.id}>
             <SingleMusic item={song} />
