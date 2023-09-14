@@ -1,25 +1,19 @@
+/*
+작성자: 이지희
+날짜(수정포함): 2023-09-13
+설명: 음악관련 리덕스 스토어
+*/
+
 import { createStore } from "redux";
 import musicReducer from "./musicReducer"; 
-import { SET_PLAYING_STATUS, SET_CURRENT_SONG_ID } from './musicActions';
+import { setPlayingStatus, setCurrentSongId, setShowMiniPlayer } from './musicActions'; // 수정된 부분
 
 const store = createStore(musicReducer);
 
-// Action creators
-function setPlayingStatus(isPlaying) {
-  return {
-    type: SET_PLAYING_STATUS,
-    payload: isPlaying,
-  };
-}
 
-function setCurrentSongId(songId) {
-  return {
-    type: SET_CURRENT_SONG_ID,
-    payload: songId,
-  };
-}
-
-store.dispatch(setPlayingStatus(true));
+store.dispatch(setPlayingStatus(false));
 store.dispatch(setCurrentSongId(1));
+store.dispatch(setShowMiniPlayer(false));
+
 
 export default store;

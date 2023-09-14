@@ -7,7 +7,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Heart from "./Heart";
-// const paramValue = "http://172.30.1.27:8104/music/";
 
 const SingleMusic = ({ item }) => {
   // console.log('single',item);
@@ -18,7 +17,7 @@ const SingleMusic = ({ item }) => {
   return (
     
     <div className="flex flex-row items-center ml-2 mr-2">
-    <Link to={{ pathname: "/MusicPlayer", search: `?url=http://172.30.1.27:8104/music/${musicId}` }}>
+      <Link to={`/MusicPlayer/${musicId}`}>
       <div className="flex flex-row items-center w-full p-1">
         <img
           src={"data:image/;base64," + item.img}
@@ -34,7 +33,7 @@ const SingleMusic = ({ item }) => {
     <div className="ml-auto">
       {/* 하트 컴포넌트 */}
     {/* {item.musicId && ( */}
-      <Heart key={item.id} item={item.musicId} />
+      <Heart item={item.musicId} />
     {/* )} */}
     </div>
     

@@ -40,11 +40,11 @@ import LoadData from "./pages/rec/LoadData";
 import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
-// 0912 - 하단바 시도 중
-import MiniPlayer from "./pages/MiniPlayer";
+import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner";
 // 지희 import 끝
 
 const App = () => {
+  
   return (
     <Router>
       <div className="app flex flex-col min-h-screen">
@@ -91,8 +91,9 @@ const App = () => {
           {/* 지희 시작 */}
           <Route path="/LikedPlaylist" element={<LikedPlaylist />} />
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
+          <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
-        {/* <MiniPlayer /> */}
+        {/* <MusicPlayer /> */}
         {/* 지희 끝 */}
         <Footer />
       </div>
