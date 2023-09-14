@@ -10,7 +10,7 @@ const initialState = {
   musicIds: [],
   isPlaying: false,
   currentSongId: null,
-  showMiniPlayer: false, // 초기 상태에 showMiniPlayer 추가
+  showMiniPlayer: false, 
 };
 
 function music(state = initialState, action) {

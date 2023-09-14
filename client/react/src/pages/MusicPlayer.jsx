@@ -26,6 +26,7 @@ import rotating from "../assets/img/musicPlayer/rotating.png";
 import {
   setCurrentSongId,
   setPlayingStatus,
+  setShowMiniPlayer
 } from "../store/music/musicActions";
 
 const MusicPlayer = ({ item }) => {
@@ -36,9 +37,6 @@ const MusicPlayer = ({ item }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-
-  // 미니플레이어 설정
-  const [isFullScreen, setIsFullScreen] = useState(false);
 
   // useState
   const [currentTime, setCurrentTime] = useState(0);
@@ -70,9 +68,22 @@ const MusicPlayer = ({ item }) => {
   let params = useParams();
   let songId = params.id;
 
+  // 풀스크린 설정
+  const showMiniPlayer = useSelector(state => state.showMiniPlayer);
+
+  useEffect(() => {
+    
+    if(location.pathname.includes("/MusicPlayer")){
+      dispatch(setShowMiniPlayer(false));
+    } else {
+      dispatch(setShowMiniPlayer(true));
+    }
+  }, [location]);
+
+
+
   // 음악 정보 & 음원 불러오기
   useEffect(() => {
-    console.log("Song ID changed:", songId);  // <-- 추가된 부분
     const fetchMusicInfoAndPlay = async () => {
       try {
         // 음악 정보 가져오기
@@ -99,15 +110,12 @@ const MusicPlayer = ({ item }) => {
             dispatch(setCurrentSongId(songId));
           },
           onend() {
-            console.log("Track ended");  // <-- 추가된 부분
             if (isRepeatModeRef.current) {
               newSound.seek(0);
               setCurrentTime(0);
               newSound.play();
             } else {
               nextTrack();            
-              console.log("next");  // <-- 추가된 부분
-
             }
           },
           onplay() {
@@ -167,7 +175,6 @@ const MusicPlayer = ({ item }) => {
       nextIndex = 0;
     }
     const nextSongId = musicIds[nextIndex];
-    console.log("Next song ID:", nextSongId);  // <-- 추가된 부분
     dispatch(setCurrentSongId(nextSongId));
 
     navigate(`/MusicPlayer/${nextSongId}`);
@@ -273,7 +280,7 @@ const MusicPlayer = ({ item }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full ">
+    <div className={showMiniPlayer ? 'mini-player' : 'full-screen-player'}>
       <p className="py-[10px]">{musicInfo.album}</p>
       <div className=" w-[300px]">
         <img

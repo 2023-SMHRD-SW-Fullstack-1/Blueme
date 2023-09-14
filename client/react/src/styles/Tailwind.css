@@ -1,3 +1,9 @@
+/*
+작성자: 이지희
+날짜(수정포함): 2023-09-14
+설명: 음악플레이어 미니/풀 버전 css 설정
+*/
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -12,3 +18,15 @@
 body {
     font-family: 'Pretendard-Regular', sans-serif;
 }
+
+/* 뮤직 플레이어  */
+/* 미니 버전 */
+.mini-player {
+    @apply flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[9%] bg-custom-gray px-6;
+  }
+  
+/* 풀 버전 */
+  .full-screen-player {
+    @apply flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full;
+    
+  }

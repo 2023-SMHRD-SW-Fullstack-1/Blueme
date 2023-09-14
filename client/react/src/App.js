@@ -95,6 +95,7 @@ const App = () => {
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
+        {/* <MusicPlayer /> */}
         {/* 지희 끝 */}
         <Footer />
       </div>
