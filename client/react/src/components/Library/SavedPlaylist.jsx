@@ -1,3 +1,9 @@
+/*
+작성자: 이지희
+날짜(수정포함): 2023-09-12
+설명: 저장된 추천 플레이리스트
+*/
+
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';

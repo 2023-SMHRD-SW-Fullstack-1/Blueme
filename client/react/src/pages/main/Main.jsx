@@ -5,8 +5,8 @@
 */
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-12
-설명: 음악 재생리스트 리덕스 기능 추가 , 최근 재생목록 최대개수 20개로 수정
+날짜(수정포함): 2023-09-13
+설명: 음악 재생리스트 리덕스 기능 추가 , 최근 재생목록 최대개수 20개로 수정&key 재설정
 */
 import React, { useEffect, useState } from "react";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
@@ -22,7 +22,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setMusicIds } from "../../store/music/setMusicIds";
 // 미니플레이어 import
-import MiniPLayer from "../MiniPlayer";
+import MiniPLayer from "../miniPlayer/MiniPlayer";
 
 const Main = () => {
   const [recMusic, setRecMusic] = useState(null);
@@ -35,10 +35,11 @@ const Main = () => {
   useEffect(() => {
     const fetchRecentlyPlayed = async () => {
       try {
-        const userId = 1; // 현재 로그인한 사용자의 ID. 실제로는 인증 시스템을 통해 얻어야 합니다.
+        const userId = 1; // 임의의 사용자 아이디
         const response = await axios.get(`/playedmusic/get/${userId}`);
         setRecentlyPlayed(response.data);
         let ids = response.data.slice(0, 20).map(music => music.musicId);
+        // console.log('main ids',ids);
         dispatch(setMusicIds(ids));
       } catch (error) {
         console.error(`Error: ${error}`);
@@ -54,12 +55,12 @@ const Main = () => {
 //   }, [musicIds]);
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full">
+    <div className="overflow-auto mb-[90px] bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-20 hide-scrollbar">
       <br />
       <br />
       {/* ChatGPT가 추천해준 나의 플레이리스트 */}
       <div className="py-2 flex justify-between">
-        <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-5 ">
+        <h1 className="overflow-hidden text-left indent-1 text-xl font-semibold tracking-tighter mt-5 ">
           Chat GPT가 추천해준 나의 플레이리스트
         </h1>
         <Link to="/RecPlayList">
@@ -70,7 +71,7 @@ const Main = () => {
         <Swiper direction={"vertical"} slidesPerView={4} className="h-[30%]">
           {MusicDummy.map((item) => (
             <SwiperSlide key={item.id}>
-              <SingleMusic key={item.id} item={item} />
+              <SingleMusic item={item} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -90,13 +91,13 @@ const Main = () => {
 
       {/* 최근에 재생한 목록 */}
       <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-8 mb-2">최근에 재생한 목록</h1>
-      <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]">
+      {/* <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]"> */}
         {recentlyPlayed.map((song) => (
-          <SwiperSlide key={song.id}>
-            <SingleMusic key={song.id} item={song} />
-          </SwiperSlide>
+          // <SwiperSlide key={song.musicId}>
+            <SingleMusic key={song.musicId} item={song} />
+          // </SwiperSlide>
         ))}
-      </Swiper>
+      {/* </Swiper> */}
       {/* <MiniPLayer /> */}
     </div>
   );
