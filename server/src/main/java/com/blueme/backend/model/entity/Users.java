@@ -61,13 +61,15 @@ public class Users extends BaseEntity{
 	
 	private String socialId;
 	
+	private String img_url;
+	
 //	@OneToMany(mappedBy = "user")
 //	private List<RecMusiclist> music_list = new ArrayList<RecMusiclist>();
 	
 	@Builder
 	public Users(Long id,String email, String password
 			,String nickname, String platformType
-			, String refreshToken, String socialId) {
+			, UserRole role, String refreshToken, String socialId, String img_url) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -75,13 +77,15 @@ public class Users extends BaseEntity{
 		this.refreshToken = refreshToken;
 		this.platformType = platformType;
 		this.activeStatus = "Y";
-		this.role = UserRole.ADMIN;
+		this.role = role;
 		this.socialId=socialId;
+		this.img_url=img_url;
 	}
 	
 	public enum UserRole {
 	    USER,
-	    ADMIN
+	    ADMIN,
+	    GUEST
 	}
 	
 	

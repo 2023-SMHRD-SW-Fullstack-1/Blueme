@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 public class CustomOAuth2User extends DefaultOAuth2User{
 	
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 	
 	private String email;
 	private UserRole role; 

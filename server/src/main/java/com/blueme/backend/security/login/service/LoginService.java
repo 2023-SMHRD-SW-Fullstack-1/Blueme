@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.mysql.cj.log.Log;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoginService implements UserDetailsService {
@@ -21,6 +24,7 @@ public class LoginService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
+		log.info("loadUserByUsername start ...");
 		Users user = usersJpaRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("해당 이메일이 존재하지 않습니다."));
 		

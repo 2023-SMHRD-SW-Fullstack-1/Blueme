@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁, 손지연
-날짜(수정포함): 2023-09-07
+날짜(수정포함): 2023-09-13
 설명: 회원 관련 서비스
 */
 
@@ -38,14 +38,14 @@ public class UsersService {
 	 *  유저 등록
 	 */
 	@Transactional
-	public void signUp(UsersRegisterDto usersRegisterDto) throws Exception {
+	public Long signUp(UsersRegisterDto usersRegisterDto) throws Exception {
 		log.info("userService method save start...");
 		Optional<Users> users = usersJpaRepository.findByEmail(usersRegisterDto.getEmail());
 		
 		if (users.isPresent()) {
 			throw new Exception("이미 존재하는 이메일입니다.");
 		}else {
-		
+//		
 //		if (usersJpaRepository.findByNickname(usersRegisterDto.getNickname()).isPresent()) {
 //			throw new Exception("이미 존재하는 닉네임입니다.");
 //		}
@@ -57,8 +57,10 @@ public class UsersService {
 				.refreshToken(usersRegisterDto.getRefreshToken())
 				.build();
 		user.setPlatformType("blueme");
+		user.setRole(UserRole.USER);
 		
 		usersJpaRepository.save(user);
+		return user.getId();
 	}
 	}
 	

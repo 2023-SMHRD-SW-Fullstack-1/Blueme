@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.blueme.backend.model.entity.Users;
@@ -24,6 +25,7 @@ import com.blueme.backend.utils.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@CrossOrigin("http://172.30.1.13:3000")
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
@@ -39,8 +41,10 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		log.info("JwtAuthenticationProcessingFilter - doFilterInternal start ");
 		
 		if(request.getRequestURI().equals(NO_CHECK_URL)) {
+			log.info("/login 경로로 요청 들어옴");
 			// "/login" 경로에 대한 요청이 들어온 경우,
 			filterChain.doFilter(request, response);	// 다음 필터 호출
 			return ;	// return으로 이후 로직이 실행되지 않도록 막기
@@ -52,9 +56,11 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 				.orElse(null);
 		
 		if(refreshToken != null) {
+			log.info("JwtAuthenticationProcessingFilter - doFilterInternal start - refresh != null ");
 			checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
 			return; 	// RefreshToken을 보냈을 경우에는 AccessToken을 재발급하고 인증 처리는 하지 않게 바로 return
 		}else {
+			log.info("JwtAuthenticationProcessingFilter - doFilterInternal start - refresh != null(else) ");
 			checkAccessTokenAndAuthentication(request, response, filterChain); // AccessToken 검사 및 인증 작업 수행
 		}
 	}
@@ -68,8 +74,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	                .ifPresent(user -> {
 	                    String reIssuedRefreshToken = reIssueRefreshToken(user);
 	                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(
-	                    		user.getId(), user.getEmail(), user.getNickname(), user.getPlatformType()),
-	                            reIssuedRefreshToken);
+	                    		user.getEmail()),reIssuedRefreshToken);
 	                });
 	
 	}
@@ -88,14 +93,14 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	     */
 	    public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
 	                                                  FilterChain filterChain) throws ServletException, IOException {
-//	        log.info("checkAccessTokenAndAuthentication() 호출");
+	        log.info("checkAccessTokenAndAuthentication() 호출");
 	        jwtService.extractAccessToken(request)
 	                .filter(jwtService::isTokenValid)
 	                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
 	                        .ifPresent(email -> usersJpaRepository.findByEmail(email)
 	                                .ifPresent(this::saveAuthentication)));
-
 	        filterChain.doFilter(request, response);
+	        log.info("checkAccessTokenAndAuthentication() 호출 끝");
 	    }
 	    
 	    /**

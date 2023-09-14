@@ -2,9 +2,6 @@ package com.blueme.backend.utils;
 
 import java.util.Random;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class PasswordUtil {
 	
 	public static String generateRandomPassword() {
@@ -26,7 +23,7 @@ public class PasswordUtil {
 
             password.append(charSet[index]);
         }
-        log.info("PasswordUtil : {}", password);
+        System.out.println(password);
         return password.toString();
     }
 

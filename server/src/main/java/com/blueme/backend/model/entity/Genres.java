@@ -23,12 +23,13 @@ public class Genres {
 	@Column(nullable=false)
 	private String name;
 	
-	private String content;
+	
+	private String genre_file_path;
 
 	@Builder
-	public Genres(String name, String content) {
+	public Genres(String name,String genre_file_path) {
 		this.name = name;
-		this.content = content;
+		this.genre_file_path=genre_file_path;
 	}
 	
 	

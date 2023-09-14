@@ -31,8 +31,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
-작성자: 김혁
-날짜(수정포함): 2023-09-03
+작성자: 김혁, 손지연
+날짜(수정포함): 2023-09-13
 설명: 회원관련 컨트롤러
 */
 
@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*")
+@CrossOrigin("http://172.30.1.13:3000")
 public class UsersController {
 	
 	@Autowired
@@ -63,10 +63,11 @@ public class UsersController {
 //	}
 	
 	@PostMapping("/signup")
-	public String singup(@RequestBody UsersRegisterDto usersRegisterDto) throws Exception {
-		usersService.signUp(usersRegisterDto);
-//		return new ResponseEntity<>("회원가입 성공!", HttpStatus.valueOf(200));
-		return "회원가입 성공";
+	public Long singup(@RequestBody UsersRegisterDto requestDto) throws Exception {
+		log.info("Starting user registration for email {}", requestDto.getEmail());
+		Long userId = usersService.signUp(requestDto);
+		log.info("User registration completed with ID {}", userId);
+		return userId;
 	}
 	
 	/**

@@ -43,8 +43,6 @@ public class JwtService {
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
     private static final String ID_CLAIM = "id";
     private static final String EMAIL_CLAIM = "email";
-    private static final String NICKNAME_CLAIM = "nickname";
-    private static final String PLATFORMTYPE_CLAIM = "platformType";
     private static final String BEARER = "Bearer ";
 
     private final UsersJpaRepository usersJpaRepository;
@@ -52,15 +50,12 @@ public class JwtService {
     /**
      * AccessToken 생성 메소드
      */
-    public String createAccessToken(Long id, String email, String nickname, String platformType) {
+    public String createAccessToken(String email) {
         Date now = new Date();
         return JWT.create() 
                 .withSubject(ACCESS_TOKEN_SUBJECT) 
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
-                .withClaim(ID_CLAIM, id)
                 .withClaim(EMAIL_CLAIM, email)
-                .withClaim(NICKNAME_CLAIM, nickname)
-                .withClaim(PLATFORMTYPE_CLAIM, platformType)
                 .sign(Algorithm.HMAC512(secretKey)); 
     }
     
@@ -83,6 +78,7 @@ public class JwtService {
         response.setHeader(accessHeader, accessToken);
         log.info("재발급된 Access Token : {}", accessToken);
     }
+    
     
     /**
      * AccessToken + RefreshToken 헤더에 실어서 보내기
@@ -109,6 +105,7 @@ public class JwtService {
      * 헤더에서 AccessToken 추출
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
+    	log.info("extractAccessToken() 호출");
         return Optional.ofNullable(request.getHeader(accessHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -117,6 +114,9 @@ public class JwtService {
 
     /**
      * AccessToken에서 email 추출
+     * - ex)
+     * 	     jwtService.extractEmail(accessToken));			// Optional[이메일값]
+	 *       jwtService.extractEmail(accessToken).get());		// 이메일값
      */
     public Optional<String> extractEmail(String accessToken) {
         try {
