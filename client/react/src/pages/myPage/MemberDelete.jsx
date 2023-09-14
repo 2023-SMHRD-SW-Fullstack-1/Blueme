@@ -1,8 +1,9 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-08
-설명: 회원탈퇴 페이지 및 모달창 구현
+날짜: 2023-09-14
+설명: 회원탈퇴 화면 및 모달창 구현 , 회원탈퇴 반응형 
 */
+
 /*
 작성자: 이유영
 날짜: 2023-09-12
@@ -14,23 +15,20 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 const MemberDelete = () => {
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [passwordErrorModalIsOpen, setPasswordErrorModalIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [nickname, setNickname] = useState('')
-  
-  const navigate = useNavigate()
-  const id = localStorage.getItem('id')
- 
+  const [nickname, setNickname] = useState("");
+
+  const navigate = useNavigate();
+  const id = localStorage.getItem("id");
 
   // 탈퇴하기 버튼 클릭 시 실행되는 함수
   const handleDelete = () => {
     setModalIsOpen(true);
   };
-
 
   //모달 닫기 함수
   const closeModal = () => {
@@ -43,49 +41,52 @@ const MemberDelete = () => {
 
   //모달창 탈퇴하기 클릭 시 실행되는 함수
   const handleConfirmDelete = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const requestData = {
-       email: email, password : password
-    }
+      email: email,
+      password: password,
+    };
     console.log(requestData);
 
-    await axios.delete("http://172.30.1.45:8104/user/deactivate", requestData)
-        .then((res) => {
-          // localStorage.clear()
-          alert("회원 탈퇴가 성공적으로 완료되었습니다.");
-          navigate('/')
-          console.log(res.data)
-        })
-        .catch((err) => console.log(err))
-   
-      closeModal();
-    
+    await axios
+      .delete("http://172.30.1.45:8104/user/deactivate", requestData)
+      .then((res) => {
+        // localStorage.clear()
+        alert("회원 탈퇴가 성공적으로 완료되었습니다.");
+        navigate("/");
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    closeModal();
   };
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 flex flex-col min-h-screen text-xl font-semibold tracking-tight">
       <p className="mt-[240px] text-xl text-center ">탈퇴를 진행하시려면 비밀번호를 입력해주세요.</p>
-      <input
-        type="email"
-        onChange={(e) => setEmail(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] h-[45px] text-base focus:border-custom-white pl-2 w-full mt-[60px] rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-        placeholder="이메일을 입력해주세요."
-      />
-      <input
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] h-[45px] text-base focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-        placeholder="비밀번호를 입력해주세요."
-      />
-      <input
-        type="password"
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] h-[45px] text-base focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-        placeholder="비밀번호를 다시 입력해주세요."
-      />
-      <button
-        onClick={handleDelete}
-        className="
+      <div className="flex items-center justify-center w-full p-4">
+        <div className="w-full md:w-1/2 lg:w-1/5">
+          <input
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-[60px] rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+            placeholder="이메일을 입력해주세요."
+          />
+          <input
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+            placeholder="비밀번호를 입력해주세요."
+          />
+          <input
+            type="password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+            placeholder="비밀번호를 다시 입력해주세요."
+          />
+          <button
+            onClick={handleDelete}
+            className="
         mt-12
         w-full
         px-3 h-[43px] relative 
@@ -93,9 +94,11 @@ const MemberDelete = () => {
         rounded-lg border border-soild border-[#fdfdfd]
         text-custom-white
         text-[16px]"
-      >
-        탈퇴하기
-      </button>
+          >
+            탈퇴하기
+          </button>
+        </div>
+      </div>
       {/* 모달 */}
       <div
         id="popup-modal"
