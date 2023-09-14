@@ -1,10 +1,13 @@
 package com.blueme.backend.controller;
 
+import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsDetailResDto;
+import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsRecent10ResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsResDto;
 import com.blueme.backend.service.RecMusiclistsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +47,15 @@ public class RecMusiclistsController {
   public RecMusiclistsResDto getRecentRecMusiclists(@PathVariable("userId") String userId) {
     log.info("starting getRecentRecMusiclists for userId = {}", userId);
     return recMusiclistsService.getRecentRecMusiclists(userId);
+  }
+
+  /*
+   * 최근 추천리스트 10개 조회
+   */
+  @GetMapping("/recent10")
+  public ResponseEntity<RecMusiclistsRecent10ResDto> getRecent10RecMusiclists() {
+    log.info("starting getRecent10RecMusiclists");
+    return recMusiclistsService.getRecent10RecMusiclists();
   }
 
   /*
