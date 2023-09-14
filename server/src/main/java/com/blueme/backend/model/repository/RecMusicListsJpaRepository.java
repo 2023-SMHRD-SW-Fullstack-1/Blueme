@@ -10,4 +10,6 @@ public interface RecMusicListsJpaRepository extends JpaRepository<RecMusiclists,
   List<RecMusiclists> findByUserId(Long userId);
 
   RecMusiclists findFirstByUserIdOrderByCreatedAtDesc(Long userId);
+
+  List<RecMusiclists> findTop10ByOrderByCreatedAtDesc();
 }

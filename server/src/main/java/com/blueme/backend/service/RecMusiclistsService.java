@@ -4,6 +4,7 @@ import com.blueme.backend.api.client.WeatherAPIClient;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.gptdto.QuestionReqDto;
 import com.blueme.backend.dto.musiclistsdto.RecMusicListSaveDto;
+import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsRecent10ResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsResDto;
 import com.blueme.backend.model.entity.HealthInfos;
 import com.blueme.backend.model.entity.RecMusiclists;
@@ -16,6 +17,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +40,15 @@ public class RecMusiclistsService {
   private final ChatGptService chatGptService;
   private final MusicListsService musicListsService;
   private final RecMusicListsJpaRepository recMusicListsJpaRepository;
+
+  /*
+   * get 최근추천목록 조회
+   */
+  @Transactional
+  public List<RecMusiclistsRecent10ResDto> getRecent10RecMusiclists() {
+    return recMusicListsJpaRepository.findTop10ByOrderByCreatedAtDesc().stream().map(RecMusiclistsRecent10ResDto::new)
+        .collect(Collectors.toList());
+  }
 
   /*
    * post 추천 음악등록(chatGPT)
