@@ -14,6 +14,8 @@ import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.RecMusicListsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.blueme.backend.service.exception.MusicNotFoundException;
+import com.blueme.backend.service.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,12 +40,12 @@ public class MusicListsService {
 	public Long save(RecMusicListSaveDto requestDto) {
 
 		Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getUserId()))
-				.orElseThrow(() -> new IllegalArgumentException("User with id " + requestDto.getUserId() + " does not exist."));
+				.orElseThrow(() -> new UserNotFoundException(Long.parseLong(requestDto.getUserId())));
 
 		// id를 music Entity담은 리스트로 변환
 		List<Musics> musics = requestDto.getMusicIds().stream()
 				.map((id) -> musicsJpaRepository.findById(Long.parseLong(id))
-						.orElseThrow(() -> new IllegalArgumentException("해당 음악ID를 찾을 수 없습니다")))
+						.orElseThrow(() -> new MusicNotFoundException(Long.parseLong(id))))
 				.collect(Collectors.toList());
 
 		// 음악을 RecMusiclistDetail 리스트로 변환

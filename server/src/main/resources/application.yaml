@@ -1,29 +1,29 @@
 spring:
-  profiles:
-    include:
-      - oauth
-      - API-KEY
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://project-db-campus.smhrd.com:3308/blueme_sys
-    username: blueme_sys
-    password: kingblueme5
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  servlet:
-    multipart:
-      max-file-size: 20MB
-      max-request-size: 100MB
+    profiles:
+        include:
+            - oauth
+            - API-KEY
+    datasource:
+        driver-class-name: org.mariadb.jdbc.Driver
+        url: jdbc:mariadb://project-db-campus.smhrd.com:3308/blueme_sys
+        username: blueme_sys
+        password: kingblueme5
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+    servlet:
+        multipart:
+            max-file-size: 20MB
+            max-request-size: 100MB
 
 mybatis:
-  mapper-locations: classpath:mybatis/mapper/**/**.xml
+    mapper-locations: classpath:mybatis/mapper/**/**.xml
 
 server:
-  port: 8104
-  address: 0.0.0.0
+    port: 8104
+    address: 0.0.0.0
 
 logging:
-  level:
-    root: info
+    level:
+        root: info

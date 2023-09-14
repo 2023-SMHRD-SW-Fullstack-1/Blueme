@@ -16,6 +16,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/*
+작성자: 김혁
+날짜(수정포함): 2023-09-14
+설명: GPT추천음악 목록 엔터티
+*/
+
 @Getter
 @NoArgsConstructor
 @Entity
