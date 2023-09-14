@@ -1,6 +1,6 @@
 /*
 작성자: 이유영
-날짜(수정포함): 2023-09-07
+날짜(수정포함): 2023-09-13
 설명: 추천 음악 플레이 리스트
 */
 import React, { useEffect, useState } from 'react';
@@ -16,23 +16,26 @@ import SingleRecPlayList from './SingleRecPlayList'
 
 const RecPlayList = () => {
     const id = localStorage.getItem('id')
-    const [musiclist, setMusiclist] = useState([])
+    const [musiclist, setMusiclist] = useState({recMusiclistDetails: []}); //추천 받은 리스트
 
     useEffect(()=> {
-        axios.get(`http://172.30.1.27:8104/recMusiclist/${id}`)
+        const recPlayList = async () => {
+        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/19`)
         .then((res) => {
-            // console.log(res.data[0])
-            setMusiclist(res.data[0])
+            console.log(res)
+            setMusiclist(res.data)
             // localStorage.setItem('recMusiclist', res.data[0].img, res.data[0].reason)
         }).catch((err) => console.log(err))
+    }
+        recPlayList()
     }, [])
 
   
     return (
         // 추천 받은 음악 리스트
-        <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-screen text-custom-white p-3'>
-            <br/><br/><br/>
-            <h1 className='text-center text-xl font-semibold tracking-tight mb-2 p-5'>
+        <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-[1750px] text-custom-white p-3 '>
+            <br/><br/>
+            <h1 className='text-center text-xl mt-[10px] font-semibold tracking-tight p-7 overflow-scroll h-[120px] mb-10'>
                 {musiclist.reason}</h1>  
 
         {/* 전체 재생/ 전체 저장 버튼 */}
@@ -42,13 +45,13 @@ const RecPlayList = () => {
             </div>
         
         {/* 추천 받은 음악 리스트 목록 */}
-            <Swiper direction={'vertical'} slidesPerView={8.2} className="h-[64%]">
-                {MusicDummy.map((item) => (
-                    <SwiperSlide key={item.id}>
+            {/* <Swiper direction={'vertical'} slidesPerView={8.2} className="h-[65%]"> */}
+                {musiclist && musiclist.recMusiclistDetails.map((item) => (
+                    <div key={item.recMusiclistDetailId}>
                         <SingleRecPlayList key={item.id} item={item} />
-                    </SwiperSlide>
+                    </div>
                 ))}
-            </Swiper>
+            {/* </Swiper> */}
         </div>
     );
 };

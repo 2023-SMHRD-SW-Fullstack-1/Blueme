@@ -20,7 +20,7 @@ const LoadDataCompl = () => {
   const time = `${now.getHours()}시 ${now.getMinutes()}분`;
 
   useEffect(()=> {
-    axios.get(`http://172.30.1.27:8104/healthinfo/get/${id}`)
+    axios.get(`http://172.30.1.27:8104/healthinfo/get/9`)
     .then((res) => {
       setHeartRate(res.data.avgHeartRate)
       setStep(res.data.stepsPerMinute) 
@@ -53,7 +53,7 @@ const LoadDataCompl = () => {
       <div className="m-12 font-semibold tracking-tighter text-center text-[20px]">
         <p className="m-5">심박수 {heartRate}bpm</p>
         <p className="m-5">걸음 수 {step}</p>
-        <p className="m-5">속도 {speed}m/s</p>
+        <p className="m-5">속도 {speed}km/h</p>
       </div>
       <div className="flex justify-center item-center">
         <Link to="/LoadGpt">

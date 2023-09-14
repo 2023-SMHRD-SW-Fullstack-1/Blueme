@@ -1,13 +1,17 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-
 /*
 작성자: 이유영
 날짜(수정포함): 2023-09-07
 설명: 추천 받은 음악 제목 수정
 */
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 const PlaylistRename = () => {
+  const [title, setTitle] = useState('') //플레이 리스트 제목
+  const navigate = useNavigate()
+  const id = localStorage.getItem('id')
     
     // 현재 날짜와 시간 구하기
     const todayTime = () => {
@@ -20,6 +24,17 @@ const PlaylistRename = () => {
 
         return todayYear + '년' + todayMonth + '월' + todayDate + '일' + hours + '시' + minutes +'분 당신을 위한 음악'
     }
+
+    const SavedRecPlaylist = () => {
+    //   const requestData = { id: id, title : title }
+    //   axios.get(``, requestData)
+    //   .then((res) => {
+    //     console.log(res)
+        navigate('/RecPlayList')
+        
+    //   }).catch((err) => console.log(err))
+    }
+
 
   return (
     <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full'>
@@ -35,6 +50,7 @@ const PlaylistRename = () => {
         type="email"
         className="focus:border-custom-white pl-2 w-full border border-soild rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.35] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
         placeholder= {todayTime()}
+        onChange={(e) => setTitle(e.target.value)}
       />
       </div>
       
@@ -42,7 +58,7 @@ const PlaylistRename = () => {
       <div className='flex justify-end space-x-2'>
         <div className="h-[35px] w-[53px] mt-5 border border-soild border-#FDFDFD] 
         rounded-lg bg-custom-blue text-custom-white text-sm text-center peer bg-transparent leading-[2.15] outline-none ease-linear">
-            <Link to='/RecPlayList'><button>저장</button></Link>
+            <button onClick={SavedRecPlaylist}>저장</button>
         </div>
         <div className="h-[35px] w-[53px] mt-5 border border-soild border-#FDFDFD] 
         rounded-lg bg-custom-blue text-custom-white text-sm text-center peer bg-transparent leading-[2.15] outline-none ease-linear">
