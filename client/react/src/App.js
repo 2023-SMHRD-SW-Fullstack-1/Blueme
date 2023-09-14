@@ -68,7 +68,7 @@ const App = () => {
           {/* 필요한 경우 추가 Route 설정 */}
 
           {/* 라이브러리, 음악 재생 관련 */}
-          <Route path="/MusicPlayer" element={<MusicPlayer />} />
+          {/* <Route path="/MusicPlayer" element={<MusicPlayer />} /> */}
           <Route path="/Playlist" element={<Playlist />} />
           <Route path="/SelectGenre" element={<SelectGenre />} />
           {/* 혁 추가 */}

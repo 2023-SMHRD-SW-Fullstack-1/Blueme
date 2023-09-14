@@ -48,11 +48,11 @@ const LoadGpt = () => {
 
   const nickname = localStorage.getItem('nickname')
 
-  //3초 로딩 
+  //5초 로딩 
   const timeout = () => {
     setTimeout(() => {
       navigate("/RecPlayList");
-    }, 3000);
+    }, 5000);
   };
 
   useEffect(() => {

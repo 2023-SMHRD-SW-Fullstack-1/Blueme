@@ -8,6 +8,11 @@
 날짜(수정포함): 2023-09-12
 설명: 음악 재생리스트 리덕스 기능 추가 , 최근 재생목록 최대개수 20개로 수정
 */
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-13
+설명: 나의 추천 플레이리스트
+*/
 import React, { useEffect, useState } from "react";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
 import BeforeRegistration from "./BeforeRegistration";
@@ -23,10 +28,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMusicIds } from "../../store/music/setMusicIds";
 // 미니플레이어 import
 import MiniPLayer from "../MiniPlayer";
+//유영 추천 음악 플레이 리스트
+import SingleRecPlayList from '../rec/SingleRecPlayList'
 
 const Main = () => {
-  const [recMusic, setRecMusic] = useState(null);
+  const [recMusic, setRecMusic] = useState([]);
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+  const [myRecMusicList, setMyRecMusicList] = useState({recMusiclistDetails: []});
 
   const dispatch = useDispatch();
   const musicIds = useSelector(state => state);
@@ -40,6 +48,12 @@ const Main = () => {
         setRecentlyPlayed(response.data);
         let ids = response.data.slice(0, 20).map(music => music.musicId);
         dispatch(setMusicIds(ids));
+        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/19`)
+        .then((res) => {
+          setMyRecMusicList(res.data)
+          console.log(res);
+        })
+        .catch((err) => console.log(err))
       } catch (error) {
         console.error(`Error: ${error}`);
       }
@@ -47,6 +61,7 @@ const Main = () => {
 
     fetchRecentlyPlayed();
   }, []);
+  // console.log(myRecMusicList);
 
 // 리덕스에 저장됐는지 확인
 // useEffect(() => {
@@ -62,21 +77,22 @@ const Main = () => {
         <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-5 ">
           Chat GPT가 추천해준 나의 플레이리스트
         </h1>
-        <Link to="/RecPlayList">
+        {myRecMusicList !== undefined ? 
+          <Link to="/RecPlayList">
           <button className="flex text-custom-lightgray mt-6 mr-2 text-sm">더보기</button>
-        </Link>
+        </Link> : <h></h>
+        }
+        
       </div>
-      {recMusic !== null ? (
-        <Swiper direction={"vertical"} slidesPerView={4} className="h-[30%]">
-          {MusicDummy.map((item) => (
-            <SwiperSlide key={item.id}>
-              <SingleMusic key={item.id} item={item} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        <BeforeRegistration />
-      )}
+      {myRecMusicList !== undefined ?
+         <Swiper direction={"vertical"} slidesPerView={4} className="h-[30%]">
+         {myRecMusicList.recMusiclistDetails.map((item) => (
+                    <SwiperSlide key={item.recMusiclistId}>
+                        <SingleRecPlayList key={item.id} item={item} />
+                    </SwiperSlide>
+                ))}
+       </Swiper> :    <BeforeRegistration />}
+      
 
       {/* ChatGPT가 추천해준 남의 플레이리스트 */}
       <div>
