@@ -1,11 +1,17 @@
-import React, { useRef } from "react";
+/*
+작성자: 신지훈
+날짜: 2023-09-13
+설명: Footer 세부 조정
+*/
+
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import gpt from "../../assets/img/gpt.png";
+
 import home from "../../assets/img/home.png";
 import tag from "../../assets/img/tag.png";
 import library from "../../assets/img/library.png";
 import recommendAnimationData from "../../assets/img/recommend3.json";
-//import Lottie from "react-lottie";
+import Lottie from "lottie-react";
 import Search from "../../assets/img/search.png";
 
 function Footer() {
@@ -13,18 +19,14 @@ function Footer() {
   const locationNow = useLocation();
   if (locationNow.pathname === "/MusicPlayer") return null;
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: recommendAnimationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
+  const Lottiestyle = {
+    weight: 70,
+    height: 70,
   };
   return (
     <div
-      className="text-custom-white p-3 sm:p-4 
-        flex justify-between items-center absolute w-full h-[70px] bottom-1"
+      className="text-custom-white p-3 sm:p-4 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700
+    flex justify-between items-center fixed bottom-0 w-full h-[70px]"
     >
       <Link to="/" className="flex flex-col items-center w-full text-center">
         <img src={home} className="h-[39px] w-[45px] mt-[4px]"></img>
@@ -34,9 +36,9 @@ function Footer() {
         <img src={Search} className="h-[35px] w-[35px] mt-[8px]"></img>
         <p className="text-sm h-[15px]">검색</p>
       </Link>
-      {/* 지훈 - 검색 , 추천 애니메이션 추가  (0912) */}
+      {/* 지훈 - 검색 , 추천 애니메이션 추가  (0913) */}
       <Link to="/RecBegin" className="flex flex-col items-center w-full text-center mt-4">
-        {/* <Lottie options={defaultOptions} height={70} width={70} /> */}
+        <Lottie animationData={recommendAnimationData} style={Lottiestyle} />
         <p className="text-sm h-[15px]"></p>
       </Link>
 

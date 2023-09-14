@@ -11,15 +11,19 @@ import google from "../../assets/img/google.png";
 날짜(수정포함): 2023-09-11
 설명: 회원가입 구현
 */
+/*
+작성자: 신지훈
+날짜: 2023-09-04
+설명: 회원가입 화면
+*/
 const Join = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // const dispatch = useDispatch()
-
 
   // 회원가입 버튼 클릭 시 실행되는 함수
   const handleJoin = async (e) => {
@@ -38,12 +42,12 @@ const Join = () => {
       const response = await axios.post("http://172.30.1.27:8104/user/signup", {
         email,
         password,
-        nickname
+        nickname,
       });
 
       console.log(response);
 
-      navigate('/SelectGenre')
+      navigate("/SelectGenre");
     } catch (error) {
       if (error.response && error.response.status === 409) {
         console.error("이미 존재하는 계정:", error.response.data);
@@ -56,11 +60,11 @@ const Join = () => {
   };
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tighter flex flex-col px-4 sm:px-8 md:px-16">
-      <br/>
+      <br />
       <div className="text-custom-white w-full text-left mt-[100px] text-xl font-semibold sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
         Blueme 일반 계정 회원가입
       </div>
-      
+
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}

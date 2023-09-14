@@ -1,3 +1,9 @@
+/*
+작성자: 신지훈
+날짜: 2023-09-08  
+설명: 테마별 플레이리스트 화면, 불러오기
+*/
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -63,10 +69,9 @@ const ThemePlaylist = () => {
             전체 저장
           </button>
         </Link>
-        {/* 더미데이터 이용 */}
       </div>
 
-      {/* Render music list */}
+      {/* 렌더링된 음악 리스트 */}
       {musicList.length > 0 ? (
         <Swiper direction={"vertical"} slidesPerView={6.2} spaceBetween={1} className="h-[49%] ml-3 mr-3">
           {musicList.map((item) => (

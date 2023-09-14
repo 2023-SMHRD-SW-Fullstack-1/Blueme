@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
 날짜: 2023-09-11
-설명: 사용자 프로필사진 등록기능 추가
+설명: 회원정보 수정화면, 사용자 프로필사진 등록기능 추가
 */
 /*
 작성자: 이유영
@@ -14,11 +14,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import user from "../../assets/img/defalut.png";
 
-
 function MemberInfoChange() {
-
   const navigate = useNavigate();
-  const id = localStorage.getItem('id')
+  const id = localStorage.getItem("id");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +24,6 @@ function MemberInfoChange() {
   const [nickname, setNickname] = useState("");
   const [imgFile, setImgFile] = useState("");
   const imgRef = useRef();
-
 
   // 선택된 이미지 파일을 저장하는 함수
   const saveImgFile = () => {
@@ -46,23 +43,23 @@ function MemberInfoChange() {
 
   //회원정보 수정
   const handleUpdate = async (e) => {
-    let storageEmail = localStorage.getItem('email')
-    e.preventDefault()
-    const requestData = {id : id, email: storageEmail, password : password, nickname: nickname}
+    let storageEmail = localStorage.getItem("email");
+    e.preventDefault();
+    const requestData = { id: id, email: storageEmail, password: password, nickname: nickname };
 
-    await axios.patch(`http://172.30.1.45:8104/user/update`, requestData)
-    .then((res) => {
-      console.log(requestData); 
-      localStorage.removeItem('nickname')
-      localStorage.setItem("nickname", nickname)
-      localStorage.setItem('password', password)
-      alert('수정완료')
-      navigate('/MyPage')
-      console.log(res)})
-    .catch((err) => console.log(err))
-  }
-
-  
+    await axios
+      .patch(`http://172.30.1.45:8104/user/update`, requestData)
+      .then((res) => {
+        console.log(requestData);
+        localStorage.removeItem("nickname");
+        localStorage.setItem("nickname", nickname);
+        localStorage.setItem("password", password);
+        alert("수정완료");
+        navigate("/MyPage");
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const previewRef = useRef();
   return (
@@ -103,7 +100,7 @@ function MemberInfoChange() {
         <input
           type="email"
           className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-          value={localStorage.getItem('email')}
+          value={localStorage.getItem("email")}
         />
         <input
           type="password"
@@ -137,12 +134,16 @@ function MemberInfoChange() {
         >
           수정하기
         </button>
-      </form>   
-            
-      <button className="text-custom-gray mt-6 text-sm text-center"
-        onClick={() => {navigate('/MemberDelete')}}>탈퇴하기</button>
+      </form>
 
-
+      <button
+        className="text-custom-gray mt-6 text-sm text-center"
+        onClick={() => {
+          navigate("/MemberDelete");
+        }}
+      >
+        탈퇴하기
+      </button>
     </div>
   );
 }
