@@ -15,4 +15,8 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
   @Query(value = "SELECT * FROM musics ORDER BY RAND() LIMIT :count", nativeQuery = true)
   List<Musics> findRandomMusics(@Param("count") int count);
 
+  Musics findByArtistFilePath(String artistFilePath);
+
+  @Query("SELECT m FROM Musics m GROUP BY m.artist")
+  List<Musics> findByArtist();
 }

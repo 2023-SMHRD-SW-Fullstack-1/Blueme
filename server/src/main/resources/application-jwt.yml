@@ -1,5 +1,5 @@
 jwt:
-  secretKey: base64로 asdkfj3r13442lkjds32c4ljkahsdfjkh234ljh123kjdsajkfhjq234hlk234sdjhfasdf    
+  secretKey: asdkfj3r13442lkjds32c4ljkahsdfjkh234ljh123kjdsajkfhjq234hlk234sdjhfasdf    
     
   access:
     expiration: 3600000 # 1시간

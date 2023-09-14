@@ -38,3 +38,4 @@ out/
 
 application.properties
 application-API-KEY.properties
+application-oauth.properties

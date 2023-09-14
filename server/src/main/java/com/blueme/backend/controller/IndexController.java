@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 public class IndexController {
 
 	// 테스트용
-	@GetMapping("/index")
-	public String test() {
-		return "";
+	@GetMapping("/jwt-test")
+	public String jwtTest() {
+		return "jwtTest 요청 성공";
 	}
 
 }

@@ -26,17 +26,18 @@ public class FavArtists {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="artist_id", nullable = false)
-	private Artists artist;
+	@JoinColumn(name="artist_file_path")
+	private Musics artistId;	// 가수이미지파일경로(ex:16055)을 id 대체?
 	
 	@OneToOne
 	@JoinColumn(name="fav_checklist_id")
 	private FavCheckLists favCheckList;
-
+	
 	@Builder
-	public FavArtists(Long id, Artists artist, FavCheckLists favCheckList) {
-		this.id=id;
-		this.artist = artist;
+	public FavArtists(Long id, Musics artistId, FavCheckLists favCheckList) {
+		this.id = id;
+		this.artistId = artistId;
 		this.favCheckList = favCheckList;
 	}
+
 }
