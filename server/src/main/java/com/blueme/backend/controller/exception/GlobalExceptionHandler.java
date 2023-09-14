@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.blueme.backend.service.exception.MusicNotFoundException;
+import com.blueme.backend.service.exception.SaveMusiclistNotFoundException;
 import com.blueme.backend.service.exception.UserNotFoundException;
 
 /*
@@ -23,6 +24,11 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(MusicNotFoundException.class)
   public ResponseEntity<String> handleMusicNotFound(MusicNotFoundException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(SaveMusiclistNotFoundException.class)
+  public ResponseEntity<String> handleSaveMusiclistNotFound(SaveMusiclistNotFoundException ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
   }
 
