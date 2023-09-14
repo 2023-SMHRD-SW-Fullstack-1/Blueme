@@ -1,5 +1,7 @@
 package com.blueme.backend.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blueme.backend.dto.genredto.GenreInfoDto;
 import com.blueme.backend.dto.usersdto.UsersDeleteDto;
 import com.blueme.backend.dto.usersdto.UsersLoginDto;
 import com.blueme.backend.dto.usersdto.UsersRegisterDto;
@@ -110,5 +113,14 @@ public class UsersController {
 		log.info("User update completed with ID {}", userId);
 		return userId;
 	}
-
+	
+	
+//	/**
+//	 *  get 마이페이지 정보
+//	 */
+//	@GetMapping("/Mypage")
+//	public ResponseEntity<List<GenreInfoDto>> memberInfo(){
+//		
+//	}
+	
 }

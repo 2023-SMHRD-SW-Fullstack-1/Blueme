@@ -102,12 +102,14 @@ const SelectGenre = () => {
       onClick={handleSelect}
       className="
         mt-2
+        mb-10
         w-full
         px-3 h-10 relative 
         bg-[#221a38]  
         rounded-lg border border-soild border-[#fdfdfd]
         text-custom-white
-        text-[16px]"
+        text-[16px]
+        "
     >
       선택하기
     </button> : <button

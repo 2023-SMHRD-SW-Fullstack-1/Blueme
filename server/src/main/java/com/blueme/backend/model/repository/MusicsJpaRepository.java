@@ -19,4 +19,7 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
 
   @Query("SELECT m FROM Musics m GROUP BY m.artist")
   List<Musics> findByArtist();
+  
+  @Query(value = "SELECT DISTINCT * FROM musics m WHERE m.artist LIKE %:keyword% GROUP BY m.artist", nativeQuery = true)
+  List<Musics> findByDistinctArtist(@Param("keyword") String keyword);
 }

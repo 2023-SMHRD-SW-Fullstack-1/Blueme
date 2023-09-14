@@ -1,6 +1,7 @@
 package com.blueme.backend.service;
 
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.blueme.backend.dto.usersdto.ProfileInfoDto;
 import com.blueme.backend.dto.usersdto.UsersDeleteDto;
 import com.blueme.backend.dto.usersdto.UsersLoginDto;
 import com.blueme.backend.dto.usersdto.UsersRegisterDto;
@@ -150,7 +152,7 @@ public class UsersService {
 	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail())
 	        .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. email=" + requestDto.getEmail()));
 	    
-	    user.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()));
+	    user.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()), requestDto.getImgUrl());
 	    return user.getId();
 //	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
 //			user.setPassword(requestDto.getPassword());
@@ -159,5 +161,13 @@ public class UsersService {
 //			return user.getId();
 //	    return null;
 	}
+	
+//	/**
+//	 * 	마이페이지
+//	 */
+//	@Transactional
+//	public List<ProfileInfoDto> getProfile(){
+//		
+//	}
 
 }

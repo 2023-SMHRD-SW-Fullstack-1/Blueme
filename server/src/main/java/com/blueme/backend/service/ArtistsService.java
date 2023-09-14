@@ -104,5 +104,44 @@ public class ArtistsService {
 		}
 		return Long.parseLong(requestDto.getFavChecklistId());
 	}
+	
+    /**
+     * 	get 가수(아티스트) 검색
+     */
+    @Transactional(readOnly = true)
+    public List<ArtistInfoDto> searchArtist(String keyword) {
+    	log.info("Artist searchArtist Service start...");
+    	
+		Map<String, String> pathToBase64 = new HashMap();
+	    ImageConverter<File, String> converter = new ImageToBase64();
+
+    	List<Musics> artistSearch = musicsJpaRepository.findByDistinctArtist(keyword);
+    	return artistSearch.stream().flatMap(artist -> {
+    			
+    			String imgPath = artist.getArtistFilePath();
+    			if (imgPath != null) {
+    				Path filePath = Paths.get("C:\\usr\\blueme\\artists\\"+imgPath+".jpg");
+    				File file = filePath.toFile();
+    				try {
+    					// If the image path is already processed, use the existing base64 string.
+    					// Otherwise, convert the image and put it in the map.
+    					if (!pathToBase64.containsKey(imgPath)) {
+    						String base64 = converter.convert(file);
+    						pathToBase64.put(imgPath, base64);
+    					}
+    					return Stream.of(new ArtistInfoDto(artist, pathToBase64.get(imgPath)));
+    				} catch (IOException e) {
+    					log.info(e.getMessage());
+    				}
+	        }
+	        return Stream.empty();
+	    }).collect(Collectors.toList());
+    	
+//    	log.info("artist 검색 : {}",artist.toString());
+//    	return artist;
+//    	if(artist == null) return 
+//    	log.info("keyword : {}",musicsJpaRepository.findByArtist(keyword).toString());
+//        return musicsJpaRepository.findByArtist(keyword);
+    }
 
 }

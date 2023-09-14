@@ -110,7 +110,7 @@ const Login = () => {
       </button>
 
       <button
-        onClick={() => window.location.href='http://172.30.1.45:8104/oauth2/authorization/google'}
+        onClick={() => window.location.href='http://localhost:8104/oauth2/authorization/google'}
         className="
   flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
       >
