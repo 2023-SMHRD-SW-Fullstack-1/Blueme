@@ -36,7 +36,8 @@ const Main = () => {
   const [myRecMusicList, setMyRecMusicList] = useState({ recMusiclistDetails: [] });
 
   const dispatch = useDispatch();
-  const musicIds = useSelector((state) => state);
+  const musicIds = useSelector(state => state);
+
 
   useEffect(() => {
     const fetchRecentlyPlayed = async () => {
@@ -44,7 +45,7 @@ const Main = () => {
         const userId = 1; // 임의의 사용자 아이디
         const response = await axios.get(`/playedmusic/get/${userId}`);
         setRecentlyPlayed(response.data);
-        let ids = response.data.slice(0, 20).map((music) => music.musicId);
+        let ids = response.data.slice(0, 20).map(music => music.musicId);
         dispatch(setMusicIds(ids));
         await axios
           .get(`http://172.30.1.27:8104/recMusiclist/recent/19`)
@@ -62,10 +63,10 @@ const Main = () => {
   }, []);
   // console.log(myRecMusicList);
 
-  // 리덕스에 저장됐는지 확인
-  // useEffect(() => {
-  //    console.log('Updated music IDs:', musicIds);
-  //   }, [musicIds]);
+// 리덕스에 저장됐는지 확인
+// useEffect(() => {
+//    console.log('Updated music IDs:', musicIds);
+//   }, [musicIds]);
 
   return (
     <div className="overflow-auto mb-[90px] bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-20 hide-scrollbar">
@@ -105,32 +106,17 @@ const Main = () => {
           <SavedPlaylist />
         </Link>
       </div>
-      <div className="text-left indent-1 text-xl font-semibold tracking-tighter mt-8 mb-2 overflow-auto flex-grow">
-        {/* 최근에 재생한 목록 */}
-        <h1>최근에 재생한 목록</h1>
-        <Swiper
-          direction={"vertical"}
-          slidesPerView={2}
-          spaceBetween={0}
-          className="h-[300px] pb-[70px]"
-          breakpoints={{
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 0,
-            },
-            320: {
-              slidesPerView: 3,
-              spaceBetween: 0,
-            },
-          }}
-        >
-          {recentlyPlayed.map((song) => (
-            <SwiperSlide key={song.id}>
-              <SingleMusic key={song.id} item={song} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+
+      {/* 최근에 재생한 목록 */}
+      <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-8 mb-2">최근에 재생한 목록</h1>
+      <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]">
+        {recentlyPlayed.map((song) => (
+          <SwiperSlide key={song.id}>
+            <SingleMusic key={song.id} item={song} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      {/* <MiniPLayer /> */}
     </div>
   );
 };
