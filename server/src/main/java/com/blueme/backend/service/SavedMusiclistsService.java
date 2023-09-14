@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.blueme.backend.dto.savedMusiclistsdto.SavedMusiclistsResDto;
 import com.blueme.backend.dto.savedMusiclistsdto.SavedMusiclistsSaveReqDto;
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.entity.SavedMusiclistDetails;
@@ -28,35 +29,47 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class SavedMusiclistsService {
 
-    private final UsersJpaRepository usersJpaRepository;
-    private final SavedMusiclistsJpaRepository savedMusiclistsJpaRepository;
-    private final MusicsJpaRepository musicsJpaRepository;
+        private final UsersJpaRepository usersJpaRepository;
+        private final SavedMusiclistsJpaRepository savedMusiclistsJpaRepository;
+        private final MusicsJpaRepository musicsJpaRepository;
 
-    /*
-     * post 저장음악리스트 등록
-     */
-    @Transactional
-    public Long save(SavedMusiclistsSaveReqDto request) {
-        Users user = usersJpaRepository.findById(request.parsedUserId())
-                .orElseThrow(() -> new UserNotFoundException(request.parsedUserId()));
+        /*
+         * get 저장음악리스트 조회
+         */
+        @Transactional(readOnly = true)
+        public List<SavedMusiclistsResDto> getSavedMusiclists(String userId) {
+                return savedMusiclistsJpaRepository
+                                .findByUserId(Long.parseLong(userId)).stream().map(SavedMusiclistsResDto::new)
+                                .collect(Collectors.toList());
+        }
 
-        List<Musics> musics = request.getMusicIds().stream()
-                .map((id) -> musicsJpaRepository.findById(Long.parseLong(id))
-                        .orElseThrow(() -> new MusicNotFoundException(Long.parseLong(id))))
-                .collect(Collectors.toList());
+        /*
+         * get 저장음악리스트 상세조회
+         */
 
-        List<SavedMusiclistDetails> savedMusiclistDetails = musics.stream()
-                .map(SavedMusiclistDetails::new).collect(Collectors.toList());
-        // .map((music) ->
-        // SavedMusiclistDetails.builder().music(music).build()).collect(Collectors.toList());
+        /*
+         * post 저장음악리스트 등록
+         */
+        @Transactional
+        public Long save(SavedMusiclistsSaveReqDto request) {
+                Users user = usersJpaRepository.findById(request.parsedUserId())
+                                .orElseThrow(() -> new UserNotFoundException(request.parsedUserId()));
 
-        return savedMusiclistsJpaRepository.save(
-                SavedMusiclists.builder()
-                        .title(request.getTitle())
-                        .user(user)
-                        .savedMusiclistDetails(savedMusiclistDetails)
-                        .build())
-                .getId();
-    }
+                List<Musics> musics = request.getMusicIds().stream()
+                                .map((id) -> musicsJpaRepository.findById(Long.parseLong(id))
+                                                .orElseThrow(() -> new MusicNotFoundException(Long.parseLong(id))))
+                                .collect(Collectors.toList());
+
+                List<SavedMusiclistDetails> savedMusiclistDetails = musics.stream()
+                                .map(SavedMusiclistDetails::new).collect(Collectors.toList());
+
+                return savedMusiclistsJpaRepository.save(
+                                SavedMusiclists.builder()
+                                                .title(request.getTitle())
+                                                .user(user)
+                                                .savedMusiclistDetails(savedMusiclistDetails)
+                                                .build())
+                                .getId();
+        }
 
 }

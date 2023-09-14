@@ -1,13 +1,18 @@
 package com.blueme.backend.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blueme.backend.dto.savedMusiclistsdto.SavedMusiclistsResDto;
 import com.blueme.backend.dto.savedMusiclistsdto.SavedMusiclistsSaveReqDto;
 import com.blueme.backend.service.SavedMusiclistsService;
 
@@ -30,13 +35,30 @@ public class SavedMusiclistsController {
   private final SavedMusiclistsService savedMusiclistsService;
 
   /*
+   * get 저장음악리스트 조회
+   */
+  @GetMapping("/get/{userId}")
+  public ResponseEntity<List<SavedMusiclistsResDto>> getSavedMusiclists(@PathVariable("userId") String userId) {
+    log.info("Starting getSavedMusiclists for userId: {}", userId);
+    List<SavedMusiclistsResDto> lists = savedMusiclistsService.getSavedMusiclists(userId);
+    if (lists.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } else {
+      return new ResponseEntity<>(savedMusiclistsService.getSavedMusiclists(userId), HttpStatus.OK);
+    }
+  }
+
+  /*
+   * get 저장음악리스트 상세조회
+   */
+
+  /*
    * post 저장음악리스트 등록
    */
   @PostMapping("/add")
   public ResponseEntity<Long> addSavedMusiclist(@RequestBody SavedMusiclistsSaveReqDto request) {
     log.info("Starting savedMusiclist for userId: {}", request.getUserId());
-    Long savedId = savedMusiclistsService.save(request);
-    return new ResponseEntity<>(savedId, HttpStatus.OK);
+    return new ResponseEntity<>(savedMusiclistsService.save(request), HttpStatus.CREATED);
   }
 
 }
