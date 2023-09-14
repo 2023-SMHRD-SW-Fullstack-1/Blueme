@@ -18,8 +18,8 @@ import google from "../../assets/img/google.png";
 */
 /*
 작성자: 신지훈
-날짜: 2023-09-04
-설명: 회원가입 화면
+날짜: 2023-09-14
+설명: 회원가입 
 */
 const Join = () => {
   const [email, setEmail] = useState("");
@@ -51,7 +51,7 @@ const Join = () => {
       });
 
       console.log(response);
-      localStorage.setItem('id', response.data)
+      localStorage.setItem("id", response.data);
 
       navigate("/SelectGenre");
     } catch (error) {
@@ -66,70 +66,73 @@ const Join = () => {
   };
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight flex flex-col px-4 sm:px-8 md:px-16">
-      <br/>
-      <div className="text-custom-white w-full text-left mt-[100px] text-xl font-semibold sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
-        Blueme 일반 계정 회원가입
-      </div>
+      <br />
+      <div className="flex items-center justify-center h-screen w-full p-4">
+        <div className="w-full md:w-1/2 lg:w-1/4">
+          <div className="text-custom-white text-left mt-5 text-xl font-semibold w-full">Blueme 일반 계정 회원가입</div>
 
-      <input
-        type="email"
-        onChange={(e) => setEmail(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
-        placeholder="이메일을 입력해주세요."
-      />
+          <input
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-gradient-to-t from-gray-900 tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-8 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
+            placeholder="이메일을 입력해주세요."
+          />
 
-      <input
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-        placeholder="비밀번호를 입력해주세요."
-      />
+          <input
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            className="bg-gradient-to-t from-gray-900 tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+            placeholder="비밀번호를 입력해주세요."
+          />
 
-      <input
-        type="password"
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-        placeholder="비밀번호를 다시 입력해주세요."
-      />
+          <input
+            type="password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="bg-gradient-to-t from-gray-900 tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+            placeholder="비밀번호를 다시 입력해주세요."
+          />
 
-      <input
-        type="text"
-        onChange={(e) => setNickname(e.target.value)}
-        className="bg-gradient-to-t from-gray-900 tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
-        placeholder="닉네임을 입력해주세요."
-      />
+          <input
+            type="text"
+            onChange={(e) => setNickname(e.target.value)}
+            className="bg-gradient-to-t from-gray-900 tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
+            placeholder="닉네임을 입력해주세요."
+          />
 
-      <button
-        onClick={handleJoin}
-        className="
+          <button
+            onClick={handleJoin}
+            className="
              mt-10
              h-11
-             px-3 h-10 relative 
+             px-3 relative 
              bg-[#221a38]  
              rounded-lg border border-soild border-[#fdfdfd]
              text-custom-white
              tracking-tighter
-             font-bold"
-      >
-        회원가입
-      </button>
-      <hr className="mt-12 " style={{ borderTop: "1px solid gray", width: "100%" }} />
-      <div className="text-custom-white mt-12 text-left w-full text-xl pont-semibold">SNS계정 회원가입</div>
-      <button
-        className="
+             font-bold
+             md:w-full w-full"
+          >
+            회원가입
+          </button>
+          <hr className="mt-12 " style={{ borderTop: "1px solid gray", width: "100%" }} />
+          <div className="text-custom-white mt-12 text-left w-full text-xl pont-semibold">SNS계정 회원가입</div>
+          <button
+            className="
      flex items-center justify-center pl-2 w-full mt-8 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
-      >
-        <img src={kakao} alt="" className="w-[6%] h-auto mr-1" />
-        카카오로 로그인
-      </button>
-      <button
-        className="
+          >
+            <img src={kakao} alt="" className="w-[6%] h-auto mr-1" />
+            카카오로 로그인
+          </button>
+          <button
+            className="
   flex items-center justify-center pl-2 w-full mt-5 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
-      >
-        <img src={google} alt="Google logo" className="mr-1 w-[5%] h-auto" />
-        구글로 로그인
-      </button>
-      <div className="pb-10"></div>
+          >
+            <img src={google} alt="Google logo" className="mr-1 w-[5%] h-auto" />
+            구글로 로그인
+          </button>
+          <div className="pb-10"></div>
+        </div>
+      </div>
     </div>
   );
 };

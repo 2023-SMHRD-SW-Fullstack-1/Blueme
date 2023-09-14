@@ -29,12 +29,12 @@ import { setMusicIds } from "../../store/music/setMusicIds";
 // 미니플레이어 import
 import MiniPLayer from "../MiniPlayer";
 //유영 추천 음악 플레이 리스트
-import SingleRecPlayList from '../rec/SingleRecPlayList'
+import SingleRecPlayList from "../rec/SingleRecPlayList";
 
 const Main = () => {
   const [recMusic, setRecMusic] = useState([]);
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
-  const [myRecMusicList, setMyRecMusicList] = useState({recMusiclistDetails: []});
+  const [myRecMusicList, setMyRecMusicList] = useState({ recMusiclistDetails: [] });
 
   const dispatch = useDispatch();
   const musicIds = useSelector((state) => state);
@@ -47,12 +47,13 @@ const Main = () => {
         setRecentlyPlayed(response.data);
         let ids = response.data.slice(0, 20).map((music) => music.musicId);
         dispatch(setMusicIds(ids));
-        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/19`)
-        .then((res) => {
-          setMyRecMusicList(res.data)
-          console.log(res);
-        })
-        .catch((err) => console.log(err))
+        await axios
+          .get(`http://172.30.1.27:8104/recMusiclist/recent/19`)
+          .then((res) => {
+            setMyRecMusicList(res.data);
+            console.log(res);
+          })
+          .catch((err) => console.log(err));
       } catch (error) {
         console.error(`Error: ${error}`);
       }
@@ -76,22 +77,25 @@ const Main = () => {
         <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-5 ">
           Chat GPT가 추천해준 나의 플레이리스트
         </h1>
-        {myRecMusicList !== undefined ? 
+        {myRecMusicList && myRecMusicList !== undefined ? (
           <Link to="/RecPlayList">
-          <button className="flex text-custom-lightgray mt-6 mr-2 text-sm">더보기</button>
-        </Link> : <h></h>
-        }
-        
+            <button className="flex text-custom-lightgray mt-6 mr-2 text-sm">더보기</button>
+          </Link>
+        ) : (
+          <h></h>
+        )}
       </div>
-      {myRecMusicList !== undefined ?
-         <Swiper direction={"vertical"} slidesPerView={4} className="h-[30%]">
-         {myRecMusicList.recMusiclistDetails.map((item) => (
-                    <SwiperSlide key={item.recMusiclistId}>
-                        <SingleRecPlayList key={item.id} item={item} />
-                    </SwiperSlide>
-                ))}
-       </Swiper> :    <BeforeRegistration />}
-      
+      {myRecMusicList && myRecMusicList !== undefined ? (
+        <Swiper direction={"vertical"} slidesPerView={4} className="h-[30%]">
+          {myRecMusicList.recMusiclistDetails.map((item) => (
+            <SwiperSlide key={item.recMusiclistId}>
+              <SingleRecPlayList key={item.id} item={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <BeforeRegistration />
+      )}
 
       {/* ChatGPT가 추천해준 남의 플레이리스트 */}
       <div>
