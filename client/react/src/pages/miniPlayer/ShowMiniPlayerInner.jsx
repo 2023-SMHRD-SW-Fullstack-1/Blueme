@@ -3,8 +3,7 @@
 날짜(수정포함): 2023-09-13
 설명: 미니플레이어 보여주는 컴포넌트
 */
-
-import { useLocation } from 'react-router-dom';
+import { useLocation, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -27,8 +26,10 @@ const ShowMiniPlayerInner = () => {
   }, [location]);
 
   const showMiniPlayer = useSelector((state) => state.showMiniPlayer);
+  const currentSongId = useSelector((state) => state.currentSongId);
 
-  return showMiniPlayer ? <MiniPlayer /> : null;
+  // return showMiniPlayer ? <MiniPlayer item={currentSongId} /> : null
+  return null;
 };
 
 export default ShowMiniPlayerInner;

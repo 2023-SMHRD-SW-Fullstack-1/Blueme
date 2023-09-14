@@ -46,7 +46,7 @@ const MiniPlayer = ({ item }) => {
   });
   // 음악 재생 인덱스 (리덕스 활용)
   const musicIds = useSelector((state) => state.musicIds);
-  // console.log("musicplayer musicids:", musicIds);
+  // console.log("miniplayer musicids:", musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
   const songId = useSelector((state) => state.currentSongId);
 
@@ -130,24 +130,27 @@ const MiniPlayer = ({ item }) => {
 
     if (prevIndex < 0) {
       prevIndex = musicIds.length - 1;
+    } else if (prevIndex === musicIds.length - 1) {
+      prevIndex = 0;
     }
 
     const prevSongId = musicIds[prevIndex];
+    
     // dispatch(setCurrentSongId(prevSongId));
 
-    navigate(`/MusicPlayer/${prevSongId}`);
+
   };
 
   const nextTrack = () => {
     let nextIndex = currentSongIndex + 1;
-
+  
     if (nextIndex >= musicIds.length) {
       nextIndex = 0;
     }
+  
     const nextSongId = musicIds[nextIndex];
-    // dispatch(setCurrentSongId(nextSongId));
-
-    navigate(`/MusicPlayer/${nextSongId}`);
+    
+    dispatch(setCurrentSongId(nextSongId));
   };
 
   // 재생/일시정지 확인
@@ -189,17 +192,6 @@ const MiniPlayer = ({ item }) => {
     }
   };
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-  };
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    if (sound) {
-      sound.play();
-    }
-  };
-
   // 음악 자동 재생 중 현재 재생위치 업데이트
   useEffect(() => {
     const intervalID = setInterval(() => {
@@ -215,13 +207,6 @@ const MiniPlayer = ({ item }) => {
     return () => clearInterval(intervalID);
   }, [sound, duration]);
 
-  // 재생시간 표시
-  const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-
-    return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
 
   return (
     <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[8%] w-full h-[10%] bg-custom-gray px-6">

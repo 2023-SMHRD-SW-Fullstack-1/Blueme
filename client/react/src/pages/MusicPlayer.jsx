@@ -26,12 +26,19 @@ import rotating from "../assets/img/musicPlayer/rotating.png";
 import {
   setCurrentSongId,
   setPlayingStatus,
-} from "../store/music/musicActions"; 
+} from "../store/music/musicActions";
 
 const MusicPlayer = ({ item }) => {
+
+  // 임의 사용자 user_id
+  const userId = 1;
+
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+
+  // 미니플레이어 설정
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   // useState
   const [currentTime, setCurrentTime] = useState(0);
@@ -58,220 +65,212 @@ const MusicPlayer = ({ item }) => {
   // console.log("musicplayer musicids:", musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
   const currentSongId = useSelector((state) => state.currentSongId);
+  
+  // URL에서 음악 아이디 추출
+  let params = useParams();
+  let songId = params.id;
 
-    // 임의 사용자 user_id
-  const userId = 1;
+  // 음악 정보 & 음원 불러오기
+  useEffect(() => {
+    console.log("Song ID changed:", songId);  // <-- 추가된 부분
+    const fetchMusicInfoAndPlay = async () => {
+      try {
+        // 음악 정보 가져오기
+        const response = await axios.get(`/music/info/${songId}`);
+        setMusicInfo({
+          album: response.data.album,
+          title: response.data.title,
+          artist: response.data.artist,
+          img: response.data.img,
+        });
 
-    // URL에서 음악 아이디 추출
-    let params = useParams();
-    let songId = params.id;
-    
-    // 서버에서 음악 정보 가져오기
-    useEffect(() => {
-      const fetchMusicInfo = async () => {
-        try {
-          const response = await axios.get(`/music/info/${songId}`);
-          setMusicInfo({
-            album: response.data.album,
-            title: response.data.title,
-            artist: response.data.artist,
-            img: response.data.img,
-          });
-        } catch (error) {
-          console.error("음악 불러오기 실패", error);
-        }
-      };
-      fetchMusicInfo();
-    }, [songId]); // songId 변경 시마다 재실행
-  
-    // 한곡반복 Ref
-    useEffect(() => {
-      isRepeatModeRef.current = isRepeatMode;
-    }, [isRepeatMode]);
-  
-    // 음악 파일 불러오기
-    useEffect(() => {
-        
-      if (sound) sound.unload();
-  
-      const newSound = new Howl({
-        src: [`/music/${songId}`],
-        format: ["mpeg"],
-        onload() {
-          setDuration(newSound.duration());
-          setCurrentTime(0);
-          setIsPlaying(true);
-          newSound.play();
-          dispatch(setCurrentSongId(songId));
-        },
-        onend() {
-          if (isRepeatModeRef.current) {
-            // 반복 모드 확인
-            newSound.seek(0);
-            setCurrentTime(0);
-            newSound.play();
-          } else {
-            nextTrack();
-          }
-        },
-        onplay() {
-          setIsPlaying(true);
-        },
-        onpause() {
-          setIsPlaying(false);
-        },
-      });
-  
-      setSound(newSound);
-  
-      return () => {
+        // 이전 사운드 언로드
         if (sound) sound.unload();
-      };
-    }, [songId]);
-  
 
-  
-// 이전곡&다음곡
-useEffect(() => {
-  // console.log('1. songid',songId);
-  const index = musicIds.indexOf(Number(songId));
-  // console.log('2. index:', index);
-  setCurrentSongIndex(index);
-  setCurrentSongId(Number(songId));
-  // console.log('3. currentsongid',currentSongId);
-}, [musicIds, songId]);
+        // 새로운 사운드 로드 및 재생
+        const newSound = new Howl({
+          src: [`/music/${songId}`],
+          format: ["mpeg"],
+          onload() {
+            setDuration(newSound.duration());
+            setCurrentTime(0);
+            setIsPlaying(true);
+            newSound.play();
+            dispatch(setCurrentSongId(songId));
+          },
+          onend() {
+            console.log("Track ended");  // <-- 추가된 부분
+            if (isRepeatModeRef.current) {
+              newSound.seek(0);
+              setCurrentTime(0);
+              newSound.play();
+            } else {
+              nextTrack();            
+              console.log("next");  // <-- 추가된 부분
 
-const prevTrack = () => {
-  let prevIndex = currentSongIndex - 1;
+            }
+          },
+          onplay() {
+            setIsPlaying(true);
+          },
+          onpause() {
+            setIsPlaying(false);
+          },
+        });
 
-  if (prevIndex < 0) {
-    prevIndex = musicIds.length - 1;
-  }
+        setSound(newSound);
+      } catch (error) {
+        console.error("음악 불러오기 실패", error);
+      }
+    };
 
-  const prevSongId = musicIds[prevIndex];
-  // dispatch(setCurrentSongId(prevSongId));
+    fetchMusicInfoAndPlay();
 
-  navigate(`/MusicPlayer/${prevSongId}`);
-};
+    return () => {
+      if (sound) sound.unload();
+    };
+  },  [songId, currentSongIndex, musicIds]);
 
-const nextTrack = () => {
-  let nextIndex = currentSongIndex + 1;
+  // 한곡반복 Ref
+  useEffect(() => {
+    isRepeatModeRef.current = isRepeatMode;
+  }, [isRepeatMode]);
 
-  if(nextIndex >= musicIds.length) {
-    nextIndex = 0;
-  }
-  const nextSongId = musicIds[nextIndex];
-  // dispatch(setCurrentSongId(nextSongId));
+  // 이전곡&다음곡
+  useEffect(() => {
+    // console.log('1. songid',songId);
+    const index = musicIds.indexOf(Number(songId));
+    // console.log('2. index:', index);
+    setCurrentSongIndex(index);
+    setCurrentSongId(Number(songId));
+    // console.log('3. currentsongid',currentSongId);
+  }, [musicIds, songId]);
 
-  navigate(`/MusicPlayer/${nextSongId}`);
+  const prevTrack = () => {
+    let prevIndex = currentSongIndex - 1;
 
-};
+    if (prevIndex < 0) {
+      prevIndex = musicIds.length - 1;
+    }
+
+    const prevSongId = musicIds[prevIndex];
+
+    dispatch(setCurrentSongId(prevSongId));
+
+    navigate(`/MusicPlayer/${prevSongId}`);
+  };
+
+  const nextTrack = () => {
+    let nextIndex = currentSongIndex + 1;
+
+    if (nextIndex >= musicIds.length) {
+      nextIndex = 0;
+    }
+    const nextSongId = musicIds[nextIndex];
+    console.log("Next song ID:", nextSongId);  // <-- 추가된 부분
+    dispatch(setCurrentSongId(nextSongId));
+
+    navigate(`/MusicPlayer/${nextSongId}`);
+  };
 
   // 재생/일시정지 확인
   useEffect(() => {
     if (sound) {
       const isCurrentlyPlaying = sound.playing();
-      
+
       setIsPlaying(isCurrentlyPlaying);
-      
+
       // 재생 상태 업데이트
       dispatch(setPlayingStatus(isCurrentlyPlaying));
-      
-     }  
+    }
   }, [sound]);
 
-    // 좋아요 상태 확인
-    useEffect(() => {
-      const fetchLikeStatus = async () => {
-        try {
-          const response = await axios.post("/likemusics/issave", {
-            userId: userId.toString(),
-            musicId: songId.toString(),
-          });
-          setIsSaved(parseInt(response.data));
-          setIsLiked(parseInt(response.data) > 0);
-        } catch (error) {
-          console.error("좋아요 불러오기 실패", error);
-        }
-      };
-      fetchLikeStatus();
-    }, [userId, songId]);
-  
-    // 좋아요버튼 누르기
-    const toggleLike = async () => {
+  useEffect(() => {
+    const fetchLikeStatusAndRecent = async () => {
       try {
-        await axios.put("/likemusics/toggleLike", {
-          userId: userId,
-          musicId: songId,
+        // 좋아요 상태 확인
+        const likeRequest = axios.post("/likemusics/issave", {
+          userId: userId.toString(),
+          musicId: songId.toString(),
         });
-        setIsLiked(!isLiked);
+
+        // 최근 재생목록 추가
+        const recentRequest = axios.post("/playedmusic/add", {
+          userId: userId.toString(),
+          musicId: songId.toString(),
+        });
+
+        const [likeResponse] = await Promise.all([likeRequest, recentRequest]);
+
+        setIsSaved(parseInt(likeResponse.data));
+        setIsLiked(parseInt(likeResponse.data) > 0);
       } catch (error) {
-        console.error("등록 실패", error);
+        console.error("데이터 가져오기 실패", error);
       }
     };
-  
-    // 최근 재생 목록 추가
-    useEffect(() => {
-      const fetchRecent = async () => {
-        try {
-          await axios.post("/playedmusic/add", {
-            userId: userId.toString(),
-            musicId: songId.toString(),
-          });
-        } catch (error) {
-          console.error("최근재생 실패", error);
-        }
-      };
-      fetchRecent();
-    }, [userId, songId]);
-  
-    // 사용자 재생바 조작
-    const changeCurrentTime = (e) => {
-      let newCurrentTime = e.target.value;
-      setCurrentTime(newCurrentTime);
-      if (sound) {
-        sound.seek(newCurrentTime);
-        if (!isDragging) {
-          sound.play();
-        }
-      }
-    };
-  
-    const handleDragStart = () => {
-      setIsDragging(true);
-    };
-    
-    const handleDragEnd = () => {
-      setIsDragging(false);
-      if (sound) {
+
+    fetchLikeStatusAndRecent();
+  }, [userId, songId]);
+
+
+  // 좋아요버튼 누르기
+  const toggleLike = async () => {
+    try {
+      await axios.put("/likemusics/toggleLike", {
+        userId: userId,
+        musicId: songId,
+      });
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error("등록 실패", error);
+    }
+  };
+
+  // 사용자 재생바 조작
+  const changeCurrentTime = (e) => {
+    let newCurrentTime = e.target.value;
+    setCurrentTime(newCurrentTime);
+    if (sound) {
+      sound.seek(newCurrentTime);
+      if (!isDragging) {
         sound.play();
       }
-    };
-  
-    // 음악 자동 재생 중 현재 재생위치 업데이트
-    useEffect(() => {
-      const intervalID = setInterval(() => {
-        if (sound?.playing()) {
-          const currentTime = sound.seek();
-          setCurrentTime(currentTime);
-          if (currentTime >= duration) {
-            nextTrack();
-          }
+    }
+  };
+
+  const handleDragStart = () => {
+    setIsDragging(true);
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    if (sound) {
+      sound.play();
+    }
+  };
+
+  // 음악 자동 재생 중 현재 재생위치 업데이트
+  useEffect(() => {
+    const intervalID = setInterval(() => {
+      if (sound?.playing()) {
+        const currentTime = sound.seek();
+        setCurrentTime(currentTime);
+        if (currentTime >= duration) {
+          nextTrack();
         }
-      }, 1000);
-    
-      return () => clearInterval(intervalID);
-    }, [sound, duration]);  
-    
-  
-    // 재생시간 표시
-    const formatTime = (timeInSeconds) => {
-      const minutes = Math.floor(timeInSeconds / 60);
-      const seconds = Math.floor(timeInSeconds % 60);
-  
-      return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    };
-  
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalID);
+  }, [sound, duration]);
+
+  // 재생시간 표시
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+
+    return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
 
   return (
     <div className="flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full ">

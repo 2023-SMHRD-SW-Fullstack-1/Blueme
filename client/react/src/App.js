@@ -94,9 +94,7 @@ const App = () => {
           <Route path="/LikedPlaylist" element={<LikedPlaylist />} />
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
-
         </Routes>
-       {/* <ShowMiniPlayerInner /> */}
         {/* 지희 끝 */}
         <Footer />
       </div>
