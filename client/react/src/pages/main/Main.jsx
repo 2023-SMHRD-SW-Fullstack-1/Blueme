@@ -35,9 +35,11 @@ const Main = () => {
   const [recMusic, setRecMusic] = useState([]);
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [myRecMusicList, setMyRecMusicList] = useState({recMusiclistDetails: []});
-
+  const [id, setId] = useState('0');
+  // const id = localStorage.getItem('id')
   const dispatch = useDispatch();
   const musicIds = useSelector(state => state);
+  
 
 
   useEffect(() => {
@@ -48,7 +50,10 @@ const Main = () => {
         setRecentlyPlayed(response.data);
         let ids = response.data.slice(0, 20).map(music => music.musicId);
         dispatch(setMusicIds(ids));
-        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/19`)
+        if(localStorage.getItem('id') !== null){
+          setId(localStorage.getItem('id'))
+        }
+        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/${id}`)//나의 추천 플리 불러오기
         .then((res) => {
           setMyRecMusicList(res.data)
           console.log(res);
@@ -61,7 +66,7 @@ const Main = () => {
 
     fetchRecentlyPlayed();
   }, []);
-  // console.log(myRecMusicList);
+  console.log(myRecMusicList, id);
 
 // 리덕스에 저장됐는지 확인
 // useEffect(() => {
@@ -77,18 +82,18 @@ const Main = () => {
         <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-5 ">
           Chat GPT가 추천해준 나의 플레이리스트
         </h1>
-        {myRecMusicList !== undefined ? 
+        {/* {myRecMusicList !== undefined ? 
           <Link to="/RecPlayList">
           <button className="flex text-custom-lightgray mt-6 mr-2 text-sm">더보기</button>
         </Link> : <h></h>
-        }
+        } */}
         
       </div>
-      {myRecMusicList !== undefined ?
+       {id !== '0'  && myRecMusicList.length !== 0 ?
          <Swiper direction={"vertical"} slidesPerView={4} className="h-[30%]">
-         {myRecMusicList.recMusiclistDetails.map((item) => (
-                    <SwiperSlide key={item.recMusiclistId}>
-                        <SingleRecPlayList key={item.id} item={item} />
+         {myRecMusicList && myRecMusicList.recMusiclistDetails.map((item) => (
+                    <SwiperSlide key={item.recMusiclistDetailId}>
+                        <SingleRecPlayList key={item.musicId} item={item} />
                     </SwiperSlide>
                 ))}
        </Swiper> :    <BeforeRegistration />}

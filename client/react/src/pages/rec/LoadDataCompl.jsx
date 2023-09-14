@@ -20,7 +20,7 @@ const LoadDataCompl = () => {
   const time = `${now.getHours()}시 ${now.getMinutes()}분`;
 
   useEffect(()=> {
-    axios.get(`http://172.30.1.27:8104/healthinfo/get/9`)
+    axios.get(`http://172.30.1.27:8104/healthinfo/get/${id}`)
     .then((res) => {
       setHeartRate(res.data.avgHeartRate)
       setStep(res.data.stepsPerMinute) 
