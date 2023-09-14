@@ -6,6 +6,7 @@ import com.blueme.backend.dto.gptdto.QuestionReqDto;
 import com.blueme.backend.dto.musiclistsdto.RecMusicListSaveDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsRecent10ResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsResDto;
+import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsSelectDetailResDto;
 import com.blueme.backend.model.entity.HealthInfos;
 import com.blueme.backend.model.entity.RecMusiclists;
 import com.blueme.backend.model.repository.HealthInfosJpaRepository;
@@ -44,10 +45,19 @@ public class RecMusiclistsService {
   /*
    * get 최근추천목록 조회
    */
-  @Transactional
+  @Transactional(readOnly = true)
   public List<RecMusiclistsRecent10ResDto> getRecent10RecMusiclists() {
     return recMusicListsJpaRepository.findTop10ByOrderByCreatedAtDesc().stream().map(RecMusiclistsRecent10ResDto::new)
         .collect(Collectors.toList());
+  }
+
+  /*
+   * get 추천리스트 상세조회
+   */
+  @Transactional(readOnly = true)
+  public RecMusiclistsSelectDetailResDto getRecMusiclistDetail(String recMusiclistId) {
+    return new RecMusiclistsSelectDetailResDto(recMusicListsJpaRepository.findById(Long.parseLong(recMusiclistId))
+        .orElseThrow(null));
   }
 
   /*
