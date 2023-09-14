@@ -71,7 +71,7 @@ const SelectArtist = () => {
     // localStorage.setItem('selectGenre2', checkedState[1])
     };
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tight h-[12000px] text-custom-white p-3">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tight h-auto text-custom-white p-3">
       <h3 className="text-3xl pt-[80px]">당신이 좋아하는 아티스트는?</h3>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
       {artist && artist.map((artist, artistId, artistFilePath) => (
@@ -104,7 +104,9 @@ const SelectArtist = () => {
         bg-[#221a38]  
         rounded-lg border border-soild border-[#fdfdfd]
         text-custom-white
-        text-[16px]"
+        text-[16px]
+        mb-[80px]"
+        
     >
       선택하기
     </button> : <button
@@ -116,7 +118,8 @@ const SelectArtist = () => {
             bg-[#221a38]  
             rounded-lg border border-soild border-[#fdfdfd]
             text-custom-white
-            text-[16px]"
+            text-[16px]
+            mb-[80px]"
         >
           수정하기
         </button>}
