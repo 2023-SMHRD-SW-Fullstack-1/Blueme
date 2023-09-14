@@ -10,8 +10,8 @@ import MyPage from "./pages/myPage/MyPage";
 import MemberInfo from "./pages/myPage/MemberInfo";
 import SelectArtist from "./pages/join/SelectArtist";
 import Theme from "./pages/theme/Theme";
-import ThemePlaylist from "./pages/theme/ThemePlaylist"
-import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경 
+import ThemePlaylist from "./pages/theme/ThemePlaylist";
+import LikedPlaylist from "./pages/library/LikedPlaylist"; // 파일 이름 변경
 import MemberInfoChange from "./pages/myPage/MemberInfoChange";
 import JoinComplete from "./pages/join/JoinComplete";
 import Library from "./pages/library/Library";
@@ -22,8 +22,6 @@ import AddMusicPage from "./components/admin/AddMusicPage";
 import Playlist from "./pages/Playlist";
 import SelectGenre from "./pages/join/SelectGenre";
 import DashBoard from "./pages/admin/DashBoard";
-
-
 
 /* 지훈 시작 */
 import MemberDelete from "./pages/myPage/MemberDelete";
@@ -49,10 +47,10 @@ import MiniPlayer from "./pages/MiniPlayer";
 const App = () => {
   return (
     <Router>
-      <div className="app">
+      <div className="app flex flex-col min-h-screen">
         <Header />
         {/* Routes와 Route를 사용하여 경로에 따라 다른 페이지 렌더링 */}
-        <Routes className="">
+        <Routes className="flex-grow">
           {/* path 속성은 주어진 경로가 정확히 일치할 때만 해당 Route가 작동하도록 합니다 */}
           {/* 예: /testtest 경로는 Main과 일치하지 않으므로 Main은 렌더링되지 않습니다 */}
           <Route path="/" element={<Main />} />
@@ -94,7 +92,7 @@ const App = () => {
           <Route path="/LikedPlaylist" element={<LikedPlaylist />} />
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
         </Routes>
-        <MiniPlayer />
+        {/* <MiniPlayer /> */}
         {/* 지희 끝 */}
         <Footer />
       </div>

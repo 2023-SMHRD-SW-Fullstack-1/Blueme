@@ -1,3 +1,9 @@
+/*
+작성자: 신지훈
+날짜: 2023-09-04
+설명: 회원가입완료 화면
+*/
+
 import React from "react";
 import { Link } from "react-router-dom";
 

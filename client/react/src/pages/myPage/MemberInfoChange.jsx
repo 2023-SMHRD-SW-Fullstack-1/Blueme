@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
 날짜: 2023-09-11
-설명: 사용자 프로필사진 등록기능 추가
+설명: 회원정보 수정화면, 사용자 프로필사진 등록기능 추가
 */
 /*
 작성자: 이유영
@@ -14,11 +14,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import user from "../../assets/img/defalut.png";
 
-
 function MemberInfoChange() {
-
   const navigate = useNavigate();
-  const id = localStorage.getItem('id')
+  const id = localStorage.getItem("id");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,9 +44,9 @@ function MemberInfoChange() {
 
   //회원정보 수정
   const handleUpdate = async (e) => {
-    let storageEmail = localStorage.getItem('email')
-    e.preventDefault()
-    const requestData = {id : id, email: storageEmail, password : password, nickname: nickname}
+    let storageEmail = localStorage.getItem("email");
+    e.preventDefault();
+    const requestData = { id: id, email: storageEmail, password: password, nickname: nickname };
 
     await axios.patch(`http://172.30.1.45:8104/user/update`, requestData)
     .then((res) => {
@@ -143,6 +141,14 @@ function MemberInfoChange() {
         onClick={() => {navigate('/MemberDelete')}}>탈퇴하기</button>
 
 
+      <button
+        className="text-custom-gray mt-6 text-sm text-center"
+        onClick={() => {
+          navigate("/MemberDelete");
+        }}
+      >
+        탈퇴하기
+      </button>
     </div>
   );
 }
