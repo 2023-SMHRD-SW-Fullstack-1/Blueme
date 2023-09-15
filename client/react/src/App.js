@@ -1,4 +1,11 @@
+/*
+작성자: 이지희
+날짜(수정포함): 2023-09-14
+설명: 음악플레이어 미니/풀 버전 화면 구현 설정
+*/
+
 import React, { useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Main from "./pages/main/Main";
@@ -40,19 +47,22 @@ import LoadData from "./pages/rec/LoadData";
 import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
-import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner";
 // 지희 import 끝
 
 const App = () => {
-  
+
+  // 지희 시작
+  const MusicPlayerConditional = () => {
+    const location = useLocation();
+    return !location.pathname.includes("/MusicPlayer/") && <MusicPlayer />;
+  };
+  // 지희 끝
+
   return (
     <Router>
       <div className="app flex flex-col min-h-screen">
         <Header />
-        {/* Routes와 Route를 사용하여 경로에 따라 다른 페이지 렌더링 */}
         <Routes className="flex-grow">
-          {/* path 속성은 주어진 경로가 정확히 일치할 때만 해당 Route가 작동하도록 합니다 */}
-          {/* 예: /testtest 경로는 Main과 일치하지 않으므로 Main은 렌더링되지 않습니다 */}
           <Route path="/" element={<Main />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Join" element={<Join />} />
@@ -63,10 +73,6 @@ const App = () => {
           <Route path="/MemberInfoChange" element={<MemberInfoChange />} />
           <Route path="/JoinComplete" element={<JoinComplete />} />
           <Route path="/Library" element={<Library />} />
-          {/* 필요한 경우 추가 Route 설정 */}
-
-          {/* 라이브러리, 음악 재생 관련 */}
-          {/* <Route path="/MusicPlayer" element={<MusicPlayer />} /> */}
           <Route path="/Playlist" element={<Playlist />} />
           <Route path="/SelectGenre" element={<SelectGenre />} />
           {/* 혁 추가 */}
@@ -93,8 +99,8 @@ const App = () => {
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
-        {/* <MusicPlayer /> */}
-        {/* 지희 끝 */}
+        {/* <MusicPlayerConditional /> */}
+          {/* 지희 끝 */}
         <Footer />
       </div>
     </Router>
