@@ -24,28 +24,29 @@ const MyPage = () => {
   const selectedArtistsFromRecommendation =location.state?.selectedArtists || [];
   const genre1 = localStorage.getItem('selectGenre1')
   const genre2 = localStorage.getItem('selectGenre2')
+  const id = localStorage.getItem('id')
 
 
-  useEffect(() => {
-      axios.get("http://172.30.1.45:8104/SelectGenre")
-      .then((res) => {
-        console.log(res);
-        setGenre(res.data)
-        // 로컬 스토리지에서 선택한 장르 불러오기
-        for (let i = 0; i< genre.length; i++) {
-            if(genre1 == i) {
-              console.log(i);
-              setSelectGenre1(genre[i]); 
-            }else if(genre2 == i) {
-              setSelectGenre2(genre[i])
-            }
-        }
-        // setSelectedGenres([selectGenre1, selectGenre2])
+  // useEffect(() => {
+  //     axios.get("http://172.30.1.45:8104/Mypage")
+  //     .then((res) => {
+  //       console.log(res);
+  //       setGenre(res.data)
+  //       // 로컬 스토리지에서 선택한 장르 불러오기
+  //       for (let i = 0; i< genre.length; i++) {
+  //           if(genre1 == i) {
+  //             console.log(i);
+  //             setSelectGenre1(genre[i]); 
+  //           }else if(genre2 == i) {
+  //             setSelectGenre2(genre[i])
+  //           }
+  //       }
+
           
-      })
-      .catch((err) => console.log(err))
-  }, [])
-  console.log("11",selectGenre1, selectGenre2);
+  //     })
+  //     .catch((err) => console.log(err))
+  // }, [])
+  // console.log("11",selectGenre1, selectGenre2);
   // console.log("22",selectedGenres);
 
 

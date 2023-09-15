@@ -25,14 +25,26 @@ const PlaylistRename = () => {
         return todayYear + '년' + todayMonth + '월' + todayDate + '일' + hours + '시' + minutes +'분 당신을 위한 음악'
     }
 
+    const SrecMusicId = localStorage.getItem('recMusicIds')
+    const recMusicIds = JSON.parse(SrecMusicId)
+
+   
     const SavedRecPlaylist = () => {
-    //   const requestData = { id: id, title : title }
-    //   axios.get(``, requestData)
-    //   .then((res) => {
-    //     console.log(res)
-        navigate('/RecPlayList')
+      const requestData = { userId : id,  title : title, musicIds : recMusicIds }
+      // console.log(musicIds);
+      console.log(requestData);
+      axios.post(`http://172.30.1.27:8104/savedMusiclist/add`, requestData)
+      .then((res) => {
+        console.log(res)
+        if(res.data > 0 ) {
+          navigate('/library')
+        }else {
+          alert('저장에 실패했습니다.')
+          navigate('/PlaylistRemame')
+        }
         
-    //   }).catch((err) => console.log(err))
+        // navigate('/RecPlayList')
+      }).catch((err) => console.log(err))
     }
 
 

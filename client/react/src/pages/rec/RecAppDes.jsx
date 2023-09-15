@@ -27,7 +27,7 @@ const RecAppDes = () => {
   //데이터 전송 여부 판단하는 함수
   const isTransformData = () => {
     axios
-      .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/19`)
+      .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)
       .then((res) => {
         if (res.data > 0) {
           navigate("/LoadDataCompl");
@@ -48,7 +48,7 @@ const RecAppDes = () => {
       <div className="mt-3 text-left flex justify-center items-center">
         <ul>
           <li className="text-left indent-1 text-xl font-semibold tracking-tight">• 갤럭시 워치의 경우</li>
-          <ol className="text-left indent-3 tracking-tighter mt-3 leading-loose">
+          <ol className="text-left indent-3 tracking-tight mt-3 leading-loose">
             <li>1. 갤럭시 워치에서 구글 스토어를 실행합니다.</li>
             <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
             <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
@@ -71,7 +71,7 @@ const RecAppDes = () => {
       <div className="mt-3 flex justify-center items-center">
         <ul>
           <li className="text-left indent-1 text-xl font-semibold tracking-tight">• 샤오미 미워치의 경우</li>
-          <ol className="text-left indent-3 tracking-tighter mt-3 leading-loose">
+          <ol className="text-left indent-3 tracking-tight mt-3 leading-loose">
             <li>1. 미워치에서 샤오미웨어를 실행합니다.</li>
             <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
             <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>

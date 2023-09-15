@@ -6,29 +6,46 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import MusicDummy from '../../dummy/MusicDummy.json';
-import SingleMusic from '../../components/Library/SingleMusic';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import SingleRecPlayList from './SingleRecPlayList'
 
 
 
+
 const RecPlayList = () => {
-    const id = localStorage.getItem('id')
+    const id = localStorage.getItem('id')//userId
     const [musiclist, setMusiclist] = useState({recMusiclistDetails: []}); //추천 받은 리스트
+    const [recMusicIds, setRecMusicIds] = useState([])
+    const navigate = useNavigate()
+    const recMusicId = {
+        musicId : []
+    }
 
     useEffect(()=> {
         const recPlayList = async () => {
-        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/19`)
+        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/${id}`)
         .then((res) => {
-            console.log(res)
             setMusiclist(res.data)
+            console.log(res)
             // localStorage.setItem('recMusiclist', res.data[0].img, res.data[0].reason)
         }).catch((err) => console.log(err))
     }
         recPlayList()
     }, [])
+
+    //전체 저장
+    const SavedPlayList = () => {
+            for(let i = 0; i < musiclist.recMusiclistDetails.length; i++) {
+                recMusicIds.push(musiclist.recMusiclistDetails[i].musicId)
+            }
+            // localStorage에 각각의 아이템을 별도의 키-값 쌍으로 저장
+            
+            // const SmusicId = JSON.stringify(recMusicId)
+            localStorage.setItem('recMusicIds', JSON.stringify(recMusicIds))
+            console.log(recMusicIds);
+            navigate('/PlayListRename')
+    }
 
   
     return (
@@ -41,7 +58,9 @@ const RecPlayList = () => {
         {/* 전체 재생/ 전체 저장 버튼 */}
             <div className="flex justify-between mb-6">
                 <button className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl">전체 재생</button>
-            <Link to="/PlayListRename"><button className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl ">전체 저장</button></Link>
+            <button
+            onClick={SavedPlayList} 
+            className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl ">전체 저장</button>
             </div>
         
         {/* 추천 받은 음악 리스트 목록 */}
