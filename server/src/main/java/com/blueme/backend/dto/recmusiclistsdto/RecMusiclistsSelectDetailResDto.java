@@ -15,15 +15,15 @@ import lombok.Getter;
 
 @Getter
 public class RecMusiclistsSelectDetailResDto {
-  private Long RecMusiclistId;
-  private String RecMusiclistTitle;
-  private String RecMusiclistReason;
+  private Long recMusiclistId;
+  private String recMusiclistTitle;
+  private String recMusiclistReason;
   List<RecMusiclistsRecent10DetailResDto> recMusiclistsRecent10detail;
 
   public RecMusiclistsSelectDetailResDto(RecMusiclists recMusiclist) {
-    this.RecMusiclistId = recMusiclist.getId();
-    this.RecMusiclistTitle = recMusiclist.getTitle();
-    this.RecMusiclistReason = recMusiclist.getReason();
+    this.recMusiclistId = recMusiclist.getId();
+    this.recMusiclistTitle = recMusiclist.getTitle();
+    this.recMusiclistReason = recMusiclist.getReason();
     this.recMusiclistsRecent10detail = recMusiclist.getRecMusicListDetail().stream()
         .map(RecMusiclistsRecent10DetailResDto::new).collect(Collectors.toList());
   }

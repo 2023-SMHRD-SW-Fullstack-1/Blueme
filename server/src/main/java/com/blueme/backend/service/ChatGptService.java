@@ -1,7 +1,11 @@
 package com.blueme.backend.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 설명: ChatGpt 서비스
 */
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ChatGptService {
@@ -84,6 +89,51 @@ public class ChatGptService {
                                                                 messages
                                                 // ChatGptConfig.TOP_P
                                                 )));
+        }
+
+        // 현재 계절 상태
+        public String getSeasonStatus() {
+                LocalDate now = LocalDate.now();
+                Month month = now.getMonth();
+
+                switch (month) {
+                        case MARCH:
+                        case APRIL:
+                        case MAY:
+                                return "봄";
+                        case JUNE:
+                        case JULY:
+                        case AUGUST:
+                                return "여름";
+                        case SEPTEMBER:
+                        case OCTOBER:
+                        case NOVEMBER:
+                                return "가을";
+                        default:
+                                return "겨울";
+                }
+        }
+
+        // 현재 시간 상태
+        public String getTimeStatus() {
+                LocalTime now = LocalTime.now();
+                int hour = now.getHour();
+
+                if (hour >= 0 && hour < 5) {
+                        return "새벽";
+                } else if (hour >= 9 && hour < 12) {
+                        return "아침";
+                } else if (hour >= 12 && hour < 13) {
+                        return "점심시간";
+                } else if (hour >= 13 && hour < 18) {
+                        return "오후";
+                } else if (hour >= 18 && hour < 19) {
+                        return "저녁밥시간";
+                } else if (hour >= 19 && hour < 22) {
+                        return "저녁";
+                } else {
+                        return "밤";
+                }
         }
 
         // 심장박동수 상태
@@ -157,10 +207,86 @@ public class ChatGptService {
                 String heartRateData = getHeartRateStatus(Double.parseDouble(avgHeartRate));
                 String speedData = getSpeedStatus(Double.parseDouble(avgSpeed),
                                 Double.parseDouble(stepsPerMinute), Double.parseDouble(avgHeartRate));
-                String question = String.format(ChatGptConfig.QUESTION_TEMPLATE, condition,
-                                temperature, humidity,
-                                avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
-                                musicsString);
+                String timeData = getTimeStatus();
+                String seasonData = getSeasonStatus();
+
+                // 1~5까지 랜덤한 질의문 생성(GPT의 다채로운답변을위해)
+                Random random = new Random();
+                // int randomNumber = random.nextInt(13) + 1;
+
+                // 테스트
+                int randomNumber = 13;
+
+                String question = null;
+                log.info("포맷타입 = {}", randomNumber);
+                if (randomNumber == 1) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 2) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE2, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
+                                        musicsString);
+                } else if (randomNumber == 3) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE3,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 4) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE4,
+                                        temperature,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
+                                        musicsString);
+                } else if (randomNumber == 5) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE5,
+                                        temperature,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
+                                        musicsString);
+                } else if (randomNumber == 6) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE6, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 7) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE7, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 8) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE8, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 9) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE9, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 10) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE10, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 11) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE11, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 12) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE12, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                } else if (randomNumber == 13) {
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE13, seasonData + " " + timeData,
+                                        temperature, humidity,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        musicsString);
+                }
+
+                log.info(question);
                 return question;
         }
 

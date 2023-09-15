@@ -9,9 +9,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/*
+ * 작성자 : 김혁
+ * 작성일 : 2023-09-08
+ * 설명 : ChatGPT에 요청할 포맷
+ */
+
 @Getter
 @NoArgsConstructor
-//chatGPT에 요청할 DTO Format
+// chatGPT에 요청할 DTO Format
 public class ChatGptReqDto {
     private String model;
     @JsonProperty("max_tokens")
@@ -20,18 +26,18 @@ public class ChatGptReqDto {
     private Boolean stream;
     private List<ChatGptMessage> messages;
 
-    //@JsonProperty("top_p")
-    //private Double topP;
+    // @JsonProperty("top_p")
+    // private Double topP;
 
     @Builder
     public ChatGptReqDto(String model, Integer maxTokens, Double temperature,
-                          Boolean stream, List<ChatGptMessage> messages
-                          /*,Double topP*/) {
+            Boolean stream, List<ChatGptMessage> messages
+    /* ,Double topP */) {
         this.model = model;
         this.maxTokens = maxTokens;
         this.temperature = temperature;
         this.stream = stream;
         this.messages = messages;
-        //this.topP = topP;
+        // this.topP = topP;
     }
 }
