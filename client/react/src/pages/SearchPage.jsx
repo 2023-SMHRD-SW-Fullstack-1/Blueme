@@ -17,6 +17,8 @@ const SearchPage = () => {
 
   // 로그인한 userId 값
   const logginedUserId = 1;
+
+  // 최근 검색목록 조회하는 함수
   useEffect(() => {
     axios.get(`http://172.30.1.27:8104/search/${logginedUserId}`)
       .then((res) => {
@@ -24,7 +26,9 @@ const SearchPage = () => {
       }).catch(err => console.log(err)); 
   },[])
 
-  // 검색창 핸들러
+  
+
+  // 검색값 db가져오는 함수
   const handleSearchKeyword = (e) => {
     if(e.target.value !== "") {
       axios.get(`http://172.30.1.27:8104/search/music/${e.target.value}`)
@@ -52,30 +56,33 @@ const SearchPage = () => {
           />
         </label>
       </div>
-      {searchList && searchList.length && 
+      <div className='2xl:px-[25%] xl:px-[10%] lg:px-[8%] md:px-[5%]'>
+        {searchList && searchList.length && 
         <div>
-          {searchList && searchList.length > 0 && searchList.map((item, index) => <>
+          {searchList && searchList.length > 0 && searchList.map((item) => <>
               <RecentSearch item = {item} key={item.searchId}/>
             </>)}
         </div>
-      }
-      {searchKeyword !== "" &&  searchList.length ===0 && <div className='h-full flex justify-center items-center flex-col pb-[100px]'>
-          <p className='text-2xl mb-4 p-3'>"{searchKeyword}"과(와) 일치하는 결과 없음.</p>
-          <p>철자가 맞는지 확인하거나 다른 키워드를 사용해주세요.</p>
-        </div>
-      }
-      {searchKeyword === "" && 
-        <div>
-          <h1 className='mt-2 '>최근검색</h1>
-          <div>
-            {recentList && recentList.length > 0 && recentList.map((item, index) => <>
-              <RecentSearch item = {item} key={item.searchId}/>
-            </>)}
+        }
+        {searchKeyword !== "" &&  searchList.length ===0 && <div className='h-full flex justify-center items-center flex-col pb-[100px]'>
+            <p className='text-2xl mb-4 p-3'>"{searchKeyword}"과(와) 일치하는 결과 없음.</p>
+            <p>철자가 맞는지 확인하거나 다른 키워드를 사용해주세요.</p>
           </div>
-        </div>
-      }
+        }
+        {searchKeyword === "" && 
+          <div>
+            <h1 className='mt-2 '>최근검색</h1>
+            <div>
+              {recentList && recentList.length > 0 && recentList.map((item) => <>
+                <RecentSearch item = {item} key={item.searchId}/>
+              </>)}
+            </div>
+          </div>
+        }
+      </div>
       
       
+
     </div>
   )
 }
