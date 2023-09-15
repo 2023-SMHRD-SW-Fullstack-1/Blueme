@@ -34,6 +34,27 @@ const PlaylistRename = () => {
     //   .then((res) => {
     //     console.log(res)
     navigate("/RecPlayList");
+    const SrecMusicId = localStorage.getItem('recMusicIds')
+    const recMusicIds = JSON.parse(SrecMusicId)
+
+   
+    const SavedRecPlaylist = () => {
+      const requestData = { userId : id,  title : title, musicIds : recMusicIds }
+      // console.log(musicIds);
+      console.log(requestData);
+      axios.post(`http://172.30.1.27:8104/savedMusiclist/add`, requestData)
+      .then((res) => {
+        console.log(res)
+        if(res.data > 0 ) {
+          navigate('/library')
+        }else {
+          alert('저장에 실패했습니다.')
+          navigate('/PlaylistRemame')
+        }
+        
+        // navigate('/RecPlayList')
+      }).catch((err) => console.log(err))
+    }
 
     //   }).catch((err) => console.log(err))
   };

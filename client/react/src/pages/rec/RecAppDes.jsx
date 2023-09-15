@@ -28,17 +28,18 @@ const RecAppDes = () => {
   };
   //데이터 전송 여부 판단하는 함수
   const isTransformData = () => {
-    axios.post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)
-    .then((res) => {
-      if(res.data > 0) {
-        navigate('/LoadDataCompl')
-      }else if(res.data < 0) {
-        alert('데이터를 전송해주세요!')
-        setModalIsOpen(false)
-      }
-    }).catch((err) => console.log(err))
-  }
-
+    axios
+      .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)
+      .then((res) => {
+        if (res.data > 0) {
+          navigate("/LoadDataCompl");
+        } else if (res.data < 0) {
+          alert("데이터를 전송해주세요!");
+          setModalIsOpen(false);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full '>
