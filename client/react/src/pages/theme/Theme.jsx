@@ -46,14 +46,14 @@ const Theme = () => {
 
           return (
             <button key={i} class="flex flex-col rounded-xl shadow-md" onClick={handleButtonClick}>
-              <Link to="/Playlist" className="mb-10">
+              <Link to="/ThemePlaylist" className="mb-10">
                 <div class="flex flex-col items-center justify-center text-center text-custom-white">
                   <img
                     src={"data:image/;base64," + themeImage}
                     alt=""
                     class="rounded-lg w-[170px] h-[170px] object-cover mt-sm"
                   />
-                  <h5 class="font-semibold mt-sm">{themeName}</h5>
+                  <h5 class="font-semibold text-3xl">{themeName}</h5>
                 </div>
               </Link>
             </button>

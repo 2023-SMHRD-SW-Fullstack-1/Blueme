@@ -44,7 +44,6 @@ import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner";
 // 지희 import 끝
 
 const App = () => {
-  
   return (
     <Router>
       <div className="app flex flex-col min-h-screen">
