@@ -283,7 +283,7 @@ const MusicPlayer = ({ item }) => {
     <div className={showMiniPlayer ? 'mini-player' : 'full-screen-player'}>
       <p className="py-[10px]">{musicInfo.album}</p>
       <div className=" w-[300px]">
-        <img
+      <img
           src={"data:image/;base64," + musicInfo.img}
           className="h-auto rounded-lg"
         />
@@ -308,31 +308,31 @@ const MusicPlayer = ({ item }) => {
           onTouchEnd={handleDragEnd}
           className="w-full h-2 opacity-0 absolute appearance-none cursor-pointer"
         />
-        <div className="flex justify-between text-custom-gray mt-4">
+        <div className= { showMiniPlayer ? "hidden" :"flex justify-between text-custom-gray mt-4"}>
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
 
-      <div className="flex flex-row justify-center items-center gap-10 mt-20">
+      <div className={ showMiniPlayer ? "flex items-center gap-5 ml-auto" :"flex flex-row justify-center items-center gap-10 mt-20"}>
         <img
-          className="w-[25px] h-auto"
+          className={ showMiniPlayer ? "hidden" : "w-[25px] h-auto"}
           src={isRepeatMode ? rotating : rotate}
           onClick={() => setIsRepeatMode(!isRepeatMode)}
           alt=""
         />
-        <Prev className="w-[40px] h-auto" onClick={prevTrack} />
+        <Prev className={ showMiniPlayer ? "w-[20px] h-auto" : "w-[50px] h-auto"} onClick={prevTrack} />
         {isPlaying ? (
-          <Pause className="w-[50px] h-auto" onClick={() => sound.pause()} />
+          <Pause className={ showMiniPlayer ? "w-[30px] h-auto" : "w-[50px] h-auto"} onClick={() => sound.pause()} />
         ) : (
-          <Play className="w-[50px] h-auto" onClick={() => sound.play()} />
+          <Play className={ showMiniPlayer ? "w-[30px] h-auto" : "w-[50px] h-auto"} onClick={() => sound.play()} />
         )}
 
-        <Next className="w-[40px] h-auto" onClick={nextTrack} />
+        <Next className={ showMiniPlayer ? "w-[20px] h-auto" : "w-[50px] h-auto"} onClick={nextTrack} />
         <div className="ml-auto">
           <button onClick={toggleLike}>
             <img
-              className="w-[30px] h-auto"
+              className={showMiniPlayer ? "hidden" : "w-[30px] h-auto"}
               src={isLiked ? likeFull : likeEmpty}
               alt="like-button"
             />
@@ -342,7 +342,7 @@ const MusicPlayer = ({ item }) => {
       <img
         src={scroll}
         onClick={() => navigate("/library")}
-        className="w-[40px] h-auto fixed bottom-[10%]"
+        className={showMiniPlayer ? "hidden" : "w-[40px] h-auto fixed bottom-[10%]"}
       />
     </div>
   );
