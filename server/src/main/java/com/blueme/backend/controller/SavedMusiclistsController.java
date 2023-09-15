@@ -65,7 +65,11 @@ public class SavedMusiclistsController {
   @PostMapping("/add")
   public ResponseEntity<Long> addSavedMusiclist(@RequestBody SavedMusiclistsSaveReqDto request) {
     log.info("Starting savedMusiclist for userId: {}", request.getUserId());
-    return new ResponseEntity<>(savedMusiclistsService.save(request), HttpStatus.CREATED);
+    Long savedMusiclistId = savedMusiclistsService.save(request);
+    if (savedMusiclistId == -1L) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    } else
+      return new ResponseEntity<>(savedMusiclistId, HttpStatus.CREATED);
   }
 
 }

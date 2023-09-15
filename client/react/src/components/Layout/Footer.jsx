@@ -32,7 +32,7 @@ function Footer() {
         <img src={home} className="h-[39px] w-[45px] mt-[4px]"></img>
         <p className="text-sm h-[15px]">홈</p>
       </Link>
-      <Link to="/" className="flex flex-col items-center w-full text-center">
+      <Link to="/search" className="flex flex-col items-center w-full text-center">
         <img src={Search} className="h-[35px] w-[35px] mt-[8px]"></img>
         <p className="text-sm h-[15px]">검색</p>
       </Link>

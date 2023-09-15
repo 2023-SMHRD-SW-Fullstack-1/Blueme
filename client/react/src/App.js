@@ -47,6 +47,7 @@ import LoadData from "./pages/rec/LoadData";
 import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
+import SearchPage from "./pages/SearchPage";
 // 지희 import 끝
 
 const App = () => {
@@ -78,6 +79,7 @@ const App = () => {
           {/* 혁 추가 */}
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/addmusic" element={<AddMusicPage />} />
+          <Route path="/search"element={<SearchPage />} />
           {/* 혁 끝 */}
           <Route path="/Theme" element={<Theme />} />
           {/* 지훈 시작 */}

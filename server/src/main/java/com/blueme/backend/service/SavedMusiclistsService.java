@@ -3,6 +3,7 @@ package com.blueme.backend.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,6 +69,9 @@ public class SavedMusiclistsService {
                                 .map((id) -> musicsJpaRepository.findById(Long.parseLong(id))
                                                 .orElseThrow(() -> new MusicNotFoundException(Long.parseLong(id))))
                                 .collect(Collectors.toList());
+                if (musics.isEmpty()) {
+                        return -1L;
+                }
 
                 List<SavedMusiclistDetails> savedMusiclistDetails = musics.stream()
                                 .map(SavedMusiclistDetails::new).collect(Collectors.toList());
