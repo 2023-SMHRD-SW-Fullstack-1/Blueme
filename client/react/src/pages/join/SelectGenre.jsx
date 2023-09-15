@@ -15,7 +15,6 @@ const SelectGenre = () => {
   const [page, setPage] = useState(1); //페이징 관련
   const [genres, setGenres] = useState([])//페이징 관련
   const id = localStorage.getItem('id')
-  console.log(localStorage.getItem('email'));
 
     //장르 한 개 선택 시
     const handleOnClick = (id) => {
@@ -87,7 +86,7 @@ const SelectGenre = () => {
             <img
               src={"data:image/;base64," + genre.img}
               alt="genre img"
-              className="rounded-lg w-[180px] h-[175px] h-auto object-cover blur-[1.5px]"
+              className="rounded-lg w-[180px] h-[175px] object-cover blur-[1.5px]"
             />
             <p className="absolute text-3xl">{genre.name}</p>
             {checkedState.includes(parseInt(genreId)+1) && (
