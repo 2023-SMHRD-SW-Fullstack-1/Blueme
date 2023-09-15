@@ -47,15 +47,16 @@ import LoadData from "./pages/rec/LoadData";
 import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
+import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner"
 // 지희 import 끝
 
 const App = () => {
 
   // 지희 시작
-  const MusicPlayerConditional = () => {
-    const location = useLocation();
-    return !location.pathname.includes("/MusicPlayer/") && <MusicPlayer />;
-  };
+  // const MusicPlayerConditional = () => {
+  //   const location = useLocation();
+  //   return !location.pathname.includes("/MusicPlayer/") && <MusicPlayer />;
+  // };
   // 지희 끝
 
   return (
@@ -100,6 +101,7 @@ const App = () => {
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
         {/* <MusicPlayerConditional /> */}
+        <ShowMiniPlayerInner />
           {/* 지희 끝 */}
         <Footer />
       </div>

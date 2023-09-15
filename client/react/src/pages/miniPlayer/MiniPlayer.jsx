@@ -77,43 +77,43 @@ const MiniPlayer = ({ item }) => {
   }, [isRepeatMode]);
 
   // 음악 파일 불러오기
-  useEffect(() => {
-    if (sound) sound.unload();
+  // useEffect(() => {
+  //   if (sound) sound.unload();
 
-    const newSound = new Howl({
-      src: [`/music/${songId}`],
-      format: ["mpeg"],
-      onload() {
-        setDuration(newSound.duration());
-        setCurrentTime(0);
-        setIsPlaying(false);
-        newSound.play();
-        dispatch(setCurrentSongId(songId));
-      },
-      onend() {
-        if (isRepeatModeRef.current) {
-          // 반복 모드 확인
-          newSound.seek(0);
-          setCurrentTime(0);
-          newSound.play();
-        } else {
-          nextTrack();
-        }
-      },
-      onplay() {
-        setIsPlaying(true);
-      },
-      onpause() {
-        setIsPlaying(false);
-      },
-    });
+  //   const newSound = new Howl({
+  //     src: [`/music/${songId}`],
+  //     format: ["mpeg"],
+  //     onload() {
+  //       setDuration(newSound.duration());
+  //       setCurrentTime(0);
+  //       setIsPlaying(false);
+  //       newSound.play();
+  //       dispatch(setCurrentSongId(songId));
+  //     },
+  //     onend() {
+  //       if (isRepeatModeRef.current) {
+  //         // 반복 모드 확인
+  //         newSound.seek(0);
+  //         setCurrentTime(0);
+  //         newSound.play();
+  //       } else {
+  //         nextTrack();
+  //       }
+  //     },
+  //     onplay() {
+  //       setIsPlaying(true);
+  //     },
+  //     onpause() {
+  //       setIsPlaying(false);
+  //     },
+  //   });
 
-    setSound(newSound);
+  //   setSound(newSound);
 
-    return () => {
-      if (sound) sound.unload();
-    };
-  }, [songId]);
+  //   return () => {
+  //     if (sound) sound.unload();
+  //   };
+  // }, [songId]);
 
   // 이전곡&다음곡
   useEffect(() => {
@@ -154,16 +154,16 @@ const MiniPlayer = ({ item }) => {
   };
 
   // 재생/일시정지 확인
-  useEffect(() => {
-    if (sound) {
-      const isCurrentlyPlaying = sound.playing();
+  // useEffect(() => {
+  //   if (sound) {
+  //     const isCurrentlyPlaying = sound.playing();
 
-      setIsPlaying(isCurrentlyPlaying);
+  //     setIsPlaying(isCurrentlyPlaying);
 
-      // 재생 상태 업데이트
-      dispatch(setPlayingStatus(isCurrentlyPlaying));
-    }
-  }, [sound]);
+  //     // 재생 상태 업데이트
+  //     dispatch(setPlayingStatus(isCurrentlyPlaying));
+  //   }
+  // }, [sound]);
 
   // 최근 재생 목록 추가
   useEffect(() => {
@@ -181,35 +181,35 @@ const MiniPlayer = ({ item }) => {
   }, [userId, songId]);
 
   // 사용자 재생바 조작
-  const changeCurrentTime = (e) => {
-    let newCurrentTime = e.target.value;
-    setCurrentTime(newCurrentTime);
-    if (sound) {
-      sound.seek(newCurrentTime);
-      if (!isDragging) {
-        sound.play();
-      }
-    }
-  };
+  // const changeCurrentTime = (e) => {
+  //   let newCurrentTime = e.target.value;
+  //   setCurrentTime(newCurrentTime);
+  //   if (sound) {
+  //     sound.seek(newCurrentTime);
+  //     if (!isDragging) {
+  //       sound.play();
+  //     }
+  //   }
+  // };
 
   // 음악 자동 재생 중 현재 재생위치 업데이트
-  useEffect(() => {
-    const intervalID = setInterval(() => {
-      if (sound?.playing()) {
-        const currentTime = sound.seek();
-        setCurrentTime(currentTime);
-        if (currentTime >= duration) {
-          nextTrack();
-        }
-      }
-    }, 1000);
+  // useEffect(() => {
+  //   const intervalID = setInterval(() => {
+  //     if (sound?.playing()) {
+  //       const currentTime = sound.seek();
+  //       setCurrentTime(currentTime);
+  //       if (currentTime >= duration) {
+  //         nextTrack();
+  //       }
+  //     }
+  //   }, 1000);
 
-    return () => clearInterval(intervalID);
-  }, [sound, duration]);
+  //   return () => clearInterval(intervalID);
+  // }, [sound, duration]);
 
 
   return (
-    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[8%] w-full h-[10%] bg-custom-gray px-6">
+    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
       <img
         src={"data:image/;base64," + musicInfo.img}
         className="h-[80%] rounded-lg"
@@ -219,15 +219,15 @@ const MiniPlayer = ({ item }) => {
         <p className="lg:text-xl">{musicInfo.artist}</p>
       </div>
 
-      <div className="flex items-center gap-5 ml-auto">
-        <Prev className="lg:w-[40px] h-auto" onClick={prevTrack} />
+      <div className="flex flex-row gap-3 ml-auto">
+        <Prev className="w-[30px] m h-auto" onClick={prevTrack} />
         {isPlaying ? (
-          <Pause className="lg:w-[50px] h-auto" onClick={() => sound.pause()} />
+          <Pause className="w-[35px] h-auto" onClick={() => sound.pause()} />
         ) : (
-          <Play className="lg:w-[50px] h-auto" onClick={() => sound.play()} />
+          <Play className="w-[35px] h-auto" onClick={() => sound.play()} />
         )}
 
-        <Next className="lg:w-[40px] h-auto" onClick={nextTrack} />
+        <Next className="w-[30px] h-auto" onClick={nextTrack} />
       </div>
     </div>
   );

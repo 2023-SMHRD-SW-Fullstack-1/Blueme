@@ -28,8 +28,8 @@ const ShowMiniPlayerInner = () => {
   const showMiniPlayer = useSelector((state) => state.showMiniPlayer);
   const currentSongId = useSelector((state) => state.currentSongId);
 
-  // return showMiniPlayer ? <MiniPlayer item={currentSongId} /> : null
-  return null;
+  return showMiniPlayer ? <MiniPlayer item={currentSongId} /> : null
+  // return null;
 };
 
 export default ShowMiniPlayerInner;

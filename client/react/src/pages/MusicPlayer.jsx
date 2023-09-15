@@ -1,6 +1,6 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-12
+날짜(수정포함): 2023-09-15
 설명: 음악 플레이어 - 리덕스 활용 추가
 */
 import { useEffect, useState, useRef } from "react";
@@ -100,6 +100,7 @@ const MusicPlayer = ({ item }) => {
 
         // 새로운 사운드 로드 및 재생
         const newSound = new Howl({
+          
           src: [`/music/${songId}`],
           format: ["mpeg"],
           onload() {
@@ -127,6 +128,7 @@ const MusicPlayer = ({ item }) => {
         });
 
         setSound(newSound);
+
       } catch (error) {
         console.error("음악 불러오기 실패", error);
       }
@@ -137,7 +139,7 @@ const MusicPlayer = ({ item }) => {
     return () => {
       if (sound) sound.unload();
     };
-  },  [songId, currentSongIndex, musicIds]);
+  },  [songId, musicIds]);
 
   // 한곡반복 Ref
   useEffect(() => {
@@ -149,7 +151,9 @@ const MusicPlayer = ({ item }) => {
     // console.log('1. songid',songId);
     const index = musicIds.indexOf(Number(songId));
     // console.log('2. index:', index);
+    if (index !== currentSongIndex) {
     setCurrentSongIndex(index);
+    }
     setCurrentSongId(Number(songId));
     // console.log('3. currentsongid',currentSongId);
   }, [musicIds, songId]);
@@ -163,7 +167,7 @@ const MusicPlayer = ({ item }) => {
 
     const prevSongId = musicIds[prevIndex];
 
-    dispatch(setCurrentSongId(prevSongId));
+    // dispatch(setCurrentSongId(prevSongId));
 
     navigate(`/MusicPlayer/${prevSongId}`);
   };
@@ -175,7 +179,7 @@ const MusicPlayer = ({ item }) => {
       nextIndex = 0;
     }
     const nextSongId = musicIds[nextIndex];
-    dispatch(setCurrentSongId(nextSongId));
+    // dispatch(setCurrentSongId(nextSongId));
 
     navigate(`/MusicPlayer/${nextSongId}`);
   };
@@ -237,21 +241,20 @@ const MusicPlayer = ({ item }) => {
   const changeCurrentTime = (e) => {
     let newCurrentTime = e.target.value;
     setCurrentTime(newCurrentTime);
-    if (sound) {
+    if (!isDragging && sound) {
       sound.seek(newCurrentTime);
-      if (!isDragging) {
-        sound.play();
-      }
     }
   };
 
   const handleDragStart = () => {
     setIsDragging(true);
+    sound?.pause();
   };
 
   const handleDragEnd = () => {
     setIsDragging(false);
     if (sound) {
+      sound.seek(currentTime);
       sound.play();
     }
   };
@@ -278,6 +281,9 @@ const MusicPlayer = ({ item }) => {
 
     return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
+
+ 
+
 
   return (
     <div className={showMiniPlayer ? 'mini-player' : 'full-screen-player'}>
