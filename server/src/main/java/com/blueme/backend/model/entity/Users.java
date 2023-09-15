@@ -102,10 +102,10 @@ public class Users extends BaseEntity {
 		GUEST
 	}
 
-	// /* 유저 권한 설정 (USER) */
-	// public void authorizeUser() {
-	// this.role = UserRole.USER;
-	// }
+	 /* 유저 권한 설정 (USER) */
+	 public void authorizeUser() {
+	 this.role = UserRole.USER;
+	 }
 
 	/* 비밀번호 암호화 */
 	@Builder
@@ -119,11 +119,12 @@ public class Users extends BaseEntity {
 		this.refreshToken = updateRefreshToken;
 	}
 
-	/* nickname과 password만 수정 가능 */
+	/* nickname, password, imgUrl만 수정 가능 */
 	@Builder
-	public void update(String nickname, String password) {
+	public void update(String nickname, String password, String imgUrl) {
 		this.nickname = nickname;
 		this.password = password;
+		this.img_url = imgUrl;
 	}
 
 }

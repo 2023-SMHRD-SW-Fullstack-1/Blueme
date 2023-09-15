@@ -102,6 +102,7 @@ const SelectGenre = () => {
       onClick={handleSelect}
       className="
         mt-2
+        mb-10
         w-full
         px-3 h-10 relative 
         bg-[#221a38]  

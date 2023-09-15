@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blueme.backend.dto.artistdto.ArtistInfoDto;
 import com.blueme.backend.dto.artistdto.FavArtistReqDto;
+import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.service.ArtistsService;
 
 import lombok.NoArgsConstructor;
@@ -49,5 +52,20 @@ public class ArtistsController {
 		Long userId = artistsService.saveFavArtist(requestDto);
 		log.info("ArtistController requestDto : {}", userId);
 		return userId;
+	}
+	
+	/**
+	 * 	get 가수(아티스트) 검색
+	 * @return 
+	 */
+	@GetMapping("/searchArtist/{keyword}")
+	public List<ArtistInfoDto> searchArtist(@PathVariable("keyword") String keyword) {
+		log.info("Starting search music info");
+		List<ArtistInfoDto> artists = artistsService.searchArtist(keyword);
+		System.out.println(keyword);
+		return artists;
+//		System.out.println(artists.size());
+//		return artists;
+//		 return musicsService.searchMusic(keyword);
 	}
 }
