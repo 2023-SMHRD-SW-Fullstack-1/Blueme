@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.session.DefaultCookieSerializerCustomizer;
@@ -23,6 +24,7 @@ import com.blueme.backend.security.jwt.service.JwtService;
 import com.blueme.backend.security.oauth2.CustomOAuth2User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mysql.cj.Session;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,11 +40,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Value("${jwt.access.expiration}")
 	private String accessTokenExpiration;
 	
-	Long userId = null;
+	String userId = null;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+
 		log.info("OAuth2 Login 성공!");
 
 		try {
@@ -58,12 +61,14 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 jwtService.sendAccessAndRefreshToken(response, accessToken, null);
                 Users findUser = usersJpaRepository.findByEmail(oAuth2User.getEmail())
                                 .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
-                userId = findUser.getId();
+                userId = findUser.getId().toString();
+                
                 jwtService.sendAccessToken(response, userId.toString());
                 response.addHeader("userId", userId.toString());
+                
                 response.sendRedirect("http://172.30.1.13:3000/SelectGenre");
-                findUser.authorizeUser();
-                usersJpaRepository.save(findUser);	// Role.USER 로 변경
+//                findUser.authorizeUser();
+//                usersJpaRepository.save(findUser);	// Role.USER 로 변경
                 
 			} else {
 				log.info("oauth2user =========> {}", oAuth2User.toString());

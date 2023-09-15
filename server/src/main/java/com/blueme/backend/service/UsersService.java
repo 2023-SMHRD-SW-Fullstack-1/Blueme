@@ -161,13 +161,4 @@ public class UsersService {
 //			return user.getId();
 //	    return null;
 	}
-	
-//	/**
-//	 * 	마이페이지
-//	 */
-//	@Transactional
-//	public List<ProfileInfoDto> getProfile(){
-//		
-//	}
-
 }

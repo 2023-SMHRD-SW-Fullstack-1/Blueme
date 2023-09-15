@@ -2,32 +2,24 @@ package com.blueme.backend.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blueme.backend.dto.genredto.GenreInfoDto;
 import com.blueme.backend.dto.usersdto.UsersDeleteDto;
-import com.blueme.backend.dto.usersdto.UsersLoginDto;
 import com.blueme.backend.dto.usersdto.UsersRegisterDto;
 import com.blueme.backend.dto.usersdto.UsersUpdateDto;
-import com.blueme.backend.model.entity.Users;
-import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.model.repository.UsersJpaRepository;
-import com.blueme.backend.security.login.service.LoginService;
+import com.blueme.backend.security.jwt.service.JwtService;
 import com.blueme.backend.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/user")
 @CrossOrigin("http://172.30.1.13:3000")
 public class UsersController {
+	
+	private final JwtService jwtService;
 	
 	@Autowired
 	private UsersService usersService;
@@ -85,14 +79,6 @@ public class UsersController {
 	//}
 	
 	/**
-	 *  post 유저 로그아웃
-	 */
-	
-
-
-	
-	
-	/**
 	 *  delete 유저 탈퇴 ( 실패시 -1 반환, 성공시 유저의고유ID반환 ), activeStatus 컬럼 "N"으로 변경
 	 */
 	@DeleteMapping("/deactivate")
@@ -113,14 +99,4 @@ public class UsersController {
 		log.info("User update completed with ID {}", userId);
 		return userId;
 	}
-	
-	
-//	/**
-//	 *  get 마이페이지 정보
-//	 */
-//	@GetMapping("/Mypage")
-//	public ResponseEntity<List<GenreInfoDto>> memberInfo(){
-//		
-//	}
-	
 }
