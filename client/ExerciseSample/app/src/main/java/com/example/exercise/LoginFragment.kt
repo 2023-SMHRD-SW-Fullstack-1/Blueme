@@ -81,7 +81,12 @@ class LoginFragment : Fragment() {
                 },
                 Response.ErrorListener { error ->
                     Log.d("error", error.toString())
-
+                    if (error.networkResponse != null && error.networkResponse.statusCode == 400) {
+                        Log.d("response", "Status Code: ${error.networkResponse.statusCode}")
+                        Toast.makeText(requireContext(), "아이디나 비밀번호가 일치하지 않습니다", Toast.LENGTH_LONG).show()
+                    } else {
+                        Log.d("error", error.toString())
+                    }
                 }
             ) {
                 override fun getBodyContentType(): String {

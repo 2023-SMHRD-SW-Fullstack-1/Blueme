@@ -9,10 +9,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+ * 작성자 : 김혁
+ * 작성일 : 2023-09-09
+ * 설명   : ChatGptResDto
+ */
+
 @Getter
 @NoArgsConstructor
 public class ChatGptResDto {
-	private String id;
+    private String id;
     private String object;
     private long created;
     private String model;

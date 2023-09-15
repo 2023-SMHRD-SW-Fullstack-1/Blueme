@@ -3,10 +3,16 @@ package com.blueme.backend.controller;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsDetailResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsRecent10ResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsResDto;
+import com.blueme.backend.model.entity.RecMusiclistDetails;
+import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsSelectDetailResDto;
+import com.blueme.backend.model.entity.RecMusiclistDetails;
 import com.blueme.backend.service.RecMusiclistsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /*
 작성자: 김혁
-날짜(수정포함): 2023-09-12
+날짜(수정포함): 2023-09-14
 설명: 추천음악 관련 컨트롤러
 */
 
@@ -50,12 +56,31 @@ public class RecMusiclistsController {
   }
 
   /*
+   * 추천리스트 상세조회
+   */
+  @GetMapping("/detail/{recMusiclistId}")
+  public ResponseEntity<RecMusiclistsSelectDetailResDto> getRecMusiclistDetail(
+      @PathVariable("recMusiclistId") String recMusiclistId) {
+    RecMusiclistsSelectDetailResDto detailResDto = recMusiclistsService.getRecMusiclistDetail(recMusiclistId);
+    if (detailResDto == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } else {
+      return new ResponseEntity<>(detailResDto, HttpStatus.OK);
+    }
+  }
+
+  /*
    * 최근 추천리스트 10개 조회
    */
   @GetMapping("/recent10")
-  public ResponseEntity<RecMusiclistsRecent10ResDto> getRecent10RecMusiclists() {
+  public ResponseEntity<List<RecMusiclistsRecent10ResDto>> getRecent10RecMusiclists() {
     log.info("starting getRecent10RecMusiclists");
-    return recMusiclistsService.getRecent10RecMusiclists();
+    List<RecMusiclistsRecent10ResDto> list = recMusiclistsService.getRecent10RecMusiclists();
+    if (list.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } else {
+      return new ResponseEntity<>(list, HttpStatus.OK);
+    }
   }
 
   /*
