@@ -8,7 +8,7 @@ import { SET_MUSIC_IDS, SET_PLAYING_STATUS, SET_CURRENT_SONG_ID, SET_SHOW_MINI_P
 
 const initialState = {
   musicIds: [],
-  isPlaying: false,
+  playingStatus: false,
   currentSongId: null,
   showMiniPlayer: false, 
 };
@@ -18,7 +18,7 @@ function music(state = initialState, action) {
     case SET_MUSIC_IDS:
       return { ...state, musicIds: action.payload };
     case SET_PLAYING_STATUS:
-      return { ...state, isPlaying: action.payload };
+      return { ...state, playingStatus: action.payload };
     case SET_CURRENT_SONG_ID:
       return { ...state, currentSongId: action.payload };
     case SET_SHOW_MINI_PLAYER:

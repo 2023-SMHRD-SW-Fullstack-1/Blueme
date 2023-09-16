@@ -10,10 +10,10 @@ export const SET_CURRENT_SONG_ID = 'SET_CURRENT_SONG_ID';
 export const SET_SHOW_MINI_PLAYER = "SET_SHOW_MINI_PLAYER";
 
 
-export function setPlayingStatus(isPlaying) {
+export function setPlayingStatus(playingStatus) {
    return {
      type: SET_PLAYING_STATUS,
-     payload: isPlaying,
+     payload: playingStatus,
    };
  }
  

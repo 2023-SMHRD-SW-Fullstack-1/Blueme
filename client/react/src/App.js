@@ -49,14 +49,15 @@ import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
 import SearchPage from "./pages/SearchPage";
+import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner"
 // 지희 import 끝
 
 const App = () => {
   // 지희 시작
-  const MusicPlayerConditional = () => {
-    const location = useLocation();
-    return !location.pathname.includes("/MusicPlayer/") && <MusicPlayer />;
-  };
+  //  const MusicPlayerConditional = () => {
+  //    const location = useLocation();
+  //    return !location.pathname.includes("/MusicPlayer/") && <MusicPlayer />;
+  //  };
   // 지희 끝
 
   return (
@@ -105,6 +106,8 @@ const App = () => {
         {/* <MusicPlayerConditional /> */}
         {/* 지희 끝 */}
 
+        {/* <ShowMiniPlayerInner /> */}
+          {/* 지희 끝 */}
         <Footer />
       </div>
     </Router>
