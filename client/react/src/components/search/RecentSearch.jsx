@@ -9,7 +9,7 @@ const RecentSearch = ({item}) => {
   let userId = 1;
   // 최근검색 등록
   const uploadRecentMusic = () => {
-    axios.post('http://172.30.1.27:8104/search', {
+    axios.put('http://172.30.1.27:8104/search', {
       userId: userId,
       musicId: item.musicId
     })

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,9 +35,9 @@ public class SearchsController {
   private final SearchsService searchsService;
 
   /*
-   * post 검색 등록
+   * post 검색 등록(없으면 등록, 있으면 업데이트)
    */
-  @PostMapping("")
+  @PutMapping("")
   public ResponseEntity<Long> saveSearch(@RequestBody SearchSaveReqDto request) {
     log.info("save recentSearch starting for userId = {}", request.getUserId());
     Long searchId = searchsService.saveSearch(request);
