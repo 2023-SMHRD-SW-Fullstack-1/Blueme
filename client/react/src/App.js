@@ -5,7 +5,7 @@
 */
 
 import React, { useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Main from "./pages/main/Main";
@@ -32,6 +32,7 @@ import DashBoard from "./pages/admin/DashBoard";
 
 /* 지훈 시작 */
 import MemberDelete from "./pages/myPage/MemberDelete";
+import SavedPlaylistDetail from "./components/Library/SavedPlaylistDetail";
 
 /* 지훈 끝 */
 
@@ -51,7 +52,6 @@ import SearchPage from "./pages/SearchPage";
 // 지희 import 끝
 
 const App = () => {
-
   // 지희 시작
   const MusicPlayerConditional = () => {
     const location = useLocation();
@@ -84,6 +84,7 @@ const App = () => {
           <Route path="/Theme" element={<Theme />} />
           {/* 지훈 시작 */}
           <Route path="/MemberDelete" element={<MemberDelete />} />
+          <Route path="/SavedPlaylistDetail/:id" element={<SavedPlaylistDetail />} />
           {/* 지훈 끝 */}
           {/* 유영 시작 */}
           <Route path="/RecAppDes" element={<RecAppDes />} />
@@ -102,7 +103,8 @@ const App = () => {
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
         {/* <MusicPlayerConditional /> */}
-          {/* 지희 끝 */}
+        {/* 지희 끝 */}
+
         <Footer />
       </div>
     </Router>
