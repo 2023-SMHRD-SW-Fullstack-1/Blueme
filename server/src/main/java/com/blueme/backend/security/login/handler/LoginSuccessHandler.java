@@ -1,9 +1,9 @@
 package com.blueme.backend.security.login.handler;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,10 +11,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.blueme.backend.dto.usersdto.UserInfoDTO;
-import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.service.JwtService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -44,7 +42,17 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		        // AccessToken과 RefreshToken 발급
 		        String accessToken = jwtService.createAccessToken(email);
 		        String refreshToken = jwtService.createRefreshToken();
-
+//		        
+//		        List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(user.getId());
+//		        List<Long> favCheckListIds = favCheckList.stream().map(FavCheckLists::getId).collect(Collectors.toList());
+//
+//		        log.info("favCheckListIds : {}",favCheckListIds);
+//		        Long genreId = favCheckListIds.get(0);
+//		        Long artistId = favCheckListIds.get(1);
+//		        
+//		        log.info(genreId.toString());
+//		        log.info(artistId.toString());
+		        
 		        // 응답 헤더에 AccessToken과 RefreshToken 실어서 응답
 		        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 

@@ -97,16 +97,16 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			user.updateRefreshToken(refreshToken);
 			usersJpaRepository.save(user);
 
-			UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(),
-					user.getImg_url());
+//			UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(),
+//					user.getImg_url());
 
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.registerModule(new JavaTimeModule());
 			String userInfoJson;
 			try {
-				userInfoJson = mapper.writeValueAsString(userInfo);
+//				userInfoJson = mapper.writeValueAsString(userInfo);
 				response.setContentType("application/json;charset=UTF-8");
-				response.getWriter().write(userInfoJson);
+//				response.getWriter().write(userInfoJson);
 			} catch (Exception e) {
 				log.info("error");
 				e.printStackTrace();

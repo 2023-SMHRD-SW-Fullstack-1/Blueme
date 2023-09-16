@@ -2,19 +2,21 @@ package com.blueme.backend.controller;
 
 import java.util.List;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blueme.backend.dto.usersdto.UserProfileDto;
 import com.blueme.backend.dto.usersdto.UsersDeleteDto;
 import com.blueme.backend.dto.usersdto.UsersRegisterDto;
 import com.blueme.backend.dto.usersdto.UsersUpdateDto;
@@ -38,15 +40,8 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin("http://172.30.1.13:3000")
 public class UsersController {
 	
-	private final JwtService jwtService;
-	
 	@Autowired
 	private UsersService usersService;
-	
-	@Autowired
-	private UsersJpaRepository usersJpaRepository;
-	
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	/**
 	 *  post 유저 등록 ( 이메일 중복시 -1 반환 )
@@ -99,4 +94,32 @@ public class UsersController {
 		log.info("User update completed with ID {}", userId);
 		return userId;
 	}
+	
+	
+	/**
+	 *  get 마이페이지 정보
+	 */
+	@GetMapping("/Mypage/{userId}")
+	public ResponseEntity<List<UserProfileDto>> myProfile(@PathVariable String userId) {
+		 List<UserProfileDto> users = usersService.myprofile(userId);
+
+		    if (users.isEmpty()) {
+		        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		    } else {
+		        return new ResponseEntity<>(users, HttpStatus.OK);
+		    }
+//		log.info("mypage start");
+//		List<UserProfileDto> users = usersService.myprofile(userId);
+//		if (users.isEmpty()) {
+//		    // handle no result
+//		} else {
+//		    UserProfileDto user = users.get(0);
+//		    // handle the first result
+//		}
+		
+//		return new ResponseEntity<UserProfileDto>(user,HttpStatus.OK);
+		
+	}
+
+	
 }
