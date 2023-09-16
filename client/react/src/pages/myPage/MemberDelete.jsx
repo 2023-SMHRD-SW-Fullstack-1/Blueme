@@ -13,6 +13,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { userDelete } from "../../store/member/memberAction";
 
 const MemberDelete = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -22,6 +24,7 @@ const MemberDelete = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
 
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const id = localStorage.getItem("id");
 
@@ -51,7 +54,8 @@ const MemberDelete = () => {
     await axios
       .delete("http://172.30.1.45:8104/user/deactivate", requestData)
       .then((res) => {
-        // localStorage.clear()
+        localStorage.clear()
+        dispatch(userDelete())
         alert("회원 탈퇴가 성공적으로 완료되었습니다.");
         navigate("/");
         console.log(res.data);

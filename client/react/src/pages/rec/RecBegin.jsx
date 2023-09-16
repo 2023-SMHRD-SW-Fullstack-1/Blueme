@@ -1,8 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import - 이미지
 import watch from '../../assets/img/recPages/pinkwatch.svg'
 import gpt from '../../assets/img/recPages/gpt.svg'
+import '../../App.css'
+import { useSelector } from 'react-redux';
 
 /*
 작성자: 이유영
@@ -11,6 +13,26 @@ import gpt from '../../assets/img/recPages/gpt.svg'
 */
 
 const RecBegin = () => {
+  const navigate = useNavigate()
+  const user = useSelector(state => state.memberReducer.user)
+  const email = user.email
+  console.log('header',user);
+
+  //3초 로딩 함수
+  const timeout = () => {
+    setTimeout(() => {
+      navigate("/Login");
+    }, 3000);// 원하는 시간 ms단위로 적어주기
+  };
+
+  const recBegin = () => {
+    if(email === null) {
+      document.getElementById('toast-warning').classList.add("reveal")
+      timeout()
+    }else {
+      navigate('/LoadData')
+    } 
+  }
 
   return (
     // 추천 페이지 소개
@@ -24,10 +46,24 @@ const RecBegin = () => {
         <img src={watch} className='m-3 w-[70px] h-[70px] ' />
         <img src={gpt} className='m-3 w-[70px] h-[70px]' />
       </div>
+     
 
     {/* 시작하기 버튼  */}
-      <Link to='/LoadData' className='border border-soild border-#FDFDFD rounded-xl p-3 tracking-tighter leading-[1.45] '><button>시작하기</button></Link>
+      <button className='border border-soild border-#FDFDFD rounded-xl p-3 tracking-tighter leading-[1.45]'
+              onClick={recBegin}>시작하기</button>
+    
+     {/* 토스트 창 띄우기 */}
+     <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+    <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+        <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+        </svg>
+        <span className="sr-only">Warning icon</span>
     </div>
+    <div className="ml-3 font-normal">로그인 후 이용해주세요.</div>
+    </div>
+    
+</div>
     
   );
 };

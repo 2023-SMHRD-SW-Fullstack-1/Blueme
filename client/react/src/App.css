@@ -1,0 +1,7 @@
+#toast-warning {
+    display: none;
+  }
+  
+  #toast-warning.reveal {
+    display: block;
+  }

@@ -11,41 +11,48 @@ import "swiper/css";
 import { useLocation } from "react-router-dom";
 import Login from "../Login";
 import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../../store/member/memberAction";
 
 
 const MyPage = () => {
   const [singers, setSingers] = useState([]);
   const [genre, setGenre] = useState([])
-  const [selectGenre1, setSelectGenre1] = useState ([]);
-  const [selectGenre2, setSelectGenre2] = useState ([]);
+  const [artist, setArtist] = useState([])
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedGenres, setSelectedGenres] = useState ([]); // 추가: 선택한 장르를 저장할 상태
   const selectedArtistsFromRecommendation =location.state?.selectedArtists || [];
   const genre1 = localStorage.getItem('selectGenre1')
   const genre2 = localStorage.getItem('selectGenre2')
-  const id = localStorage.getItem('id')
+  const user = useSelector(state => state.memberReducer.user)
+  const id = user.id
+  // console.log('header',user);
+  const dispatch = useDispatch()
 
 
-  // useEffect(() => {
-  //     axios.get("http://172.30.1.45:8104/Mypage")
-  //     .then((res) => {
-  //       console.log(res);
-  //       setGenre(res.data)
-  //       // 로컬 스토리지에서 선택한 장르 불러오기
-  //       for (let i = 0; i< genre.length; i++) {
-  //           if(genre1 == i) {
-  //             console.log(i);
-  //             setSelectGenre1(genre[i]); 
-  //           }else if(genre2 == i) {
-  //             setSelectGenre2(genre[i])
-  //           }
-  //       }
 
-          
-  //     })
-  //     .catch((err) => console.log(err))
-  // }, [])
+  useEffect(() => {
+      axios
+      .get(`http://172.30.1.45:8104/user/Mypage/${id}`)
+      .then((res) => {
+        console.log(res);
+        setGenre(res.data[0].genres)
+        console.log('genre',genre);
+        setArtist(res.data[0].artists)
+        console.log('artist', artist);
+          // 로컬 스토리지에서 선택한 장르 불러오기
+          // for (let i = 0; i< genre.length; i++) {
+          //     if(genre1 == i) {
+          //       console.log(i);
+          //       setSelectGenre1(genre[i]); 
+          //     }else if(genre2 == i) {
+          //       setSelectGenre2(genre[i])
+          //     }
+          // }      
+      })
+      .catch((err) => console.log(err))
+  }, [])
   // console.log("11",selectGenre1, selectGenre2);
   // console.log("22",selectedGenres);
 
@@ -61,6 +68,7 @@ const MyPage = () => {
   //로그아웃 => 토큰 전체 삭제
   const handleLogout = (accessToken) => {
     localStorage.clear()
+    dispatch(logoutSuccess());
     navigate('/')
   }
 
@@ -72,11 +80,11 @@ const MyPage = () => {
     <div className="flex justify-between items-center mt-20">
       <div className="flex items-center boar">
         <img
-          src={user}
+          src={user.img}
           alt=""
           className="w-[70px] h-[70px] mb-3 mt-2 rounded-lg"
         />
-        <span className="pt-1 ml-3 text-[20px] ">{localStorage.getItem('email')}</span>
+        <span className="pt-1 ml-3 text-[20px] ">{user.email}</span>
       </div>
       <div className="mt-3 ">
         <Link to="/MemberInfoChange">
@@ -91,12 +99,12 @@ const MyPage = () => {
     <div className="text-2xl mt-6">내 정보</div>
     <div className="mt-2 sm:mt-2 md:mt-2">
       <p className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-[386px] mt-3 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
-      {localStorage.getItem('email')}
+      {user.email}
       </p>
     </div>
     <div className="mt-2 sm:mt-2 md:mt-2 ">
     <p className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-[386px] mt-3 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
-      {localStorage.getItem('nickname')}</p>
+      {user.nickname}</p>
 
       {/* 선호하는 음악 장르  */}
       <div className="mt-10 ">

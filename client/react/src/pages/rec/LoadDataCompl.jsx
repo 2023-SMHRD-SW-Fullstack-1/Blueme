@@ -6,13 +6,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import { useSelector } from "react-redux";
 
 
 const LoadDataCompl = () => {
   const [heartRate, setHeartRate] = useState('')
   const [step, setStep] = useState('')
   const [speed, setSpeed] = useState('')
-  let id = localStorage.getItem('id')
+  const user = useSelector(state => state.memberReducer.user)
+  const email = user.email
+  const id = user.id
+  console.log('header',user);
+
 
   // 오늘 날짜&시간
   const now = new Date();
