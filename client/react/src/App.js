@@ -40,6 +40,7 @@ import SavedPlaylistDetail from "./components/Library/SavedPlaylistDetail";
 import RecAppDes from "./pages/rec/RecAppDes";
 import PlaylistRename from "./pages/rec/PlaylistRename";
 import { useSelector } from "react-redux";
+import WholeRecPlayList from './pages/rec/WholeRecPlayList'
 //유영 끝
 
 // 지희 import 시작
@@ -62,7 +63,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className="app flex flex-col min-h-screen">
+      <div className="app flex flex-col min-h-screen bg-gray-900 ">
         <Header />
         <Routes className="flex-grow">
           <Route path="/" element={<Main />} />
@@ -92,7 +93,7 @@ const App = () => {
           <Route path="/PlaylistRename" element={<PlaylistRename />} />
           <Route path="/RecPlayList" element={<RecPlayList />} />
           <Route path="/MyPage" element={<MyPage />} />
-
+          {/* <Route path="/WholeRecPlayList" element={<WholeRecPlayList />} /> */}
           {/* 유영 끝 */}
           <Route path="/RecBegin" element={<RecBegin />} />
           <Route path="/LoadData" element={<LoadData />} />

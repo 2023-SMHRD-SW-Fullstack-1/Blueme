@@ -19,11 +19,18 @@ const SelectArtist = () => {
   const id = localStorage.getItem('id')
 
 
+    //3초 로딩 함수
+   const timeout = () => {
+    setTimeout(() => {
+      document.getElementById('toast-warning').classList.remove("reveal")//3초 후 토스트창 닫기
+    }, 3000);// 원하는 시간 ms단위로 적어주기
+    };
+
     //아티스트 한 개 선택 시 마다 호출됨
     const handleOnClick = (artistId) => {
-        if(checkedState.includes(artistId)) {
+        if(checkedState.includes(artistId)) {//같은 아티스트 id고르면 아닌 것만 추가
             setCheckedState((prev) => prev.filter((itemId) => itemId !== artistId));
-        } else if(checkedState.length < 2) {
+        } else if(checkedState.length < 2) {//2개 이하로 고른 경우 추가
             setCheckedState((prev) => [...prev, artistId]);
         } else {
             // 체크 상태가 이미 두 개인 경우 가장 오래된 체크 상태를 제거하고 새로운 것을 추가
@@ -46,15 +53,22 @@ const SelectArtist = () => {
 
     //회원가입 시 아티스트 선택(2개)
     const handleSelect = () => {
-        if(checkedState.length === 2) {//아티스트 2명 선택 시 
-          localStorage.setItem('selectArtist1', checkedState[0])
-          localStorage.setItem('selectArtist2', checkedState[1])
-          const requestData = {artistIds : checkedState ,favChecklistId : id}
 
-          axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)
-          .then((res) => {
+        if(checkedState.length === 2) {//아티스트 2명 선택 시 
+          localStorage.setItem('artists', JSON.stringify(checkedState)) 
+          const artists = localStorage.getItem('artists')
+          const artistIds = JSON.parse(artists)
+          console.log(typeof(artistIds));
+
+          const requestData = {artistIds : checkedState ,favChecklistId : id}
+          axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)//아티스트 저장 성공 여부
+          .then((res) => {//성공 실패 시 반환값 -1
               if(res.data > 0) {
-                navigate('/JoinComplete')
+                if(localStorage.getItem('email') === null) {//회원가입 시
+                  navigate('/JoinComplete')
+                }else {//수정 시
+                  navigate('/MyPage')
+                }
               }else if(res.data == -1) {
                 alert('저장되지 않았습니다. 다시 선택해주세요.')
                 navigate('./Artistrecommend')
@@ -63,44 +77,41 @@ const SelectArtist = () => {
           }).catch((err) => console.log(err))
 
       } else {//2명 이하 선택 시
-          alert('선호하는 아티스트 2명을 선택해주세요.')
-          navigate('/Artistrecommend')
+        document.getElementById('toast-warning').classList.add("reveal")//토스트 창 띄우기
+        timeout()
+        navigate('/Artistrecommend')
       }
     };
 
 
-    //아티스트 수정
-    const handleUpdate = () => {
-      if(checkedState.length === 2) {
-        localStorage.setItem('selectArtist1', checkedState[0])
-        localStorage.setItem('selectArtist2', checkedState[1])
-        // localStorage.setItem('selectGenre', JSON.stringify(checkedState));
-        const requestData = {artistIds : checkedState ,favChecklistId : id}
-        console.log(requestData);
-        axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)
-        .then((res) => {
-            if(res.data > 0) {
-              navigate('/MyPage')
-            }else if(res.data == -1) {
-              alert('저장되지 않았습니다. 다시 선택해주세요.')
-              navigate('./Artistrecommend')
-            }   
-            console.log(res)
-        }).catch((err) => console.log(err))
-      } else {
-          alert('선호하는 아티스트 2명을 선택해주세요.')
-          navigate('/Artistrecommend')
-      }
-    };
+    // //아티스트 수정
+    // const handleUpdate = () => {
+    //   if(checkedState.length === 2) {
+    //     localStorage.setItem('selectArtist1', checkedState[0])
+    //     localStorage.setItem('selectArtist2', checkedState[1])
+    //     // localStorage.setItem('selectGenre', JSON.stringify(checkedState));
+    //     const requestData = {artistIds : checkedState ,favChecklistId : id}
+    //     console.log(requestData);
+    //     axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)
+    //     .then((res) => {
+    //         if(res.data > 0) {
+    //           navigate('/MyPage')
+    //         }else if(res.data == -1) {
+    //           alert('저장되지 않았습니다. 다시 선택해주세요.')
+    //           navigate('./Artistrecommend')
+    //         }   
+    //         console.log(res)
+    //     }).catch((err) => console.log(err))
+    //   } else {
+    //       alert('선호하는 아티스트 2명을 선택해주세요.')
+    //       navigate('/Artistrecommend')
+    //   }
+    // };
     
     
     //아티스트 검색 => 검색 후 입력값 지우면 전체 리스트 보여지도록
-    const handleArtist = async () => { 
-      const filterArtist = artist.filter((artist) => {
-        return artist.artistName.includes(artistInput)
-      })
-      // console.log('안',filterArtist);
-      if(artistInput == '') {
+    const handleArtist = async () => {
+      if(artistInput === '') {
         axios.get("http://172.30.1.45:8104/Artistrecommend")
         .then((res) => {
             console.log(res);
@@ -211,7 +222,7 @@ const SelectArtist = () => {
     >
       선택하기
     </button> : <button
-          onClick={handleUpdate}
+          onClick={handleSelect}
           className="
             mt-5
             w-full
@@ -225,6 +236,14 @@ const SelectArtist = () => {
           수정하기
         </button>}
      <div/>
+
+
+    {/* 토스트 창 띄우기 */}
+    <div className="flex justify-center items-center">
+        <div id="toast-warning" className="flex border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+           <div className="ml-3 font-normal text-center">아티스트 2명을 선택해주세요.</div>
+        </div>
+    </div>
     </div>
   );
 };

@@ -1,6 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import user from "../../assets/img/user.png";
+import { useSelector } from "react-redux";
+
+
 
 /*
 작성자: 이유영
@@ -9,9 +12,10 @@ import user from "../../assets/img/user.png";
 */
 function Header() {
   const navigator = useNavigate();
+  const isLogin = useSelector(state => state.memberReducer.isLogin)
 
   const handleNav = () => {
-    if (localStorage.getItem("accessToken") === null) {
+    if (isLogin === false) {
       navigator("/Login");
     } else {
       navigator("/MyPage");

@@ -16,13 +16,20 @@ const SelectGenre = () => {
   const [genres, setGenres] = useState([])//페이징 관련
   const id = localStorage.getItem('id')
 
+   //3초 로딩 함수
+   const timeout = () => {
+    setTimeout(() => {
+      document.getElementById('toast-warning').classList.remove("reveal")
+    }, 3000);// 원하는 시간 ms단위로 적어주기
+    };
+
     //장르 한 개 선택 시
     const handleOnClick = (id) => {
       const genreId = genre[id].genreId
       // console.log(genreId)
-      if(checkedState.includes(genreId)) {
+      if(checkedState.includes(genreId)) {//같은 장르 id고르면 아닌 것만 추가
         setCheckedState((prev) => prev.filter((itemId) => itemId !== genreId));
-      } else if(checkedState.length < 2) {
+      } else if(checkedState.length < 2) { //2개 이하로 고른 경우 추가
         setCheckedState((prev) => [...prev, genreId]);
       } else {
         // 체크 상태가 이미 두 개인 경우 가장 오래된 체크 상태를 제거하고 새로운 것을 추가
@@ -32,7 +39,8 @@ const SelectGenre = () => {
     
     //화면 로딩 시 장르 데이터 불러오기
     useEffect(() => {
-      axios.get("http://172.30.1.45:8104/SelectGenre")
+      axios
+      .get("http://172.30.1.45:8104/SelectGenre") 
       .then((res) => {
         console.log(res);
         setGenre(res.data)
@@ -41,17 +49,18 @@ const SelectGenre = () => {
     }, [])
       console.log(checkedState);
 
-    //회원가입 시 장르 선택(2개)
+    //회원가입 시 장르 선택(2개) / 수정 시 장르 선택(2개)
     const handleSelect = () => {
           if(checkedState.length === 2) {
-              // const selectedGenres = genre.filter((id) => checkedState);
-              localStorage.setItem('selectGenre1', checkedState[0])
-              localStorage.setItem('selectGenre2', checkedState[1])
-              // localStorage.setItem('selectGenre', JSON.stringify(checkedState));
-              const requestData = {genreIds : checkedState ,favChecklistId:id}
+            localStorage.setItem('genres', JSON.stringify(checkedState)) 
+            const genres = localStorage.getItem('genres')
+            const genreIds = JSON.parse(genres)
+            console.log(typeof(genreIds));
+              const requestData = {genreIds : checkedState ,favChecklistId : id}
               console.log(requestData);
-              axios.post("http://172.30.1.45:8104/SaveFavGenre",requestData)
-              .then((res) => {
+              axios
+              .post("http://172.30.1.45:8104/SaveFavGenre",requestData)//선택한 장르 저장 성공 여부
+              .then((res) => {//저장 실패일 경우 반환값 -1
                 if(res.data >0) {
                   navigate('/Artistrecommend')
                 }else if(res.data == -1) {
@@ -59,19 +68,17 @@ const SelectGenre = () => {
                   navigate('./SelectGenre')
                 }   
                 console.log(res)
-              }).catch((err) => console.log(err))
+              })
+              .catch((err) => console.log(err))
               console.log(checkedState);
         } else{
-            alert('선호하는 장르 2개를 선택해주세요.')
+            document.getElementById('toast-warning').classList.add("reveal")
+            timeout()
             navigate('/SelectGenre')
         }
     };
 
-  //장르 수정
-  const handleUpdate = () => {
-    localStorage.setItem('selectGenre1', checkedState[0])
-    localStorage.setItem('selectGenre2', checkedState[1])
-  };
+  
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tight h-auto text-custom-white p-3">
@@ -113,7 +120,7 @@ const SelectGenre = () => {
     >
       선택하기
     </button> : <button
-          onClick={handleUpdate}
+          onClick={handleSelect}
           className="
             mt-2
             w-full
@@ -126,6 +133,13 @@ const SelectGenre = () => {
         >
           수정하기
         </button>}
+
+        {/* 토스트 창 띄우기 */}
+        <div className="flex justify-center items-center">
+          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">장르를 2개를 선택해주세요.</div>
+          </div>
+        </div>
      
     </div>
   );

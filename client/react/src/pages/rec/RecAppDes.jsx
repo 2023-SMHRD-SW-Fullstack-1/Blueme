@@ -14,26 +14,41 @@ import watchHeartRate from "../../assets/img/watchheartrate.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import '../../App.css'
+import { useSelector } from "react-redux";
 
 const RecAppDes = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false); //모달 열림 여부
-  const id = localStorage.getItem("id");
-  // const [id, setId] = useState('0');
-  const navigate = useNavigate();
+
+  const [modalIsOpen, setModalIsOpen] = useState(false) //모달 열림 여부
+  const user = useSelector(state => state.memberReducer.user)
+  const id = user.id
+  console.log('header',user);
+  const navigate = useNavigate()
 
   //모달창 열리면 true로 바꿔주는 함수
   const handleTransport = () => {
     setModalIsOpen(true);
   };
+
+  //3초 로딩 함수
+  const timeout = () => {
+    setTimeout(() => {
+      document.getElementById('toast-warning').classList.remove("reveal")
+    }, 3000);// 원하는 시간 ms단위로 적어주기
+  };
+
+ 
   //데이터 전송 여부 판단하는 함수
   const isTransformData = () => {
     axios
-      .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)
+      .get(`http://172.30.1.27:8104/healthinfo/get/${id}`)//건강데이터 불러오기
       .then((res) => {
-        if (res.data > 0) {
+        console.log(res);
+        if (res.data !== "") { //건강데이터가 있다면 건강데이터 보여주는 화면으로 이동
           navigate("/LoadDataCompl");
-        } else if (res.data < 0) {
-          alert("데이터를 전송해주세요!");
+        } else {//없다면 Toast창 띄우기
+          document.getElementById('toast-warning').classList.add("reveal")
+          timeout()
           setModalIsOpen(false);
         }
       })
@@ -41,48 +56,56 @@ const RecAppDes = () => {
   };
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full ">
-      <br />
-      <br />
-      <br />
-      {/* 갤럭시 워치에 대한 앱 설명 */}
-      <div className="mt-3 text-left flex justify-center items-center">
+    <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full '>
+        <br/><br/><br/>
+        {/* 갤럭시 워치에 대한 앱 설명 */}
+        <div className='mt-8'>
+          <ul>
+            <li className='text-left indent-1 text-xl font-semibold tracking-tight'>• 갤럭시 워치의 경우</li>
+            <ol className='text-left indent-3 tracking-tight mt-3 leading-loose'>
+                <li>1. 갤럭시 워치에서 구글 스토어를 실행합니다.</li>
+                <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
+                <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
+                <li>4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
+            </ol>
+          </ul>
+        </div>
+
+        {/* 위치 이미지  */}
+        <div className='flex flex-row py-5'>
+          <img src={watchLogin} className=' w-[190px] h-[230px] ' />
+          <img src={watchHeartRate} className='w-[190px] h-[220px]' />
+        </div>
+        
+        {/* 샤오미 워치에 대한 앱 설명 */}
+        <div className='mt-5'>
         <ul>
-          <li className="text-left indent-1 text-xl font-semibold tracking-tight">• 갤럭시 워치의 경우</li>
-          <ol className="text-left indent-3 tracking-tighter mt-3 leading-loose">
-            <li>1. 갤럭시 워치에서 구글 스토어를 실행합니다.</li>
-            <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
-            <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
-            <li>4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
-          </ol>
-        </ul>
-      </div>
+            <li className='text-left indent-1 text-xl font-semibold tracking-tight'>• 샤오미 미워치의 경우</li>
+            <ol className='text-left indent-3 tracking-tight mt-3 leading-loose'>
+                <li>1. 미워치에서 샤오미웨어를 실행합니다.</li>
+                <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
+                <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
+                <li>4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
+            </ol>
+          </ul>     
+        </div>
 
-      {/* 위치 이미지  */}
-      <Swiper slidesPerView={2} className="mt-10">
-        <SwiperSlide className="flex justify-end items-center">
-          <img src={watchLogin} alt="워치 이미지" className="object-cover w-[200px] h-[230px]" />
-        </SwiperSlide>
-        <SwiperSlide className="flex justify-start items-center">
-          <img src={watchHeartRate} alt="워치 이미지" className="object-cover w-[180px] h-[225px]" />
-        </SwiperSlide>
-      </Swiper>
-
-      {/* 샤오미 워치에 대한 앱 설명 */}
-      <div className="mt-3 flex justify-center items-center">
-        <ul>
-          <li className="text-left indent-1 text-xl font-semibold tracking-tight">• 샤오미 미워치의 경우</li>
-          <ol className="text-left indent-3 tracking-tight mt-3 leading-loose">
-            <li>1. 미워치에서 샤오미웨어를 실행합니다.</li>
-            <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
-            <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
-            <li>4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
-          </ol>
-        </ul>
-      </div>
-      <div className="text-right p-3 mt-5">
-        <button onClick={handleTransport}>SKIP</button>
-
+        {/* 토스트 창 띄우기 */}
+        <div className="flex justify-center items-center">
+        <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+          {/* <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+              <svg className="w-5 h-5 item-center text-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+              </svg>
+              <span className="sr-only item-center">Warning icon</span>
+          </div> */}
+          <div className="ml-3 font-normal text-center">데이터를 전송해주세요.</div>
+          </div>
+          </div>
+        <div className='text-right p-3 mt-5'>
+          <button onClick={handleTransport}>SKIP</button>
+         
+        
         {/* 데이터 전송 여부 판단하는 모달창 => Skip 클릭 시 열림 */}
         <div
           id="popup-modal"
@@ -156,6 +179,7 @@ const RecAppDes = () => {
           </div>
         </div>
       </div>
+     
     </div>
   );
 };

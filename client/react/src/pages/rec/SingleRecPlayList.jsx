@@ -6,10 +6,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Heart from "../../components/Library/Heart";
+import { useSelector } from "react-redux";
 
 const SingleMusic = ({ item }) => {
   // console.log('recSingle',item);
-  const id = localStorage.getItem('id')
+  const user = useSelector(state => state.memberReducer.user)
+  const id = user.id
+  console.log('header',user);
 
 
   

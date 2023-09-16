@@ -15,6 +15,7 @@ import { Model } from "../Model";
 import { OrbitControls } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 //Three.js
 const DirectionalLightWithCamera = () => {
@@ -46,13 +47,15 @@ const DirectionalLightWithCamera = () => {
 const LoadGpt = () => {
   const navigate = useNavigate();
 
-  const nickname = localStorage.getItem('nickname')
+  const user = useSelector(state => state.memberReducer.user)
+  const nickname = user.nickname
+  console.log('header',user);
 
-  //5초 로딩 
+  //6초 로딩 
   const timeout = () => {
     setTimeout(() => {
       navigate("/RecPlayList");
-    }, 5000);
+    }, 6000);
   };
 
   useEffect(() => {

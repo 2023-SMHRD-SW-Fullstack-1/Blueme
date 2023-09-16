@@ -9,18 +9,18 @@ import 'swiper/css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import SingleRecPlayList from './SingleRecPlayList'
+import { useSelector } from 'react-redux';
 
 
 
 
 const RecPlayList = () => {
-    const id = localStorage.getItem('id')//userId
+    const user = useSelector(state => state.memberReducer.user)
+    const id = user.id
+    console.log('header',user);
     const [musiclist, setMusiclist] = useState({recMusiclistDetails: []}); //추천 받은 리스트
     const [recMusicIds, setRecMusicIds] = useState([])
     const navigate = useNavigate()
-    const recMusicId = {
-        musicId : []
-    }
 
     useEffect(()=> {
         const recPlayList = async () => {
@@ -38,12 +38,10 @@ const RecPlayList = () => {
     const SavedPlayList = () => {
             for(let i = 0; i < musiclist.recMusiclistDetails.length; i++) {
                 recMusicIds.push(musiclist.recMusiclistDetails[i].musicId)
-            }
-            // localStorage에 각각의 아이템을 별도의 키-값 쌍으로 저장
-            
-            // const SmusicId = JSON.stringify(recMusicId)
+            }       
             localStorage.setItem('recMusicIds', JSON.stringify(recMusicIds))
-            console.log(recMusicIds);
+            localStorage.setItem('recMusicTitle', musiclist.title)
+            // console.log(recMusicIds);
             navigate('/PlayListRename')
     }
 
@@ -52,7 +50,7 @@ const RecPlayList = () => {
         // 추천 받은 음악 리스트
         <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-[1750px] text-custom-white p-3 '>
             <br/><br/>
-            <h1 className='text-center text-xl mt-[10px] font-semibold tracking-tight p-7 overflow-scroll h-[120px] mb-10'>
+            <h1 className='text-center text-xl mt-[20px] font-semibold tracking-tight p-7 overflow-scroll h-[95px] mb-10'>
                 {musiclist.reason}</h1>  
 
         {/* 전체 재생/ 전체 저장 버튼 */}

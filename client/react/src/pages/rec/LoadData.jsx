@@ -15,6 +15,7 @@ import { Watch } from "../Watch";
 import { OrbitControls } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 
 //Three.js
@@ -46,8 +47,9 @@ const DirectionalLightWithCamera = () => {
 
 const LoadData = () => {
   const navigate = useNavigate();
-
-  const nickname = localStorage.getItem('nickname')
+  const user = useSelector(state => state.memberReducer.user)
+  const nickname = user.nickname
+  console.log('header',user);
 
   //3초 로딩
   const timeout = () => {

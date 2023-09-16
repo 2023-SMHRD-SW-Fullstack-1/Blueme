@@ -1,7 +1,7 @@
 /*
 작성자: 이유영
 날짜(수정포함): 2023-09-11
-설명: 로그인 구현
+설명: 로그인 구현, 회원 리덕스
 */
 /*
 작성자: 신지훈
@@ -14,6 +14,8 @@ import axios from "axios";
 import logo2 from "../assets/img/logo2.png";
 import kakao from "../assets/img/kakao.png";
 import google from "../assets/img/google.png";
+import {loginRequest, loginSuccess, loginFailure} from '../store/member/memberAction'
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -24,34 +26,62 @@ const Login = () => {
   const [token, setToken] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
-  //로그인
-  const handleLogin = async (e) => {
+ const handleLogin = async(e) => {
     e.preventDefault();
-
+    dispatch(loginRequest());
     const requestData = {
-      email: email,
-      password: password,
-    };
-
-    await axios
+          email: email,
+          password: password,
+        };
+        console.log(requestData);
+      await axios
       .post("http://172.30.1.45:8104/login", requestData)
       .then((res) => {
+        console.log(res);
         let accessToken = res.headers.get("Authorization");
         let refreshToken = res.headers["authorization-refresh"];
-        let email = res.data.email;
-        let nickname = res.data.nickname;
-        let id = res.data.id;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("email", email);
-        localStorage.setItem("nickname", nickname);
-        localStorage.setItem("id", id);
-        console.log(res);
-        navigate("/");
+         setIsLoggendIn(true)
+         dispatch(loginSuccess(res.data))
+         navigate("/");
+        })
+      .catch(err => {
+        console.log(err)
+        dispatch(loginFailure(err.message))
       })
-      .catch((e) => console.log(e));
   };
+// console.log(loginSuccess);
+
+  //로그인
+  // const handleLogin = async (e) => {
+    
+
+  //   const requestData = {
+  //     email: email,
+  //     password: password,
+  //   };
+
+  //   await axios
+  //     .post("http://172.30.1.45:8104/login", requestData)
+  //     .then((res) => {
+  //       let accessToken = res.headers.get("Authorization");
+  //       let refreshToken = res.headers["authorization-refresh"];
+  //       let email = res.data.email;
+  //       let nickname = res.data.nickname;
+  //       let id = res.data.id;
+  //       localStorage.setItem("accessToken", accessToken);
+  //       localStorage.setItem("refreshToken", refreshToken);
+  //       localStorage.setItem("email", email);
+  //       localStorage.setItem("nickname", nickname);
+  //       localStorage.setItem("id", id);
+  //       console.log(res);
+  //       navigate("/");
+  //     })
+  //     .catch((e) => console.log(e));
+  // };
 
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16">
@@ -81,17 +111,16 @@ const Login = () => {
 
           <button
             onClick={handleLogin}
-            className="
-              mt-10
-              h-11
-              px-3 relative 
-              bg-[#221a38]  
-              rounded-lg border border-soild border-[#fdfdfd]
-              text-custom-white
-              tracking-tight
-              font-bold
-              md:w-full w-full"
-          >
+              className="
+             mt-10
+             h-11
+             px-3 relative 
+             bg-[#221a38]  
+             rounded-lg border border-soild border-[#fdfdfd]
+             text-custom-white
+             tracking-tighter
+             font-bold
+             md:w-full w-full">
             로그인
           </button>
 

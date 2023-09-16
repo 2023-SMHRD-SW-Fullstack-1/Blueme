@@ -13,10 +13,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import user from "../../assets/img/defalut.png";
+import { useDispatch, useSelector } from "react-redux";
+import { userUpdate } from "../../store/member/memberAction";
 
 function MemberInfoChange() {
   const navigate = useNavigate();
-  const id = localStorage.getItem("id");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +26,10 @@ function MemberInfoChange() {
   const [imgFile, setImgFile] = useState("");
   const imgRef = useRef();
   const previewRef = useRef();
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.memberReducer.user)
+  const id = user.id
+  console.log('header',user);
 
   // 선택된 이미지 파일을 저장하는 함수
   const saveImgFile = () => {
@@ -44,16 +49,15 @@ function MemberInfoChange() {
 
   //회원정보 수정
   const handleUpdate = async (e) => {
-    let storageEmail = localStorage.getItem("email");
+    // let storageEmail = localStorage.getItem("email");
     e.preventDefault();
-    const requestData = { id: id, email: storageEmail, password: password, nickname: nickname };
-
+    const requestData = { id: id, email: user.email, password: password, nickname: nickname, img_url : user.img_url };
+    console.log(requestData);
     await axios
       .patch(`http://172.30.1.45:8104/user/update`, requestData)
       .then((res) => {
         console.log(requestData);
-        localStorage.removeItem("nickname");
-        localStorage.setItem("nickname", nickname);
+        dispatch(userUpdate(requestData))
         localStorage.setItem("password", password);
         alert("수정완료");
         navigate("/MyPage");
@@ -93,20 +97,16 @@ function MemberInfoChange() {
             ref={imgRef}
             name="b_file"
           />
-          <span className="text-xl mt-3">{localStorage.getItem("nickname")}</span>
+          <span className="text-xl mt-3">{user.email}</span>
         </div>
       </div>
       {/* 회원정보 수정하기 */}
       <div className="flex items-center justify-center  w-full p-4">
         <div className="w-full md:w-1/2 lg:w-1/4 ">
           <div className="text-2xl text-custom-white te mt-5 text-left w-full">회원 정보 수정</div>
-
-          <input
-            type="email"
-            onChange={() => {}}
-            className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-            value={localStorage.getItem("email")}
-          />
+          <div className="mt-2 sm:mt-2 md:mt-2 ">
+          <p className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
+          {user.email}</p></div>
           <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -124,7 +124,7 @@ function MemberInfoChange() {
             type="text"
             onChange={(e) => setNickname(e.target.value)}
             className="bg-gradient-to-t from-gray-900 tracking-tight h-[45px] text-base border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
-            placeholder="닉네임을 입력해주세요"
+            defaultValue={user.nickname}
           />
 
           <button
