@@ -43,11 +43,22 @@ public class SearchsService {
         .orElseThrow(() -> new UserNotFoundException(request.getParsedUserId()));
     Musics music = musicsJpaRepository.findById(request.getParsedMusicId())
         .orElseThrow(() -> new MusicNotFoundException(request.getParsedMusicId()));
+    Searchs search = searchsJpaRepository.findByUserIdAndMusicId(user.getId(), music.getId());
 
-    return searchsJpaRepository.save(Searchs.builder()
-        .user(user)
-        .music(music)
-        .build()).getId();
+    // 이미 최근검색한 목록에 있을경우 재등록, 없을경우 등록
+    if (search == null) {
+      return searchsJpaRepository.save(Searchs.builder()
+          .user(user)
+          .music(music)
+          .build()).getId();
+    } else {
+      searchsJpaRepository.delete(search);
+      return searchsJpaRepository.save(Searchs.builder()
+          .user(user)
+          .music(music)
+          .build()).getId();
+    }
+
   }
 
   /*

@@ -43,7 +43,7 @@ public class PlayedMusicsService {
   }
 
   /*
-   * 재생된 음악 등록
+   * 재생된 음악 등록 (이미있을경우 재등록, 없을경우 등록)
    */
   @Transactional
   public Long savePlayedMusic(PlayedMusicsSaveReqDto request) {
@@ -51,7 +51,13 @@ public class PlayedMusicsService {
         .orElseThrow(() -> new UserNotFoundException(request.getParsedUserId()));
     Musics music = musicsJpaRepository.findById(request.getParsedMusicId())
         .orElseThrow(() -> new MusicNotFoundException(request.getParsedMusicId()));
+    PlayedMusics playedMusics = playedMusicsJpaRepository.findByUserAndMusic(user, music);
+    if (playedMusics == null) {
+      return playedMusicsJpaRepository.save(PlayedMusics.builder().user(user).music(music).build()).getId();
+    } else {
+      playedMusicsJpaRepository.delete(playedMusics);
+      return playedMusicsJpaRepository.save(PlayedMusics.builder().user(user).music(music).build()).getId();
+    }
 
-    return playedMusicsJpaRepository.save(PlayedMusics.builder().user(user).music(music).build()).getId();
   }
 }

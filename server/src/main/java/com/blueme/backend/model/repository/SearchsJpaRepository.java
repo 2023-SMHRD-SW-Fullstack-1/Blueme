@@ -10,4 +10,5 @@ import com.blueme.backend.model.entity.Searchs;
 public interface SearchsJpaRepository extends JpaRepository<Searchs, Long> {
   List<Searchs> findByUserIdOrderByCreatedAtDesc(Long userId);
 
+  Searchs findByUserIdAndMusicId(Long userId, Long musicId);
 }

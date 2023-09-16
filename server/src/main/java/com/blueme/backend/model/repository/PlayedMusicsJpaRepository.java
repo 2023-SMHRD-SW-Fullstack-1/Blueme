@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.entity.PlayedMusics;
+import com.blueme.backend.model.entity.Users;
 
 public interface PlayedMusicsJpaRepository extends JpaRepository<PlayedMusics, Long> {
 
@@ -15,5 +16,7 @@ public interface PlayedMusicsJpaRepository extends JpaRepository<PlayedMusics, L
   // JPQL 사용
   @Query("SELECT DISTINCT pm.music FROM PlayedMusics pm WHERE pm.user.id = ?1 ORDER BY pm.createdAt DESC")
   List<Musics> findDistinctMusicByUserId(Long userId);
+
+  PlayedMusics findByUserAndMusic(Users user, Musics music);
 
 }
