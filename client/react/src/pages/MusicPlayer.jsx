@@ -1,6 +1,6 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-15
+날짜(수정포함): 2023-09-12
 설명: 음악 플레이어 - 리덕스 활용 추가
 */
 import { useEffect, useState, useRef } from "react";
@@ -26,11 +26,10 @@ import rotating from "../assets/img/musicPlayer/rotating.png";
 import {
   setCurrentSongId,
   setPlayingStatus,
-  setShowMiniPlayer
+  setShowMiniPlayer,
 } from "../store/music/musicActions";
 
 const MusicPlayer = ({ item }) => {
-
   // 임의 사용자 user_id
   const userId = 1;
 
@@ -63,24 +62,22 @@ const MusicPlayer = ({ item }) => {
   // console.log("musicplayer musicids:", musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
   const currentSongId = useSelector((state) => state.currentSongId);
-  
+  const playingStatus = useSelector((state) => state.playingStatus);
+
   // URL에서 음악 아이디 추출
   let params = useParams();
   let songId = params.id;
 
   // 풀스크린 설정
-  const showMiniPlayer = useSelector(state => state.showMiniPlayer);
+  const showMiniPlayer = useSelector((state) => state.showMiniPlayer);
 
   useEffect(() => {
-    
-    if(location.pathname.includes("/MusicPlayer")){
+    if (location.pathname.includes("/MusicPlayer")) {
       dispatch(setShowMiniPlayer(false));
     } else {
       dispatch(setShowMiniPlayer(true));
     }
   }, [location]);
-
-
 
   // 음악 정보 & 음원 불러오기
   useEffect(() => {
@@ -100,7 +97,6 @@ const MusicPlayer = ({ item }) => {
 
         // 새로운 사운드 로드 및 재생
         const newSound = new Howl({
-          
           src: [`/music/${songId}`],
           format: ["mpeg"],
           onload() {
@@ -116,7 +112,7 @@ const MusicPlayer = ({ item }) => {
               setCurrentTime(0);
               newSound.play();
             } else {
-              nextTrack();            
+              nextTrack();
             }
           },
           onplay() {
@@ -128,7 +124,6 @@ const MusicPlayer = ({ item }) => {
         });
 
         setSound(newSound);
-
       } catch (error) {
         console.error("음악 불러오기 실패", error);
       }
@@ -139,7 +134,7 @@ const MusicPlayer = ({ item }) => {
     return () => {
       if (sound) sound.unload();
     };
-  },  [songId, musicIds]);
+  }, [currentSongId, musicIds]);
 
   // 한곡반복 Ref
   useEffect(() => {
@@ -151,12 +146,10 @@ const MusicPlayer = ({ item }) => {
     // console.log('1. songid',songId);
     const index = musicIds.indexOf(Number(songId));
     // console.log('2. index:', index);
-    if (index !== currentSongIndex) {
     setCurrentSongIndex(index);
-    }
     setCurrentSongId(Number(songId));
     // console.log('3. currentsongid',currentSongId);
-  }, [musicIds, songId]);
+  }, [musicIds]);
 
   const prevTrack = () => {
     let prevIndex = currentSongIndex - 1;
@@ -167,7 +160,7 @@ const MusicPlayer = ({ item }) => {
 
     const prevSongId = musicIds[prevIndex];
 
-    // dispatch(setCurrentSongId(prevSongId));
+    dispatch(setCurrentSongId(prevSongId));
 
     navigate(`/MusicPlayer/${prevSongId}`);
   };
@@ -179,7 +172,7 @@ const MusicPlayer = ({ item }) => {
       nextIndex = 0;
     }
     const nextSongId = musicIds[nextIndex];
-    // dispatch(setCurrentSongId(nextSongId));
+    dispatch(setCurrentSongId(nextSongId));
 
     navigate(`/MusicPlayer/${nextSongId}`);
   };
@@ -223,7 +216,6 @@ const MusicPlayer = ({ item }) => {
     fetchLikeStatusAndRecent();
   }, [userId, songId]);
 
-
   // 좋아요버튼 누르기
   const toggleLike = async () => {
     try {
@@ -241,8 +233,11 @@ const MusicPlayer = ({ item }) => {
   const changeCurrentTime = (e) => {
     let newCurrentTime = e.target.value;
     setCurrentTime(newCurrentTime);
-    if (!isDragging && sound) {
+    if (sound) {
       sound.seek(newCurrentTime);
+      if (!isDragging) {
+        sound.play();
+      }
     }
   };
 
@@ -282,14 +277,11 @@ const MusicPlayer = ({ item }) => {
     return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
- 
-
-
   return (
-    <div className={showMiniPlayer ? 'mini-player' : 'full-screen-player'}>
+    <div className={showMiniPlayer ? "mini-player" : "full-screen-player"}>
       <p className="py-[10px]">{musicInfo.album}</p>
       <div className=" w-[300px]">
-      <img
+        <img
           src={"data:image/;base64," + musicInfo.img}
           className="h-auto rounded-lg"
         />
@@ -314,27 +306,57 @@ const MusicPlayer = ({ item }) => {
           onTouchEnd={handleDragEnd}
           className="w-full h-2 opacity-0 absolute appearance-none cursor-pointer"
         />
-        <div className= { showMiniPlayer ? "hidden" :"flex justify-between text-custom-gray mt-4"}>
+        <div
+          className={
+            showMiniPlayer
+              ? "hidden"
+              : "flex justify-between text-custom-gray mt-4"
+          }
+        >
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
 
-      <div className={ showMiniPlayer ? "flex items-center gap-5 ml-auto" :"flex flex-row justify-center items-center gap-10 mt-20"}>
+      <div
+        className={
+          showMiniPlayer
+            ? "flex items-center gap-5 ml-auto"
+            : "flex flex-row justify-center items-center gap-10 mt-20"
+        }
+      >
         <img
-          className={ showMiniPlayer ? "hidden" : "w-[25px] h-auto"}
+          className={showMiniPlayer ? "hidden" : "w-[25px] h-auto"}
           src={isRepeatMode ? rotating : rotate}
           onClick={() => setIsRepeatMode(!isRepeatMode)}
           alt=""
         />
-        <Prev className={ showMiniPlayer ? "w-[20px] h-auto" : "w-[50px] h-auto"} onClick={prevTrack} />
+        <Prev
+          className={showMiniPlayer ? "w-[20px] h-auto" : "w-[50px] h-auto"}
+          onClick={prevTrack}
+        />
         {isPlaying ? (
-          <Pause className={ showMiniPlayer ? "w-[30px] h-auto" : "w-[50px] h-auto"} onClick={() => sound.pause()} />
+          <Pause
+            className="w-[50px] h-auto"
+            onClick={() => {
+              sound.pause();
+              dispatch(setPlayingStatus(false));
+            }}
+          />
         ) : (
-          <Play className={ showMiniPlayer ? "w-[30px] h-auto" : "w-[50px] h-auto"} onClick={() => sound.play()} />
+          <Play
+            className="w-[50px] h-auto"
+            onClick={() => {
+              sound.play();
+              dispatch(setPlayingStatus(true));
+            }}
+          />
         )}
 
-        <Next className={ showMiniPlayer ? "w-[20px] h-auto" : "w-[50px] h-auto"} onClick={nextTrack} />
+        <Next
+          className={showMiniPlayer ? "w-[20px] h-auto" : "w-[50px] h-auto"}
+          onClick={nextTrack}
+        />
         <div className="ml-auto">
           <button onClick={toggleLike}>
             <img
@@ -348,7 +370,9 @@ const MusicPlayer = ({ item }) => {
       <img
         src={scroll}
         onClick={() => navigate("/library")}
-        className={showMiniPlayer ? "hidden" : "w-[40px] h-auto fixed bottom-[10%]"}
+        className={
+          showMiniPlayer ? "hidden" : "w-[40px] h-auto fixed bottom-[10%]"
+        }
       />
     </div>
   );

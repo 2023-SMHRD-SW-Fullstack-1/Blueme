@@ -30,10 +30,8 @@ const MiniPlayer = ({ item }) => {
   // useState
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(null);
   const [sound, setSound] = useState(null);
-  // 재생바 이동 관련 useState
-  const [isDragging, setIsDragging] = useState(false);
   // 한곡반복
   const [isRepeatMode, setIsRepeatMode] = useState(false);
   const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
@@ -49,7 +47,7 @@ const MiniPlayer = ({ item }) => {
   // console.log("miniplayer musicids:", musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
   const songId = useSelector((state) => state.currentSongId);
-
+  const playingStatus = useSelector((state) => state.playingStatus);
   // 임의 사용자 user_id
   const userId = 1;
 
@@ -76,44 +74,7 @@ const MiniPlayer = ({ item }) => {
     isRepeatModeRef.current = isRepeatMode;
   }, [isRepeatMode]);
 
-  // 음악 파일 불러오기
-  // useEffect(() => {
-  //   if (sound) sound.unload();
-
-  //   const newSound = new Howl({
-  //     src: [`/music/${songId}`],
-  //     format: ["mpeg"],
-  //     onload() {
-  //       setDuration(newSound.duration());
-  //       setCurrentTime(0);
-  //       setIsPlaying(false);
-  //       newSound.play();
-  //       dispatch(setCurrentSongId(songId));
-  //     },
-  //     onend() {
-  //       if (isRepeatModeRef.current) {
-  //         // 반복 모드 확인
-  //         newSound.seek(0);
-  //         setCurrentTime(0);
-  //         newSound.play();
-  //       } else {
-  //         nextTrack();
-  //       }
-  //     },
-  //     onplay() {
-  //       setIsPlaying(true);
-  //     },
-  //     onpause() {
-  //       setIsPlaying(false);
-  //     },
-  //   });
-
-  //   setSound(newSound);
-
-  //   return () => {
-  //     if (sound) sound.unload();
-  //   };
-  // }, [songId]);
+  
 
   // 이전곡&다음곡
   useEffect(() => {
@@ -136,7 +97,7 @@ const MiniPlayer = ({ item }) => {
 
     const prevSongId = musicIds[prevIndex];
     
-    // dispatch(setCurrentSongId(prevSongId));
+     dispatch(setCurrentSongId(prevSongId));
 
 
   };
@@ -153,17 +114,17 @@ const MiniPlayer = ({ item }) => {
     dispatch(setCurrentSongId(nextSongId));
   };
 
-  // 재생/일시정지 확인
-  // useEffect(() => {
-  //   if (sound) {
-  //     const isCurrentlyPlaying = sound.playing();
+// 재생/일시정지 확인
+  useEffect(() => {
+     if (sound) {
+     const isCurrentlyPlaying = sound.playing();
 
-  //     setIsPlaying(isCurrentlyPlaying);
+     setIsPlaying(isCurrentlyPlaying);
 
-  //     // 재생 상태 업데이트
-  //     dispatch(setPlayingStatus(isCurrentlyPlaying));
-  //   }
-  // }, [sound]);
+    // 재생 상태 업데이트
+     dispatch(setPlayingStatus(isCurrentlyPlaying));
+     }
+   }, [sound]);
 
   // 최근 재생 목록 추가
   useEffect(() => {
@@ -180,32 +141,11 @@ const MiniPlayer = ({ item }) => {
     fetchRecent();
   }, [userId, songId]);
 
-  // 사용자 재생바 조작
-  // const changeCurrentTime = (e) => {
-  //   let newCurrentTime = e.target.value;
-  //   setCurrentTime(newCurrentTime);
-  //   if (sound) {
-  //     sound.seek(newCurrentTime);
-  //     if (!isDragging) {
-  //       sound.play();
-  //     }
-  //   }
-  // };
-
-  // 음악 자동 재생 중 현재 재생위치 업데이트
-  // useEffect(() => {
-  //   const intervalID = setInterval(() => {
-  //     if (sound?.playing()) {
-  //       const currentTime = sound.seek();
-  //       setCurrentTime(currentTime);
-  //       if (currentTime >= duration) {
-  //         nextTrack();
-  //       }
-  //     }
-  //   }, 1000);
-
-  //   return () => clearInterval(intervalID);
-  // }, [sound, duration]);
+  // 리덕스에 저장됐는지 확인
+    useEffect(() => {
+       console.log('isPlaying:', isPlaying);
+       console.log('playingStatus:', playingStatus);
+     }, [playingStatus]);
 
 
   return (
@@ -221,12 +161,21 @@ const MiniPlayer = ({ item }) => {
 
       <div className="flex flex-row gap-3 ml-auto">
         <Prev className="w-[30px] m h-auto" onClick={prevTrack} />
-        {isPlaying ? (
-          <Pause className="w-[35px] h-auto" onClick={() => sound.pause()} />
+        {playingStatus ? (
+          <Pause
+            className="w-[50px] h-auto"
+            onClick={() => {
+              dispatch(setPlayingStatus(false));
+            }}
+          />
         ) : (
-          <Play className="w-[35px] h-auto" onClick={() => sound.play()} />
+          <Play
+            className="w-[50px] h-auto"
+            onClick={() => {
+              dispatch(setPlayingStatus(true));
+            }}
+          />
         )}
-
         <Next className="w-[30px] h-auto" onClick={nextTrack} />
       </div>
     </div>

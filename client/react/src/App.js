@@ -53,10 +53,10 @@ import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner"
 const App = () => {
 
   // 지희 시작
-  // const MusicPlayerConditional = () => {
-  //   const location = useLocation();
-  //   return !location.pathname.includes("/MusicPlayer/") && <MusicPlayer />;
-  // };
+  //  const MusicPlayerConditional = () => {
+  //    const location = useLocation();
+  //    return !location.pathname.includes("/MusicPlayer/") && <MusicPlayer />;
+  //  };
   // 지희 끝
 
   return (
@@ -101,7 +101,7 @@ const App = () => {
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
         {/* <MusicPlayerConditional /> */}
-        <ShowMiniPlayerInner />
+        {/* <ShowMiniPlayerInner /> */}
           {/* 지희 끝 */}
         <Footer />
       </div>
