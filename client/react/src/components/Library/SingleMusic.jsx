@@ -13,32 +13,26 @@ const SingleMusic = ({ item }) => {
   // console.log('single music', item.musicId);
 
   let musicId = item.musicId;
-  
+
   return (
-    
     <div className="flex flex-row items-center ml-2 mr-2">
       <Link to={`/MusicPlayer/${musicId}`}>
-      <div className="flex flex-row items-center w-full p-1">
-        <img
-          src={"data:image/;base64," + item.img}
-          className="w-[55px] h-[55px] rounded-md"
-        />
-        <div className="flex flex-col text-left ml-3">
-          <span className="text-[18px] font-semibold">{item.title}</span>
-          <span className="text-sm font-normal">{item.artist}</span>
+        <div className="flex flex-row items-center w-full p-1">
+          <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-md" />
+          <div className="flex flex-col text-left ml-3">
+            <span className="text-[18px] font-semibold">{item.title}</span>
+            <span className="text-sm font-normal">{item.artist}</span>
+          </div>
+          <div className="flex-grow"></div>
         </div>
-        <div className="flex-grow"></div>
+      </Link>
+      <div className="ml-auto">
+        {/* 하트 컴포넌트 */}
+        {/* {item.musicId && ( */}
+        <Heart item={item.musicId} />
+        {/* )} */}
       </div>
-    </Link>
-    <div className="ml-auto">
-      {/* 하트 컴포넌트 */}
-    {/* {item.musicId && ( */}
-      <Heart item={item.musicId} />
-    {/* )} */}
     </div>
-    
-  </div>
-    
   );
 };
 
