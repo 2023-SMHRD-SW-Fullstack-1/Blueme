@@ -9,12 +9,14 @@ import com.blueme.backend.service.exception.MusicNotFoundException;
 import com.blueme.backend.service.exception.SaveMusiclistNotFoundException;
 import com.blueme.backend.service.exception.UserNotFoundException;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-14
-설명: 전역적 에러처리 핸들러
-*/
-
+/**
+ * GlobalExceptionHandler는 전역적인 예외 처리를 담당하는 클래스입니다.
+ * 이 클래스에서는 사용자, 음악, 저장된 음악리스트를 찾지 못했을 때의 예외 처리 메소드를 정의하고 있습니다.
+ *
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-11
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
   @ExceptionHandler(UserNotFoundException.class)

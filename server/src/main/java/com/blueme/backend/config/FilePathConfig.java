@@ -2,12 +2,14 @@ package com.blueme.backend.config;
 
 import org.springframework.context.annotation.Configuration;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-13
-설명: 파일 경로 설정파일
-*/
-
+/**
+ * FilePathConfig는 파일경로를 지정하는 설정클래스입니다.
+ * 이 클래스에서는 음악파일 경로, 재킷사진 경로, 가수사진경로, 테마사진 경로를 설정합니다.
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-13
+ */
 @Configuration
 public class FilePathConfig {
   public static final String MUSIC_PATH = "\\usr\\blueme\\musics\\";

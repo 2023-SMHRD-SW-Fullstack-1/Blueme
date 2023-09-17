@@ -30,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 public class ArtistsController {
-	
+
 	private final ArtistsService artistsService;
 
 	/**
-	 * 	get 모든 가수(아티스트) 조회 (가수명, 가수이미지)
+	 * get 모든 가수(아티스트) 조회 (가수명, 가수이미지)
 	 */
 	@GetMapping("/Artistrecommend")
 	public ResponseEntity<List<ArtistInfoDto>> artistrecommend() {
@@ -42,9 +42,9 @@ public class ArtistsController {
 		List<ArtistInfoDto> artists = artistsService.getAllArtist();
 		return new ResponseEntity<>(artists, HttpStatus.OK);
 	}
-	
+
 	/**
-	 * 	post 사용자가 선택한 가수(아티스트) 저장
+	 * post 사용자가 선택한 가수(아티스트) 저장
 	 */
 	@PostMapping("/SaveFavArtist")
 	public Long saveFavArtist(@RequestBody FavArtistReqDto requestDto) {
@@ -53,10 +53,11 @@ public class ArtistsController {
 		log.info("ArtistController requestDto : {}", userId);
 		return userId;
 	}
-	
+
 	/**
-	 * 	get 가수(아티스트) 검색
-	 * @return 
+	 * get 가수(아티스트) 검색
+	 * 
+	 * @return
 	 */
 	@GetMapping("/searchArtist/{keyword}")
 	public List<ArtistInfoDto> searchArtist(@PathVariable("keyword") String keyword) {
@@ -64,8 +65,8 @@ public class ArtistsController {
 		List<ArtistInfoDto> artists = artistsService.searchArtist(keyword);
 		System.out.println(keyword);
 		return artists;
-//		System.out.println(artists.size());
-//		return artists;
-//		 return musicsService.searchMusic(keyword);
+		// System.out.println(artists.size());
+		// return artists;
+		// return musicsService.searchMusic(keyword);
 	}
 }

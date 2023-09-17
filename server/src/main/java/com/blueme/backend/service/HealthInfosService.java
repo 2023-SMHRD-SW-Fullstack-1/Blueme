@@ -14,12 +14,14 @@ import com.blueme.backend.model.repository.UsersJpaRepository;
 
 import lombok.RequiredArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-11
-설명: 워치로부터 받는 건강정보 서비스
-*/
-
+/**
+ * HealrgInfosService는 건강정보 서비스 클래스입니다.
+ * 이 클래스에서는 건강정보 조회 및 등록 기능을 제공합니다.
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-09
+ */
 @RequiredArgsConstructor
 @Service
 public class HealthInfosService {
@@ -27,8 +29,11 @@ public class HealthInfosService {
   private final HealthInfosJpaRepository healthInfosJpaRepository;
   private final UsersJpaRepository usersJpaRepository;
 
-  /*
-   * get 건강정보 조회
+  /**
+   * 사용자 ID를 기반으로 건강정보를 조회합니다.
+   *
+   * @param userId 사용자 ID
+   * @return 건강정보 응답 DTO (HealthInfoResDto)
    */
   @Transactional(readOnly = true)
   public HealthInfoResDto getHealthInfo(Long userId) {
@@ -36,8 +41,11 @@ public class HealthInfosService {
     return healthInfo == null ? null : new HealthInfoResDto(healthInfo);
   }
 
-  /*
-   * post 건강정보 등록
+  /**
+   * 건강정보를 등록합니다.
+   *
+   * @param request 건강정보 저장 요청 DTO (HealthInfoSaveReqDto)
+   * @return 저장된 건강정보의 ID (Long)
    */
   public Long saveHealthInfo(HealthInfoSaveReqDto request) {
     Users user = usersJpaRepository.findByEmail(request.getUserEmail())
