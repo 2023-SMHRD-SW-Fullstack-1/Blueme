@@ -31,7 +31,7 @@ const SavedPlaylist = () => {
   }, []);
 
   const handlePlaylistClick = async (id) => {
-    console.log(id); // Add this line to debug
+    console.log(id);
     try {
       const response = await axios.get(`http://172.30.1.27:8104/savedMusiclist/get/detail/${id}`);
       setSelectedPlaylistDetails(response.data);
@@ -67,10 +67,10 @@ const SavedPlaylist = () => {
                 <img
                   src={"data:image/;base64," + SavedPlaylist.img}
                   alt="album cover"
-                  className="w-[180px] h-auto rounded-lg"
+                  className="w-[300px] h-auto rounded-lg"
                 />
                 {/* 2. 제목/ 아티스트 */}
-                <span className="tracking-tighter text-sm text-center mt-0">{SavedPlaylist.title}</span>
+                <span className="tracking-tighter text-2xl text-center mt-4">{SavedPlaylist.title}</span>
               </div>
             </Link>
           </SwiperSlide>

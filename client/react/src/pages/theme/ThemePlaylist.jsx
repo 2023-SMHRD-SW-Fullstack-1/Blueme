@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-08  
-설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 구현
+날짜: 2023-09-16
+설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현
 */
 
 import React, { useEffect, useState } from "react";
@@ -10,11 +10,14 @@ import SingleMusic from "../../components/Library/SingleMusic";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import axios from "axios";
+import check from "../../assets/img/check.json";
+import Lottie from "lottie-react";
 
 const ThemePlaylist = () => {
   const [themeImage, setThemeImage] = useState("");
   const [themeName, setThemeName] = useState("");
   const [musicList, setMusicList] = useState([]);
+  const [showThemePlaylistModal, setshowThemePlaylistModal] = useState(false);
 
   useEffect(() => {
     const getPlaylistDetails = async () => {
@@ -22,6 +25,7 @@ const ThemePlaylist = () => {
         const imageFromStorage = localStorage.getItem("themeImage");
         if (imageFromStorage) {
           setThemeImage(imageFromStorage);
+          // console.log(imageFromStorage);
         }
 
         const nameFromStorage = localStorage.getItem("themeName");
@@ -33,6 +37,7 @@ const ThemePlaylist = () => {
 
         if (themeIdFromStorage) {
           const responseMusicList = await axios.get(`/theme/themelists/${themeIdFromStorage}`);
+          // .then((res) => console.log(res.data));
 
           if (responseMusicList.data) {
             setMusicList(responseMusicList.data);
@@ -57,17 +62,27 @@ const ThemePlaylist = () => {
         userId: "1",
         title: themeName,
         musicIds: musicList.map((item) => item.musicId), //여기 다시 하기 musicId
+        // image: themeImage,
       };
       await axios.post("http://172.30.1.27:8104/savedMusiclist/add", dataToSend);
       console.log("Saved music list");
+      setshowThemePlaylistModal(true); // Add this line
     } catch (error) {
       console.error(`Error: ${error}`);
     }
   };
 
+  const Lottiestyle = {
+    weight: 70,
+    height: 70,
+  };
+
+  const closeModal = () => setshowThemePlaylistModal(false);
+
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
       <br />
+
       <div className="flex flex-col items-center justify-center mt-[80px]">
         <img src={"data:image/;base64," + themeImage} className="w-[160px] h-[160px] rounded-xl" />
         <p className="text-2xl py-5">{themeName}</p>
@@ -85,12 +100,49 @@ const ThemePlaylist = () => {
         </button>
       </div>
 
+      <div
+        id="popup-modal"
+        tabIndex="-1"
+        className={`fixed top-0 left-0 right-0 bottom-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] text-custom-black max-h-full ${
+          showThemePlaylistModal ? "" : "hidden"
+        } flex items-center justify-center`}
+      >
+        <div className=" absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div className=" bg-white w-[300px] mx-auto rounded shadow-lg z-50 overflow-y-auto">
+          {/* 모달 컨텐츠 */}
+          <div className=" py-[20px] text-left px-[30px]">
+            {/* Modal Header */}
+            <Lottie
+              animationData={check}
+              style={Lottiestyle}
+              loop={false}
+              autoplay={true}
+              key={Date.now()}
+              className="flex justify-center items-center mb-3"
+            />
+
+            {/* Modal Body */}
+            <p className="text-center">저장이 완료되었습니다!</p>
+
+            {/* Modal Footer */}
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={closeModal}
+                className="w-auto bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white border-0 px-[10px] border border-blue hover:border-transparent rounded"
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Render music list */}
       {musicList.length > 0 ? (
         <Swiper direction={"vertical"} slidesPerView={6.2} spaceBetween={1} className="h-[49%] ml-3 mr-3">
           {musicList.map((item) => (
             <SwiperSlide key={item.id}>
-              <SingleMusic key={item.id} item={item} />
+              <SingleMusic item={item} />
             </SwiperSlide>
           ))}
         </Swiper>
