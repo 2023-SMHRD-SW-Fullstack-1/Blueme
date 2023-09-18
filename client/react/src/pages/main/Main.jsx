@@ -11,7 +11,7 @@
 /*
 작성자: 이유영
 날짜(수정포함): 2023-09-13
-설명: 나의 추천 플레이리스트
+설명: 나의 추천 플레이리스트, 남의 추천 플레이리스트 연결 및 화면 구현
 */
 import React, { useEffect, useState } from "react";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
@@ -41,7 +41,7 @@ const Main = () => {
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
   const isLoggendIn = user.isLogin
-  console.log('header',user);
+  // console.log('header',user);
   
 
 

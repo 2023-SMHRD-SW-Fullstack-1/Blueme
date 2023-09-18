@@ -9,7 +9,7 @@
 설명: 로그인 반응형 구현
 */
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import logo2 from "../assets/img/logo2.png";
 import kakao from "../assets/img/kakao.png";
@@ -20,14 +20,12 @@ import { useDispatch } from "react-redux";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [id, setId] = useState("");
-  const [isLoggendIn, setIsLoggendIn] = useState(false);
-  const [token, setToken] = useState("");
-
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const params = useParams();
+  
 
+  //일반 로그인
  const handleLogin = async(e) => {
     e.preventDefault();
     dispatch(loginRequest());
@@ -35,7 +33,7 @@ const Login = () => {
           email: email,
           password: password,
         };
-        console.log(requestData);
+        // console.log(requestData);
       await axios
       .post("http://172.30.1.45:8104/login", requestData)
       .then((res) => {
@@ -44,7 +42,7 @@ const Login = () => {
         let refreshToken = res.headers["authorization-refresh"];
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-         setIsLoggendIn(true)
+        localStorage.setItem("id", res.data.id);
          dispatch(loginSuccess(res.data))
          navigate("/");
         })
@@ -53,35 +51,38 @@ const Login = () => {
         dispatch(loginFailure(err.message))
       })
   };
-// console.log(loginSuccess);
 
-  //로그인
-  // const handleLogin = async (e) => {
+  
+
+  // //구글 로그인
+  // const googleLogin = async(e) => {
+  //   e.preventDefault()
+  //   dispatch(loginRequest());
+  //   window.location.href = "http://localhost:8104/oauth2/authorization/google"
+  //   console.log('params', params);
+  //   // const requestData = {
+  //   //   email: email,
+  //   //   password: password,
+  //   // };
+  //   // await axios
+  //   // .post("http://172.30.1.45:8104/login", requestData)
+  //   // .then((res) => {
+      
+  //   //   console.log(res);
+  //   //   let accessToken = res.headers.get("Authorization");
+  //   //   let refreshToken = res.headers["authorization-refresh"];
+  //   //   localStorage.setItem("accessToken", accessToken);
+  //   //   localStorage.setItem("refreshToken", refreshToken);
+  //   //   localStorage.setItem("id", res.data.id);
+  //   //    dispatch(loginSuccess(res.data))
+  //   //    navigate("/");
+  //   //   })
+  //   // .catch(err => {
+  //   //   console.log(err)
+  //   //   dispatch(loginFailure(err.message))
+  //   // })
     
-
-  //   const requestData = {
-  //     email: email,
-  //     password: password,
-  //   };
-
-  //   await axios
-  //     .post("http://172.30.1.45:8104/login", requestData)
-  //     .then((res) => {
-  //       let accessToken = res.headers.get("Authorization");
-  //       let refreshToken = res.headers["authorization-refresh"];
-  //       let email = res.data.email;
-  //       let nickname = res.data.nickname;
-  //       let id = res.data.id;
-  //       localStorage.setItem("accessToken", accessToken);
-  //       localStorage.setItem("refreshToken", refreshToken);
-  //       localStorage.setItem("email", email);
-  //       localStorage.setItem("nickname", nickname);
-  //       localStorage.setItem("id", id);
-  //       console.log(res);
-  //       navigate("/");
-  //     })
-  //     .catch((e) => console.log(e));
-  // };
+  // }
 
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16">
@@ -130,7 +131,7 @@ const Login = () => {
           </div>
 
           <button
-            onClick={() => (window.location.href = "http://localhost:8104/oauth2/authorization/kakao")}
+            onClick={() => {window.location.href = "http://localhost:8104/oauth2/authorization/kakao"}}
             className="
      flex items-center justify-center pl-2 w-full mt-6 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
           >
@@ -139,7 +140,7 @@ const Login = () => {
           </button>
 
           <button
-            onClick={() => (window.location.href = "http://localhost:8104/oauth2/authorization/google")}
+            onClick={() => {window.location.href = "http://localhost:8104/oauth2/authorization/google"}}
             className="
   flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
           >

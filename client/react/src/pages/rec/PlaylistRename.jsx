@@ -1,50 +1,46 @@
 /*
 작성자: 이유영
 날짜(수정포함): 2023-09-07
-설명: 추천 받은 음악 제목 수정
+설명: 추천 받은 음악 제목 수정 및 전첸 저장
 */
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import '../../App.css'
 
 
 const PlaylistRename = () => {
   const [title, setTitle] = useState('') //플레이 리스트 제목
   const navigate = useNavigate()
-  const recMusicTitle = localStorage.getItem('recMusicTitle')
-  const user = useSelector(state => state.memberReducer.user)
-  const id = user.id
-  console.log('header',user);
-    
-    // 현재 날짜와 시간 구하기
-    const todayTime = () => {
-        let now = new Date();
-        let todayYear = now.getFullYear();
-        let todayMonth = now.getMonth()+1;
-        let todayDate = now.getDate();
-        let hours = now.getHours();
-        let minutes = now.getMinutes();
-
-        return todayYear + '년' + todayMonth + '월' + todayDate + '일' + hours + '시' + minutes +'분 당신을 위한 음악'
-    }
+  const recMusicTitle = localStorage.getItem('recMusicTitle')//storage에 저장된 제목 가져오기
+  const user = useSelector(state => state.memberReducer.user)//member리덕스 가져오기
+  const id = user.id//member리덕스에서 id 가져오기
+  // console.log('header',user);
 
     const SrecMusicId = localStorage.getItem('recMusicIds')
     const recMusicIds = JSON.parse(SrecMusicId)
 
-   
+    //3초 로딩 함수
+    const timeout = () => {
+      setTimeout(() => {
+        document.getElementById('toast-warning').classList.remove("reveal")
+        navigate('/PlaylistRemame')
+      }, 2000);// 원하는 시간 ms단위로 적어주기
+    };
+
     const SavedRecPlaylist = () => {
       const requestData = { userId : id,  title : title, musicIds : recMusicIds }
       // console.log(musicIds);
       console.log(requestData);
-      axios.post(`http://172.30.1.27:8104/savedMusiclist/add`, requestData)
-      .then((res) => {
+      axios.post(`http://172.30.1.27:8104/savedMusiclist/add`, requestData)//프리 저장요청 && 제목 수정
+      .then((res) => {//응답값 userId 실패시 -1
         console.log(res)
         if(res.data > 0 ) {
           navigate('/library')
         }else {
-          alert('저장에 실패했습니다.')
-          navigate('/PlaylistRemame')
+          document.getElementById('toast-warning').classList.add("reveal")
+          timeout()
         }
         // navigate('/RecPlayList')
       }).catch((err) => console.log(err))
@@ -80,8 +76,11 @@ const PlaylistRename = () => {
              <Link to='/RecPlayList'><button>취소</button></Link>
         </div>
       </div>
-      
-
+      <div className="flex justify-center items-center">
+          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">저장에 실패했습니다.</div>
+          </div>
+        </div>
 
 
 

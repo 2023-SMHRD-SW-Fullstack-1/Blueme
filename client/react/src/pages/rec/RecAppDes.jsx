@@ -1,7 +1,7 @@
 /*
 작성자: 이유영
 날짜(수정포함): 2023-09-07
-설명: 워치 앱 사용 설명서
+설명: 워치 앱 사용 설명서 화면 및 사용자 건강데이터 불러오기
 */
 /*
 작성자: 신지훈
@@ -22,7 +22,7 @@ const RecAppDes = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false) //모달 열림 여부
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
-  console.log('header',user);
+  // console.log('header',user);
   const navigate = useNavigate()
 
   //모달창 열리면 true로 바꿔주는 함수
@@ -92,16 +92,10 @@ const RecAppDes = () => {
 
         {/* 토스트 창 띄우기 */}
         <div className="flex justify-center items-center">
-        <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
-          {/* <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
-              <svg className="w-5 h-5 item-center text-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
-              </svg>
-              <span className="sr-only item-center">Warning icon</span>
-          </div> */}
-          <div className="ml-3 font-normal text-center">데이터를 전송해주세요.</div>
+          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">데이터를 전송해주세요.</div>
           </div>
-          </div>
+        </div>
         <div className='text-right p-3 mt-5'>
           <button onClick={handleTransport}>SKIP</button>
          

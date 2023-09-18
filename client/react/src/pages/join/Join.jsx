@@ -1,20 +1,16 @@
-/*
-작성자: 이유영
-날짜(수정포함): 2023-09-11
-설명: 회원가입 구현
-*/
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import kakao from "../../assets/img/kakao.png";
 import google from "../../assets/img/google.png";
-// import { join } from "../../store/user/user_action";
+import { joinFailure, joinRequest, joinSuccess } from "../../store/member/memberAction";
+import '../../App.css'
 
 /*
 작성자: 이유영
 날짜(수정포함): 2023-09-11
-설명: 회원가입 구현
+설명: 회원가입 기능 구현 및 리덕스 추가
 */
 /*
 작성자: 신지훈
@@ -26,44 +22,47 @@ const Join = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
-
+  const user = useSelector(state => state.memberReducer.user)
   const navigate = useNavigate();
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
+
+  //3초 로딩 함수
+  const timeout = () => {
+    setTimeout(() => {
+      document.getElementById('toast-warning').classList.remove("reveal")
+      navigate('/Join')
+    }, 2000);// 원하는 시간 ms단위로 적어주기
+  };
 
   // 회원가입 버튼 클릭 시 실행되는 함수
   const handleJoin = async (e) => {
     e.preventDefault();
-    // dispatch(join({email, password, nickname}))
-
-    // console.log("join", email,password,nickname);
-
-    // navigate('/JoinComplete')
-
     if (password !== confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    try {
-      const response = await axios.post("http://172.30.1.45:8104/user/signup", {
-        email,
-        password,
-        nickname,
-      });
+    dispatch(joinRequest())
 
-      console.log(response);
-      localStorage.setItem("id", response.data);
+    const requestData = { email : email, password : password, nickname : nickname}
 
-      navigate("/SelectGenre");
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
-        console.error("이미 존재하는 계정:", error.response.data);
-        alert("이미 존재하는 이메일 주소입니다.");
-      } else {
-        console.error(error);
-        alert("회원가입에 실패했습니다.");
-      }
+     await axios
+     .post("http://172.30.1.45:8104/user/signup", requestData)
+     .then((res) => {
+        console.log(user);
+        localStorage.setItem('id' , res.data)
+        navigate('/selectGenre')
+     })
+     .catch((err) => {
+      console.log(err)
+      document.getElementById('toast-warning').classList.add("reveal")
+      timeout()
+      dispatch(joinFailure(err.massage))
+     })
+  
     }
-  };
+
+
+
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight flex flex-col px-4 sm:px-8 md:px-16">
       <br />
@@ -133,6 +132,12 @@ const Join = () => {
           <div className="pb-10"></div>
         </div>
       </div>
+      {/* 토스트 창 띄우기 */}
+      <div className="flex justify-center items-center">
+          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">회원가입에 실패하셨습니다.</div>
+          </div>
+        </div>
     </div>
   );
 };

@@ -93,6 +93,7 @@ const App = () => {
           <Route path="/PlaylistRename" element={<PlaylistRename />} />
           <Route path="/RecPlayList" element={<RecPlayList />} />
           <Route path="/MyPage" element={<MyPage />} />
+          <Route path="/SelectGenre/:id" element={<SelectGenre />} />
           {/* <Route path="/WholeRecPlayList" element={<WholeRecPlayList />} /> */}
           {/* 유영 끝 */}
           <Route path="/RecBegin" element={<RecBegin />} />

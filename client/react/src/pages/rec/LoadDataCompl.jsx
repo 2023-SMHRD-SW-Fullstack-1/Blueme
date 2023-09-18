@@ -1,7 +1,7 @@
 /*
 작성자: 이유영
 날짜(수정포함): 2023-09-07
-설명: 스마트 워치 데이터 가져오기
+설명: 스마트 워치 데이터 가져오기(+member리덕스)
 */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -13,10 +13,10 @@ const LoadDataCompl = () => {
   const [heartRate, setHeartRate] = useState('')
   const [step, setStep] = useState('')
   const [speed, setSpeed] = useState('')
-  const user = useSelector(state => state.memberReducer.user)
-  const email = user.email
-  const id = user.id
-  console.log('header',user);
+  const user = useSelector(state => state.memberReducer.user)//member리덕스 가져오기
+  const nickname = user.nickname //member 리덕스에서 nickname가져오기
+  const id = user.id //id가져오기
+  // console.log('header',user);
 
 
   // 오늘 날짜&시간
@@ -25,11 +25,11 @@ const LoadDataCompl = () => {
   const time = `${now.getHours()}시 ${now.getMinutes()}분`;
 
   useEffect(()=> {
-    axios.get(`http://172.30.1.27:8104/healthinfo/get/${id}`)
+    axios.get(`http://172.30.1.27:8104/healthinfo/get/${id}`)//사용자 건강데이터 불러오기
     .then((res) => {
-      setHeartRate(res.data.avgHeartRate)
-      setStep(res.data.stepsPerMinute) 
-      setSpeed(res.data.avgSpeed)
+      setHeartRate(res.data.avgHeartRate)//심박수
+      setStep(res.data.stepsPerMinute) //걸음수
+      setSpeed(res.data.avgSpeed)//속도
     console.log(res)})
     .catch((err) => {console.log(err)})
   }, [])  
@@ -49,7 +49,7 @@ const LoadDataCompl = () => {
           <br />
           {date} {time}
           <br />
-          {localStorage.getItem('nickname')} 님의 현재 상태입니다.
+          {nickname} 님의 현재 상태입니다.
         </p>
         <p className="font-semibold text-[17px] tracking-tighter text-center text-custom-lightpurple mt-12">Blueme가 당신에게 맞는 음악을 추천해드릴게요.</p>
       </div>

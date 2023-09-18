@@ -4,6 +4,11 @@
 날짜(수정포함): 2023-09-13
 설명: 디자인 수정
 */
+/*
+작성자: 이유영
+날짜(수정포함): 2023-09-08
+설명: 워치 화면 구현
+*/
 
 import React from 'react'
 import watch from '../../assets/img/watch.png'

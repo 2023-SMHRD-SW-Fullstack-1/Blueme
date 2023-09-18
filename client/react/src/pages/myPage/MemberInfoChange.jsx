@@ -5,8 +5,8 @@
 */
 /*
 작성자: 이유영
-날짜: 2023-09-12
-설명: 회원정보 수정
+날짜: 2023-09-16
+설명: 회원정보 수정 기능(+ 리덕스 )/토스트 창
 */
 
 import React, { useState, useRef, useEffect } from "react";
@@ -15,6 +15,7 @@ import axios from "axios";
 import user from "../../assets/img/defalut.png";
 import { useDispatch, useSelector } from "react-redux";
 import { userUpdate } from "../../store/member/memberAction";
+import '../../App.css'
 
 function MemberInfoChange() {
   const navigate = useNavigate();
@@ -29,12 +30,13 @@ function MemberInfoChange() {
   const dispatch = useDispatch()
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
-  console.log('header',user);
+  // console.log('header',user);
+
 
   // 선택된 이미지 파일을 저장하는 함수
   const saveImgFile = () => {
     if (!imgRef.current.files[0]) {
-      console.log("No file selected");
+      console.log("파일을 선택해주세요");
       return;
     }
     const file = imgRef.current.files[0];
@@ -43,37 +45,46 @@ function MemberInfoChange() {
     reader.onloadend = () => {
       setImgFile(reader.result);
       previewRef.current.src = reader.result;
-      console.log("File selected and read");
+     
     };
+  };
+  // console.log("img", imgFile);
+
+  //3초 로딩 함수
+  const timeout = () => {
+    setTimeout(() => {
+      document.getElementById('toast-warning').classList.remove("reveal")
+      navigate("/MyPage");
+    }, 2000);// 원하는 시간 ms단위로 적어주기
   };
 
   //회원정보 수정
   const handleUpdate = async (e) => {
     // let storageEmail = localStorage.getItem("email");
     e.preventDefault();
-    const requestData = { id: id, email: user.email, password: password, nickname: nickname, img_url : user.img_url };
-    console.log(requestData);
+    const requestData = { id: id, email: user.email, password: password, nickname: nickname, img_url : imgFile };
+    console.log('requestData', requestData);
     await axios
       .patch(`http://172.30.1.45:8104/user/update`, requestData)
       .then((res) => {
-        console.log(requestData);
         dispatch(userUpdate(requestData))
         localStorage.setItem("password", password);
-        alert("수정완료");
-        navigate("/MyPage");
+        document.getElementById('toast-warning').classList.add("reveal")
+        timeout()
         console.log(res);
       })
       .catch((err) => console.log(err));
   };
+  
 
   return (
-    <div className=" bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16 min-h-screen font-semibold tracking-tighter">
+    <div className=" bg-gradient-to-t from-gray-950 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16 min-h-screen tracking-tight">
       <div className="mt-36 text-custom-white mb-3 text-center  ">
         <div className="self-center flex flex-col items-center justify-center">
           <label htmlFor="profileImg">
             <img
               // src={imgFile ? imgFile : `data:image/;base64,${myFeed[0]?.myFeed.mem_photo}`}
-              src={imgFile || user}
+              src={user.img_url}
               alt=""
               ref={previewRef}
               onChange={saveImgFile}
@@ -81,7 +92,7 @@ function MemberInfoChange() {
               style={{
                 width: "100px",
                 height: "100px",
-                borderRadius: "50%",
+                borderRadius: "10%",
                 objectFit: "cover",
                 cursor: "pointer",
               }}
@@ -153,6 +164,12 @@ function MemberInfoChange() {
           </div>
         </div>
       </div>
+        {/* 토스트 창 띄우기 */}
+        <div className="flex justify-center items-center">
+          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">수정이 완료되었습니다.</div>
+          </div>
+        </div>
     </div>
   );
 }

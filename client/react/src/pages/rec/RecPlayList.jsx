@@ -15,8 +15,8 @@ import { useSelector } from 'react-redux';
 
 
 const RecPlayList = () => {
-    const user = useSelector(state => state.memberReducer.user)
-    const id = user.id
+    const user = useSelector(state => state.memberReducer.user)//member리듀서 가져오기
+    const id = user.id//member리듀서에서 id가져오기
     console.log('header',user);
     const [musiclist, setMusiclist] = useState({recMusiclistDetails: []}); //추천 받은 리스트
     const [recMusicIds, setRecMusicIds] = useState([])
@@ -24,7 +24,7 @@ const RecPlayList = () => {
 
     useEffect(()=> {
         const recPlayList = async () => {
-        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/${id}`)
+        await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/${id}`)//추천 받은 리스트 불러오기
         .then((res) => {
             setMusiclist(res.data)
             console.log(res)
