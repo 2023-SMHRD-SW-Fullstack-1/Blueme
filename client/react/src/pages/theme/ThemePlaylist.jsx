@@ -62,7 +62,7 @@ const ThemePlaylist = () => {
         userId: "1",
         title: themeName,
         musicIds: musicList.map((item) => item.musicId), //여기 다시 하기 musicId
-        // image: themeImage,
+        image: themeImage,
       };
       await axios.post("http://172.30.1.27:8104/savedMusiclist/add", dataToSend);
       console.log("Saved music list");

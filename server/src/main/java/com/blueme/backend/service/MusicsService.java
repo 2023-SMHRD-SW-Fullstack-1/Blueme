@@ -84,14 +84,10 @@ public class MusicsService {
         FileStorageUtil fileStorage = new FileStorageUtil();
         Long lastId = -1L;
         for (MultipartFile file : files) {
-            String filePath = storeFile(fileStorage, file);
+            String filePath = fileStorage.storeFile(file);
             lastId = extractMetadataAndSave(filePath);
         }
         return lastId;
-    }
-
-    private String storeFile(FileStorageUtil fileStorage, MultipartFile file) {
-        return fileStorage.storeFile(file);
     }
 
     /**

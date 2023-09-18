@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 */
 
 public class FileStorageUtil {
-	private final String STORAGE_FOLDER = "/usr/blueme/musics/";
+    private final String STORAGE_FOLDER = "/usr/blueme/musics/";
 
     public String storeFile(MultipartFile file) {
         if (file.isEmpty()) {

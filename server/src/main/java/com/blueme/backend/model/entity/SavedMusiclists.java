@@ -1,5 +1,8 @@
 package com.blueme.backend.model.entity;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,17 +14,25 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import com.blueme.backend.config.FilePathConfig;
+import com.blueme.backend.utils.ImageConverter;
+import com.blueme.backend.utils.ImageToBase64;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-14
-설명: 사용자가 저장한음악 목록 엔터티
-*/
-
+/**
+ * 사용자가 저장한 음악 목록 엔터티.
+ * 각 사용자는 여러 개의 음악 목록을 가질 수 있으며,
+ * 각 음악 목록은 여러 개의 세부 항목(SavedMusiclistDetails)을 가질 수 있습니다.
+ *
+ * @author 김혁
+ * @version 1.1
+ * @since 2023-09-14
+ */
 @Getter
 @NoArgsConstructor
 @Entity
@@ -33,6 +44,8 @@ public class SavedMusiclists {
 
   private String title;
 
+  private String imgPath;
+
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "saved_musiclist_id")
   private List<SavedMusiclistDetails> savedMusiclistDetails;
@@ -42,10 +55,24 @@ public class SavedMusiclists {
   private Users user;
 
   @Builder
-  public SavedMusiclists(String title, Users user, List<SavedMusiclistDetails> savedMusiclistDetails) {
+  public SavedMusiclists(String title, Users user, List<SavedMusiclistDetails> savedMusiclistDetails, String imgPath) {
     this.title = title;
     this.user = user;
     this.savedMusiclistDetails = savedMusiclistDetails;
+    this.imgPath = imgPath;
   }
 
+  @Transient
+  public String getJacketFile() {
+    try {
+      Path filePath = Paths.get(imgPath);
+      File file = filePath.toFile();
+      ImageConverter<File, String> converter = new ImageToBase64();
+      String base64 = null;
+      base64 = converter.convert(file);
+      return base64;
+    } catch (Exception e) {
+      throw new RuntimeException("재킷파일 전송 실패", e);
+    }
+  }
 }

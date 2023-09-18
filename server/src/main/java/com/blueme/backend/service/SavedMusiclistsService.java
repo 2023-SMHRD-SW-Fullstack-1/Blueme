@@ -20,6 +20,7 @@ import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.service.exception.MusicNotFoundException;
 import com.blueme.backend.service.exception.SaveMusiclistNotFoundException;
 import com.blueme.backend.service.exception.UserNotFoundException;
+import com.blueme.backend.utils.Base64ToImage;
 
 import lombok.RequiredArgsConstructor;
 
@@ -75,14 +76,27 @@ public class SavedMusiclistsService {
 
                 List<SavedMusiclistDetails> savedMusiclistDetails = musics.stream()
                                 .map(SavedMusiclistDetails::new).collect(Collectors.toList());
+                if (request.getImage() != null) {
+                        Base64ToImage decoder = new Base64ToImage();
+                        String imgPath = decoder.convertBase64ToImage(request.getImage());
+                        return savedMusiclistsJpaRepository.save(
+                                        SavedMusiclists.builder()
+                                                        .title(request.getTitle())
+                                                        .user(user)
+                                                        .imgPath(imgPath)
+                                                        .savedMusiclistDetails(savedMusiclistDetails)
+                                                        .build())
+                                        .getId();
+                } else {
+                        return savedMusiclistsJpaRepository.save(
+                                        SavedMusiclists.builder()
+                                                        .title(request.getTitle())
+                                                        .user(user)
+                                                        .savedMusiclistDetails(savedMusiclistDetails)
+                                                        .build())
+                                        .getId();
+                }
 
-                return savedMusiclistsJpaRepository.save(
-                                SavedMusiclists.builder()
-                                                .title(request.getTitle())
-                                                .user(user)
-                                                .savedMusiclistDetails(savedMusiclistDetails)
-                                                .build())
-                                .getId();
         }
 
 }

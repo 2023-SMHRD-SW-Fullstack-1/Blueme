@@ -21,6 +21,10 @@ public class SavedMusiclistsResDto {
   public SavedMusiclistsResDto(SavedMusiclists savedMusiclist) {
     this.savedMusiclistId = savedMusiclist.getId();
     this.title = savedMusiclist.getTitle();
-    this.img = savedMusiclist.getSavedMusiclistDetails().get(0).getMusic().getJacketFile();
+    if (savedMusiclist.getImgPath() == null) {
+      this.img = savedMusiclist.getSavedMusiclistDetails().get(0).getMusic().getJacketFile();
+    } else {
+      this.img = savedMusiclist.getJacketFile();
+    }
   }
 }

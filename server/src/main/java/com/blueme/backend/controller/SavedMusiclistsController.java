@@ -42,6 +42,7 @@ public class SavedMusiclistsController {
   public ResponseEntity<List<SavedMusiclistsResDto>> getSavedMusiclists(@PathVariable("userId") String userId) {
     log.info("Starting getSavedMusiclists for userId: {}", userId);
     List<SavedMusiclistsResDto> lists = savedMusiclistsService.getSavedMusiclists(userId);
+    log.info("Ending getSavedMusiclists for userId: {}", userId);
     if (lists.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } else {
