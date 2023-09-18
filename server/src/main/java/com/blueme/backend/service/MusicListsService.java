@@ -19,11 +19,15 @@ import com.blueme.backend.service.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-13
-설명: 음악리스트 관련 서비스
-*/
+/**
+ * MusicListsService는 음악목록 서비스 클래스입니다.
+ * 추천음악 목록 등록 기능을 제공합니다.
+ * RecMusicList서비스 로 이전으로 사용하지 않습니다.
+ *
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-13
+ */
 
 @RequiredArgsConstructor
 @Service
@@ -34,7 +38,10 @@ public class MusicListsService {
 	private final MusicsJpaRepository musicsJpaRepository;
 
 	/**
-	 * post 추천음악리스트 등록
+	 * 제목, 이유, 사용자ID, musicIds 배열을 기반으로 추천리스트를 등록합니다.
+	 * 
+	 * @param requestDto 추천음악 저장 요청 Dto(RecMusicListSaveDto)
+	 * @return 저장된 추천음악 ID (Long)
 	 */
 	@Transactional
 	public Long save(RecMusicListSaveDto requestDto) {
@@ -42,13 +49,11 @@ public class MusicListsService {
 		Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getUserId()))
 				.orElseThrow(() -> new UserNotFoundException(Long.parseLong(requestDto.getUserId())));
 
-		// id를 music Entity담은 리스트로 변환
 		List<Musics> musics = requestDto.getMusicIds().stream()
 				.map((id) -> musicsJpaRepository.findById(Long.parseLong(id))
 						.orElseThrow(() -> new MusicNotFoundException(Long.parseLong(id))))
 				.collect(Collectors.toList());
 
-		// 음악을 RecMusiclistDetail 리스트로 변환
 		List<RecMusiclistDetails> recMusicListDetail = musics.stream()
 				.map((music) -> RecMusiclistDetails.builder().music(music).build()).collect(Collectors.toList());
 

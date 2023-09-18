@@ -15,7 +15,7 @@ import com.blueme.backend.model.repository.UsersJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
- * HealrgInfosService는 건강정보 서비스 클래스입니다.
+ * HealthInfosService는 건강정보 서비스 클래스입니다.
  * 이 클래스에서는 건강정보 조회 및 등록 기능을 제공합니다.
  * 
  * @author 김혁

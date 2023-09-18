@@ -24,6 +24,14 @@ import lombok.RequiredArgsConstructor;
 설명: 음악저장 관련 서비스
 */
 
+/**
+ * LikeMusicsService는 저장음악 서비스 클래스입니다.
+ * 이 클래스에서는 건강정보 조회 및 등록 기능을 제공합니다.
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-13
+ */
 @RequiredArgsConstructor
 @Service
 public class LikeMusicsService {
@@ -32,8 +40,11 @@ public class LikeMusicsService {
   private final UsersJpaRepository usersJpaRepository;
   private final MusicsJpaRepository musicsJpaRepository;
 
-  /*
-   * get 사용자가 음악저장 했는지 조회
+  /**
+   * 사용자의 음악 저장 여부를 조회합니다.
+   *
+   * @param requestDto LikeMusics 저장여부 조회 요청 DTO (LikemusicIsSaveReqDto)
+   * @return 저장된 LikeMusics의 ID (Long)
    */
   @Transactional(readOnly = true)
   public Long isSaveOne(LikemusicIsSaveReqDto requestdDto) {
@@ -43,7 +54,10 @@ public class LikeMusicsService {
   }
 
   /**
-   * put 저장된 음악 토글 (이미 있는 저장음악일시 삭제, 없을시 등록)
+   * 사용자 ID와 음악ID를 기반으로 음악저장을 수행합니다.
+   *
+   * @param requestDto 음악저장을 위한 저장요청 DTO (LikemusicReqDto)
+   * @return 저장된 LikeMusics의 ID (Long)
    */
   @Transactional
   public Long toggleLikeMusics(LikemusicReqDto requestDto) {
@@ -64,8 +78,11 @@ public class LikeMusicsService {
 
   }
 
-  /*
-   * get 사용자가 저장한 음악리스트 조회
+  /**
+   * 사용자ID를 기반으로 음악리스트 조회를 수행합니다.
+   *
+   * @param requestDto 음악리스트 조회를 위한 userId (String)
+   * @return 저장된 음악정보 리스트 DTO (List<MusicInfoResDto>)
    */
   @Transactional(readOnly = true)
   public List<MusicInfoResDto> getMusicsByUserId(String userId) {

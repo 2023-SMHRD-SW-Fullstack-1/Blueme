@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * HealthInfosController는 건강정보 컨트롤러 클래스입니다.
- * 이 클래스는 REST API 엔드포인트를 제공하여 건강정보 조회 및 등록 기능을 제공합니다.
+ * 이 클래스는 REST API 엔드포인트를 제공하여 건강정보 조회 및 등록 기능을 처리합니다.
  *
  * @author 김혁
  * @version 1.0
@@ -45,10 +45,10 @@ public class HeathInfosController {
     log.info("start getHealthInfo for userid = {}", userId);
     HealthInfoResDto healthInfo = healthInfosService.getHealthInfo(Long.parseLong(userId));
     log.info("end getHealthInfo for userid = {}", userId);
-    if (healthInfo != null) {
-      return ResponseEntity.ok(healthInfo);
-    } else {
+    if (healthInfo == null) {
       return ResponseEntity.notFound().build();
+    } else {
+      return ResponseEntity.ok(healthInfo);
     }
   }
 
@@ -63,10 +63,10 @@ public class HeathInfosController {
     log.info("start saveHealthInfo for userEmail = {}", request.getUserEmail());
     Long savedHealthInfoId = healthInfosService.saveHealthInfo(request);
     log.info("end saveHealthInfo for userid = {}", request.getUserEmail());
-    if (savedHealthInfoId != null) {
-      return ResponseEntity.status(HttpStatus.CREATED).body(savedHealthInfoId);
+    if (savedHealthInfoId == null) {
+      return ResponseEntity.notFound().build();
     } else {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      return ResponseEntity.status(HttpStatus.CREATED).body(savedHealthInfoId);
     }
   }
 

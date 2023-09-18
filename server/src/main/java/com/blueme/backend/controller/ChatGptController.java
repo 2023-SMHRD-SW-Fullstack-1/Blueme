@@ -44,7 +44,7 @@ public class ChatGptController {
      * @param request         HTTP 요청 객체입니다.
      * @param response        HTTP 응답 객체입니다.
      * @param questionRequest 클라이언트로부터 받은 질문 정보를 담고 있는 DTO 객체입니다.
-     *
+     * @exception Exception CHATGPT 에 질문중 에러가 발생할 수 있습니다.
      * @return GPT의 응답 내용이 담긴 ResponseEntity 객체를 반환합니다.
      */
     @PostMapping("/question")
