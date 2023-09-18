@@ -20,12 +20,14 @@ import com.blueme.backend.service.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
-/*
- * 작성자 : 김혁
- * 작성일 : 2023-09-15
- * 설명   : 검색 서비스
+/**
+ * SearchsService는 검색 관련 서비스 클래스입니다.
+ * 이 클래스에서는 검색 등록, 최근 검색 목록 조회, 음악 검색 기능을 제공합니다.
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-15
  */
-
 @RequiredArgsConstructor
 @Service
 public class SearchsService {
@@ -34,8 +36,12 @@ public class SearchsService {
   private final UsersJpaRepository usersJpaRepository;
   private final MusicsJpaRepository musicsJpaRepository;
 
-  /*
-   * post 검색 등록
+  /**
+   * 새로운 최근 검색을 등록합니다.
+   * 이미 최근검색한 목록에 있을경우 삭제후 재등록, 없을경우 등록합니다.
+   *
+   * @param request 사용자ID와 음악ID가 담긴 요청 객체 (SearchSaveReqDto)
+   * @return 저장된 검색의ID (Long)
    */
   @Transactional
   public Long saveSearch(SearchSaveReqDto request) {
@@ -45,7 +51,6 @@ public class SearchsService {
         .orElseThrow(() -> new MusicNotFoundException(request.getParsedMusicId()));
     Searchs search = searchsJpaRepository.findByUserIdAndMusicId(user.getId(), music.getId());
 
-    // 이미 최근검색한 목록에 있을경우 재등록, 없을경우 등록
     if (search == null) {
       return searchsJpaRepository.save(Searchs.builder()
           .user(user)
@@ -61,8 +66,11 @@ public class SearchsService {
 
   }
 
-  /*
-   * get 검색 목록 조회
+  /**
+   * 특정사용자 ID를 기반으로 최근검색목록 조회를 수행합니다.
+   * 
+   * @param userId 사용자ID
+   * @return 검색 정보가 담긴 목록 (List<SearchsRecentResDto>)
    */
   @Transactional(readOnly = true)
   public List<SearchsRecentResDto> getRecentSearch(Long userId) {
@@ -70,8 +78,11 @@ public class SearchsService {
         .stream().map(SearchsRecentResDto::new).collect(Collectors.toList());
   }
 
-  /*
-   * 음악 검색
+  /**
+   * 키워드를 기반으로 음악 검색을 수행합니다.
+   * 
+   * @param keyword
+   * @return 검색 정보가 담긴 20개의 목록(List<SearchsResDto>)
    */
   @Transactional(readOnly = true)
   public List<SearchsResDto> getSearchs(String keyword) {

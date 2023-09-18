@@ -20,12 +20,14 @@ import com.blueme.backend.service.SearchsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
- * 작성자 : 김혁
- * 작성일 : 2023-09-15
- * 설명   : 검색 컨트롤러
+/**
+ * SearchsController는 검색 관련 컨트롤러입니다.
+ * 이 클래스에서는 최근검색 등록, 최근검색 조회, 음악 검색을 처리합니다.
+ *
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-15
  */
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -34,8 +36,12 @@ public class SearchsController {
 
   private final SearchsService searchsService;
 
-  /*
-   * post 검색 등록(없으면 등록, 있으면 업데이트)
+  /**
+   * 최근검색 등록을 위한 PUT 메서드입니다.
+   * 이미 최근검색 목록에 있을경우 재등록, 없을경우 등록합니다.
+   * 
+   * @param request userID와 musicID 를 담은 객체 (SearchsRecentResDto)
+   * @return 저장된 검색아이디를 반환합니다.
    */
   @PutMapping("")
   public ResponseEntity<Long> saveSearch(@RequestBody SearchSaveReqDto request) {
@@ -45,26 +51,36 @@ public class SearchsController {
     return new ResponseEntity<Long>(searchId, HttpStatus.CREATED);
   }
 
-  /*
-   * get 검색 조회
+  /**
+   * 최근검색 조회를 위한 GET 메서드입니다.
+   * 
+   * @param userId 사용자ID
+   * @return 최근검색정보를 담은 객체 리스트를 반환합니다 (List<SearchsRecentResDto>), 최근검색이 없을시 404
+   *         상태코드를 반환합니다.
    */
   @GetMapping("/{userId}")
   public ResponseEntity<List<SearchsRecentResDto>> getRecentSearch(@PathVariable("userId") Long userId) {
     log.info("get recentSearch starting for userId = {}", userId);
     List<SearchsRecentResDto> results = searchsService.getRecentSearch(userId);
+    log.info("get recentSearch finished for userId = {}", userId);
     if (results.isEmpty()) {
       return new ResponseEntity<List<SearchsRecentResDto>>(HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<List<SearchsRecentResDto>>(results, HttpStatus.OK);
   }
 
-  /*
-   * get 음악 검색
+  /**
+   * 음악 검색을 위한 GET 메서드입니다.
+   * 
+   * @param keyword 사용자가 검색하고자 하는 키워드
+   * @return 검색결과 리스트를 반환합니다. (List<SearchsResDto>), 검색결과가 없을시 NO_CONTENT 상태코드를
+   *         반환합니다.
    */
   @GetMapping("/music/{keyword}")
   public ResponseEntity<List<SearchsResDto>> getSearchs(@PathVariable("keyword") String keyword) {
     log.info("get search starting for keyword = {}", keyword);
     List<SearchsResDto> results = searchsService.getSearchs(keyword);
+    log.info("get search finished for keyword = {}", keyword);
     if (results.isEmpty()) {
       return new ResponseEntity<List<SearchsResDto>>(HttpStatus.NO_CONTENT);
     }

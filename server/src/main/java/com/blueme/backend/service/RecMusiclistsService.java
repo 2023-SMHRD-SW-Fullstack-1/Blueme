@@ -25,12 +25,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-13
-설명: 추천음악 관련 서비스
-*/
-
+/**
+ * RecMusiclistsService는 추천 음악 관련 서비스 클래스입니다.
+ * 이 클래스에서는 추천 음악 목록의 조회, 상세 조회, 등록 기능을 제공합니다.
+ *
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-13
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -42,8 +44,10 @@ public class RecMusiclistsService {
   private final MusicListsService musicListsService;
   private final RecMusicListsJpaRepository recMusicListsJpaRepository;
 
-  /*
-   * get 최근추천목록 조회
+  /**
+   * 특정 사용자의 최근 추천 음악 목록을 조회합니다.
+   *
+   * @return 최근 추천음악목록 10개 (RecMusiclistsRecent10ResDto 리스트)
    */
   @Transactional(readOnly = true)
   public List<RecMusiclistsRecent10ResDto> getRecent10RecMusiclists() {
@@ -51,8 +55,11 @@ public class RecMusiclistsService {
         .collect(Collectors.toList());
   }
 
-  /*
-   * get 추천리스트 상세조회
+  /**
+   * 특정 추천 음악 목록의 상세 정보를 조회합니다.
+   *
+   * @param recMusiclistId 조회하려는 추천 음악 목록의 ID (String)
+   * @return 해당 추천 음악 목록의 상세 정보 (RecMusiclistsSelectDetailResDto)
    */
   @Transactional(readOnly = true)
   public RecMusiclistsSelectDetailResDto getRecMusiclistDetail(String recMusiclistId) {
@@ -60,16 +67,18 @@ public class RecMusiclistsService {
         .orElseThrow(null));
   }
 
-  /*
-   * post 추천 음악등록(chatGPT)
+  /**
+   * GPTAPI를 이용해 추천음악목록을 등록합니다.
+   *
+   * @param userIdStr 사용자 ID (String)
+   * @return 추천음악목록의 ID (Long). 만약 건강 데이터가 없다면 null 반환
    */
   @Transactional
   public Long registerRecMusiclist(String userIdStr) {
     Long userId = Long.parseLong(userIdStr);
-    // 건강데이터 있는지 확인, 있으면 가장 최신의 건강데이터 1개 추출
     HealthInfos healthInfo = healthInfosJpaRepository.findFirstByUserIdOrderByCreatedAtDesc(userId);
     if (healthInfo == null) {
-      return -1L;
+      return null;
     }
     WeatherSummary weatherSummary = getWeatherSummary(healthInfo);
     String question = chatGptService.makeQuestion(weatherSummary, healthInfo);
@@ -77,7 +86,7 @@ public class RecMusiclistsService {
     return processChatGptResponse(response, userIdStr);
   }
 
-  // 날씨 데이터 가져오기
+  // 현재 날씨 정보를 가져옵니다.
   private WeatherSummary getWeatherSummary(HealthInfos healthInfo) {
     WeatherInfo weatherData = weatherAPIClient.getWeather(healthInfo.getLat(), healthInfo.getLon());
     String condition = weatherData.getWeather().get(0).getMain();
@@ -86,7 +95,7 @@ public class RecMusiclistsService {
     return new WeatherSummary(condition, temp, humidity);
   }
 
-  // ChatGptResDto 에서 사용할 데이터 추출
+  // ChatGptResDto 에서 사용할 데이터 추출합니다.
   private Long processChatGptResponse(ChatGptResDto response, String userId) {
     String content = response.getChoices().get(0).getMessage().getContent();
     ObjectMapper objectMapper = new ObjectMapper();
@@ -100,8 +109,11 @@ public class RecMusiclistsService {
     }
   }
 
-  /*
-   * get (사용자에 해당하는) 최근 추천리스트 조회
+  /**
+   * 특정 사용자의 최근 추천음악목록 1개를 조회합니다.
+   *
+   * @param userId 사용자 ID (String)
+   * @return 추천음악목록 (RecMusiclistsResDto). 만약 결과가 없다면 null 반환
    */
   @Transactional(readOnly = true)
   public RecMusiclistsResDto getRecentRecMusiclists(String userId) {
@@ -110,6 +122,12 @@ public class RecMusiclistsService {
     return recMusicList == null ? null : new RecMusiclistsResDto(recMusicList);
   }
 
+  /**
+   * 특정 사용자의 모든 추천 음악 목록을 조회합니다.
+   *
+   * @param userId 사용자 ID (String)
+   * @return 해당 사용자의 모든 추천 음악 목록. 결과가 없다면 빈 리스트 반환(RecMusiclistsResDto 리스트).
+   */
   @Transactional(readOnly = true)
   public List<RecMusiclistsResDto> getAllRecMusiclists(String userId) {
     return recMusicListsJpaRepository.findByUserId(Long.parseLong(userId)).stream().map(RecMusiclistsResDto::new)

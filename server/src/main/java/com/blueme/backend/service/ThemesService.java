@@ -26,12 +26,14 @@ import com.blueme.backend.utils.ImgStorageUtil;
 
 import lombok.RequiredArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-13
-설명: 테마 단일 관련 서비스
-*/
-
+/**
+ * ThemesService는 테마 서비스 입니다.
+ * 이 클래스에서는 테마 등록, 모든테마 조회, 특정 테마조회 기능을 수행합니다.
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-13
+ */
 @RequiredArgsConstructor
 @Service
 public class ThemesService {
@@ -42,7 +44,11 @@ public class ThemesService {
   private final ThemeMusiclistsJpaRepository themeMusiclistsJpaRepository;
 
   /**
-   * post 테마 등록
+   * 테마 등록을 수행합니다.
+   * 
+   * @param imageFile  테마 이미지(MultipartFile)
+   * @param requestDto 제목, 설명, musicIds가 담긴 문자열 (String)
+   * @return 저장된 테마의ID (Long)
    */
   @Transactional
   public Long saveThemes(MultipartFile imageFile, ThemeSaveReqDto requestDto) {
@@ -67,7 +73,9 @@ public class ThemesService {
   }
 
   /**
-   * get 모든 테마 조회
+   * 모든 테마 조회를 수행합니다.
+   * 
+   * @return 테마 정보가 담긴 목록 (List<ThemelistResDto>)
    */
   @Transactional(readOnly = true)
   public List<ThemelistResDto> getAllThemes() {
@@ -76,7 +84,10 @@ public class ThemesService {
   }
 
   /**
-   * get 단일 테마 상세 조회 (음악 id 포함)
+   * 특정 테마에 해당하는 테마 상세조회를 수행합니다.
+   * 
+   * @param id 테마ID (Long)
+   * @return 특정테마정보 상세가 담긴 정보 목록 (List<ThemeDetailsResDto>)
    */
   @Transactional(readOnly = true)
   public List<ThemeDetailsResDto> getThemeDetailsById(Long id) {

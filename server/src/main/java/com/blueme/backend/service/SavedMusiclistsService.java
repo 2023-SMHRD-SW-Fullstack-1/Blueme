@@ -24,11 +24,14 @@ import com.blueme.backend.utils.Base64ToImage;
 
 import lombok.RequiredArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-14
-설명: 저장한음악 관련 서비스
-*/
+/**
+ * 저장된 음악 관련 서비스 클래스입니다.
+ * 이 클래스에서는 저장된 음악 목록의 조회, 상세 조회, 등록 기능을 제공합니다.
+ *
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-14
+ */
 @RequiredArgsConstructor
 @Service
 public class SavedMusiclistsService {
@@ -37,8 +40,11 @@ public class SavedMusiclistsService {
         private final SavedMusiclistsJpaRepository savedMusiclistsJpaRepository;
         private final MusicsJpaRepository musicsJpaRepository;
 
-        /*
-         * get 저장음악리스트 조회
+        /**
+         * 특정 사용자의 모든 저장된 음악 목록을 조회합니다.
+         *
+         * @param userId 사용자 ID (String)
+         * @return 해당 사용자의 모든 저장된 음악 목록 (SavedMusiclistsResDto 리스트)
          */
         @Transactional(readOnly = true)
         public List<SavedMusiclistsResDto> getSavedMusiclists(String userId) {
@@ -47,8 +53,11 @@ public class SavedMusiclistsService {
                                 .collect(Collectors.toList());
         }
 
-        /*
-         * get 저장음악리스트 상세조회
+        /**
+         * 특정 저장된 음악 목록의 상세 정보를 조회합니다.
+         *
+         * @param savedMusiclistId 조회하려는 저장된 음악 목록의 ID (String)
+         * @return 해당 저장된 음악 목록의 상세 정보 (SavedMusiclistsGetResDto)
          */
         @Transactional(readOnly = true)
         public SavedMusiclistsGetResDto getSavedMusiclistDetail(String savedMusiclistId) {
@@ -58,8 +67,11 @@ public class SavedMusiclistsService {
                                                                 Long.parseLong(savedMusiclistId))));
         }
 
-        /*
-         * post 저장음악리스트 등록
+        /**
+         * 새로운 저장된 음악 목록을 등록합니다.
+         *
+         * @param request 등록하려는 저장된 음악 목록 정보가 담긴 요청 객체 (SavedMusiclistsSaveReqDto)
+         * @return 등록된 새로운 저장된 음악 목록의 ID (Long). 만약 요청 처리에 실패한다면 null 반환
          */
         @Transactional
         public Long save(SavedMusiclistsSaveReqDto request) {
@@ -71,7 +83,7 @@ public class SavedMusiclistsService {
                                                 .orElseThrow(() -> new MusicNotFoundException(Long.parseLong(id))))
                                 .collect(Collectors.toList());
                 if (musics.isEmpty()) {
-                        return -1L;
+                        return null;
                 }
 
                 List<SavedMusiclistDetails> savedMusiclistDetails = musics.stream()

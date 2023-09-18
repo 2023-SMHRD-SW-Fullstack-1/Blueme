@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 추천 음악 관련 컨트롤러입니다.
- * 이 클래스에서는 추천 음악 목록의 조회, 상세 조회, 등록 기능을 제공합니다.
+ * 이 클래스에서는 추천 음악 목록의 조회, 상세 조회, 등록 기능을 처리합니다.
  *
  * @author 김혁
- * @version 1.1
+ * @version 1.0
  * @since 2023-09-14
  */
 @Slf4j
