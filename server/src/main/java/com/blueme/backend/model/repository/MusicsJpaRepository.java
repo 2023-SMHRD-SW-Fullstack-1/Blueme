@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.blueme.backend.model.entity.FavArtists;
 import com.blueme.backend.model.entity.Musics;
 
 public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
@@ -25,4 +26,9 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
 
   @Query(value = "SELECT DISTINCT * FROM musics m WHERE m.artist LIKE %:keyword% GROUP BY m.artist", nativeQuery = true)
   List<Musics> findByDistinctArtist(@Param("keyword") String keyword);
+
+ Musics findByArtist(FavArtists findByFavCheckList);
+
+Musics findByArtistFilePath(Musics artistId);
+
 }

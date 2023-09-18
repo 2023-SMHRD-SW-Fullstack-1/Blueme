@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 손지연
-날짜(수정포함): 2023-09-13
+날짜(수정포함): 2023-09-16
 설명: 회원가입 시 선호장르 관련 서비스
 */
 
@@ -49,23 +49,12 @@ public class GenresService {
 	@Transactional
 	public List<GenreInfoDto> getAllGenre() {
 		return genresJpaRepository.findAll().stream().flatMap(genre -> {
-			String imgPath = genre.getGenre_file_path();
-			if (imgPath != null) {
-				Path filePath = Paths.get("C:\\\\usr\\\\blueme\\\\genre\\\\" + imgPath + ".jpg");
-				File file = filePath.toFile();
-				try {
-					ImageConverter<File, String> converter = new ImageToBase64();
-					String base64 = null;
-					base64 = converter.convert(file);
-					return Stream.of(new GenreInfoDto(genre, base64));
-
-				} catch (IOException e) {
-					log.info(e.getMessage());
-				}
+			String base64Image = getBase64ImageForGenre(genre);
+			if (base64Image != null) {
+				return Stream.of(new GenreInfoDto(genre, base64Image));
+			} else {
+				return Stream.empty();
 			}
-			// 이미지 경로가 null이거나 변환 중 예외가 발생한 경우,
-			// 비어있는 스트림을 반환하여 해당 장르가 최종 결과 리스트에 포함되지 않게 함
-			return Stream.empty();
 		}).collect(Collectors.toList());
 
 	}
@@ -75,29 +64,61 @@ public class GenresService {
 	 */
 	@Transactional
 	public Long saveFavGenre(FavGenreReqDto requestDto) {
-		log.info(" : {}", requestDto.getFavChecklistId());
-		log.info(" : {}", requestDto.getGenreIds());
-			
-			Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getFavChecklistId()))
-					.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
-			
-			FavCheckLists favCheckList = new FavCheckLists();
-			favCheckList.setUser(user);
-			favCheckList = favCheckListsJpaRepository.save(favCheckList);
-			
-			for(String favGenersStr : requestDto.getGenreIds()) {
+		Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getFavChecklistId()))
+				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
+		FavCheckLists favCheckList = new FavCheckLists();
+		favCheckList.setUser(user);
+		favCheckList = favCheckListsJpaRepository.save(favCheckList);
+
+		for (String favGenersStr : requestDto.getGenreIds()) {
 			Genres genres = genresJpaRepository.findById(Long.parseLong(favGenersStr))
 					.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 장르"));
-			
+
 			FavGenres favGenres = new FavGenres();
 			favGenres.setFavCheckList(favCheckList);
 			favGenres.setGenre(genres);
-			
+
 			favGenresJpaRepository.save(favGenres);
 		}
-			return Long.parseLong(requestDto.getFavChecklistId());	
-		
-		
+		return Long.parseLong(requestDto.getFavChecklistId());
+	}
+
+	/**
+	 * 장르 이미지 변환
+	 */
+	public String getBase64ImageForGenre(Genres genre) {
+		if (genre.getGenre_file_path() != null) {
+			try {
+				Path filePath = Paths.get("C:\\usr\\blueme\\genre\\" + genre.getGenre_file_path() + ".jpg");
+				File file = filePath.toFile();
+				ImageConverter<File, String> converter = new ImageToBase64();
+				String base64 = null;
+				base64 = converter.convert(file);
+				return base64;
+			} catch (IOException e) {
+				log.info("error");
+				log.info(e.getMessage());
+			}
 		}
+		return null;
+	}
+	
+	@Transactional
+	public Long updateFavGenre(Long userId, List<Long> newGenreIds) {
+		
+		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
+		
+		Long id = favCheckList.get(0).getId();
+		
+		List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckList.get(0));
+		Genres genres = genresJpaRepository.findById(newGenreIds.get(0)).orElseThrow(null);
+		Genres genres2 = genresJpaRepository.findById(newGenreIds.get(1)).orElseThrow(null);
+	
+		favGenres.get(0).setGenre(genres);
+		favGenres.get(1).setGenre(genres2);
+		
+	    return userId;
+
+	}
 
 }

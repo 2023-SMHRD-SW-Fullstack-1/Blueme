@@ -56,11 +56,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 				.orElse(null);
 		
 		if(refreshToken != null) {
-			log.info("JwtAuthenticationProcessingFilter - doFilterInternal start - refresh != null ");
 			checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
 			return; 	// RefreshToken을 보냈을 경우에는 AccessToken을 재발급하고 인증 처리는 하지 않게 바로 return
 		}else {
-			log.info("JwtAuthenticationProcessingFilter - doFilterInternal start - refresh != null(else) ");
 			checkAccessTokenAndAuthentication(request, response, filterChain); // AccessToken 검사 및 인증 작업 수행
 		}
 	}
@@ -93,15 +91,12 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	     */
 	    public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
 	                                                  FilterChain filterChain) throws ServletException, IOException {
-	        log.info("checkAccessTokenAndAuthentication() 호출");
-	        
 	        jwtService.extractAccessToken(request)
 	                .filter(jwtService::isTokenValid)
 	                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
 	                        .ifPresent(email -> usersJpaRepository.findByEmail(email)
 	                                .ifPresent(this::saveAuthentication)));
 	        filterChain.doFilter(request, response);
-	        log.info("checkAccessTokenAndAuthentication() 호출 끝");
 	    }
 	    
 	    /**
@@ -109,7 +104,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	     */
 	    public void saveAuthentication(Users myUser) {
 	        String password = myUser.getPassword();
-	        System.out.println("Password====>"+password);
 	        if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
 	            password = bCryptPasswordEncoder.encode(PasswordUtil.generateRandomPassword());
 	        }

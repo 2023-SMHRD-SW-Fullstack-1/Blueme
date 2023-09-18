@@ -24,6 +24,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.blueme.backend.dto.usersdto.UserInfoDTO;
+import com.blueme.backend.model.entity.FavCheckLists;
+import com.blueme.backend.model.repository.FavArtistsJpaRepository;
+import com.blueme.backend.model.repository.FavCheckListsJpaRepository;
+import com.blueme.backend.model.repository.FavGenresJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.filter.JwtAuthenticationProcessingFilter;
 import com.blueme.backend.security.jwt.service.JwtService;

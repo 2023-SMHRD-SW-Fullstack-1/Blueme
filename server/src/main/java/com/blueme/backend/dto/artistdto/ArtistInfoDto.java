@@ -3,8 +3,10 @@ package com.blueme.backend.dto.artistdto;
 import com.blueme.backend.model.entity.Musics;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ArtistInfoDto {
 	
 	String artistFilePath;
@@ -18,6 +20,7 @@ public class ArtistInfoDto {
 		this.artistName=musics.getArtist();
 		this.img = imgBase64;
 	}
+
 	
 	
 

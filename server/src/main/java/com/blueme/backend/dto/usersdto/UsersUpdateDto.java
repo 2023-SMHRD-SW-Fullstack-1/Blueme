@@ -15,10 +15,10 @@ public class UsersUpdateDto {
 	
 	private String nickname;
 	
-	private String imgUrl;
+	private String img_url;
 	
 	public Users toEntity() {
-        return Users.builder().email(email).password(password).nickname(nickname).img_url(imgUrl).build();
+        return Users.builder().email(email).password(password).nickname(nickname).img_url(img_url).build();
     }
 	
 }

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 손지연
-날짜(수정포함): 2023-09-13
+날짜(수정포함): 2023-09-16
 설명: 회원가입 시 선호아티스트 관련 서비스
 */
 
@@ -39,109 +37,108 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 public class ArtistsService {
-	
+
 	private final UsersJpaRepository usersJpaRepository;
 	private final MusicsJpaRepository musicsJpaRepository;
 	private final FavCheckListsJpaRepository favCheckListsJpaRepository;
 	private final FavArtistsJpaRepository favArtistsJpaRepository;
-	
+
 	/**
-	 * 	모든 가수(아티스트) 조회
+	 * 모든 가수(아티스트) 조회
 	 */
 	@Transactional
-	public List<ArtistInfoDto> getAllArtist(){
-		Map<String, String> pathToBase64 = new HashMap();
-	    ImageConverter<File, String> converter = new ImageToBase64();
-	    List<Musics> uniqueArtists = musicsJpaRepository.findByArtist();
-
-	    return uniqueArtists.stream().flatMap(artist -> {
-	        String imgPath = artist.getArtistFilePath();
-	        if (imgPath != null) {
-	            Path filePath = Paths.get("C:\\usr\\blueme\\artists\\"+imgPath+".jpg");
-	            File file = filePath.toFile();
-	            try {
-	                // If the image path is already processed, use the existing base64 string.
-	                // Otherwise, convert the image and put it in the map.
-	                if (!pathToBase64.containsKey(imgPath)) {
-	                    String base64 = converter.convert(file);
-	                    pathToBase64.put(imgPath, base64);
-	                }
-	                return Stream.of(new ArtistInfoDto(artist, pathToBase64.get(imgPath)));
-	            } catch (IOException e) {
-	                log.info(e.getMessage());
-	            }
+	public List<ArtistInfoDto> getAllArtist() {
+		List<Musics> uniqueArtists = musicsJpaRepository.findByArtist();
+		return uniqueArtists.stream().flatMap(artist -> {
+			String base64Image = getBase64ImageForArtist(artist);
+			if (base64Image != null) {
+	            return Stream.of(new ArtistInfoDto(artist, base64Image));
+	        } else {
+	            return Stream.empty();
 	        }
-	        return Stream.empty();
 	    }).collect(Collectors.toList());
 	}
-	
-	
+
 	/**
 	 * 사용자가 선택한 가수(아티스트) 저장
 	 */
 	@Transactional
 	public Long saveFavArtist(FavArtistReqDto requestDto) {
-		log.info("userId : ", requestDto.getFavChecklistId());
-		log.info("artist_file_path : ", requestDto.getArtistIds());
-		
 		Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getFavChecklistId()))
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
-		
+
 		FavCheckLists favCheckList = new FavCheckLists();
 		favCheckList.setUser(user);
 		favCheckList = favCheckListsJpaRepository.save(favCheckList);
-		
-		for(String favArtistStr : requestDto.getArtistIds()) {
+
+		for (String favArtistStr : requestDto.getArtistIds()) {
 			Musics musics = musicsJpaRepository.findByArtistFilePath(favArtistStr);
-//			if(musics == null) throw new IllegalArgumentException("존재하지 않는 가수 : "+favArtistStr); 
-			if(musics == null) return -1L; 
-			
+			if (musics == null)
+				return -1L;
 			FavArtists favArtists = new FavArtists();
 			favArtists.setFavCheckList(favCheckList);
 			favArtists.setArtistId(musics);
-			
 			favArtistsJpaRepository.save(favArtists);
 		}
 		return Long.parseLong(requestDto.getFavChecklistId());
 	}
 	
-    /**
-     * 	get 가수(아티스트) 검색
-     */
-    @Transactional(readOnly = true)
-    public List<ArtistInfoDto> searchArtist(String keyword) {
-    	log.info("Artist searchArtist Service start...");
-    	
-		Map<String, String> pathToBase64 = new HashMap();
-	    ImageConverter<File, String> converter = new ImageToBase64();
 
-    	List<Musics> artistSearch = musicsJpaRepository.findByDistinctArtist(keyword);
-    	return artistSearch.stream().flatMap(artist -> {
-    			
-    			String imgPath = artist.getArtistFilePath();
-    			if (imgPath != null) {
-    				Path filePath = Paths.get("C:\\usr\\blueme\\artists\\"+imgPath+".jpg");
-    				File file = filePath.toFile();
-    				try {
-    					// If the image path is already processed, use the existing base64 string.
-    					// Otherwise, convert the image and put it in the map.
-    					if (!pathToBase64.containsKey(imgPath)) {
-    						String base64 = converter.convert(file);
-    						pathToBase64.put(imgPath, base64);
-    					}
-    					return Stream.of(new ArtistInfoDto(artist, pathToBase64.get(imgPath)));
-    				} catch (IOException e) {
-    					log.info(e.getMessage());
-    				}
-	        }
-	        return Stream.empty();
-	    }).collect(Collectors.toList());
-    	
-//    	log.info("artist 검색 : {}",artist.toString());
-//    	return artist;
-//    	if(artist == null) return 
-//    	log.info("keyword : {}",musicsJpaRepository.findByArtist(keyword).toString());
-//        return musicsJpaRepository.findByArtist(keyword);
-    }
+	/**
+	 * get 가수(아티스트) 검색
+	 */
+	@Transactional(readOnly = true)
+	public List<ArtistInfoDto> searchArtist(String keyword) {
+		log.info("Artist searchArtist Service start...");
+		List<Musics> artistSearch = musicsJpaRepository.findByDistinctArtist(keyword);
+		return artistSearch.stream().flatMap(artist -> {
+			String base64Image = getBase64ImageForArtist(artist);
+			if (base64Image != null) {
+				return Stream.of(new ArtistInfoDto(artist, base64Image));
+			} else {
+				return Stream.empty();
+			}
+		}).collect(Collectors.toList());
+	}
+	
+	/**
+	 * 	patch 가수(아티스트) 수정
+	 */
+	@Transactional
+	public Long updateFavArtist(Long userId, List<Long> newArtistIds) {
+		
+		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
+		
+		List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckList.get(1));
+		
+		Musics musics = musicsJpaRepository.findByArtistFilePath(favArtists.get(0).getArtistId());
+		Musics musics2 = musicsJpaRepository.findByArtistFilePath(favArtists.get(1).getArtistId());
+		
+		favArtists.get(0).setArtistId(musics);
+		favArtists.get(1).setArtistId(musics2);
+		
+		return userId;
+		
+	}
+
+	
+	/**
+	 * 아티스트(가수) 이미지 변환
+	 */
+	public String getBase64ImageForArtist(Musics music) {
+		if (music.getArtistFilePath() != null) {
+			try {
+				Path filePath = Paths.get("C:\\usr\\blueme\\artists\\" + music.getArtistFilePath() + ".jpg");
+				File file = filePath.toFile();
+				ImageConverter<File, String> converter = new ImageToBase64();
+				String base64 = null;
+				base64 = converter.convert(file);
+				return base64;
+			} catch (IOException e) {
+				log.info(e.getMessage());
+			}
+		}
+		return null;
+	}
 
 }

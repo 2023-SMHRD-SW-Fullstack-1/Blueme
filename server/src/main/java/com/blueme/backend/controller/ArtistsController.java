@@ -1,10 +1,12 @@
 package com.blueme.backend.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,10 +65,18 @@ public class ArtistsController {
 	public List<ArtistInfoDto> searchArtist(@PathVariable("keyword") String keyword) {
 		log.info("Starting search music info");
 		List<ArtistInfoDto> artists = artistsService.searchArtist(keyword);
-		System.out.println(keyword);
 		return artists;
-		// System.out.println(artists.size());
-		// return artists;
-		// return musicsService.searchMusic(keyword);
 	}
+
+	/**
+	 * patch 선호가수 수정
+	 */
+	@PatchMapping("/updateFavArtist")
+	public Long updateFavArtist(@RequestBody FavArtistReqDto requestDto) {
+		log.info("Starting to update user's favorite artist");
+		List<Long> artistId = requestDto.getArtistIds().stream().map(Long::parseLong).collect(Collectors.toList());
+		Long userId = artistsService.updateFavArtist(Long.parseLong(requestDto.getFavChecklistId()), artistId);
+		return userId;
+	}
+
 }

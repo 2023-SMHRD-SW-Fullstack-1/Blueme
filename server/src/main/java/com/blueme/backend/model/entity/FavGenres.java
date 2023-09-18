@@ -1,5 +1,7 @@
 package com.blueme.backend.model.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,8 +41,14 @@ public class FavGenres {
 		this.genre = genre;
 		this.favCheckList = favCheckList;
 	}
+
+	public void update(Genres genreIds) {
+		this.genre=genreIds;
+	}
 	
-	
+	public Long getGenreId() {
+		return this.genre.getId();
+	}
 	
 	
 	

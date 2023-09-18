@@ -1,9 +1,9 @@
 package com.blueme.backend.security.login.handler;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,10 +11,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.blueme.backend.dto.usersdto.UserInfoDTO;
-import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.service.JwtService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -44,17 +42,13 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		        // AccessToken과 RefreshToken 발급
 		        String accessToken = jwtService.createAccessToken(email);
 		        String refreshToken = jwtService.createRefreshToken();
-
+		        
 		        // 응답 헤더에 AccessToken과 RefreshToken 실어서 응답
 		        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
 		        // DB의 유저 정보 업데이트
 		        user.updateRefreshToken(refreshToken);
 		        usersJpaRepository.saveAndFlush(user);
-		        
-//		        response.addHeader("id", id.toString());
-//		        response.addHeader("nickname", nickname);
-//		        response.addHeader("platformType", platformType);
 		        
 		        UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(), user.getImg_url());
 		        
