@@ -22,23 +22,20 @@ import musicStore from "./store/music/musicStore";
 
 //유영 시작
   // In your store.js file 
-  import { createStore } from 'redux';
-  import rootReducer from './store/rootReducer';
+  import { PersistGate } from 'redux-persist/integration/react';
+  import { store, persistor }from './store/rootReducer'; 
   
-   const store = createStore(
-    rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    );
 //유영 끝
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-  // 지희 시작
   <Provider store={store}>
-    <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
   </Provider>
-  // 지희 끝
+
   // </React.StrictMode>
 );
 

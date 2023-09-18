@@ -5,8 +5,9 @@
 */
 // SelectArtist.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const SelectGenre = () => {
   const navigate = useNavigate();
@@ -15,6 +16,10 @@ const SelectGenre = () => {
   const [page, setPage] = useState(1); //페이징 관련
   const [genres, setGenres] = useState([])//페이징 관련
   const id = localStorage.getItem('id')
+  const user = useSelector(state => state.memberReducer.user)
+
+  const params = useParams();
+  console.log('params', params);
 
    //3초 로딩 함수
    const timeout = () => {
@@ -43,25 +48,55 @@ const SelectGenre = () => {
       .get("http://172.30.1.45:8104/SelectGenre") 
       .then((res) => {
         console.log(res);
+        console.log('userid', id);
         setGenre(res.data)
       })
       .catch((err) => console.log(err))
     }, [])
-      console.log(checkedState);
+      // console.log(checkedState);
 
-    //회원가입 시 장르 선택(2개) / 수정 시 장르 선택(2개)
+    // //카카오 로그인
+
+    // e.preventDefault()
+    // dispatch(loginRequest());
+    // window.location.href = "http://localhost:8104/oauth2/authorization/kakao"
+    // console.log('params', params);
+    // const requestData = {
+    //   email: email,
+    //   password: password,
+    // };
+    // await axios
+    // .post("http://172.30.1.45:8104/login", requestData)
+    // .then((res) => {
+      
+    //   console.log(res);
+    //   let accessToken = res.headers.get("Authorization");
+    //   let refreshToken = res.headers["authorization-refresh"];
+    //   localStorage.setItem("accessToken", accessToken);
+    //   localStorage.setItem("refreshToken", refreshToken);
+    //   localStorage.setItem("id", res.data.id);
+    //    dispatch(loginSuccess(res.data))
+    //    navigate("/");
+    //   })
+    // .catch(err => {
+    //   console.log(err)
+    //   dispatch(loginFailure(err.message))
+    // })
+    
+
+    //회원가입 시 장르 선택(2개)
     const handleSelect = () => {
           if(checkedState.length === 2) {
-            localStorage.setItem('genres', JSON.stringify(checkedState)) 
-            const genres = localStorage.getItem('genres')
-            const genreIds = JSON.parse(genres)
-            console.log(typeof(genreIds));
+            // localStorage.setItem('genres', JSON.stringify(checkedState)) 
+            // const genres = localStorage.getItem('genres')
+            // const genreIds = JSON.parse(genres)
+            // console.log(typeof(genreIds));
               const requestData = {genreIds : checkedState ,favChecklistId : id}
               console.log(requestData);
               axios
               .post("http://172.30.1.45:8104/SaveFavGenre",requestData)//선택한 장르 저장 성공 여부
               .then((res) => {//저장 실패일 경우 반환값 -1
-                if(res.data >0) {
+                if(res.data > 0) {
                   navigate('/Artistrecommend')
                 }else if(res.data == -1) {
                   alert('저장되지 않았습니다. 다시 선택해주세요.')
@@ -70,13 +105,36 @@ const SelectGenre = () => {
                 console.log(res)
               })
               .catch((err) => console.log(err))
-              console.log(checkedState);
         } else{
             document.getElementById('toast-warning').classList.add("reveal")
             timeout()
             navigate('/SelectGenre')
         }
     };
+    //장르 수정하기
+    const handelUpdate = () => {
+      if(checkedState.length === 2) {
+          const requestData = {genreIds : checkedState ,favChecklistId : id}
+          console.log('requestData',requestData);
+          axios
+          .patch("http://172.30.1.45:8104/updateFavGenre",requestData)//선택한 장르 저장 성공 여부
+          .then((res) => {//저장 실패일 경우 반환값 -1
+            if(res.data >0) {
+              navigate('/MyPage')
+            }else if(res.data == -1) {
+              alert('저장되지 않았습니다. 다시 선택해주세요.')
+              navigate('./SelectGenre')
+            }   
+            console.log(res)
+          })
+          .catch((err) => console.log(err))
+          console.log(checkedState);
+    } else{
+        document.getElementById('toast-warning').classList.add("reveal")
+        timeout()
+        navigate('/SelectGenre')
+    }
+    }
 
   
 
@@ -104,7 +162,7 @@ const SelectGenre = () => {
           </button>
         ))}
       </div>
-      {localStorage.getItem('email') === null ?
+      {user.email === null ?
       <button
       onClick={handleSelect}
       className="
@@ -120,7 +178,7 @@ const SelectGenre = () => {
     >
       선택하기
     </button> : <button
-          onClick={handleSelect}
+          onClick={handelUpdate}
           className="
             mt-2
             w-full
@@ -137,7 +195,7 @@ const SelectGenre = () => {
         {/* 토스트 창 띄우기 */}
         <div className="flex justify-center items-center">
           <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
-            <div className="ml-3 font-normal text-center">장르를 2개를 선택해주세요.</div>
+            <div className="ml-3 font-normal text-center">장르 2개를 선택해주세요.</div>
           </div>
         </div>
      

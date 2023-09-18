@@ -9,14 +9,14 @@ import { useSelector } from 'react-redux';
 /*
 작성자: 이유영
 날짜(수정포함): 2023-09-07
-설명: 추천 소개 페이지
+설명: 추천 시작 화면 및 토스트창 구현
 */
 
 const RecBegin = () => {
   const navigate = useNavigate()
   const user = useSelector(state => state.memberReducer.user)
   const email = user.email
-  console.log('header',user);
+  // console.log('header',user);
 
   //3초 로딩 함수
   const timeout = () => {

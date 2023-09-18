@@ -7,7 +7,7 @@
 /*
 작성자: 이유영
 날짜: 2023-09-12
-설명: 회원탈퇴 기능 구현
+설명: 회원탈퇴 기능 구현( +리덕스)
 */
 
 import React, { useState } from "react";
@@ -22,7 +22,6 @@ const MemberDelete = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [nickname, setNickname] = useState("");
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -45,14 +44,14 @@ const MemberDelete = () => {
   //모달창 탈퇴하기 클릭 시 실행되는 함수
   const handleConfirmDelete = async (e) => {
     e.preventDefault();
-    const requestData = {
-      email: email,
-      password: password,
-    };
-    console.log(requestData);
-
+    //delete는 requestData로 따로 빼주면 오류남..??
     await axios
-      .delete("http://172.30.1.45:8104/user/deactivate", requestData)
+      .delete("http://172.30.1.27:8104/user/deactivate", {
+        data : {
+          email: email,
+          password: password
+        },
+      })
       .then((res) => {
         localStorage.clear()
         dispatch(userDelete())

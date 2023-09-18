@@ -47,9 +47,9 @@ const DirectionalLightWithCamera = () => {
 
 const LoadData = () => {
   const navigate = useNavigate();
-  const user = useSelector(state => state.memberReducer.user)
-  const nickname = user.nickname
-  console.log('header',user);
+  const user = useSelector(state => state.memberReducer.user)//member리덕스가져오기
+  const nickname = user.nickname//member리덕스에서 nickname가져오기
+  // console.log('header',user);
 
   //3초 로딩
   const timeout = () => {

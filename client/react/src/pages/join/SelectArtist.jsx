@@ -6,6 +6,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
+import { useSelector } from "react-redux";
+import '../../App.css'
 
 
 const SelectArtist = () => {
@@ -16,6 +18,7 @@ const SelectArtist = () => {
   const [artistInput, setArtistInput] = useState('')
   const [searchArtist, setSearchArtist] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const user = useSelector(state => state.memberReducer.user)
   const id = localStorage.getItem('id')
 
 
@@ -53,18 +56,12 @@ const SelectArtist = () => {
 
     //회원가입 시 아티스트 선택(2개)
     const handleSelect = () => {
-
         if(checkedState.length === 2) {//아티스트 2명 선택 시 
-          localStorage.setItem('artists', JSON.stringify(checkedState)) 
-          const artists = localStorage.getItem('artists')
-          const artistIds = JSON.parse(artists)
-          console.log(typeof(artistIds));
-
           const requestData = {artistIds : checkedState ,favChecklistId : id}
           axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)//아티스트 저장 성공 여부
           .then((res) => {//성공 실패 시 반환값 -1
               if(res.data > 0) {
-                if(localStorage.getItem('email') === null) {//회원가입 시
+                if(user.email === null) {//회원가입 시
                   navigate('/JoinComplete')
                 }else {//수정 시
                   navigate('/MyPage')
@@ -82,31 +79,6 @@ const SelectArtist = () => {
         navigate('/Artistrecommend')
       }
     };
-
-
-    // //아티스트 수정
-    // const handleUpdate = () => {
-    //   if(checkedState.length === 2) {
-    //     localStorage.setItem('selectArtist1', checkedState[0])
-    //     localStorage.setItem('selectArtist2', checkedState[1])
-    //     // localStorage.setItem('selectGenre', JSON.stringify(checkedState));
-    //     const requestData = {artistIds : checkedState ,favChecklistId : id}
-    //     console.log(requestData);
-    //     axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)
-    //     .then((res) => {
-    //         if(res.data > 0) {
-    //           navigate('/MyPage')
-    //         }else if(res.data == -1) {
-    //           alert('저장되지 않았습니다. 다시 선택해주세요.')
-    //           navigate('./Artistrecommend')
-    //         }   
-    //         console.log(res)
-    //     }).catch((err) => console.log(err))
-    //   } else {
-    //       alert('선호하는 아티스트 2명을 선택해주세요.')
-    //       navigate('/Artistrecommend')
-    //   }
-    // };
     
     
     //아티스트 검색 => 검색 후 입력값 지우면 전체 리스트 보여지도록
@@ -205,7 +177,7 @@ const SelectArtist = () => {
         )
       }
       </div>
-      {localStorage.getItem('email') === null ?
+      {user.email === null ?
       <button
       onClick={handleSelect}
       className="
