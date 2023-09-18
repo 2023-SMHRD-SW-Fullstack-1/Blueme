@@ -64,9 +64,6 @@ public class ArtistsService {
 	 */
 	@Transactional
 	public Long saveFavArtist(FavArtistReqDto requestDto) {
-		log.info("userId : ", requestDto.getFavChecklistId());
-		log.info("artist_file_path : ", requestDto.getArtistIds());
-
 		Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getFavChecklistId()))
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
 
@@ -93,7 +90,6 @@ public class ArtistsService {
 	@Transactional(readOnly = true)
 	public List<ArtistInfoDto> searchArtist(String keyword) {
 		log.info("Artist searchArtist Service start...");
-
 		List<Musics> artistSearch = musicsJpaRepository.findByDistinctArtist(keyword);
 		return artistSearch.stream().flatMap(artist -> {
 			String base64Image = getBase64ImageForArtist(artist);
@@ -103,6 +99,26 @@ public class ArtistsService {
 				return Stream.empty();
 			}
 		}).collect(Collectors.toList());
+	}
+	
+	/**
+	 * 	patch 가수(아티스트) 수정
+	 */
+	@Transactional
+	public Long updateFavArtist(Long userId, List<Long> newArtistIds) {
+		
+		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
+		
+		List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckList.get(1));
+		
+		Musics musics = musicsJpaRepository.findByArtistFilePath(favArtists.get(0).getArtistId());
+		Musics musics2 = musicsJpaRepository.findByArtistFilePath(favArtists.get(1).getArtistId());
+		
+		favArtists.get(0).setArtistId(musics);
+		favArtists.get(1).setArtistId(musics2);
+		
+		return userId;
+		
 	}
 
 	

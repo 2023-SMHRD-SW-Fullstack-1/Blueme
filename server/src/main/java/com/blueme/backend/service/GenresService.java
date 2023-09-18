@@ -102,5 +102,23 @@ public class GenresService {
 		}
 		return null;
 	}
+	
+	@Transactional
+	public Long updateFavGenre(Long userId, List<Long> newGenreIds) {
+		
+		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
+		
+		Long id = favCheckList.get(0).getId();
+		
+		List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckList.get(0));
+		Genres genres = genresJpaRepository.findById(newGenreIds.get(0)).orElseThrow(null);
+		Genres genres2 = genresJpaRepository.findById(newGenreIds.get(1)).orElseThrow(null);
+	
+		favGenres.get(0).setGenre(genres);
+		favGenres.get(1).setGenre(genres2);
+		
+	    return userId;
+
+	}
 
 }

@@ -42,16 +42,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		        // AccessToken과 RefreshToken 발급
 		        String accessToken = jwtService.createAccessToken(email);
 		        String refreshToken = jwtService.createRefreshToken();
-//		        
-//		        List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(user.getId());
-//		        List<Long> favCheckListIds = favCheckList.stream().map(FavCheckLists::getId).collect(Collectors.toList());
-//
-//		        log.info("favCheckListIds : {}",favCheckListIds);
-//		        Long genreId = favCheckListIds.get(0);
-//		        Long artistId = favCheckListIds.get(1);
-//		        
-//		        log.info(genreId.toString());
-//		        log.info(artistId.toString());
 		        
 		        // 응답 헤더에 AccessToken과 RefreshToken 실어서 응답
 		        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
@@ -59,10 +49,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		        // DB의 유저 정보 업데이트
 		        user.updateRefreshToken(refreshToken);
 		        usersJpaRepository.saveAndFlush(user);
-		        
-//		        response.addHeader("id", id.toString());
-//		        response.addHeader("nickname", nickname);
-//		        response.addHeader("platformType", platformType);
 		        
 		        UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(), user.getImg_url());
 		        

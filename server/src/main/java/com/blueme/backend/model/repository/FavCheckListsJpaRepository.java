@@ -14,7 +14,7 @@ public interface FavCheckListsJpaRepository extends JpaRepository<FavCheckLists,
 	
 	FavCheckLists findAllByUser(Users user);
 
-	List<FavCheckLists> findByUser(Users user);
+	FavCheckLists findByUser(Users user);
 	
 	List<FavCheckLists> findByUserId(Long long1);
 

@@ -1,5 +1,6 @@
 package com.blueme.backend.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁, 손지연
-날짜(수정포함): 2023-09-13
+날짜(수정포함): 2023-09-16
 설명: 회원관련 컨트롤러
 */
 
@@ -86,9 +87,10 @@ public class UsersController {
 	
 	/**
 	 *  PATCH 유저 수정 
+	 * @throws IOException 
 	 */
 	@PatchMapping("/update")
-	public Long update(@RequestBody UsersUpdateDto requestDto){
+	public Long update(@RequestBody UsersUpdateDto requestDto) throws IOException{
 		log.info("Starting user update for email{}", requestDto.getEmail());
 		Long userId = usersService.update(requestDto);
 		log.info("User update completed with ID {}", userId);
@@ -108,17 +110,6 @@ public class UsersController {
 		    } else {
 		        return new ResponseEntity<>(users, HttpStatus.OK);
 		    }
-//		log.info("mypage start");
-//		List<UserProfileDto> users = usersService.myprofile(userId);
-//		if (users.isEmpty()) {
-//		    // handle no result
-//		} else {
-//		    UserProfileDto user = users.get(0);
-//		    // handle the first result
-//		}
-		
-//		return new ResponseEntity<UserProfileDto>(user,HttpStatus.OK);
-		
 	}
 
 	

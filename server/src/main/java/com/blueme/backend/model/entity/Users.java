@@ -7,6 +7,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import lombok.Builder;
 import lombok.Getter;

@@ -25,4 +25,7 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
   List<Musics> findByDistinctArtist(@Param("keyword") String keyword);
 
  Musics findByArtist(FavArtists findByFavCheckList);
+
+Musics findByArtistFilePath(Musics artistId);
+
 }

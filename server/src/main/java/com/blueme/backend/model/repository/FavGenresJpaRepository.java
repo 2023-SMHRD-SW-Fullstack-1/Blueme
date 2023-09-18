@@ -13,4 +13,7 @@ import com.blueme.backend.model.entity.Genres;
 public interface FavGenresJpaRepository extends JpaRepository<FavGenres, Long> {
 	
 	List<FavGenres> findByFavCheckList(FavCheckLists favCheckLists);
+	List<FavGenres> findByFavCheckList(Long favCheckLists);
+	
+	void deleteByFavCheckListId(Long favCheckListId);
 }

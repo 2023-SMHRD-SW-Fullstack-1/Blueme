@@ -22,6 +22,7 @@ import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.service.JwtService;
 import com.blueme.backend.security.oauth2.CustomOAuth2User;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mysql.cj.Session;
@@ -66,9 +67,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 jwtService.sendAccessToken(response, userId.toString());
                 response.addHeader("userId", userId.toString());
                 
-                response.sendRedirect("http://172.30.1.13:3000/SelectGenre");
-//                findUser.authorizeUser();
-//                usersJpaRepository.save(findUser);	// Role.USER 로 변경
+                UserInfoDTO userInfo = new UserInfoDTO(Long.parseLong(userId), oAuth2User.getEmail(), oAuth2User.getAttribute("name"), oAuth2User.getAttribute("img_url"));
+		        
+		        String userIdParam = "id="+userId;
+		        String redirectUrl = "http://172.30.1.13:3000/SelectGenre?"+userIdParam;
+                response.sendRedirect(redirectUrl);
+                findUser.authorizeUser();
+                usersJpaRepository.save(findUser);	// Role.USER 로 변경
                 
 			} else {
 				log.info("oauth2user =========> {}", oAuth2User.toString());
@@ -97,16 +102,16 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			user.updateRefreshToken(refreshToken);
 			usersJpaRepository.save(user);
 
-//			UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(),
-//					user.getImg_url());
+			UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(),
+					user.getImg_url());
 
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.registerModule(new JavaTimeModule());
 			String userInfoJson;
 			try {
-//				userInfoJson = mapper.writeValueAsString(userInfo);
+				userInfoJson = mapper.writeValueAsString(userInfo);
 				response.setContentType("application/json;charset=UTF-8");
-//				response.getWriter().write(userInfoJson);
+				response.getWriter().write(userInfoJson);
 			} catch (Exception e) {
 				log.info("error");
 				e.printStackTrace();

@@ -1,20 +1,26 @@
 package com.blueme.backend.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.swing.filechooser.FileSystemView;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.blueme.backend.dto.artistdto.ArtistInfoDto;
 import com.blueme.backend.dto.genredto.GenreInfoDto;
@@ -37,7 +43,6 @@ import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.utils.ImageConverter;
 import com.blueme.backend.utils.ImageToBase64;
-import com.nimbusds.jose.util.Base64;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -156,17 +161,31 @@ public class UsersService {
 
 	/**
 	 * patch 유저 수정
+	 * @throws IOException 
 	 */
 
 	@Transactional
-	public Long update(UsersUpdateDto requestDto) {
+	public Long update(UsersUpdateDto requestDto) throws IOException {
 		log.info("userService method update start...");
+		log.info(requestDto.getImg_url());
+		// base64 to multipart
+		// 저장할 파일 경로를 지정합니다.
+		String fileNameWithUUID = UUID.randomUUID().toString() + "_" + requestDto.getNickname();
+        String fileName =  fileNameWithUUID + ".jpg";
+        String filePath = "/usr/blueme/profileImg/" + fileName;
+        File file = new File(filePath);
+		Base64.Decoder decoder = Base64.getDecoder();
+		byte[] decodedBytes = decoder.decode(requestDto.getImg_url().split(",")[1].getBytes());
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(decodedBytes);
+        fileOutputStream.close();
+		
 		Users user = usersJpaRepository.findByEmail(requestDto.getEmail())
 				.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. email=" + requestDto.getEmail()));
 
 		user.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()),
-				requestDto.getImgUrl());
-		return user.getId();
+				filePath);
+		return -1L;
 //	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
 //			user.setPassword(requestDto.getPassword());
 //			user.setNickname(requestDto.getNickname());
