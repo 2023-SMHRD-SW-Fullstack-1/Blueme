@@ -10,7 +10,7 @@ import com.blueme.backend.model.entity.PlayedMusics;
 import com.blueme.backend.model.entity.Users;
 
 /**
- * PlayedMusicsJpaRepository는 재생된 음악에 대한 데이터 접근을 위한 JPA Repositories를 정의합니다.
+ * PlayedMusics 테이블과 연결해주는 JPA Repository
  *
  * @author 김혁
  * @version 1.0

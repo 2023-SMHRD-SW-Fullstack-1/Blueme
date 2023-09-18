@@ -30,12 +30,16 @@ import com.blueme.backend.model.vo.WeatherSummary;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-12
-설명: ChatGpt 서비스
-*/
-
+/**
+ * ChatGptService는 ChatGPT 모델을 사용하여 질문에 답변을 생성하고 관련된 데이터를 처리하는 서비스입니다.
+ * <p>
+ * ChatGPT를 활용하여 답변을 받아옵니다.
+ * </p>
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-18
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -47,15 +51,25 @@ public class ChatGptService {
         @Value("${api-key.chat-gpt}")
         private String apiKey;
 
+        /**
+         * ChatGptReqDto 객체로 HTTP 엔티티를 생성합니다.
+         *
+         * @param chatGptRequest ChatGptReqDto 객체
+         * @return HTTP 엔티티
+         */
         public HttpEntity<ChatGptReqDto> buildHttpEntity(ChatGptReqDto chatGptRequest) {
                 HttpHeaders httpHeaders = new HttpHeaders();
-                // json 으로 설정
                 httpHeaders.setContentType(MediaType.parseMediaType(ChatGptConfig.MEDIA_TYPE));
-                // 요청헤더 추가
                 httpHeaders.add(ChatGptConfig.AUTHORIZATION, ChatGptConfig.BEARER + apiKey);
                 return new HttpEntity<>(chatGptRequest, httpHeaders);
         }
 
+        /**
+         * ChatGPT에 질문을 보내고 답변을 받습니다.
+         *
+         * @param chatGptRequestHttpEntity ChatGptReqDto 객체로 생성된 HTTP엔티티
+         * @return ChatGptResDto 객체 (답변)
+         */
         public ChatGptResDto getResponse(HttpEntity<ChatGptReqDto> chatGptRequestHttpEntity) {
 
                 SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
@@ -72,7 +86,12 @@ public class ChatGptService {
                 return responseEntity.getBody();
         }
 
-        // ChatGPT 에 질문하기
+        /**
+         * ChatGPT에 질문을 보내고 답변을 받아옵니다.
+         * 
+         * @param questionRequest QuestionReqDto 객체 (질문)
+         * @return ChatGptResDto 객체 (답변)
+         */
         public ChatGptResDto askQuestion(QuestionReqDto questionRequest) {
                 List<ChatGptMessage> messages = new ArrayList<>();
                 messages.add(ChatGptMessage.builder()
@@ -91,7 +110,11 @@ public class ChatGptService {
                                                 )));
         }
 
-        // 현재 계절 상태
+        /**
+         * 현재 계절 상태
+         *
+         * @return 계절 상태 (String)
+         */
         public String getSeasonStatus() {
                 LocalDate now = LocalDate.now();
                 Month month = now.getMonth();
@@ -114,7 +137,11 @@ public class ChatGptService {
                 }
         }
 
-        // 현재 시간 상태
+        /**
+         * 현재 시간 상태
+         *
+         * @return 시간 상태 (String)
+         */
         public String getTimeStatus() {
                 LocalTime now = LocalTime.now();
                 int hour = now.getHour();
@@ -136,7 +163,12 @@ public class ChatGptService {
                 }
         }
 
-        // 심장박동수 상태
+        /**
+         * 심장 박동수 상태
+         *
+         * @param avgHeartRate 평균 심장 박동수
+         * @return 심장 박동수 상태 (String)
+         */
         public String getHeartRateStatus(double avgHeartRate) {
                 final double VERY_LOW_THRESHOLD = 60;
                 final double LOW_THRESHOLD = 80;
@@ -154,7 +186,14 @@ public class ChatGptService {
                 return "매우 높은 상태";
         }
 
-        // 속도 상태
+        /**
+         * 일정한 기준에 따라 현재 상태를 반환합니다.
+         *
+         * @param avgSpeed       평균 속도
+         * @param stepsPerMinute 분당 걸음수
+         * @param avgHeartRate   평균 심장 박동수
+         * @return 속도 상태 (String)
+         */
         public String getSpeedStatus(double avgSpeed, double stepsPerMinute, double avgHeartRate) {
                 final double STATIONARY_SPEED = 1.5;
                 final double WALKING_RUNNING_SPEED = 5.0;
@@ -182,7 +221,11 @@ public class ChatGptService {
 
         }
 
-        // 뮤직리스트 질의하기 적합한 문자열로 변환
+        /**
+         * 뮤직 리스트를 문자열로 반환합니다.
+         *
+         * @return 뮤직 리스트 (String)
+         */
         public String getMusicList() {
                 List<ChatGptMusicsDto> musicsList = musicsService.getRandomEntities(100)
                                 .stream().map(ChatGptMusicsDto::new).collect(Collectors.toList());
@@ -191,7 +234,13 @@ public class ChatGptService {
                 return musicsString;
         }
 
-        // 질의문 만들기
+        /**
+         * 질의문을 작성합니다.
+         *
+         * @param weatherSummary 날씨 요약 정보
+         * @param healthInfo     건강 정보
+         * @return 생성된 질의문 (String)
+         */
         public String makeQuestion(WeatherSummary weatherSummary, HealthInfos healthInfo) {
                 // 날씨 데이터
                 String condition = weatherSummary.getCondition();
@@ -212,10 +261,10 @@ public class ChatGptService {
 
                 // 1~5까지 랜덤한 질의문 생성(GPT의 다채로운답변을위해)
                 Random random = new Random();
-                // int randomNumber = random.nextInt(13) + 1;
+                int randomNumber = random.nextInt(13) + 1;
 
                 // 테스트
-                int randomNumber = 13;
+                // int randomNumber = 13;
 
                 String question = null;
                 log.info("포맷타입 = {}", randomNumber);

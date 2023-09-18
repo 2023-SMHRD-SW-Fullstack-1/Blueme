@@ -15,6 +15,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 유저 엔터티입니다.
+ * 
+ * @author 김혁, 손지연
+ * @version 1.0
+ * @since 2023-09-06
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -104,10 +111,10 @@ public class Users extends BaseEntity {
 		GUEST
 	}
 
-	 /* 유저 권한 설정 (USER) */
-	 public void authorizeUser() {
-	 this.role = UserRole.USER;
-	 }
+	/* 유저 권한 설정 (USER) */
+	public void authorizeUser() {
+		this.role = UserRole.USER;
+	}
 
 	/* 비밀번호 암호화 */
 	@Builder
