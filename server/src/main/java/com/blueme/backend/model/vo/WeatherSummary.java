@@ -2,11 +2,13 @@ package com.blueme.backend.model.vo;
 
 import lombok.Value;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-12
-설명: 사용하는 날씨정보 VO
-*/
+/**
+ * 현재 날씨정보를 담고있는 VO입니다.
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-12
+ */
 @Value
 public class WeatherSummary {
 

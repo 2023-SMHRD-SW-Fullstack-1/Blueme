@@ -3,12 +3,13 @@ package com.blueme.backend.model.vo;
 import java.util.List;
 import lombok.Data;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-12
-설명: 날씨정보 VO
-*/
-
+/**
+ * 음악정보 API 결과를 담고있는 VO 객체입니다.
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-10
+ */
 @Data
 public class WeatherInfo {
 

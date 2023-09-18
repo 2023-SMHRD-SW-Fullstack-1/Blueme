@@ -30,6 +30,7 @@ dependencies {
 	
 	
 	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	//runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.27'

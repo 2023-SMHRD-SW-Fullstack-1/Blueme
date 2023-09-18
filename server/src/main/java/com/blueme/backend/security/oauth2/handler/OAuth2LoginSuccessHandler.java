@@ -25,7 +25,6 @@ import com.blueme.backend.security.oauth2.CustomOAuth2User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.mysql.cj.Session;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +39,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Value("${jwt.access.expiration}")
 	private String accessTokenExpiration;
-	
+
 	String userId = null;
 
 	@Override
@@ -58,23 +57,24 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
 				response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
 				response.addHeader("email", oAuth2User.getEmail());
-				
-                jwtService.sendAccessAndRefreshToken(response, accessToken, null);
-                Users findUser = usersJpaRepository.findByEmail(oAuth2User.getEmail())
-                                .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
-                userId = findUser.getId().toString();
-                
-                jwtService.sendAccessToken(response, userId.toString());
-                response.addHeader("userId", userId.toString());
-                
-                UserInfoDTO userInfo = new UserInfoDTO(Long.parseLong(userId), oAuth2User.getEmail(), oAuth2User.getAttribute("name"), oAuth2User.getAttribute("img_url"));
-		        
-		        String userIdParam = "id="+userId;
-		        String redirectUrl = "http://172.30.1.13:3000/SelectGenre?"+userIdParam;
-                response.sendRedirect(redirectUrl);
-                findUser.authorizeUser();
-                usersJpaRepository.save(findUser);	// Role.USER 로 변경
-                
+
+				jwtService.sendAccessAndRefreshToken(response, accessToken, null);
+				Users findUser = usersJpaRepository.findByEmail(oAuth2User.getEmail())
+						.orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
+				userId = findUser.getId().toString();
+
+				jwtService.sendAccessToken(response, userId.toString());
+				response.addHeader("userId", userId.toString());
+
+				UserInfoDTO userInfo = new UserInfoDTO(Long.parseLong(userId), oAuth2User.getEmail(),
+						oAuth2User.getAttribute("name"), oAuth2User.getAttribute("img_url"));
+
+				String userIdParam = "id=" + userId;
+				String redirectUrl = "http://172.30.1.13:3000/SelectGenre?" + userIdParam;
+				response.sendRedirect(redirectUrl);
+				findUser.authorizeUser();
+				usersJpaRepository.save(findUser); // Role.USER 로 변경
+
 			} else {
 				log.info("oauth2user =========> {}", oAuth2User.toString());
 				loginSuccess(response, oAuth2User, authentication); // 로그인에 성공한 경우 access, refresh 토큰 생성
@@ -122,6 +122,5 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			log.info("발급된 AccessToken 만료 기간 : {}", accessTokenExpiration);
 		});
 	}
-	
 
 }
