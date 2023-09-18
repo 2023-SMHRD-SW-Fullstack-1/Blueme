@@ -110,4 +110,10 @@ public class RecMusiclistsService {
     return recMusicList == null ? null : new RecMusiclistsResDto(recMusicList);
   }
 
+  @Transactional(readOnly = true)
+  public List<RecMusiclistsResDto> getAllRecMusiclists(String userId) {
+    return recMusicListsJpaRepository.findByUserId(Long.parseLong(userId)).stream().map(RecMusiclistsResDto::new)
+        .collect(Collectors.toList());
+  }
+
 }

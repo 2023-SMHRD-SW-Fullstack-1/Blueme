@@ -19,12 +19,14 @@ import com.blueme.backend.service.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-16
-설명: 사용자가 재생한 음악 서비스
-*/
-
+/**
+ * PlayedMusicsService는 사용자가 재생한 음악 서비스 클래스입니다.
+ * 이 클래스에서는 사용자가 재생한 음악 정보를 조회하고 등록하는 기능을 제공합니다.
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023.09-18
+ */
 @Service
 @RequiredArgsConstructor
 public class PlayedMusicsService {
@@ -33,8 +35,11 @@ public class PlayedMusicsService {
   private final UsersJpaRepository usersJpaRepository;
   private final MusicsJpaRepository musicsJpaRepository;
 
-  /*
-   * 최근재생된 음악 조회
+  /**
+   * 특정 사용자의 최근 재생된 음악 목록을 조회합니다.
+   *
+   * @param userId 사용자 ID
+   * @return 해당 사용자의 최근 재생된 음악 목록. 최신 순으로 정렬됨 (MusicInfoResDto 리스트)
    */
   @Transactional(readOnly = true)
   public List<MusicInfoResDto> getPlayedMusic(Long userId) {
@@ -42,8 +47,12 @@ public class PlayedMusicsService {
     return musicsList.stream().map(MusicInfoResDto::new).collect(Collectors.toList());
   }
 
-  /*
-   * 재생된 음악 등록 (이미있을경우 재등록, 없을경우 등록)
+  /**
+   * 특정 사용자가 재생한 음악을 등록합니다.
+   * 이미 등록된 경우에는 기존 정보를 삭제하고 새로 등록합니다.
+   *
+   * @param request 사용자 ID와 음악 ID를 포함하는 요청 객체 (PlayedMusicsSaveReqDto)
+   * @return 저장된 재생된 음악의 ID (Long)
    */
   @Transactional
   public Long savePlayedMusic(PlayedMusicsSaveReqDto request) {
