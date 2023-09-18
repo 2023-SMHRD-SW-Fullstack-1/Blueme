@@ -4,6 +4,8 @@
 설명: combineReducer, reducer-persist
 */
 import memberReducer from './member/memberReducer'
+import musicReducer from './music/musicReducer';
+
 import { combineReducers, createStore } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; //localStorage 사용
@@ -11,7 +13,10 @@ import storage from 'redux-persist/lib/storage'; //localStorage 사용
 //combineReducer
 const rootReducer = combineReducers({
     memberReducer,
+    musicReducer
 })
+
+
 
 const persistConfig = {
     key: 'root',

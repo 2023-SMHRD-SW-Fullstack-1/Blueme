@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
-import { setMusicIds } from "../../store/music/setMusicIds";
+import { setMusicIds } from "../../store/music/musicActions.js";
 
 // import Component
 import SingleMusic from "../../components/Library/SingleMusic";

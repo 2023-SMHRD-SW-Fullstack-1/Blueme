@@ -51,20 +51,18 @@ import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
 import SearchPage from "./pages/SearchPage";
 import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner"
+import SoundControl from "./components/music/SoundControl";
 // 지희 import 끝
 
 const App = () => {
-  // 지희 시작
-  //  const MusicPlayerConditional = () => {
-  //    const location = useLocation();
-  //    return !location.pathname.includes("/MusicPlayer/") && <MusicPlayer />;
-  //  };
-  // 지희 끝
+  
 
   return (
+    
     <Router>
       <div className="app flex flex-col min-h-screen bg-gray-900 ">
         <Header />
+        <SoundControl />
         <Routes className="flex-grow">
           <Route path="/" element={<Main />} />
           <Route path="/Login" element={<Login />} />
@@ -108,7 +106,7 @@ const App = () => {
         {/* <MusicPlayerConditional /> */}
         {/* 지희 끝 */}
 
-        {/* <ShowMiniPlayerInner /> */}
+        <ShowMiniPlayerInner />
           {/* 지희 끝 */}
         <Footer />
       </div>

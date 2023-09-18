@@ -1,6 +1,6 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-13
+날짜(수정포함): 2023-09-16
 설명: 미니플레이어
 */
 
@@ -43,11 +43,11 @@ const MiniPlayer = ({ item }) => {
     img: "",
   });
   // 음악 재생 인덱스 (리덕스 활용)
-  const musicIds = useSelector((state) => state.musicIds);
+  const musicIds = useSelector((state) => state.musicReducer.musicIds);
   // console.log("miniplayer musicids:", musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
-  const songId = useSelector((state) => state.currentSongId);
-  const playingStatus = useSelector((state) => state.playingStatus);
+  const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
+  const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
   // 임의 사용자 user_id
   const userId = 1;
 
@@ -55,7 +55,7 @@ const MiniPlayer = ({ item }) => {
   useEffect(() => {
     const fetchMusicInfo = async () => {
       try {
-        const response = await axios.get(`/music/info/${songId}`);
+        const response = await axios.get(`/music/info/${currentSongId}`);
         setMusicInfo({
           album: response.data.album,
           title: response.data.title,
@@ -67,7 +67,7 @@ const MiniPlayer = ({ item }) => {
       }
     };
     fetchMusicInfo();
-  }, [songId]); // songId 변경 시마다 재실행
+  }, [currentSongId]); // songId 변경 시마다 재실행
 
   // 한곡반복 Ref
   useEffect(() => {
@@ -79,12 +79,12 @@ const MiniPlayer = ({ item }) => {
   // 이전곡&다음곡
   useEffect(() => {
     // console.log('1. songid',songId);
-    const index = musicIds.indexOf(Number(songId));
+    const index = musicIds.indexOf(Number(currentSongId));
     // console.log('2. index:', index);
     setCurrentSongIndex(index);
-    setCurrentSongId(Number(songId));
+    setCurrentSongId(Number(currentSongId));
     // console.log('3. currentsongid',currentSongId);
-  }, [musicIds, songId]);
+  }, [musicIds, currentSongId]);
 
   const prevTrack = () => {
     let prevIndex = currentSongIndex - 1;
@@ -132,24 +132,19 @@ const MiniPlayer = ({ item }) => {
       try {
         await axios.post("/playedmusic/add", {
           userId: userId.toString(),
-          musicId: songId.toString(),
+          musicId: currentSongId.toString(),
         });
       } catch (error) {
         console.error("최근재생 실패", error);
       }
     };
     fetchRecent();
-  }, [userId, songId]);
+  }, [userId, currentSongId]);
 
-  // 리덕스에 저장됐는지 확인
-    useEffect(() => {
-       console.log('isPlaying:', isPlaying);
-       console.log('playingStatus:', playingStatus);
-     }, [playingStatus]);
 
 
   return (
-    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
+    <div className="flex items-center bg-custom-gray text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
       <img
         src={"data:image/;base64," + musicInfo.img}
         className="h-[80%] rounded-lg"

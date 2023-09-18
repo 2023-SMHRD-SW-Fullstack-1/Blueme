@@ -9,7 +9,7 @@ import { SET_MUSIC_IDS, SET_PLAYING_STATUS, SET_CURRENT_SONG_ID, SET_SHOW_MINI_P
 const initialState = {
   musicIds: [],
   playingStatus: false,
-  currentSongId: null,
+  currentSongId: 1,
   showMiniPlayer: false, 
 };
 

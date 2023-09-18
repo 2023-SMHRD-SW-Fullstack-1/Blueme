@@ -5,8 +5,8 @@
 */
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-13
-설명: 음악 재생리스트 리덕스 기능 추가 , 최근 재생목록 최대개수 20개로 수정&key 재설정
+날짜(수정포함): 2023-09-16
+설명: musicIds 설정 관련 수정
 */
 /*
 작성자: 이유영
@@ -23,9 +23,9 @@ import SingleMusic from "../../components/Library/SingleMusic";
 import { Link } from "react-router-dom";
 import RecPlayList from "../rec/RecPlayList";
 import axios from "axios";
-// 리덕스
+// 리덕스 - 지희 경로변경
 import { useDispatch, useSelector } from "react-redux";
-import { setMusicIds } from "../../store/music/setMusicIds";
+import { setMusicIds } from "../../store/music/musicActions.js";
 // 미니플레이어 import
 //유영 추천 음악 플레이 리스트
 import SingleRecPlayList from "../rec/SingleRecPlayList";
@@ -37,12 +37,11 @@ const Main = () => {
   // const [id, setId] = useState('0');
   // const id = localStorage.getItem('id')
   const dispatch = useDispatch();
-  const musicIds = useSelector(state => state);
+  const musicIds = useSelector(state => state.musicIds);
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
   const isLoggendIn = user.isLogin
-  // console.log('header',user);
-  
+  console.log('header',user);
 
 
   useEffect(() => {
@@ -51,8 +50,6 @@ const Main = () => {
         const userId = 1; // 임의의 사용자 아이디
         const response = await axios.get(`/playedmusic/get/${userId}`);
         setRecentlyPlayed(response.data);
-        let ids = response.data.slice(0, 20).map((music) => music.musicId);
-        dispatch(setMusicIds(ids));
       
         await axios
         .get(`http://172.30.1.27:8104/recMusiclist/recent10`)//남의 추천 플리 불러오기
@@ -134,13 +131,11 @@ const Main = () => {
       {/* 최근에 재생한 목록 */}
       <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-8 mb-2">최근에 재생한 목록</h1>
       {/* <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]"> */}
+      <div onClick={setMusicIds}>
       {recentlyPlayed.map((song) => (
-        // <SwiperSlide key={song.id}>
         <SingleMusic key={song.id} item={song} />
-        // </SwiperSlide>
       ))}
-      {/* </Swiper> */}
-      {/* <MiniPLayer /> */}
+      </div>
     </div>
   );
 };
