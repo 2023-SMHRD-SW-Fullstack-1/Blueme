@@ -12,12 +12,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-14
-설명: 사용자가 저장한음악 상세 엔터티
-*/
-
+/**
+ * 저장된음악상세 엔터티입니다.
+ * <p>
+ * 이 클래스는 사용자가 저장한 음악 상세를 가집니다.
+ * </p>
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-06
+ */
 @Getter
 @NoArgsConstructor
 @Entity

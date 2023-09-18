@@ -16,12 +16,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-14
-설명: GPT추천음악 목록 엔터티
-*/
-
+/**
+ * 추천음악 엔터티입니다.
+ * <p>
+ * 이 클래스는 사용자는 여러개의 추천음악목록을 가질수 있고
+ * 추천음악은 여러개의 추천음악 상세를 가집니다.
+ * </p>
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-06
+ */
 @Getter
 @NoArgsConstructor
 @Entity

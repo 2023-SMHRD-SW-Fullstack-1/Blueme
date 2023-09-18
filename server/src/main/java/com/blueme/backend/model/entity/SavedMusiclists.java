@@ -26,12 +26,14 @@ import lombok.NoArgsConstructor;
 
 /**
  * 사용자가 저장한 음악 목록 엔터티.
+ * <p>
  * 각 사용자는 여러 개의 음악 목록을 가질 수 있으며,
  * 각 음악 목록은 여러 개의 세부 항목(SavedMusiclistDetails)을 가질 수 있습니다.
+ * </p>
  *
  * @author 김혁
- * @version 1.1
- * @since 2023-09-14
+ * @version 1.0
+ * @since 2023-09-06
  */
 @Getter
 @NoArgsConstructor

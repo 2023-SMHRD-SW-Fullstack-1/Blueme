@@ -12,12 +12,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/*
- * 작성자 : 김혁
- * 작성일 : 2023-09-15
- * 설명   : 검색목록 저장 엔터티
+/**
+ * 이 클래스는 검색 저장 엔터티입니다.
+ * <p>
+ * 이 클래스는 사용자의 검색 목록을 관리합니다.
+ * </p>
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-15
  */
-
 @Getter
 @NoArgsConstructor
 @Entity

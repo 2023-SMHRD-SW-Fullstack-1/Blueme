@@ -22,12 +22,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-13
-설명: 음악 엔터티
-*/
-
+/**
+ * 음악 엔터티 클래스입니다.
+ * <p>
+ * 이 클래스는 음악의 제목, 아티스트, 앨범, 파일 경로 등의 정보를 저장합니다.
+ * </p>
+ * 
+ * @author 김혁
+ * @version 1.0.0
+ * @since 2023-09-06
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -56,7 +60,16 @@ public class Musics {
 	@Column(name = "release_date", columnDefinition = "VARCHAR(50)")
 	private String releaseDate;
 
-	// 파일경로 base64로 변환되게 사용(코드중복최소화, 유지보수)(DB에 영속X)
+	/**
+	 * 재킷 이미지 파일의 경로를 Base64 문자열로 변환하여 반환하는 메서드입니다.
+	 * <p>
+	 * 이 메서드는 파일 시스템에서 재킷 이미지 파일을 읽어 Base64 문자열로 변환합니다.
+	 * 이 메서드는 DB에 영속화되지 않습니다.
+	 * </p>
+	 * 
+	 * @return 재킷 이미지 파일의 Base64 문자열
+	 * @throws RuntimeException 재킷파일 전송 실패 시 발생
+	 */
 	@Transient
 	public String getJacketFile() {
 		try {
@@ -71,6 +84,16 @@ public class Musics {
 		}
 	}
 
+	/**
+	 * 아티스트 이미지 파일의 경로를 Base64 문자열로 변환하여 반환하는 메서드입니다.
+	 * <p>
+	 * 이 메서드는 파일 시스템에서 아티스트 이미지 파일을 읽어 Base64 문자열로 변환합니다.
+	 * 이 메서드는 DB에 영속화되지 않습니다.
+	 * </p>
+	 * 
+	 * @return 아티스트 이미지 파일의 Base64 문자열
+	 * @throws RuntimeException 가수파일 전송 실패 시 발생
+	 */
 	@Transient
 	public String getArtistFile() {
 		try {
@@ -101,7 +124,12 @@ public class Musics {
 		this.hit = hit;
 	}
 
-	// jpa 에서 등록시 초기값 0 설정
+	/**
+	 * JPA가 엔터티를 저장하기 전에 'hit' 필드의 초기값을 설정하는 메서드입니다.
+	 * <p>
+	 * 만약 'hit' 필드가 null이면, 이 메서드는 그 값을 0으로 설정합니다.
+	 * </p>
+	 */
 	@PrePersist
 	public void initializeHit() {
 		if (hit == null) {

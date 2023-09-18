@@ -24,6 +24,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 테마 엔터티입니다.
+ * <p>
+ * 이 클래스는 테마목록을 관리합니다.
+ * 테마 엔터티는 여러개의 테마리스트를 가질수 있습니다.
+ * </p>
+ * 
+ * @author 김혁
+ * @version 1.0
+ * @since 2023-09-06
+ */
 @Getter
 @NoArgsConstructor
 @Entity
