@@ -6,14 +6,13 @@
 
 import { createStore } from "redux";
 import musicReducer from "./musicReducer"; 
-import { setPlayingStatus, setCurrentSongId, setShowMiniPlayer } from './musicActions'; // 수정된 부분
+import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer } from './musicActions'; // 수정된 부분
 
 const store = createStore(musicReducer);
 
-
+store.dispatch(setMusicIds([]));
 store.dispatch(setPlayingStatus(false));
-store.dispatch(setCurrentSongId(1));
+store.dispatch(setCurrentSongId());
 store.dispatch(setShowMiniPlayer(false));
-
 
 export default store;

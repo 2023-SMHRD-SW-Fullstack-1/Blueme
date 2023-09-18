@@ -9,7 +9,7 @@ import SingleMusic from './SingleMusic.jsx';
 import axios from 'axios';
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
-import { setMusicIds } from "../../store/music/setMusicIds";
+import { setMusicIds } from "../../store/music/musicActions.js";
 
 const LikedList = () => {
 // 임의의 사용자 아이디

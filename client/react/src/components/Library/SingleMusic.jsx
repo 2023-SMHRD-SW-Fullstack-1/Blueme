@@ -5,18 +5,29 @@
 */
 
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Heart from "./Heart";
+
+import {
+  setCurrentSongId
+} from "../../store/music/musicActions";
 
 const SingleMusic = ({ item }) => {
   // console.log('single',item);
   // console.log('single music', item.musicId);
 
-  let musicId = item.musicId;
+  const musicId = item.musicId;
+
+  const dispatch = useDispatch(); 
+
+  const handleMusicClick = () => {
+    dispatch(setCurrentSongId(musicId));
+  };
 
   return (
     <div className="flex flex-row items-center ml-2 mr-2">
-      <Link to={`/MusicPlayer/${musicId}`}>
+        <Link to={`/MusicPlayer/${musicId}`} onClick={handleMusicClick}>
         <div className="flex flex-row items-center w-full p-1">
           <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-md" />
           <div className="flex flex-col text-left ml-3">

@@ -9,6 +9,12 @@ export const SET_PLAYING_STATUS = 'SET_PLAYING_STATUS';
 export const SET_CURRENT_SONG_ID = 'SET_CURRENT_SONG_ID';
 export const SET_SHOW_MINI_PLAYER = "SET_SHOW_MINI_PLAYER";
 
+export function setMusicIds(musicIds) {
+  return {
+    type: "SET_MUSIC_IDS",
+    payload: musicIds,
+  };
+}
 
 export function setPlayingStatus(playingStatus) {
    return {
@@ -31,4 +37,3 @@ export function setPlayingStatus(playingStatus) {
    };
  }
 
- 

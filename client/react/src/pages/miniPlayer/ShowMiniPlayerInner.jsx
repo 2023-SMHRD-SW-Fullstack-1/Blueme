@@ -25,10 +25,11 @@ const ShowMiniPlayerInner = () => {
     }
   }, [location]);
 
-  const showMiniPlayer = useSelector((state) => state.showMiniPlayer);
-  const currentSongId = useSelector((state) => state.currentSongId);
+  const showMiniPlayer = useSelector((state) => state.musicReducer.showMiniPlayer);
+  const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
 
-  return showMiniPlayer ? <MiniPlayer item={currentSongId} /> : null
+  // return showMiniPlayer ? <MiniPlayer item={currentSongId} /> : null
+  return showMiniPlayer? <MiniPlayer /> : null;
   // return null;
 };
 
