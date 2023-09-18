@@ -49,3 +49,11 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// javadoc 설정
+tasks.withType(Javadoc) {
+	// 작성안된부분 무시
+	options.addStringOption('Xdoclint:none', '-quiet')
+  options.encoding = 'UTF-8'
+}
+

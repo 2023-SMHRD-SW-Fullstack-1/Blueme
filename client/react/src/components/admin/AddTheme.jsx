@@ -9,7 +9,7 @@ const AddTheme = () => {
   const [musicList, setMusicList] = useState([]);
   const [searchList, setSearchList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 50;
+  const itemsPerPage = 30;
   const [isImgUploaded, setIsImgUploaded] = useState(false);
   const [imgFile, setImgFile] = useState("");
   const imgRef = useRef();
@@ -18,10 +18,9 @@ const AddTheme = () => {
     const fetchMusicData = async () => {
       try {
         const response = await axios.get(
-          `http://172.30.1.27:8104/music/page?paging=${currentPage}&size=${itemsPerPage}`
+          `http://172.30.1.27:8104/music/page?page=${currentPage}&size=${itemsPerPage}`
         );
         setMusicList(response.data);
-        console.log(response);
       } catch (error) {
         console.error("음악 데이터 로딩 중 오류가 발생했습니다:", error);
       }

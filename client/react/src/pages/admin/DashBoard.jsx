@@ -11,7 +11,7 @@ const DashBoard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [pageView, setPageView] = useState("maincontent");
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-white">
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
