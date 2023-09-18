@@ -27,7 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * RecMusiclistsService는 추천 음악 관련 서비스 클래스입니다.
+ * <p>
  * 이 클래스에서는 추천 음악 목록의 조회, 상세 조회, 등록 기능을 제공합니다.
+ * </p>
  *
  * @author 김혁
  * @version 1.0

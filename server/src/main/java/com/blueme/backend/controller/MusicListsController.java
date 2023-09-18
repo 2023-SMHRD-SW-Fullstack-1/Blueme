@@ -14,9 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * MusicListsController는 음악목록 컨트롤러 클래스입니다.
+ * <p>
  * 이 클래스에서는 REST API 엔드포인트를 제공하여 추천음악 목록 등록 기능을 처리합니다.
  * RecMusicList컨트롤러 로의 이전으로 사용하지 않습니다.
- *
+ * </p>
+ * 
  * @author 김혁
  * @version 1.0
  * @since 2023-09-07
@@ -32,8 +34,10 @@ public class MusicListsController {
 
 	/**
 	 * 추천음악 리스트 등록을 위한 POST 메서드입니다.
+	 * <p>
 	 * 현재 RecMusics컨트롤러 로 이전으로 사용하지 않습니다.
-	 *
+	 * </p>
+	 * 
 	 * @param requestDto 추천음악 정보 저장DTO (RecMusicListSaveDto)
 	 * @return 저장된 음악리스트의 ID (Long)
 	 */

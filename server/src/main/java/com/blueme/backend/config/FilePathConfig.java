@@ -4,7 +4,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * FilePathConfig는 파일경로를 지정하는 설정클래스입니다.
+ * <p>
  * 이 클래스에서는 음악파일 경로, 재킷사진 경로, 가수사진경로, 테마사진 경로를 설정합니다.
+ * </p>
  * 
  * @author 김혁
  * @version 1.0

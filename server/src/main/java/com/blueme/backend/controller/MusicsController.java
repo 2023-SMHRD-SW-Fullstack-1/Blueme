@@ -44,7 +44,9 @@ public class MusicsController {
 
 	/**
 	 * 음악 등록을 위한 POST 메서드입니다.
+	 * <p>
 	 * 다중 음악 등록을 지원합니다.
+	 * </p>
 	 * 
 	 * @param files 음악 데이터 파일목록
 	 * @return 저장된 음악의 ID (Long)

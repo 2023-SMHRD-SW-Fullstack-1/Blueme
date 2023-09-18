@@ -21,7 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * PlayedMusicsController는 재생된 음악 컨트롤러 입니다.
+ * <p>
  * 이 클래스에서는 재생된 음악 조회, 등록 기능을 처리합니다.
+ * </p>
  *
  * @author 김혁
  * @version 1.0

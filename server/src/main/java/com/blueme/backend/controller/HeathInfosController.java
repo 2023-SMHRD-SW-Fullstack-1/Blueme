@@ -19,8 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * HealthInfosController는 건강정보 컨트롤러 클래스입니다.
+ * <p>
  * 이 클래스는 REST API 엔드포인트를 제공하여 건강정보 조회 및 등록 기능을 처리합니다.
- *
+ * </p>
+ * 
  * @author 김혁
  * @version 1.0
  * @since 2023-09-10

@@ -37,7 +37,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * MusicsService는 음악 서비스 클래스입니다.
+ * <p>
  * 이 클래스에서는 음악 등록, 페이징조회, 정보조회, 검색, 음악데이터 전송기능을 제공합니다.
+ * </p>
  *
  * @author 김혁
  * @version 1.0

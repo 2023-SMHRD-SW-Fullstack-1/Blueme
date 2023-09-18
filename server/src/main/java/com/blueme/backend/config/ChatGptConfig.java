@@ -4,7 +4,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * ChatGptConfig는 ChatGPTAPI 통신을 위한 설정 클래스입니다.
+ * <p>
  * 이 클래스에서는 ChatGPT 의 기본 설정을 관리합니다.
+ * </p>
  * 
  * @author 김혁
  * @version 1.0

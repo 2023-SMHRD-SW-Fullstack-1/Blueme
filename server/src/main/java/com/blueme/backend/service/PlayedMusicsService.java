@@ -21,7 +21,9 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * PlayedMusicsService는 사용자가 재생한 음악 서비스 클래스입니다.
+ * <p>
  * 이 클래스에서는 사용자가 재생한 음악 정보를 조회하고 등록하는 기능을 제공합니다.
+ * </p>
  * 
  * @author 김혁
  * @version 1.0
@@ -49,7 +51,9 @@ public class PlayedMusicsService {
 
   /**
    * 특정 사용자가 재생한 음악을 등록합니다.
+   * <p>
    * 이미 등록된 경우에는 기존 정보를 삭제하고 새로 등록합니다.
+   * </p>
    *
    * @param request 사용자 ID와 음악 ID를 포함하는 요청 객체 (PlayedMusicsSaveReqDto)
    * @return 저장된 재생된 음악의 ID (Long)

@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 추천 음악 관련 컨트롤러입니다.
+ * <p>
  * 이 클래스에서는 추천 음악 목록의 조회, 상세 조회, 등록 기능을 처리합니다.
+ * </p>
  *
  * @author 김혁
  * @version 1.0

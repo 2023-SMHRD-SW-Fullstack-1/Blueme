@@ -10,8 +10,10 @@ import reactor.core.publisher.Mono;
 
 /**
  * WeatherAPIClient는 OpenWeatherMap API와 상호작용하는 컴포넌트입니다.
+ * <p>
  * 위도와 경도를 사용하여 실시간 날씨 데이터를 가져옵니다.
- *
+ * </p>
+ * 
  * @author 김혁
  * @version 1.0
  * @since 2023-09-11

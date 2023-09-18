@@ -22,7 +22,9 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * SearchsService는 검색 관련 서비스 클래스입니다.
+ * <p>
  * 이 클래스에서는 검색 등록, 최근 검색 목록 조회, 음악 검색 기능을 제공합니다.
+ * </p>
  * 
  * @author 김혁
  * @version 1.0
@@ -38,7 +40,9 @@ public class SearchsService {
 
   /**
    * 새로운 최근 검색을 등록합니다.
+   * <p>
    * 이미 최근검색한 목록에 있을경우 삭제후 재등록, 없을경우 등록합니다.
+   * </p>
    *
    * @param request 사용자ID와 음악ID가 담긴 요청 객체 (SearchSaveReqDto)
    * @return 저장된 검색의ID (Long)

@@ -28,7 +28,9 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * ThemesService는 테마 서비스 입니다.
+ * <p>
  * 이 클래스에서는 테마 등록, 모든테마 조회, 특정 테마조회 기능을 수행합니다.
+ * <p>
  * 
  * @author 김혁
  * @version 1.0

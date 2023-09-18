@@ -8,8 +8,10 @@ import java.util.Base64;
 import java.util.UUID;
 
 /**
- * Base64ToImage 클래스는 Base64로 인코딩된 문자열을 이미지 파일로 변환하는 유틸리티 클래스압나더,
+ * Base64ToImage 클래스는 Base64로 인코딩된 문자열을 이미지 파일로 변환하는 유틸리티 클래스입니다.
+ * <p>
  * 이 클래스는 Base64로 인코딩된 문자열을 디코딩하여 지정된 폴더에 이미지 파일로 저장하는 기능을 제공합니다.
+ * </p>
  * 
  * @author 김혁
  * @version 1.0

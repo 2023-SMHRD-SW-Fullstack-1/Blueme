@@ -22,8 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * ChatGptController는 ChatGPT와의 상호작용을 관리하는 컨트롤러입니다.
+ * <p>
  * 이 클래스에서는 질문에 대한 응답을 처리하는 API 엔드포인트를 제공합니다.
- *
+ * </p>
+ * 
  * @author 김혁
  * @version 1.0
  * @since 2023-09-07

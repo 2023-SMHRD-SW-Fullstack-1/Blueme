@@ -21,8 +21,10 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * MusicListsService는 음악목록 서비스 클래스입니다.
+ * <p>
  * 추천음악 목록 등록 기능을 제공합니다.
  * RecMusicList서비스 로 이전으로 사용하지 않습니다.
+ * </p>
  *
  * @author 김혁
  * @version 1.0

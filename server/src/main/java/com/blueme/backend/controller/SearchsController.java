@@ -22,7 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * SearchsController는 검색 관련 컨트롤러입니다.
+ * <p>
  * 이 클래스에서는 최근검색 등록, 최근검색 조회, 음악 검색을 처리합니다.
+ * </p>
  *
  * @author 김혁
  * @version 1.0
@@ -38,7 +40,9 @@ public class SearchsController {
 
   /**
    * 최근검색 등록을 위한 PUT 메서드입니다.
+   * <p>
    * 이미 최근검색 목록에 있을경우 재등록, 없을경우 등록합니다.
+   * </p>
    * 
    * @param request userID와 musicID 를 담은 객체 (SearchsRecentResDto)
    * @return 저장된 검색아이디를 반환합니다.

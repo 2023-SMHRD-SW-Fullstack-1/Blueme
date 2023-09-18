@@ -6,8 +6,10 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * RestConfig는 REST 통신을 위한 설정 클래스입니다.
+ * <p>
  * 이 클래스에서는 RestTemplate 빈을 생성하고 설정합니다.
- *
+ * </p>
+ * 
  * @author 김혁
  * @version 1.0
  * @since 2023-09-11

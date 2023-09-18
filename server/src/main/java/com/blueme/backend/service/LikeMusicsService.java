@@ -18,15 +18,11 @@ import com.blueme.backend.model.repository.UsersJpaRepository;
 
 import lombok.RequiredArgsConstructor;
 
-/*
-작성자: 김혁
-날짜(수정포함): 2023-09-13
-설명: 음악저장 관련 서비스
-*/
-
 /**
  * LikeMusicsService는 저장음악 서비스 클래스입니다.
+ * <p>
  * 이 클래스에서는 건강정보 조회 및 등록 기능을 제공합니다.
+ * </p>
  * 
  * @author 김혁
  * @version 1.0

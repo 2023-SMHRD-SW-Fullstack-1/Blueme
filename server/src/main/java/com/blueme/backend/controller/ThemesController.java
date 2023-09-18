@@ -26,7 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * ThemesController는 테마 관련 컨트롤러입니다.
+ * <p>
  * 이 클래스에서는 테마 등록, 모든테마 조회, 특정 테마 조회 기능을 처리합니다.
+ * </p>
  * 
  * @author 김혁
  * @version 1.0

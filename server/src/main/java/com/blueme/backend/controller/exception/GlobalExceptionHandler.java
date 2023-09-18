@@ -11,8 +11,10 @@ import com.blueme.backend.service.exception.UserNotFoundException;
 
 /**
  * GlobalExceptionHandler는 전역적인 예외 처리를 담당하는 클래스입니다.
+ * <p>
  * 이 클래스에서는 사용자, 음악, 저장된 음악리스트를 찾지 못했을 때의 예외 처리 메소드를 정의하고 있습니다.
- *
+ * </p>
+ * 
  * @author 김혁
  * @version 1.0
  * @since 2023-09-11
