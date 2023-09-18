@@ -23,10 +23,6 @@ const SoundControl = () => {
    const location = useLocation();
    const dispatch = useDispatch();
  
-   // 사용자 user_id
-   const user = useSelector(state => state.memberReducer.user)
-   const userId = user.id
-   // console.log('header',user);
  
    // useState
    const [duration, setDuration] = useState(0);
@@ -56,6 +52,7 @@ const SoundControl = () => {
           // 새로운 사운드 로드 및 재생
           const newSound = new Howl({
             src: [`/music/${currentSongId}`],
+            html5: true,
             format: ["mpeg"],
             onload() {
               setDuration(newSound.duration());
@@ -105,36 +102,23 @@ const SoundControl = () => {
       isRepeatModeRef.current = isRepeatMode;
     }, [isRepeatMode]);
   
-    // 재생/일시정지 확인
     useEffect(() => {
-
-      if(sound != null) { setCurrentTime(sound.seek());}
-      console.log(playingStatus)
-      if(sound!=null){
-         console.log(sound.seek())
+      if (sound != null) { 
+          setCurrentTime(sound.seek());
       }
-      if(!playingStatus){
-         console.log("first")
-         // console.dir(sound._onpause())
-
-         
-         if(sound != null) {sound.pause();  console.log(sound)};
-         
-         console.log("second")
-         // sound.pause();
-      }else{
-         if(sound!= null){
-            sound.play()
-            console.log("sound")
-            console.log(sound)
-            console.log("sdsd")
-
-         }
-      }
-    }, [playingStatus]);
-
-
-
+  
+      if (!playingStatus){
+          if (sound != null && sound.playing()) {
+              sound.pause();
+          }
+      } else {
+          if (sound != null) {
+              if (!sound.playing()) {
+                  sound.play();
+              }
+           }
+       }
+  }, [playingStatus]);
 
 
    // 리턴문

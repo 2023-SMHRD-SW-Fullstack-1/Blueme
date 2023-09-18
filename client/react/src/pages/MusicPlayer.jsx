@@ -34,10 +34,9 @@ const MusicPlayer = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  // 사용자 user_id
+  // 사용자 id
   const user = useSelector(state => state.memberReducer.user)
   const userId = user.id
-  // console.log('header',user);
 
   // useState
   const [currentTime, setCurrentTime] = useState(0);
@@ -122,18 +121,6 @@ const MusicPlayer = () => {
     dispatch(setCurrentSongId(nextSongId));
     navigate(`/MusicPlayer/${nextSongId}`);
   };
-
-  // 재생/일시정지 확인
-  useEffect(() => {
-    if (sound) {
-      const isCurrentlyPlaying = sound.playing();
-      console.log('isCurrentlyPlaying', isCurrentlyPlaying);
-      // setIsPlaying(isCurrentlyPlaying);
-
-      // 재생 상태 업데이트
-      dispatch(setPlayingStatus(isCurrentlyPlaying));
-    }
-  }, [sound]);
 
   useEffect(() => {
     const fetchLikeStatusAndRecent = async () => {

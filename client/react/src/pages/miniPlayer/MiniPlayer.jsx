@@ -28,8 +28,6 @@ const MiniPlayer = ({ item }) => {
   const dispatch = useDispatch();
 
   // useState
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(null);
   const [sound, setSound] = useState(null);
   // 한곡반복
@@ -44,12 +42,13 @@ const MiniPlayer = ({ item }) => {
   });
   // 음악 재생 인덱스 (리덕스 활용)
   const musicIds = useSelector((state) => state.musicReducer.musicIds);
-  // console.log("miniplayer musicids:", musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
   const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
   const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
-  // 임의 사용자 user_id
-  const userId = 1;
+  
+  // 사용자 id
+  const user = useSelector(state => state.memberReducer.user)
+  const userId = user.id
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
@@ -114,18 +113,6 @@ const MiniPlayer = ({ item }) => {
     dispatch(setCurrentSongId(nextSongId));
   };
 
-// 재생/일시정지 확인
-  useEffect(() => {
-     if (sound) {
-     const isCurrentlyPlaying = sound.playing();
-
-     setIsPlaying(isCurrentlyPlaying);
-
-    // 재생 상태 업데이트
-     dispatch(setPlayingStatus(isCurrentlyPlaying));
-     }
-   }, [sound]);
-
   // 최근 재생 목록 추가
   useEffect(() => {
     const fetchRecent = async () => {
@@ -144,7 +131,7 @@ const MiniPlayer = ({ item }) => {
 
 
   return (
-    <div className="flex items-center bg-custom-gray text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
+    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
       <img
         src={"data:image/;base64," + musicInfo.img}
         className="h-[80%] rounded-lg"
@@ -158,14 +145,14 @@ const MiniPlayer = ({ item }) => {
         <Prev className="w-[30px] m h-auto" onClick={prevTrack} />
         {playingStatus ? (
           <Pause
-            className="w-[50px] h-auto"
+            className="w-[30px] h-auto"
             onClick={() => {
               dispatch(setPlayingStatus(false));
             }}
           />
         ) : (
           <Play
-            className="w-[50px] h-auto"
+            className="w-[30px] h-auto"
             onClick={() => {
               dispatch(setPlayingStatus(true));
             }}

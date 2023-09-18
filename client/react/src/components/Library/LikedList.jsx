@@ -1,8 +1,9 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-12
-설명: 라이브러리 페이지 내 좋아요 누른 곡 5개 리스트 
+날짜(수정포함): 2023-09-18
+설명: MusicIds 수정
 */
+
 
 import { useEffect, useState } from "react";
 import SingleMusic from './SingleMusic.jsx';
@@ -12,11 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMusicIds } from "../../store/music/musicActions.js";
 
 const LikedList = () => {
-// 임의의 사용자 아이디
-let userId = 1;
+// 사용자 user_id
+  const user = useSelector(state => state.memberReducer.user)
+  const userId = user.id
+  
+const [ids, setIds] = useState([]);
 
 const dispatch = useDispatch();
-  const musicIds = useSelector(state => state);
 
   const [likedMusics, setLikedMusics] = useState([]);
 
@@ -25,9 +28,9 @@ useEffect(() => {
     try { 
       const response = await axios.get(`/likemusics/${userId}`);
       setLikedMusics(response.data);
-      let ids = response.data.slice(0, 5).map(music => music.musicId);
+      setIds(response.data.map(music => music.musicId))
       console.log('ids', ids);
-      dispatch(setMusicIds(ids));
+      
     } catch (error) {
       console.error(`Error: ${error}`);
     }
@@ -36,8 +39,12 @@ useEffect(() => {
   fetchLikedList();
 }, []);
 
+const handleListClick = () => {
+  dispatch(setMusicIds(ids));
+};
+
     return (
-        <div>
+        <div onClick={handleListClick}>
             {likedMusics.slice(0, 5).map((song) => (
                 <SingleMusic key={song.musicId} item={song} />
             ))}
