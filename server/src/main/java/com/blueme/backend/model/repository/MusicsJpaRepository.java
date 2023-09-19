@@ -29,6 +29,6 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
 
  Musics findByArtist(FavArtists findByFavCheckList);
 
-Musics findByArtistFilePath(Musics artistId);
+
 
 }
