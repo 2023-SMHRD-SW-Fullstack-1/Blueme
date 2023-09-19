@@ -18,8 +18,8 @@ import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, USER_DELETE
       password : null,
       nickname : null,
       img_url : null,
-      genres : null,
-      artists : null
+      platFormType : null
+
     },
     error: null,
     isLogin : false

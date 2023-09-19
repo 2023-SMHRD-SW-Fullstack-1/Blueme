@@ -15,12 +15,15 @@ const SelectGenre = () => {
   const [checkedState, setCheckedState] = useState([]);
   const [page, setPage] = useState(1); //페이징 관련
   const [genres, setGenres] = useState([])//페이징 관련
-  const id = localStorage.getItem('id')
+  let id = localStorage.getItem('id')
   const user = useSelector(state => state.memberReducer.user)
   const location = useLocation()
   const urlParams = new URLSearchParams(location.search);
   const snsId = urlParams.get('id');
-  const sns = localStorage.setItem('id', snsId)
+  if(localStorage.getItem('id') === null) {
+    id = localStorage.setItem('id', snsId)
+  }
+  // const sns = localStorage.setItem('id', snsId)
 
    //3초 로딩 함수
    const timeout = () => {

@@ -16,6 +16,7 @@ import user from "../../assets/img/defalut.png";
 import { useDispatch, useSelector } from "react-redux";
 import { userUpdate } from "../../store/member/memberAction";
 import '../../App.css'
+import basicProfile from '../../assets/img/basicProfile.jpg'
 
 function MemberInfoChange() {
   const navigate = useNavigate();
@@ -51,7 +52,6 @@ function MemberInfoChange() {
      
     };
    
-
   };
   // console.log("img", imgFile);
 
@@ -59,9 +59,17 @@ function MemberInfoChange() {
   const timeout = () => {
     setTimeout(() => {
       document.getElementById('toast-warning').classList.remove("reveal")
+      // document.getElementById('password').classList.remove("reveal")
       navigate("/MyPage");
     }, 2000);// 원하는 시간 ms단위로 적어주기
   };
+
+  const handlePw = (e) => {
+    // if(e.target.value === "") {
+    //   document.getElementById('password').classList.add("reveal")
+    //   timeout()
+    // }
+  }
 
   //회원정보 수정
   const handleUpdate = async (e) => {
@@ -87,6 +95,22 @@ function MemberInfoChange() {
       <div className="mt-36 text-custom-white mb-3 text-center  ">
         <div className="self-center flex flex-col items-center justify-center">
           <label htmlFor="profileImg">
+          {user.img_url === null ?
+            <img
+              // src={imgFile ? imgFile : `data:image/;base64,${myFeed[0]?.myFeed.mem_photo}`}
+              src={basicProfile}
+              alt=""
+              ref={previewRef}
+              onChange={saveImgFile}
+              //사진 꾸미기
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "10%",
+                objectFit: "cover",
+                cursor: "pointer",
+              }}
+            /> : 
             <img
               // src={imgFile ? imgFile : `data:image/;base64,${myFeed[0]?.myFeed.mem_photo}`}
               src={"data:image/;base64," + user.img_url}
@@ -101,7 +125,7 @@ function MemberInfoChange() {
                 objectFit: "cover",
                 cursor: "pointer",
               }}
-            />
+            /> }
           </label>
 
           <input
@@ -125,7 +149,7 @@ function MemberInfoChange() {
           {user.email}</p></div>
           <input
             type="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePw}
             className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
             placeholder="비밀번호를 입력해주세요."
           />
@@ -173,6 +197,12 @@ function MemberInfoChange() {
         <div className="flex justify-center items-center">
           <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div className="ml-3 font-normal text-center">수정이 완료되었습니다.</div>
+          </div>
+        </div>
+         {/* 토스트 창 띄우기 */}
+        <div className="flex justify-center items-center">
+          <div id="password" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">비밀번호를 입력해주세요!</div>
           </div>
         </div>
     </div>

@@ -22,10 +22,12 @@ const Join = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  const user = useSelector(state => state.memberReducer.user)
+  // const [id, setId] = useState(0)
+  // const id = useSelector(state => state.memberReducer.id)
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const id = user.id
+  // console.log(id);
+  // const id = user.id
 
   //3초 로딩 함수
   const timeout = () => {
@@ -49,8 +51,9 @@ const Join = () => {
      await axios
      .post("http://172.30.1.45:8104/user/signup", requestData)
      .then((res) => {
-        console.log(user);
-        localStorage.setItem('id' , res.data)
+        console.log(res.data);
+        // setId(res.data)
+        window.localStorage.setItem('id', JSON.stringify(res.data));
         navigate('/selectGenre')
      })
      .catch((err) => {
