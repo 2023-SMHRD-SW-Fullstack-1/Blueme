@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Search from "../assets/img/search.png";
 import RecentSearch from '../components/search/RecentSearch';
 import axios from 'axios';
+import { useSelector } from "react-redux";
 
 /*
 작성자 : 김혁
@@ -16,7 +17,9 @@ const SearchPage = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   // 로그인한 userId 값
-  const logginedUserId = 1;
+  // 사용자 id
+const user = useSelector(state => state.memberReducer.user)
+const logginedUserId = user.id
 
   // 최근 검색목록 조회하는 함수
   useEffect(() => {

@@ -3,10 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React from 'react'
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const RecentSearch = ({item}) => {
   const navigate = useNavigate();
-  let userId = 1;
+  // 사용자 id
+const user = useSelector(state => state.memberReducer.user)
+const userId = user.id
   // 최근검색 등록
   const uploadRecentMusic = () => {
     axios.put('http://172.30.1.27:8104/search', {

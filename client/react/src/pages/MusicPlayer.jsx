@@ -201,6 +201,7 @@ const MusicPlayer = () => {
 
      return () => clearInterval(intervalID);
    }, [duration]);
+
    
   // 재생시간 표시
   const formatTime = (timeInSeconds) => {

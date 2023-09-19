@@ -19,10 +19,11 @@ import { setMusicIds } from "../../store/music/musicActions.js";
 
 const LikedList = () => {
   // 임의의 사용자 아이디
-  let userId = 1;
+  const user = useSelector(state => state.memberReducer.user)
+  const userId = user.id
 
   const dispatch = useDispatch();
-  const musicIds = useSelector((state) => state);
+  const musicIds = useSelector((state) => state.musicReducer.musicIds);
 
   const [likedMusics, setLikedMusics] = useState([]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

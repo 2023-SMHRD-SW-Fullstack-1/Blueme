@@ -28,6 +28,10 @@ const ThemePlaylist = () => {
   const [musicList, setMusicList] = useState([]);
   const [showThemePlaylistModal, setshowThemePlaylistModal] = useState(false);
 
+// 사용자 id
+const user = useSelector(state => state.memberReducer.user)
+const userId = user.id
+
 // 지희 시작(0918)
 const dispatch = useDispatch();
 
@@ -76,7 +80,7 @@ const [ids, setIds] = useState([]);
       // }
 
       const dataToSend = {
-        userId: "1",
+        userId: userId.toString(),
         title: themeName,
         musicIds: musicList.map((item) => item.musicId), //여기 다시 하기 musicId
         image: themeImage,

@@ -119,6 +119,23 @@ const SoundControl = () => {
        }
   }, [playingStatus]);
 
+  // 재생시간 저장
+  useEffect(() => {
+    // 음악이 재생 중일 때만 현재 시간을 업데이트합니다.
+    if (sound && sound.playing()) {
+      const intervalId = setInterval(() => {
+        // Howler.js의 seek 메서드로 현재 재생 위치를 가져옵니다.
+        const currentTime = sound.seek();
+        
+        // Redux 액션 디스패치로 현재 시간 상태를 업데이트합니다.
+        dispatch(setCurrentTime(currentTime));
+      }, 1000); // 매 초마다 실행
+  
+      // 컴포넌트가 언마운트되거나 음악이 일시 정지될 때 타이머를 정리합니다.
+      return () => clearInterval(intervalId);
+    }
+  }, [sound, playingStatus]); 
+
 
    // 리턴문
   return null;
