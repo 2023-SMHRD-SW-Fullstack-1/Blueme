@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-12
-설명: 좋아요 누른 곡 전체리스트 (더보기 클릭 시)
+날짜(수정포함): 2023-09-18
+설명: MusicIds 수정
 */
 
 import { useEffect, useState } from "react";
@@ -19,14 +19,18 @@ import PlaylistDummy from "../../dummy/PlaylistDummy.json";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 
+
+
 const LikedPlaylist = () => {
-  // 임의의 사용자 아이디
-  let userId = 1;
+  // 사용자 user_id
+  const user = useSelector(state => state.memberReducer.user)
+  const userId = user.id
+
+  const [ids, setIds] = useState([]);
+  const [likedMusics, setLikedMusics] = useState([]);
 
   const dispatch = useDispatch();
-  const musicIds = useSelector(state => state);
 
-  const [likedMusics, setLikedMusics] = useState([]);
 
 useEffect(() => {
   const fetchLikedList = async () => {
@@ -34,9 +38,7 @@ useEffect(() => {
       const response = await axios.get(`/likemusics/${userId}`);
       console.log('더보기 response : ', response.data);
       setLikedMusics(response.data);
-      let ids = response.data.map(music => music.musicId);
-      console.log('더보기 ids', ids);
-      dispatch(setMusicIds(ids));
+      setIds(response.data.map(music => music.musicId))
     } catch (error) {
       console.error(`Error: ${error}`);
     }
@@ -45,13 +47,13 @@ useEffect(() => {
   fetchLikedList();
 }, []);
 
-// 리덕스에 저장됐는지 확인
-  useEffect(() => {
-    console.log('Updated music IDs:', musicIds);
-  }, [musicIds]);
+const handleListClick = () => {
+  dispatch(setMusicIds(ids));
+};
+
 
   return (
-    <div className="bg-custom-blue text-custom-white h-full pt-20">
+    <div className="bg-custom-blue text-custom-white h-full pt-20" onClick={handleListClick}>
       {/* 플레이리스트 */}
       <div className="flex flex-col items-center justify-center">
         <p className="text-3xl py-5">내가 좋아요 누른 곡</p>

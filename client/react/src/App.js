@@ -103,9 +103,6 @@ const App = () => {
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
-        {/* <MusicPlayerConditional /> */}
-        {/* 지희 끝 */}
-
         <ShowMiniPlayerInner />
           {/* 지희 끝 */}
         <Footer />

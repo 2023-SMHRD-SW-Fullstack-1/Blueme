@@ -1,19 +1,19 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-16
-설명: 전역적 음악 재생
+날짜(수정포함): 2023-09-18
+설명: 전역적 음악 재생 관리
 */
 
 import { useEffect, useState, useRef } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Howl } from "howler";
 
 import {
-   setMusicIds,
    setCurrentSongId,
-   setPlayingStatus
+   setPlayingStatus,
+   setCurrentTime,
+   setDuration
  } from "../../store/music/musicActions";
  
 
@@ -23,10 +23,6 @@ const SoundControl = () => {
    const location = useLocation();
    const dispatch = useDispatch();
  
-   // 사용자 user_id
-   const user = useSelector(state => state.memberReducer.user)
-   const userId = user.id
-   // console.log('header',user);
  
    // useState
    const [duration, setDuration] = useState(0);
@@ -37,11 +33,10 @@ const SoundControl = () => {
    // 한곡반복
    const [isRepeatMode, setIsRepeatMode] = useState(false);
    const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
-   const [currentTime, setCurrentTime] = useState(0);
+   // const [currentTime, setCurrentTime] = useState(0);
 
    // 음악 재생 인덱스 (리덕스 활용)
    const musicIds = useSelector((state) => state.musicReducer.musicIds);
-   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
    const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
    const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
    
@@ -56,9 +51,9 @@ const SoundControl = () => {
           // 새로운 사운드 로드 및 재생
           const newSound = new Howl({
             src: [`/music/${currentSongId}`],
+            html5: true,
             format: ["mpeg"],
             onload() {
-              setDuration(newSound.duration());
               setCurrentTime(0);
               dispatch(setPlayingStatus(true));
               newSound.play();
@@ -79,10 +74,10 @@ const SoundControl = () => {
               }
             },
             onplay() {
-              setIsPlaying(true);
+              dispatch(setPlayingStatus(true));
             },
             onpause() {
-              setIsPlaying(false);
+              dispatch(setPlayingStatus(false));
             },
           });
   
@@ -105,36 +100,24 @@ const SoundControl = () => {
       isRepeatModeRef.current = isRepeatMode;
     }, [isRepeatMode]);
   
-    // 재생/일시정지 확인
+    // 재생&정지
     useEffect(() => {
-
-      if(sound != null) { setCurrentTime(sound.seek());}
-      console.log(playingStatus)
-      if(sound!=null){
-         console.log(sound.seek())
+      if (sound != null) { 
+          setCurrentTime(sound.seek());
       }
-      if(!playingStatus){
-         console.log("first")
-         // console.dir(sound._onpause())
-
-         
-         if(sound != null) {sound.pause();  console.log(sound)};
-         
-         console.log("second")
-         // sound.pause();
-      }else{
-         if(sound!= null){
-            sound.play()
-            console.log("sound")
-            console.log(sound)
-            console.log("sdsd")
-
-         }
-      }
-    }, [playingStatus]);
-
-
-
+  
+      if (!playingStatus){
+          if (sound != null && sound.playing()) {
+              sound.pause();
+          }
+      } else {
+          if (sound != null) {
+              if (!sound.playing()) {
+                  sound.play();
+              }
+           }
+       }
+  }, [playingStatus]);
 
 
    // 리턴문

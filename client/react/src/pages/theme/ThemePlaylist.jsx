@@ -3,6 +3,11 @@
 날짜: 2023-09-16
 설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현
 */
+/*
+작성자: 이지희
+날짜: 2023-09-18
+설명: MusicIds 리덕스 상태관리 추가
+*/
 
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,12 +17,23 @@ import "swiper/swiper-bundle.css";
 import axios from "axios";
 import check from "../../assets/img/check.json";
 import Lottie from "lottie-react";
+// 지희시작
+import { useSelector, useDispatch } from "react-redux";
+import { setMusicIds } from "../../store/music/musicActions.js";
+// 지희 끝
 
 const ThemePlaylist = () => {
   const [themeImage, setThemeImage] = useState("");
   const [themeName, setThemeName] = useState("");
   const [musicList, setMusicList] = useState([]);
   const [showThemePlaylistModal, setshowThemePlaylistModal] = useState(false);
+
+// 지희 시작(0918)
+const dispatch = useDispatch();
+
+const musicIds = useSelector(state => state.musicReducer.musicIds);
+const [ids, setIds] = useState([]);
+// 지희 끝
 
   useEffect(() => {
     const getPlaylistDetails = async () => {
@@ -42,6 +58,7 @@ const ThemePlaylist = () => {
           if (responseMusicList.data) {
             setMusicList(responseMusicList.data);
           }
+
         }
       } catch (error) {
         console.error(`Error: ${error}`);
@@ -78,6 +95,17 @@ const ThemePlaylist = () => {
   };
 
   const closeModal = () => setshowThemePlaylistModal(false);
+
+ // 지희(0918) - MusicIds 설정
+ useEffect(() => {
+  const newIds = musicList.map(item => item.musicId);
+  setIds(newIds);
+}, [musicList]);
+
+ const handleListClick = () => {
+  dispatch(setMusicIds(ids));
+};
+// 지희 끝
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
@@ -138,8 +166,10 @@ const ThemePlaylist = () => {
       </div>
 
       {/* Render music list */}
+      {/* 지희 시작(0918) - div추가 및 onClick함수 세팅 */}
+     
       {musicList.length > 0 ? (
-        <Swiper direction={"vertical"} slidesPerView={6.2} spaceBetween={1} className="h-[49%] ml-3 mr-3">
+        <Swiper direction={"vertical"} slidesPerView={6.2} spaceBetween={1} className="h-[49%] ml-3 mr-3" onClick={handleListClick}>
           {musicList.map((item) => (
             <SwiperSlide key={item.id}>
               <SingleMusic item={item} />
@@ -149,6 +179,7 @@ const ThemePlaylist = () => {
       ) : (
         <p>No music available</p>
       )}
+      
     </div>
   );
 };

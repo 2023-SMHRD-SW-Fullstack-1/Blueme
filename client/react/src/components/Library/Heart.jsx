@@ -4,18 +4,20 @@
 설명: 좋아요 표시 컴포넌트 
 */
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import axios from "axios";
 import likeEmpty from "../../assets/img/likeEmpty.png";
 import likeFull from "../../assets/img/likeFull.png";
 
 const Heart = ({ item }) => {
-  // console.log('heart', item);
   const [isSaved, setIsSaved] = useState(-1); // 초기 좋아요 상태 불러오기
   const [isLiked, setIsLiked] = useState(isSaved > 0 ? true : false);
 
-  // 임의의 사용자id
-  const userId = 1;
+  // userId
+  const user = useSelector(state => state.memberReducer.user)
+  const userId = user.id
 
   // 좋아요 상태 확인
   useEffect(() => {
@@ -53,7 +55,7 @@ const Heart = ({ item }) => {
         <img
           className="w-[30px] h-auto"
           src={isLiked ? likeFull : likeEmpty}
-          alt="like-button"
+          alt="{likeEmpty}"
         />
       </button>
     </div>

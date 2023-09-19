@@ -5,7 +5,7 @@
 */
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-16
+날짜(수정포함): 2023-09-18
 설명: musicIds 설정 관련 수정
 */
 /*
@@ -25,7 +25,7 @@ import RecPlayList from "../rec/RecPlayList";
 import axios from "axios";
 // 리덕스 - 지희 경로변경
 import { useDispatch, useSelector } from "react-redux";
-import { setMusicIds } from "../../store/music/musicActions.js";
+import { setMusicIds,setPlayingStatus } from "../../store/music/musicActions.js";
 // 미니플레이어 import
 //유영 추천 음악 플레이 리스트
 import SingleRecPlayList from "../rec/SingleRecPlayList";
@@ -34,14 +34,22 @@ const Main = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [myRecMusicList, setMyRecMusicList] = useState([]);
   const [otherRecMusicList, setOtherRecMusicList] = useState([])
+
+  // 지희 시작 (0918)
+  const playingStatus = useSelector(state => state.musicReducer.playingStatus);
+  const [ids, setIds] = useState([]);
+  // 지희 끝
+
+
   // const [id, setId] = useState('0');
   // const id = localStorage.getItem('id')
   const dispatch = useDispatch();
-  const musicIds = useSelector(state => state.musicIds);
+  const musicIds = useSelector(state => state.musicReducer.musicIds);
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
   const isLoggendIn = user.isLogin
   console.log('header',user);
+
 
 
   useEffect(() => {
@@ -50,8 +58,9 @@ const Main = () => {
         const userId = 1; // 임의의 사용자 아이디
         const response = await axios.get(`/playedmusic/get/${userId}`);
         setRecentlyPlayed(response.data);
-      
-        await axios
+        // 지희(0918) 시작 - MusicIds 설정 추가
+        setIds(response.data.map(music => music.musicId))
+        // 지희 끝
         .get(`http://172.30.1.27:8104/recMusiclist/recent10`)//남의 추천 플리 불러오기
         .then((res) => {
           setOtherRecMusicList(res.data)//남의 플레이 리스트
@@ -76,11 +85,11 @@ const Main = () => {
         .catch((err) => console.log(err))
   }, [id])
  
-
-  // 리덕스에 저장됐는지 확인
-  // useEffect(() => {
-  //    console.log('Updated music IDs:', musicIds);
-  //   }, [musicIds]);
+  // 지희(0918) - MusicIds 설정
+ const handleListClick = () => {
+    dispatch(setMusicIds(ids));
+  };
+  // 지희 끝
 
   return (
     <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-20 hide-scrollbar">
@@ -129,12 +138,14 @@ const Main = () => {
       </div>
 
       {/* 최근에 재생한 목록 */}
+      <div onClick={handleListClick}>
       <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-8 mb-2">최근에 재생한 목록</h1>
       {/* <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]"> */}
       <div onClick={setMusicIds}>
       {recentlyPlayed.map((song) => (
         <SingleMusic key={song.id} item={song} />
       ))}
+      </div>
       </div>
     </div>
   );
