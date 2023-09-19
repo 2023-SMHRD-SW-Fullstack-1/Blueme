@@ -29,7 +29,7 @@ import lombok.Setter;
  * </p>
  * 
  * @author 김혁
- * @version 1.0.0
+ * @version 1.0
  * @since 2023-09-06
  */
 @Getter
@@ -42,16 +42,25 @@ public class Musics {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "music_id")
 	private Long id;
+	@Column(nullable = false, length = 100)
 	private String title;
+	@Column(nullable = false, length = 100)
 	private String artist;
+	@Column(length = 100)
 	private String album;
+	@Column(length = 100)
 	private String filePath;
+	@Column(length = 100)
 	private String jacketFilePath;
+	@Column(length = 100)
 	private String artistFilePath;
+	@Column(length = 50)
 	private String genre1;
+	@Column(length = 50)
 	private String genre2;
 	@Lob
 	private String tag;
+	@Column(length = 20)
 	private String time;
 	@Column(name = "hit", columnDefinition = "bigint default 0")
 	private Long hit;

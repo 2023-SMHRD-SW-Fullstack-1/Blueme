@@ -14,23 +14,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Genres {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="genre_id")
+	@Column(name = "genre_id")
 	private Long id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String name;
-	
-	
+
+	@Column(length = 200)
 	private String genre_file_path;
 
 	@Builder
-	public Genres(String name,String genre_file_path) {
+	public Genres(String name, String genre_file_path) {
 		this.name = name;
-		this.genre_file_path=genre_file_path;
+		this.genre_file_path = genre_file_path;
 	}
-	
-	
+
 }

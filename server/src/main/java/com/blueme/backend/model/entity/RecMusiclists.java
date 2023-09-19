@@ -37,8 +37,10 @@ public class RecMusiclists extends BaseEntity {
 	@Column(name = "rec_musiclist_id")
 	private Long id;
 
+	@Column(length = 100)
 	private String title;
 
+	@Column(length = 200)
 	private String reason;
 
 	@OneToMany(cascade = CascadeType.ALL)

@@ -36,18 +36,24 @@ public class HealthInfos extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private Users user;
 
+	@Column(length = 50)
 	private String heartrate;
 
+	@Column(length = 10)
 	private String calorie;
 
+	@Column(length = 50)
 	private String speed;
 
+	@Column(length = 50)
 	private String step;
 
 	// 위도
+	@Column(length = 50)
 	private String lat;
 
 	// 경도
+	@Column(length = 50)
 	private String lon;
 
 	@Builder

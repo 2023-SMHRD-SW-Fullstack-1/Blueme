@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.checkerframework.checker.units.qual.C;
+
 import com.blueme.backend.config.FilePathConfig;
 import com.blueme.backend.utils.ImageConverter;
 import com.blueme.backend.utils.ImageToBase64;
@@ -45,12 +47,16 @@ public class Themes {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "theme_id")
 	private Long id;
+
+	@Column(nullable = false, length = 100)
 	private String title;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "theme_id")
 	private List<ThemeMusiclists> themeMusicList;
+	@Column(length = 200)
 	private String content;
+	@Column(nullable = false, length = 200)
 	private String themeImgPath;
 
 	// 파일변환

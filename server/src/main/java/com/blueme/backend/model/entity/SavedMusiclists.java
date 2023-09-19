@@ -44,8 +44,10 @@ public class SavedMusiclists {
   @Column(name = "saved_musiclist_id")
   private Long id;
 
+  @Column(length = 100)
   private String title;
 
+  @Column(length = 200)
   private String imgPath;
 
   @OneToMany(cascade = CascadeType.ALL)
