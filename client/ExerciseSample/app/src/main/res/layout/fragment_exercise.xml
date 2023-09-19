@@ -315,7 +315,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="현재 하던 활동을 유지해주세요"
+        android:text="측정 중에는 화면을 계속 바라봐 주세요."
         android:textSize="8sp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/progress_start"
