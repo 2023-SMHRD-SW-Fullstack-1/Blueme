@@ -13,7 +13,7 @@ import Login from "../Login";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { userUpdate, logoutSuccess } from "../../store/member/memberAction";
-import profile from '../../assets/img/basicProfile.jpg'
+import basicProfile from '../../assets/img/basicProfile.jpg'
 
 
 const MyPage = () => {
@@ -29,6 +29,7 @@ const MyPage = () => {
   const id = user.id
   // console.log('header',user.img_url);
   const dispatch = useDispatch()
+  console.log('header',user);
 
 
 
@@ -40,7 +41,7 @@ const MyPage = () => {
         setGenres(res.data[0].genres)
         setArtists(res.data[0].artists)
         setImg(res.data[0].imgUrl)
-        console.log('img',img);
+        // console.log('img',img);
         // console.log(res.data[0].artists);
         // const genreIds = genres.map(genre => genre.genreId);
         // const artistIds = genres.map(artist => artist.artistFilePath);
@@ -81,7 +82,8 @@ const MyPage = () => {
     dispatch(logoutSuccess());
     navigate('/')
   }
-console.log(typeof(user.img_url));
+
+// console.log(typeof(user.img_url));
   return (
     <div>
     {localStorage.getItem('accessToken') !== null ? 
@@ -89,14 +91,14 @@ console.log(typeof(user.img_url));
       {/* 사용자 프로필 */}
     <div className="flex justify-between items-center mt-20">
       <div className="flex items-center boar">
-        {user.img_url == null || typeof(user.img_url) == String ? 
+        {user.img_url === null ? 
         <img 
-          src={profile}
-          alt="userImg"
-          className="w-[70px] h-[70px] mb-3 mt-2 rounded-lg"
-          /> : 
+        src={basicProfile}
+        alt="profile"
+        className="w-[70px] h-[70px] mb-3 mt-2 rounded-lg"
+        /> : 
         <img
-          src={user.img_url}
+          src={"data:image/;base64," +user.img_url}
           alt="userImg"
           className="w-[70px] h-[70px] mb-3 mt-2 rounded-lg"
         />}
@@ -141,7 +143,7 @@ console.log(typeof(user.img_url));
                     alt="genre image"
                     className="rounded-lg border object-cover blur-[1.5px] w-[130px] h-[130px]"
                   />
-                  <h5 className="font-semibold absolute text-3xl">{genre.name}</h5>
+                  <h5 className="font-semibold absolute text-2xl">{genre.name}</h5>
                 </button>
               </SwiperSlide>
             ))}

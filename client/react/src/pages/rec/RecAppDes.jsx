@@ -44,15 +44,14 @@ const RecAppDes = () => {
       .get(`http://172.30.1.27:8104/healthinfo/get/${id}`)//건강데이터 불러오기
       .then((res) => {
         console.log(res);
-        if (res.data !== "") { //건강데이터가 있다면 건강데이터 보여주는 화면으로 이동
-          navigate("/LoadDataCompl");
-        } else {//없다면 Toast창 띄우기
-          document.getElementById('toast-warning').classList.add("reveal")
-          timeout()
-          setModalIsOpen(false);
-        }
+        navigate("/LoadDataCompl");
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>{//데이터가 없다면 토스트 창 띄우기
+        document.getElementById('toast-warning').classList.add("reveal")
+        timeout()
+        setModalIsOpen(false);
+        console.log(err);
+      });
   };
 
   return (

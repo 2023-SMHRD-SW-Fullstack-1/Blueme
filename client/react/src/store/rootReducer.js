@@ -7,10 +7,12 @@ import memberReducer from './member/memberReducer'
 import { combineReducers, createStore } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; //localStorage 사용
+import musicReducer from './music/musicReducer'
 
 //combineReducer
 const rootReducer = combineReducers({
     memberReducer,
+    musicReducer
 })
 
 const persistConfig = {

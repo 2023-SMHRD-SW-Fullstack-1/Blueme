@@ -4,7 +4,7 @@
 설명: 아티스트 선택/ 수정 /검색
 */
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { useSelector } from "react-redux";
 import '../../App.css'
@@ -20,6 +20,9 @@ const SelectArtist = () => {
   const [isLoading, setIsLoading] = useState(true)
   const user = useSelector(state => state.memberReducer.user)
   const id = localStorage.getItem('id')
+  const location = useLocation()
+  // const snsId = localStorage.setitem('id')
+  console.log('snsId', id);
 
 
     //3초 로딩 함수
@@ -57,7 +60,7 @@ const SelectArtist = () => {
     //회원가입 시 아티스트 선택(2개)
     const handleSelect = () => {
         if(checkedState.length === 2) {//아티스트 2명 선택 시 
-          const requestData = {artistIds : checkedState ,favChecklistId : id}
+          const  requestData = {artistIds : checkedState ,favChecklistId : id}
           axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)//아티스트 저장 성공 여부
           .then((res) => {//성공 실패 시 반환값 -1
               if(res.data > 0) {
@@ -107,6 +110,31 @@ const SelectArtist = () => {
       if (e.key == 'Enter') {
           handleArtist()   // Enter 입력이 되면 클릭 이벤트 실행  
       }
+    }
+
+     //아티스트 수정하기
+     const handelUpdate = () => {
+      if(checkedState.length === 2) {
+        const requestData = {artistIds : checkedState ,favChecklistId : id}
+          console.log('requestData',requestData);
+          axios
+          .patch("http://172.30.1.45:8104/updateFavArtist",requestData)//선택한 아티스트 저장 성공 여부
+          .then((res) => {//저장 실패일 경우 반환값 -1
+            if(res.data >0) {
+              navigate('/MyPage')
+            }else if(res.data == -1) {
+              alert('저장되지 않았습니다. 다시 선택해주세요.')
+              navigate('./Artistrecommend')
+            }   
+            console.log(res)
+          })
+          .catch((err) => console.log(err))
+          console.log(checkedState);
+    } else{
+        document.getElementById('toast-warning').classList.add("reveal")
+        timeout()
+        navigate('/Artistrecommend')
+    }
     }
 
 
@@ -194,7 +222,7 @@ const SelectArtist = () => {
     >
       선택하기
     </button> : <button
-          onClick={handleSelect}
+          onClick={handelUpdate}
           className="
             mt-5
             w-full

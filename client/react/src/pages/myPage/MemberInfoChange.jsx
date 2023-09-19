@@ -30,7 +30,7 @@ function MemberInfoChange() {
   const dispatch = useDispatch()
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
-  // console.log('header',user);
+ 
 
 
   // 선택된 이미지 파일을 저장하는 함수
@@ -43,10 +43,15 @@ function MemberInfoChange() {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setImgFile(reader.result);
+      const base64String = reader.result
+      const trimmedBase64String = base64String.substring(base64String.indexOf(",") + 1);
+      // console.log(trimmedBase64String);   
+      setImgFile(trimmedBase64String);
       previewRef.current.src = reader.result;
      
     };
+   
+
   };
   // console.log("img", imgFile);
 
@@ -84,7 +89,7 @@ function MemberInfoChange() {
           <label htmlFor="profileImg">
             <img
               // src={imgFile ? imgFile : `data:image/;base64,${myFeed[0]?.myFeed.mem_photo}`}
-              src={user.img_url}
+              src={"data:image/;base64," + user.img_url}
               alt=""
               ref={previewRef}
               onChange={saveImgFile}

@@ -16,6 +16,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import axios from 'axios'
 
 //Three.js
 const DirectionalLightWithCamera = () => {
@@ -27,7 +28,7 @@ const DirectionalLightWithCamera = () => {
       lightRef.current.position.copy(camera.position);
     }
   });
-
+  
   return (
     <directionalLight
       ref={lightRef}
@@ -50,11 +51,19 @@ const LoadGpt = () => {
   const user = useSelector(state => state.memberReducer.user)
   const nickname = user.nickname
   console.log('header',user);
+  const id = user.id //id가져오기
+
 
   //6초 로딩 
   const timeout = () => {
     setTimeout(() => {
-      navigate("/RecPlayList");
+        axios
+        .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)
+        .then((res) => {
+          console.log(res)
+          navigate("/RecPlayList");
+        })
+        .catch((err) => console.log(err))
     }, 6000);
   };
 

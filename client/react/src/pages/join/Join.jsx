@@ -25,6 +25,7 @@ const Join = () => {
   const user = useSelector(state => state.memberReducer.user)
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const id = user.id
 
   //3초 로딩 함수
   const timeout = () => {
@@ -60,6 +61,10 @@ const Join = () => {
      })
   
     }
+    // const handleKakao = () => {
+    //   window.location.href = "http://localhost:8104/oauth2/authorization/kakao"
+    //   navigate(`/SelectGenre/${id}`)
+    // }
 
 
 

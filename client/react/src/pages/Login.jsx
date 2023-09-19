@@ -15,7 +15,7 @@ import logo2 from "../assets/img/logo2.png";
 import kakao from "../assets/img/kakao.png";
 import google from "../assets/img/google.png";
 import {loginRequest, loginSuccess, loginFailure} from '../store/member/memberAction'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +23,8 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
+  const user = useSelector(state => state.memberReducer.user)
+  const id = user.id
   
 
   //일반 로그인
@@ -43,6 +45,7 @@ const Login = () => {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("id", res.data.id);
+        localStorage.setItem('img', res.data.img_url)
          dispatch(loginSuccess(res.data))
          navigate("/");
         })
@@ -140,7 +143,9 @@ const Login = () => {
           </button>
 
           <button
-            onClick={() => {window.location.href = "http://localhost:8104/oauth2/authorization/google"}}
+           onClick={() => {
+            window.location.href = "http://localhost:8104/oauth2/authorization/google";
+          }}
             className="
   flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
           >

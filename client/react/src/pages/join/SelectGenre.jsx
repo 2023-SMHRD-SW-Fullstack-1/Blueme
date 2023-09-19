@@ -5,7 +5,7 @@
 */
 // SelectArtist.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -17,9 +17,10 @@ const SelectGenre = () => {
   const [genres, setGenres] = useState([])//페이징 관련
   const id = localStorage.getItem('id')
   const user = useSelector(state => state.memberReducer.user)
-
-  const params = useParams();
-  console.log('params', params);
+  const location = useLocation()
+  const urlParams = new URLSearchParams(location.search);
+  const snsId = urlParams.get('id');
+  const sns = localStorage.setItem('id', snsId)
 
    //3초 로딩 함수
    const timeout = () => {
@@ -48,7 +49,7 @@ const SelectGenre = () => {
       .get("http://172.30.1.45:8104/SelectGenre") 
       .then((res) => {
         console.log(res);
-        console.log('userid', id);
+        // console.log('userid', id);
         setGenre(res.data)
       })
       .catch((err) => console.log(err))
@@ -87,12 +88,14 @@ const SelectGenre = () => {
     //회원가입 시 장르 선택(2개)
     const handleSelect = () => {
           if(checkedState.length === 2) {
-            // localStorage.setItem('genres', JSON.stringify(checkedState)) 
-            // const genres = localStorage.getItem('genres')
-            // const genreIds = JSON.parse(genres)
-            // console.log(typeof(genreIds));
-              const requestData = {genreIds : checkedState ,favChecklistId : id}
-              console.log(requestData);
+          let requestData = 0
+            if(!location.search) {
+                requestData = {genreIds : checkedState ,favChecklistId : id}
+                console.log(requestData);
+            } else {
+                requestData = {genreIds : checkedState ,favChecklistId : snsId}// url로 넘어오는 snsId가져오기
+            }
+          console.log(requestData);
               axios
               .post("http://172.30.1.45:8104/SaveFavGenre",requestData)//선택한 장르 저장 성공 여부
               .then((res) => {//저장 실패일 경우 반환값 -1
@@ -114,7 +117,13 @@ const SelectGenre = () => {
     //장르 수정하기
     const handelUpdate = () => {
       if(checkedState.length === 2) {
-          const requestData = {genreIds : checkedState ,favChecklistId : id}
+        let requestData = 0
+        if(!location.search) {
+            requestData = {genreIds : checkedState ,favChecklistId : id}
+            console.log(requestData);
+        } else {
+            requestData = {genreIds : checkedState ,favChecklistId : snsId}// url로 넘어오는 snsId가져오기
+        }
           console.log('requestData',requestData);
           axios
           .patch("http://172.30.1.45:8104/updateFavGenre",requestData)//선택한 장르 저장 성공 여부
