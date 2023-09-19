@@ -32,8 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
 	private final UsersJpaRepository usersJpaRepository;
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 	private static final String KAKAO = "kakao";
 	
 	@Override
@@ -59,10 +57,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		OAuthAttributes extractAttributes = OAuthAttributes.of(socialType, userNameAttributeName, attributes);
 		
 		Users createdUser = getUser(extractAttributes, socialType);	// getUser()메소드로 User 객체 생성 후 반환
-		log.info("email ====> {}",createdUser.getEmail());
-		log.info("password ====> {}",createdUser.getPassword());
-		log.info("platformType ====> {}",createdUser.getPlatformType());
-		log.info("nickname ====> {}",createdUser.getNickname());
 		
 		// DefaultOAuth2User 를 구현한 CustomOAuth2User 객체를 생성해서 반환
         return new CustomOAuth2User(
@@ -75,6 +69,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		
 	}
 	
+	/**
+	 * 	PlatFormType과 attributes에 들어있는 소셜 로그인의 식별값 id를 통해 회원을 찾아 반환
+	 *  만약 찾은 회원이 있다면, 그대로 반환하고 없다면 saveUser()를 호출하여 회원을 저장
+	 */
 	private Users getUser(OAuthAttributes attributes, SocialType socialType) {
         Users findUser = usersJpaRepository.findByPlatformTypeAndSocialId(socialType.name(),
                 attributes.getOauth2UserInfo().getId()).orElse(null);
@@ -93,16 +91,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return SocialType.GOOGLE;
     }
 	
+	
 	/**
      * OAuthAttributes의 toEntity() 메소드를 통해 빌더로 User 객체 생성 후 반환
      * 생성된 User 객체를 DB에 저장 : socialType, socialId, email, role 값만 있는 상태
      */
     private Users saveUser(OAuthAttributes attributes, SocialType socialType) {
-    	log.info("saveUser start ....");
         Users createdUser = attributes.toEntity(socialType, attributes.getOauth2UserInfo());
-//        createdUser.setPassword(bCryptPasswordEncoder.encode(PasswordUtil.generateRandomPassword()));
-        log.info("saveUser password : {}",createdUser.getPassword());
-        log.info("saveUser email : {}",createdUser.getEmail());
         return usersJpaRepository.save(createdUser);
     }
 

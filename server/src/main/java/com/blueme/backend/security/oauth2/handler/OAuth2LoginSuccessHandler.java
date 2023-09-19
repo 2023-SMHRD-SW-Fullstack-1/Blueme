@@ -51,7 +51,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		try {
 			CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-			log.info(oAuth2User.getRole().toString());
 			// 만약 소셜 첫로그인 후 (User의 Role이 GUEST일 경우) 처음 요청한 회원이므로 선호장르선택 페이지로 리다이렉트
 			if (oAuth2User.getRole() == UserRole.GUEST) {
 				String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
@@ -76,8 +75,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				usersJpaRepository.save(findUser); // Role.USER 로 변경
 
 			} else {
+				
 				log.info("oauth2user =========> {}", oAuth2User.toString());
 				loginSuccess(response, oAuth2User, authentication); // 로그인에 성공한 경우 access, refresh 토큰 생성
+				
 			}
 		} catch (Exception e) {
 			log.info("onAuthenticationSuccess : {}", e.getMessage());
@@ -107,11 +108,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.registerModule(new JavaTimeModule());
+			
 			String userInfoJson;
 			try {
 				userInfoJson = mapper.writeValueAsString(userInfo);
 				response.setContentType("application/json;charset=UTF-8");
 				response.getWriter().write(userInfoJson);
+//				response.sendRedirect("http://172.30.1.13:3000/");
 			} catch (Exception e) {
 				log.info("error");
 				e.printStackTrace();

@@ -21,6 +21,7 @@ import com.blueme.backend.model.repository.FavArtistsJpaRepository;
 import com.blueme.backend.model.repository.FavCheckListsJpaRepository;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.blueme.backend.service.exception.UserNotFoundException;
 import com.blueme.backend.utils.ImageConverter;
 import com.blueme.backend.utils.ImageToBase64;
 
@@ -73,8 +74,8 @@ public class ArtistsService {
 
 		for (String favArtistStr : requestDto.getArtistIds()) {
 			Musics musics = musicsJpaRepository.findByArtistFilePath(favArtistStr);
-			if (musics == null)
-				return -1L;
+			if (musics == null) return -1L;
+			
 			FavArtists favArtists = new FavArtists();
 			favArtists.setFavCheckList(favCheckList);
 			favArtists.setArtistId(musics);
@@ -109,16 +110,18 @@ public class ArtistsService {
 		
 		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
 		
+		if(favCheckList.isEmpty()) {
+			throw new UserNotFoundException(userId);
+		}
+		
 		List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckList.get(1));
+		Musics music1 = musicsJpaRepository.findByArtistFilePath(newArtistIds.get(0).toString());
+		Musics music2 = musicsJpaRepository.findByArtistFilePath(newArtistIds.get(1).toString());
 		
-		Musics musics = musicsJpaRepository.findByArtistFilePath(favArtists.get(0).getArtistId());
-		Musics musics2 = musicsJpaRepository.findByArtistFilePath(favArtists.get(1).getArtistId());
-		
-		favArtists.get(0).setArtistId(musics);
-		favArtists.get(1).setArtistId(musics2);
-		
+		favArtists.get(0).setArtistId(music1);
+		favArtists.get(1).setArtistId(music2);
+
 		return userId;
-		
 	}
 
 	

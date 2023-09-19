@@ -175,7 +175,7 @@ public class UsersService {
         String filePath = "/usr/blueme/profileImg/" + fileName;
         File file = new File(filePath);
 		Base64.Decoder decoder = Base64.getDecoder();
-		byte[] decodedBytes = decoder.decode(requestDto.getImg_url().split(",")[1].getBytes());
+		byte[] decodedBytes = decoder.decode(requestDto.getImg_url().getBytes());
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         fileOutputStream.write(decodedBytes);
         fileOutputStream.close();

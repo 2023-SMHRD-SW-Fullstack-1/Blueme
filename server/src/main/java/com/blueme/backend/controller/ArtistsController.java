@@ -74,6 +74,8 @@ public class ArtistsController {
 	@PatchMapping("/updateFavArtist")
 	public Long updateFavArtist(@RequestBody FavArtistReqDto requestDto) {
 		log.info("Starting to update user's favorite artist");
+		log.info(requestDto.getFavChecklistId());
+		log.info(requestDto.getArtistIds().toString());
 		List<Long> artistId = requestDto.getArtistIds().stream().map(Long::parseLong).collect(Collectors.toList());
 		Long userId = artistsService.updateFavArtist(Long.parseLong(requestDto.getFavChecklistId()), artistId);
 		return userId;
