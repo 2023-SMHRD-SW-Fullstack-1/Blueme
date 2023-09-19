@@ -6,7 +6,7 @@
 
 import { createStore } from "redux";
 import musicReducer from "./musicReducer"; 
-import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer } from './musicActions'; // 수정된 부분
+import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer, setCurrentTime, setDraggingStatus, setRepeatMode } from './musicActions'; // 수정된 부분
 
 const store = createStore(musicReducer);
 
@@ -14,5 +14,10 @@ store.dispatch(setMusicIds([]));
 store.dispatch(setPlayingStatus(false));
 store.dispatch(setCurrentSongId());
 store.dispatch(setShowMiniPlayer(false));
+// 지희 추가 (0919)
+store.dispatch(setCurrentTime(0));
+store.dispatch(setDraggingStatus(false))
+store.dispatch(setRepeatMode(false))
+
 
 export default store;

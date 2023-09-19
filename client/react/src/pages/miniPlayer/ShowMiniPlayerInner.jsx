@@ -20,9 +20,6 @@ const ShowMiniPlayerInner = () => {
     
     if (pathsToShowMiniPlayer.includes(location.pathname)) { // 미니플레이어 O
       dispatch(setShowMiniPlayer(true));
-    } else if (location.pathname.startsWith('/MusicPlayer')){ // MusicPlayer - 재생상태
-      dispatch(setShowMiniPlayer(false));
-      dispatch(setPlayingStatus(true))
     } else { // 미니플레이어 X
       dispatch(setShowMiniPlayer(false));
       dispatch(setPlayingStatus(false))

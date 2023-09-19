@@ -11,6 +11,8 @@ export const SET_SHOW_MINI_PLAYER = "SET_SHOW_MINI_PLAYER";
 export const SET_CURRENT_TIME = 'SET_CURRENT_TIME';
 export const SET_DURATION = 'SET_DURATION';
 export const SET_DRAGGING_STATUS = 'SET_DRAGGING_STATUS';
+export const SET_REPEAT_MODE = 'SET_REPEAT_MODE';
+
 
 // 음악 재생할 목록
 export function setMusicIds(musicIds) {
@@ -44,6 +46,7 @@ export function setShowMiniPlayer(show) {
   };
 }
 
+// 재생시간
 export function setCurrentTime(time) {
   return {
     type: SET_CURRENT_TIME,
@@ -62,5 +65,13 @@ export function setDraggingStatus(isDragging) {
   return {
     type: SET_DRAGGING_STATUS,
     payload: isDragging,
+  };
+}
+
+// 한곡반복
+export function setRepeatMode(repeat) {
+  return {
+    type: SET_REPEAT_MODE,
+    payload: repeat,
   };
 }

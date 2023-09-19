@@ -13,7 +13,8 @@ import {
    setCurrentSongId,
    setPlayingStatus,
    setCurrentTime,
-   setDuration
+   setDraggingStatus,
+   setRepeatMode
  } from "../../store/music/musicActions";
  
 
@@ -29,18 +30,19 @@ const SoundControl = () => {
    const [isPlaying, setIsPlaying] = useState(false);
    const [sound, setSound] = useState(null);
    // 재생바 이동 관련 useState
-   const [isDragging, setIsDragging] = useState(false);
+  // const [isDragging, setIsDragging] = useState(false);
    // 한곡반복
-   const [isRepeatMode, setIsRepeatMode] = useState(false);
-   const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
+  //  const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
    // const [currentTime, setCurrentTime] = useState(0);
 
    // 음악 재생 인덱스 (리덕스 활용)
    const musicIds = useSelector((state) => state.musicReducer.musicIds);
    const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
    const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
+   const currentTime = useSelector((state) => state.musicReducer.currentTime);
+   const draggingStatus = useSelector((state) => state.musicReducer.draggingStatus);
+   let isRepeatMode = useSelector((state) => state.musicReducer.repeatMode)
    
-
    useEffect(() => {
       const fetchSound = async () => {
 
@@ -51,17 +53,16 @@ const SoundControl = () => {
           // 새로운 사운드 로드 및 재생
           const newSound = new Howl({
             src: [`/music/${currentSongId}`],
-            html5: true,
             format: ["mpeg"],
             onload() {
-              setCurrentTime(0);
+              dispatch(setCurrentTime(0));
               dispatch(setPlayingStatus(true));
               newSound.play();
             },
             onend() {
-              if (isRepeatModeRef.current) {
+              if (isRepeatMode) {
                 newSound.seek(0);
-                setCurrentTime(0);
+                dispatch(setCurrentTime(0));
                 newSound.play();
               } else {
                // nextTrack 로직
@@ -95,17 +96,32 @@ const SoundControl = () => {
       };
     }, [currentSongId, musicIds]);
   
+    // 재생바 이동
+  //   useEffect(() => {
+  //     if (sound && playingStatus && !draggingStatus) { 
+  //       sound.play();
+  //     } else if(sound && !playingStatus){
+  //       sound.pause();
+  //     }
+  // }, [playingStatus]);
+  
+  // useEffect(() => {
+  //     if (sound && !draggingStatus) { 
+  //       sound.seek(currentTime);
+  //     }
+  // }, [draggingStatus]);
+
     // 한곡반복 Ref
-    useEffect(() => {
-      isRepeatModeRef.current = isRepeatMode;
-    }, [isRepeatMode]);
+    // useEffect(() => {
+    //   isRepeatModeRef.current = isRepeatMode;
+    // }, [isRepeatMode]);
   
     // 재생&정지
     useEffect(() => {
       if (sound != null) { 
-          setCurrentTime(sound.seek());
+          dispatch(setCurrentTime(sound.seek()));
       }
-  
+      // console.log(currentTime)
       if (!playingStatus){
           if (sound != null && sound.playing()) {
               sound.pause();
@@ -121,17 +137,16 @@ const SoundControl = () => {
 
   // 재생시간 저장
   useEffect(() => {
-    // 음악이 재생 중일 때만 현재 시간을 업데이트합니다.
+    
     if (sound && sound.playing()) {
-      const intervalId = setInterval(() => {
-        // Howler.js의 seek 메서드로 현재 재생 위치를 가져옵니다.
-        const currentTime = sound.seek();
-        
-        // Redux 액션 디스패치로 현재 시간 상태를 업데이트합니다.
-        dispatch(setCurrentTime(currentTime));
-      }, 1000); // 매 초마다 실행
+      let intervalId = setInterval(() => {
+        dispatch(setCurrentTime(sound.seek()));
+      }, 1000);
   
-      // 컴포넌트가 언마운트되거나 음악이 일시 정지될 때 타이머를 정리합니다.
+      // 컴포넌트가 언마운트되거나 음악이 일시 정지될 때 타이머를 정리
+      if(sound && sound.playing()== false){
+        clearInterval(intervalId)
+      }
       return () => clearInterval(intervalId);
     }
   }, [sound, playingStatus]); 
