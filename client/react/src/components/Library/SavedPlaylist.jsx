@@ -45,18 +45,29 @@ const SavedPlaylist = () => {
   }, [musiclistId]);
 
   return (
-    <div className="flex mt-5 lg:mt-20 lg:ml-20 ">
+    <div className="flex mt-5 lg:mt-10  ">
       <Swiper
         spaceBetween={10}
         slidesPerView="0"
         breakpoints={{
           320: {
-            slidesPerView: "3",
-            spaceBetween: 10,
+            slidesPerView: 2,
+            spaceBetween: 20,
           },
+
+          480: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+
           640: {
-            slidesPerView: "1",
-            spaceBetween: 10,
+            slidesPerView: 4,
+            spaceBetween: 40,
+          },
+
+          768: {
+            slidesPerView: 5,
+            spaceBetween: 50,
           },
         }}
       >
@@ -66,15 +77,15 @@ const SavedPlaylist = () => {
             onClick={() => handlePlaylistClick(SavedPlaylist.savedMusiclistId)}
           >
             <Link to={`/SavedPlaylistDetail/${SavedPlaylist.savedMusiclistId}`}>
-              <div className="flex flex-col justify-center items-center ml-2 mr-2 lg:w-[350px] lg:ml-20">
+              <div className="flex flex-col justify-center items-center ml-2 mr-2 lg:w-[350px] ">
                 {/* 1. 앨범 이미지 */}
                 <img
                   src={"data:image/;base64," + SavedPlaylist.img}
                   alt="album cover"
-                  className="w-[100px] lg:w-[100px] h-auto rounded-lg xs:w-[100%] sm:h-auto "
+                  className="w-[100px] lg:w-[200px] h-auto rounded-lg xs:w-[100%] sm:h-auto "
                 />
                 {/* 2. 제목/ 아티스트 */}
-                <span className="tracking-tighter text-sm text-center mt-2 lg:text-xl ">{SavedPlaylist.title}</span>
+                <span className="tracking-tighter text-sm text-center mt-2 lg:text-base ">{SavedPlaylist.title}</span>
               </div>
             </Link>
           </SwiperSlide>
