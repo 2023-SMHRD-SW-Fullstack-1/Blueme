@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-16
-설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현
+날짜: 2023-09-18
+설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현 및 디자인 수정
 */
 /*
 작성자: 이지희
@@ -136,9 +136,9 @@ const [ids, setIds] = useState([]);
         } flex items-center justify-center`}
       >
         <div className=" absolute w-full h-full bg-gray-900 opacity-50"></div>
-        <div className=" bg-white w-[300px] mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div className=" bg-gray-900 w-[300px] mx-auto rounded-lg shadow-lg z-50 overflow-y-auto border-2 border-white">
           {/* 모달 컨텐츠 */}
-          <div className=" py-[20px] text-left px-[30px]">
+          <div className=" py-[20px] text-left  text-custom-white px-[30px]  bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 ">
             {/* Modal Header */}
             <Lottie
               animationData={check}

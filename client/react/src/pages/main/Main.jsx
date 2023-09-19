@@ -100,22 +100,24 @@ const Main = () => {
         <h1 className="overflow-hidden text-left indent-1 text-xl font-semibold tracking-tighter mt-5 ">
           Chat GPT가 추천해준 나의 플레이리스트
         </h1>
-        {myRecMusicList !== '' &&
-          <Link to='/RecPlayList'>
+        {myRecMusicList !== "" && (
+          <Link to="/RecPlayList">
             <button className="flex text-custom-lightgray mt-6 mr-2 text-sm">더보기</button>
           </Link>
-        }
-        
+        )}
       </div>
-       {id !== '0'  && myRecMusicList.length !== 0 ?
-         <Swiper direction={"vertical"} slidesPerView={4} className="h-[33%]">
-         {myRecMusicList && myRecMusicList.recMusiclistDetails.map((item) => (
-                    <SwiperSlide key={item.recMusiclistDetailId}>
-                        <SingleRecPlayList key={item.musicId} item={item} />
-                    </SwiperSlide>
-                ))}
-       </Swiper> :    <BeforeRegistration />}
-      
+      {id !== "0" && myRecMusicList.length !== 0 ? (
+        <Swiper direction={"vertical"} slidesPerView={4} className="h-[33%]">
+          {myRecMusicList &&
+            myRecMusicList.recMusiclistDetails.map((item) => (
+              <SwiperSlide key={item.recMusiclistDetailId}>
+                <SingleRecPlayList key={item.musicId} item={item} />
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      ) : (
+        <BeforeRegistration />
+      )}
 
       {/* ChatGPT가 추천해준 남의 플레이리스트 */}
       <div>
@@ -123,14 +125,19 @@ const Main = () => {
           ChatGpt가 추천해준 남의 플레이리스트
         </h1>
         <Swiper spaceBetween={5} slidesPerView={2.1}>
-         {otherRecMusicList && otherRecMusicList.map((item) => (
-                    <SwiperSlide key={item.recMusiclistId} className="mr-10">
-                      <div className="flex flex-col justify-center items-center ml-2 mr-5 w-50 "></div>
-                      <img src={"data:image/;base64,"+item.img} alt="album cover" className="w-[170px] h-[160px] rounded-lg mr-5 mb-3" />
-                      <span className="tracking-tight text-sm text-center">{item.recMusiclistTitle}</span>
-                        {/* <SavedPlaylist key={item.recMusiclistId} item={item} /> */}
-                    </SwiperSlide>
-                ))}
+          {otherRecMusicList &&
+            otherRecMusicList.map((item) => (
+              <SwiperSlide key={item.recMusiclistId} className="mr-10">
+                <div className="flex flex-col justify-center items-center ml-2 mr-5 w-50 "></div>
+                <img
+                  src={"data:image/;base64," + item.img}
+                  alt="album cover"
+                  className="w-[170px] h-[160px] rounded-lg mr-5 mb-3"
+                />
+                <span className="tracking-tight text-sm text-center">{item.recMusiclistTitle}</span>
+                {/* <SavedPlaylist key={item.recMusiclistId} item={item} /> */}
+              </SwiperSlide>
+            ))}
         </Swiper>
         {/* <Link to="RecPlayList">
           <SavedPlaylist />
@@ -142,9 +149,9 @@ const Main = () => {
       <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-8 mb-2">최근에 재생한 목록</h1>
       {/* <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]"> */}
       <div onClick={setMusicIds}>
-      {recentlyPlayed.map((song) => (
-        <SingleMusic key={song.id} item={song} />
-      ))}
+        {recentlyPlayed.map((song) => (
+          <SingleMusic key={song.id} item={song} />
+        ))}
       </div>
       </div>
     </div>
