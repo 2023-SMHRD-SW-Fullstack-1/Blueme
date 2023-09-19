@@ -18,7 +18,12 @@ const SavedPlaylistDetail = () => {
 
   let params = useParams();
   let id = params.id;
+  function convertSecondsToMinutes(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
 
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  }
   // 플레이리스트 내 음악리스트 정보
   useEffect(() => {
     const fetchSavedPlaylistDetails = async () => {
@@ -46,17 +51,21 @@ const SavedPlaylistDetail = () => {
         <p className="text-2xl py-5">{title}</p>
       </div>
 
-      {selectedPlaylistDetails.length > 0 ? (
-        <Swiper direction={"vertical"} slidesPerView={6.2} spaceBetween={1} className="h-[49%] ml-3 mr-3">
-          {selectedPlaylistDetails.map((item) => (
-            <SwiperSlide key={item.musicId}>
-              <SingleMusic item={{ ...item, title: item.musicTitle, artist: item.musicArtist }} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        <p>No music available</p>
-      )}
+      {selectedPlaylistDetails.map((music) => (
+        <SwiperSlide key={music.musicId}>
+          <SingleMusic
+            item={{
+              musicId: music.musicId,
+              img: music.img,
+              title: music.musicTitle,
+              artist: music.musicArtist,
+
+              genre1: music.musicGenre,
+              time: convertSecondsToMinutes(music.time),
+            }}
+          />
+        </SwiperSlide>
+      ))}
     </div>
   );
 };
