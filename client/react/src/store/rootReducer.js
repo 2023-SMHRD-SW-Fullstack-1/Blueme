@@ -5,6 +5,7 @@
 */
 import memberReducer from './member/memberReducer'
 import musicReducer from './music/musicReducer';
+import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer } from './music/musicActions';
 
 import { combineReducers, createStore } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist';
@@ -13,15 +14,13 @@ import storage from 'redux-persist/lib/storage'; //localStorage 사용
 //combineReducer
 const rootReducer = combineReducers({
     memberReducer,
-    musicReducer
+    musicReducer,
 })
-
-
 
 const persistConfig = {
     key: 'root',
     storage,
-  };
+};
 
 //새로고침 시 store 정보 사라지는 거 방지(localStorage에 저장해둠)
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -33,5 +32,10 @@ let store = createStore(
 );
 
 let persistor = persistStore(store);
-  
+
+store.dispatch(setMusicIds([]));
+store.dispatch(setPlayingStatus(false));
+store.dispatch(setCurrentSongId());
+store.dispatch(setShowMiniPlayer(false));
+
 export { store, persistor };
