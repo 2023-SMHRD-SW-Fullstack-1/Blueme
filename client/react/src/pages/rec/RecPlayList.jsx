@@ -50,7 +50,7 @@ const RecPlayList = () => {
         // 추천 받은 음악 리스트
         <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-[1750px] text-custom-white p-3 '>
             <br/><br/>
-            <h1 className='text-center text-xl mt-[20px] font-semibold tracking-tight p-7 overflow-scroll h-[95px] mb-10'>
+            <h1 className='text-center text-xl mt-[20px] font-semibold tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar'>
                 {musiclist.reason}</h1>  
 
         {/* 전체 재생/ 전체 저장 버튼 */}

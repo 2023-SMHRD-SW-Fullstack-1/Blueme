@@ -52,6 +52,7 @@ import RecPlayList from "./pages/rec/RecPlayList";
 import SearchPage from "./pages/SearchPage";
 import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner"
 import SoundControl from "./components/music/SoundControl";
+import RecPlayListDetail from "./pages/rec/RecPlayListDetail";
 // 지희 import 끝
 
 const App = () => {
@@ -92,7 +93,8 @@ const App = () => {
           <Route path="/RecPlayList" element={<RecPlayList />} />
           <Route path="/MyPage" element={<MyPage />} />
           <Route path="/SelectGenre/:id" element={<SelectGenre />} />
-          {/* <Route path="/WholeRecPlayList" element={<WholeRecPlayList />} /> */}
+          <Route path="/WholeRecPlayList" element={<WholeRecPlayList />} />
+          <Route path="/RecPlayListDetail/:id" element={<RecPlayListDetail />} />
           {/* 유영 끝 */}
           <Route path="/RecBegin" element={<RecBegin />} />
           <Route path="/LoadData" element={<LoadData />} />

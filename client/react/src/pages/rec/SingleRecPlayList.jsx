@@ -12,7 +12,7 @@ const SingleMusic = ({ item }) => {
   // console.log('recSingle',item);
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
-  console.log('header',user);
+  // console.log('header',user);
 
 
   
@@ -26,7 +26,7 @@ const SingleMusic = ({ item }) => {
           className="w-[55px] h-[55px] rounded-md"
         />
         <div className="flex flex-col text-left ml-3">
-          <span className="text-[17px] font-semibold w-[250px] h-[25px] overflow-hidden">{item.musicTitle}</span>
+          <span className="text-[17px] w-[250px] h-[25px] overflow-hidden">{item.musicTitle}</span>
           <span className="text-sm font-normal">{item.musicArtist}</span>
         </div>
         <div className="flex-grow"></div>

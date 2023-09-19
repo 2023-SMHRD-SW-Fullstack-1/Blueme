@@ -4,7 +4,7 @@
 설명: 스마트 워치 데이터 가져오기(+member리덕스)
 */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useSelector } from "react-redux";
 
@@ -17,6 +17,7 @@ const LoadDataCompl = () => {
   const nickname = user.nickname //member 리덕스에서 nickname가져오기
   const id = user.id //id가져오기
   // console.log('header',user);
+  const navigate = useNavigate()
 
 
   // 오늘 날짜&시간
@@ -25,7 +26,8 @@ const LoadDataCompl = () => {
   const time = `${now.getHours()}시 ${now.getMinutes()}분`;
 
   useEffect(()=> {
-    axios.get(`http://172.30.1.27:8104/healthinfo/get/${id}`)//사용자 건강데이터 불러오기
+    axios
+    .get(`http://172.30.1.27:8104/healthinfo/get/${id}`)//사용자 건강데이터 불러오기
     .then((res) => {
       setHeartRate(res.data.avgHeartRate)//심박수
       setStep(res.data.stepsPerMinute) //걸음수
@@ -33,6 +35,7 @@ const LoadDataCompl = () => {
     console.log(res)})
     .catch((err) => {console.log(err)})
   }, [])  
+
   
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full ">
