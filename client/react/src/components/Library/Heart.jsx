@@ -55,7 +55,7 @@ const Heart = ({ item }) => {
         <img
           className="w-[30px] h-auto"
           src={isLiked ? likeFull : likeEmpty}
-          alt="like-button"
+          alt="{likeEmpty}"
         />
       </button>
     </div>

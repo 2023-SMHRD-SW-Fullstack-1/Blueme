@@ -1,14 +1,14 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-16
+날짜(수정포함): 2023-09-18
 설명: 미니플레이어
 */
 
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Howl } from "howler";
 
 // import - 플레이어 아이콘
 import { ReactComponent as Prev } from "../../assets/img/musicPlayer/backward.svg";
@@ -22,14 +22,9 @@ import {
   setPlayingStatus,
 } from "../../store/music/musicActions";
 
-const MiniPlayer = ({ item }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+const MiniPlayer = () => {
   const dispatch = useDispatch();
 
-  // useState
-  const [isPlaying, setIsPlaying] = useState(null);
-  const [sound, setSound] = useState(null);
   // 한곡반복
   const [isRepeatMode, setIsRepeatMode] = useState(false);
   const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
@@ -132,33 +127,39 @@ const MiniPlayer = ({ item }) => {
 
   return (
     <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
+      <Link to={`/MusicPlayer/${currentSongId}`} className="h-[80%]">
+      <div className="h-[95%] flex flex-row">
       <img
         src={"data:image/;base64," + musicInfo.img}
-        className="h-[80%] rounded-lg"
+        className="h-[100%] rounded-lg"
+        alt=""
       />
-      <div className="flex flex-col ml-4">
-        <p className="lg:text-4xl">{musicInfo.title}</p>
-        <p className="lg:text-xl">{musicInfo.artist}</p>
+      
+      <div className="flex flex-col ml-4 justify-center">
+        <p className="lg:text-2xl sm:font-semibold">{musicInfo.title}</p>
+        <p className="lg:text-lg sm:text-sm">{musicInfo.artist}</p>
       </div>
+      </div>
+      </Link>
 
-      <div className="flex flex-row gap-3 ml-auto">
-        <Prev className="w-[30px] m h-auto" onClick={prevTrack} />
+      <div className="flex flex-row sm:gap-3 lg:gap-5 ml-auto">
+        <Prev className="sm:w-[30px] lg:w-[40px] m h-auto" onClick={prevTrack} />
         {playingStatus ? (
           <Pause
-            className="w-[30px] h-auto"
+            className="sm:w-[30px] lg:w-[40px] h-auto"
             onClick={() => {
               dispatch(setPlayingStatus(false));
             }}
           />
         ) : (
           <Play
-            className="w-[30px] h-auto"
+            className="sm:w-[30px] lg:w-[40px] h-auto"
             onClick={() => {
               dispatch(setPlayingStatus(true));
             }}
           />
         )}
-        <Next className="w-[30px] h-auto" onClick={nextTrack} />
+        <Next className="sm:w-[30px] lg:w-[40px] h-auto" onClick={nextTrack} />
       </div>
     </div>
   );

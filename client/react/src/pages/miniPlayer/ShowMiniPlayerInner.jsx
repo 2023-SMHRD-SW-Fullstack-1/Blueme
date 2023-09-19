@@ -1,9 +1,9 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-13
-설명: 미니플레이어 보여주는 컴포넌트
+날짜(수정포함): 2023-09-18
+설명: 미니플레이어
 */
-import { useLocation, Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -14,23 +14,25 @@ const ShowMiniPlayerInner = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  // 미니플레이어 UI on/off & 음악재생 on/off
   useEffect(() => {
-    const pathsToShowMiniPlayer = ['/', '/library', '/Playlist','/LikedPlaylist', '/RecPlayList', '/Theme'];
-
-    if (pathsToShowMiniPlayer.includes(location.pathname)) {
+    const pathsToShowMiniPlayer = ['/', '/library', '/Playlist','/LikedPlaylist', '/Theme', '/ThemePlaylist', '/search'];
+    
+    if (pathsToShowMiniPlayer.includes(location.pathname)) { // 미니플레이어 O
       dispatch(setShowMiniPlayer(true));
-    } else {
+    } else if (location.pathname.startsWith('/MusicPlayer')){ // MusicPlayer - 재생상태
+      dispatch(setShowMiniPlayer(false));
+      dispatch(setPlayingStatus(true))
+    } else { // 미니플레이어 X
       dispatch(setShowMiniPlayer(false));
       dispatch(setPlayingStatus(false))
-    }
+    } 
   }, [location]);
 
   const showMiniPlayer = useSelector((state) => state.musicReducer.showMiniPlayer);
-  const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
 
-  // return showMiniPlayer ? <MiniPlayer item={currentSongId} /> : null
   return showMiniPlayer? <MiniPlayer /> : null;
-  // return null;
+
 };
 
 export default ShowMiniPlayerInner;

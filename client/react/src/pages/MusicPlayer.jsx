@@ -1,13 +1,12 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-16
+날짜(수정포함): 2023-09-18
 설명: 음악 플레이어 수정
 */
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { Howl } from "howler";
 
 // import - 플레이어 아이콘
 import { ReactComponent as Prev } from "../assets/img/musicPlayer/backward.svg";
@@ -24,9 +23,9 @@ import rotating from "../assets/img/musicPlayer/rotating.png";
 
 // Redux - 음악 관련
 import {
-  setMusicIds,
   setCurrentSongId,
-  setPlayingStatus
+  setPlayingStatus,
+  setCurrentTime
 } from "../store/music/musicActions";
 
 const MusicPlayer = () => {
@@ -39,9 +38,8 @@ const MusicPlayer = () => {
   const userId = user.id
 
   // useState
-  const [currentTime, setCurrentTime] = useState(0);
+  // const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState(null);
   // 재생바 이동 관련 useState
   const [isDragging, setIsDragging] = useState(false);
@@ -53,7 +51,7 @@ const MusicPlayer = () => {
     album: "",
     title: "",
     artist: "",
-    img: "",
+    img: ""
   });
   // 좋아요 버튼 관련
   const [isSaved, setIsSaved] = useState(-1); // 초기 좋아요 상태 불러오기
@@ -63,18 +61,22 @@ const MusicPlayer = () => {
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
   const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
   const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
- 
+  const currentTime = useSelector((state) => state.musicReducer.currentTime);
+
+
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
     const fetchMusicInfo = async () => {
       try {
         const response = await axios.get(`/music/info/${currentSongId}`);
+        console.log(response.data.time);
         setMusicInfo({
           album: response.data.album,
           title: response.data.title,
           artist: response.data.artist,
-          img: response.data.img,
+          img: response.data.img
         });
+        setDuration(parseInt(response.data.time));
       } catch (error) {
         console.error("음악 정보 가져오기 실패", error);
       }
@@ -90,10 +92,8 @@ const MusicPlayer = () => {
   // 이전곡&다음곡
   useEffect(() => {
     const index = musicIds.indexOf(Number(currentSongId));
-    // console.log(musicIds.indexOf(Number(songId)));
-    setCurrentSongIndex(index);
+   setCurrentSongIndex(index);
     setCurrentSongId(Number(currentSongId));
-    // console.log('3. currentsongid',currentSongId);
   }, [musicIds]);
 
   const prevTrack = () => {
@@ -153,7 +153,7 @@ const MusicPlayer = () => {
   const toggleLike = async () => {
     try {
       await axios.put("/likemusics/toggleLike", {
-        userId: userId,
+        userId: userId.toString(),
         musicId: currentSongId,
       });
       setIsLiked(!isLiked);
@@ -188,37 +188,37 @@ const MusicPlayer = () => {
   };
 
   // 음악 자동 재생 중 현재 재생위치 업데이트
-  useEffect(() => {
-    const intervalID = setInterval(() => {
-      if (sound?.playing()) {
-        const currentTime = sound.seek();
-        setCurrentTime(currentTime);
-        if (currentTime >= duration) {
-          nextTrack();
-        }
+   useEffect(() => {
+     const intervalID = setInterval(() => {
+       if (sound?.playing()) {
+         const currentTime = sound.seek();
+         setCurrentTime(currentTime);
+         if (currentTime >= duration) {
+           nextTrack();
+         }
       }
-    }, 1000);
+     }, 1000)
 
-    return () => clearInterval(intervalID);
-  }, [sound, duration]);
-
+     return () => clearInterval(intervalID);
+   }, [duration]);
+   
   // 재생시간 표시
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
-
-    return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+      return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
-    <div className=  "full-screen-player">
+    <div className="full-screen-player">
       <p className="py-[10px]">{musicInfo.album}</p>
       <div className=" w-[300px]">
         <img
           src={"data:image/;base64," + musicInfo.img}
+          alt=""
           className="h-auto rounded-lg"
         />
-        <p className="text-2xl pt-[10px] ">{musicInfo.title}</p>
+        <p className="text-xl pt-[10px] ">{musicInfo.title}</p>
         <p>{musicInfo.artist}</p>
       </div>
       {/* 재생바 */}
@@ -248,14 +248,12 @@ const MusicPlayer = () => {
       </div>
 
       <div
-        className="flex flex-row justify-center items-center gap-10 mt-20"
-        
-      >
+        className="flex flex-row justify-center items-center gap-10 mt-20">
         <img
           className= "w-[25px] h-auto"
+          alt=""
           src={isRepeatMode ? rotating : rotate}
           onClick={() => setIsRepeatMode(!isRepeatMode)}
-          alt=""
         />
         <Prev
           className= "w-[50px] h-auto"
@@ -265,7 +263,6 @@ const MusicPlayer = () => {
           <Pause
             className="w-[50px] h-auto"
             onClick={() => {
-              // sound.pause();
               dispatch(setPlayingStatus(false));
             }}
           />
@@ -273,7 +270,6 @@ const MusicPlayer = () => {
           <Play
             className="w-[50px] h-auto"
             onClick={() => {
-              // sound.play();
               dispatch(setPlayingStatus(true));
             }}
           />
@@ -297,7 +293,6 @@ const MusicPlayer = () => {
         src={scroll}
         onClick={() => navigate("/library")}
         className= "w-[40px] h-auto fixed bottom-[10%]"
-        
       />
     </div>
   );
