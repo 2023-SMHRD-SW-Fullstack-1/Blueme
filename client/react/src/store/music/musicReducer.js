@@ -4,16 +4,29 @@
 설명: 음악관련 리덕스 리듀서 (재셍바 관련 추가)
 */
 
-import { SET_MUSIC_IDS, SET_PLAYING_STATUS, SET_CURRENT_SONG_ID, SET_SHOW_MINI_PLAYER, SET_CURRENT_TIME, SET_DRAGGING_STATUS, SET_DURATION } from './musicActions';
+import {
+  SET_MUSIC_IDS,
+  SET_PLAYING_STATUS,
+  SET_CURRENT_SONG_ID,
+  SET_SHOW_MINI_PLAYER,
+  SET_CURRENT_TIME,
+  SET_DRAGGING_STATUS,
+  SET_DURATION,
+  SET_REPEAT_MODE,
+  SEEK_TO
+} from "./musicActions";
+
+
 
 const initialState = {
   musicIds: [],
   playingStatus: false,
   currentSongId: 1,
-  showMiniPlayer: false, 
+  showMiniPlayer: false,
   currentTime: 0,
   duration: 0,
-  isDragging: false
+  isDragging: false,
+  repeatMode: false,
 };
 
 function music(state = initialState, action) {
@@ -27,11 +40,13 @@ function music(state = initialState, action) {
     case SET_SHOW_MINI_PLAYER:
       return { ...state, showMiniPlayer: action.payload };
     case SET_CURRENT_TIME:
-      return { ...state, currentTime: action.time };
+      return { ...state, currentTime: action.payload };
     case SET_DURATION:
-      return { ...state, duration: action.duration };
+      return { ...state, duration: action.payload };
     case SET_DRAGGING_STATUS:
-      return { ...state, isDragging: action.isDragging };
+      return { ...state, draggingStatus: action.payload };
+    case SET_REPEAT_MODE:
+      return { ...state, repeatMode: action.payload };
     default:
       return state;
   }

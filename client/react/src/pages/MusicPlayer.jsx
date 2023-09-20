@@ -4,7 +4,7 @@
 설명: 음악 플레이어 수정
 */
 import { useEffect, useState, useRef } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -25,7 +25,8 @@ import rotating from "../assets/img/musicPlayer/rotating.png";
 import {
   setCurrentSongId,
   setPlayingStatus,
-  setCurrentTime
+  setCurrentTime,
+  setDraggingStatus
 } from "../store/music/musicActions";
 
 const MusicPlayer = () => {
@@ -42,7 +43,7 @@ const MusicPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [sound, setSound] = useState(null);
   // 재생바 이동 관련 useState
-  const [isDragging, setIsDragging] = useState(false);
+  // const [isDragging, setIsDragging] = useState(false);
   // 한곡반복
   const [isRepeatMode, setIsRepeatMode] = useState(false);
   const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
@@ -62,14 +63,14 @@ const MusicPlayer = () => {
   const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
   const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
   const currentTime = useSelector((state) => state.musicReducer.currentTime);
-
+  const draggingStatus = useSelector((state) => state.musicReducer.draggingStatus);
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
     const fetchMusicInfo = async () => {
       try {
         const response = await axios.get(`/music/info/${currentSongId}`);
-        console.log(response.data.time);
+        // console.log(response.data.time);
         setMusicInfo({
           album: response.data.album,
           title: response.data.title,
@@ -165,49 +166,34 @@ const MusicPlayer = () => {
   // 사용자 재생바 조작
   const changeCurrentTime = (e) => {
     let newCurrentTime = e.target.value;
-    setCurrentTime(newCurrentTime);
-    if (sound) {
-      sound.seek(newCurrentTime);
-      if (!isDragging) {
-        sound.play();
-      }
-    }
+    dispatch(setCurrentTime(newCurrentTime));
   };
-
+  
   const handleDragStart = () => {
-    setIsDragging(true);
-    sound?.pause();
+    dispatch(setDraggingStatus(true));
+    if(playingStatus){
+      dispatch(setPlayingStatus(false));
+    }
   };
 
   const handleDragEnd = () => {
-    setIsDragging(false);
-    if (sound) {
-      sound.seek(currentTime);
-      sound.play();
+    dispatch(setDraggingStatus(false));
+    if(!playingStatus){
+      dispatch(setPlayingStatus(true));
     }
   };
 
-  // 음악 자동 재생 중 현재 재생위치 업데이트
-   useEffect(() => {
-     const intervalID = setInterval(() => {
-       if (sound?.playing()) {
-         const currentTime = sound.seek();
-         setCurrentTime(currentTime);
-         if (currentTime >= duration) {
-           nextTrack();
-         }
-      }
-     }, 1000)
-
-     return () => clearInterval(intervalID);
-   }, [duration]);
 
    
   // 재생시간 표시
   const formatTime = (timeInSeconds) => {
+
+    timeInSeconds = Number(timeInSeconds);
+
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
-      return `0${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  
+    return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
@@ -225,7 +211,7 @@ const MusicPlayer = () => {
       {/* 재생바 */}
       <div className="w-[85%] h-2.5 bg-black rounded-full mt-10 relative">
         <div
-          style={{ width: `${(currentTime / duration) * 100}%` }}
+          style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
           className="h-2 bg-white rounded-full absolute"
         />
         <input

@@ -39,7 +39,7 @@ const SoundControl = () => {
    const musicIds = useSelector((state) => state.musicReducer.musicIds);
    const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
    const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
-   
+   const draggingStatus = useSelector((state) => state.musicReducer.draggingStatus);
 
    useEffect(() => {
       const fetchSound = async () => {
@@ -96,9 +96,9 @@ const SoundControl = () => {
     }, [currentSongId, musicIds]);
   
     // 한곡반복 Ref
-    useEffect(() => {
-      isRepeatModeRef.current = isRepeatMode;
-    }, [isRepeatMode]);
+    // useEffect(() => {
+    //   isRepeatModeRef.current = isRepeatMode;
+    // }, [isRepeatMode]);
   
     // 재생&정지
     useEffect(() => {
@@ -119,23 +119,20 @@ const SoundControl = () => {
        }
   }, [playingStatus]);
 
-  // 재생시간 저장
-  useEffect(() => {
-    // 음악이 재생 중일 때만 현재 시간을 업데이트합니다.
-    if (sound && sound.playing()) {
-      const intervalId = setInterval(() => {
-        // Howler.js의 seek 메서드로 현재 재생 위치를 가져옵니다.
-        const currentTime = sound.seek();
-        
-        // Redux 액션 디스패치로 현재 시간 상태를 업데이트합니다.
-        dispatch(setCurrentTime(currentTime));
-      }, 1000); // 매 초마다 실행
-  
-      // 컴포넌트가 언마운트되거나 음악이 일시 정지될 때 타이머를 정리합니다.
-      return () => clearInterval(intervalId);
-    }
-  }, [sound, playingStatus]); 
+// 재생시간 저장
+useEffect(() => {
+  if (sound && sound.playing()) {
+    let intervalId = setInterval(() => {
+      dispatch(setCurrentTime(sound.seek()));
+    }, 1000);
 
+    // 컴포넌트가 언마운트되거나 음악이 일시 정지될 때 타이머를 정리
+    if(sound && sound.playing()== false){
+      clearInterval(intervalId)
+    }
+    return () => clearInterval(intervalId);
+  }
+}, [sound, playingStatus]); 
 
    // 리턴문
   return null;
