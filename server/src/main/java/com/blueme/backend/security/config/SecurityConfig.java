@@ -25,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.blueme.backend.dto.usersdto.UserInfoDTO;
 import com.blueme.backend.model.entity.FavCheckLists;
+import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.model.repository.FavArtistsJpaRepository;
 import com.blueme.backend.model.repository.FavCheckListsJpaRepository;
 import com.blueme.backend.model.repository.FavGenresJpaRepository;
@@ -80,7 +81,7 @@ public class SecurityConfig{
 				.antMatchers("/**", "/css/**","/image/**","/js/**","/favicon.ico","/h2-console/**","/user/**").permitAll()
 				.antMatchers("/user/signup","signup", "deactivate","login","update","/index").permitAll() // "/signup" 회원가입페이지 접근 가능
 				.antMatchers("/login/oauth2/code/kakao", "/login/oauth2/code/google").permitAll()
-//				.antMatchers("/admin").hasRole("ADMIN")
+				.antMatchers("/admin/**").hasRole(UserRole.ADMIN.name()) 	// "ROLE_ADMIN"
                 .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
                 // 소셜 로그인 설정

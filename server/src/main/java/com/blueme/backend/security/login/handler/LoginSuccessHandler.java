@@ -59,8 +59,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		        user.updateRefreshToken(refreshToken);
 		        usersJpaRepository.saveAndFlush(user);
 		        
-		        UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(), getBase64ImageForProfile(user.getImg_url()));
-		        
+		        UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(), getBase64ImageForProfile(user.getImg_url()), user.getPlatformType());
 		        ObjectMapper mapper = new ObjectMapper();
 		        mapper.registerModule(new JavaTimeModule());
 		    

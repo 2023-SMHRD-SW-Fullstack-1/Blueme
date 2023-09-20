@@ -3,24 +3,15 @@ package com.blueme.backend.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import javax.swing.filechooser.FileSystemView;
-
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.blueme.backend.dto.artistdto.ArtistInfoDto;
 import com.blueme.backend.dto.genredto.GenreInfoDto;
@@ -41,15 +32,13 @@ import com.blueme.backend.model.repository.FavGenresJpaRepository;
 import com.blueme.backend.model.repository.GenresJpaRepository;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
-import com.blueme.backend.utils.ImageConverter;
-import com.blueme.backend.utils.ImageToBase64;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 김혁, 손지연
-날짜(수정포함): 2023-09-13
+날짜(수정포함): 2023-09-20
 설명: 회원 관련 서비스
 */
 
@@ -74,6 +63,7 @@ public class UsersService {
 	@Transactional
 	public Long signUp(UsersRegisterDto usersRegisterDto) throws Exception {
 		log.info("userService method save start...");
+		
 		Optional<Users> users = usersJpaRepository.findByEmail(usersRegisterDto.getEmail());
 
 		if (users.isPresent()) {
@@ -167,7 +157,6 @@ public class UsersService {
 	@Transactional
 	public Long update(UsersUpdateDto requestDto) throws IOException {
 		log.info("userService method update start...");
-		log.info(requestDto.getImg_url());
 		// base64 to multipart
 		// 저장할 파일 경로를 지정합니다.
 		String fileNameWithUUID = UUID.randomUUID().toString() + "_" + requestDto.getNickname();
@@ -183,8 +172,11 @@ public class UsersService {
 		Users user = usersJpaRepository.findByEmail(requestDto.getEmail())
 				.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. email=" + requestDto.getEmail()));
 
-		user.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()),
-				filePath);
+		if(requestDto.getPassword() != null) {
+			user.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()),filePath);
+		}else {
+			user.update(requestDto.getNickname(), filePath);
+		}
 		return -1L;
 //	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
 //			user.setPassword(requestDto.getPassword());
@@ -200,18 +192,10 @@ public class UsersService {
 	public List<UserProfileDto> myprofile(String userId) {
 		 log.info("Getting profile for userId : {}", userId);
 
-		 // 사용자프로필이미지, 사용자플랫폼타입
-		 // 선택한 장르의 이미지(경로), 이름, 아이디
-		 // 선택한 장르의 이미지(경로), 이름, 아이디(경로로 대체)
-
 		 Users user = usersJpaRepository.findById(Long.parseLong(userId))
 				 .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " not found"));
 		 
 		 List<FavCheckLists> favCheckLists = favCheckListsJpaRepository.findByUserId(user.getId());
-		 
-		 if (favCheckLists.size() < 2) {
-		        throw new IllegalArgumentException("Insufficient FavCheckList data for user id: " + userId);
-		    }
 		 
 		 List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckLists.get(0));	
 		 List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckLists.get(1));	
@@ -230,7 +214,7 @@ public class UsersService {
 		 }
 		 
 		 for(FavArtists fav : favArtists){
-			 Musics music = musicsJpaRepository.findByArtistFilePath(fav.getArtistId().getArtistFilePath());
+			 Musics music = musicsJpaRepository.findTop1ByArtistFilePath(fav.getArtistId().getArtistFilePath());
 		 	if(music!=null){
 		 	    ArtistInfoDto artistInfoDTO=new ArtistInfoDto(music, artistsService.getBase64ImageForArtist(music));
 		 	    artistDtos.add(artistInfoDTO);

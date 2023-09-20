@@ -13,9 +13,10 @@ public class UserInfoDTO {
 	private String email;
 	private String nickname;
 	private String img_url;
+	private String platFormType;
 
 	public Users toEntity() {
-		return Users.builder().id(id).email(email).nickname(nickname).img_url(img_url).build();
+		return Users.builder().id(id).email(email).nickname(nickname).img_url(img_url).platformType(platFormType).build();
 	}
 
 }

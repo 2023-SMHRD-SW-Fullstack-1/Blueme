@@ -129,4 +129,10 @@ public class Users extends BaseEntity {
 		this.img_url = imgUrl;
 	}
 
+	public void update(String nickname2, String imgUrl) {
+		this.nickname=nickname2;
+		this.img_url=imgUrl;
+		
+	}
+
 }

@@ -39,15 +39,8 @@ public class FavArtists {
 		this.artistId = artistId;
 		this.favCheckList = favCheckList;
 	}
-
-	public void setArtistId(Musics artistFilePath) {
-		this.artistId=artistFilePath;
-	}
-
-	public void setArtistId(String string) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 
 
 }
