@@ -76,7 +76,7 @@ const Join = () => {
       <br />
       <div className="flex items-center justify-center h-screen w-full p-4">
         <div className="w-full md:w-1/2 lg:w-1/4">
-          <div className="text-custom-white text-left mt-5 text-xl font-semibold w-full">Blueme 일반 계정 회원가입</div>
+          <div className="text-custom-white text-left mt-5 text-xl w-full">Blueme 일반 계정 회원가입</div>
 
           <input
             type="email"
@@ -115,14 +115,13 @@ const Join = () => {
              bg-[#221a38]  
              rounded-lg border border-soild border-[#fdfdfd]
              text-custom-white
-             tracking-tighter
-             font-bold
+             tracking-tight
              md:w-full w-full"
           >
             회원가입
           </button>
           <hr className="mt-12 " style={{ borderTop: "1px solid gray", width: "100%" }} />
-          <div className="text-custom-white mt-12 text-left w-full text-xl pont-semibold">SNS계정 회원가입</div>
+          <div className="text-custom-white mt-12 text-left w-full text-xl">SNS계정 회원가입</div>
           <button
             className="
      flex items-center justify-center pl-2 w-full mt-8 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "

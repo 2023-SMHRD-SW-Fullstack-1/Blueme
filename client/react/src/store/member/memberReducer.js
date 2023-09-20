@@ -8,6 +8,7 @@ import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, USER_DELETE
   JOIN_REQUEST,
   JOIN_SUCCESS,
   JOIN_FAILURE} from './memberAction'
+import basicProfile from '../../assets/img/basicProfile.jpg'
   
   // 3. Reducers
   const initialState = {
@@ -15,7 +16,7 @@ import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, USER_DELETE
     user: {
       id : 0,
       email : null,
-      password : null,
+      // password : null,
       nickname : null,
       img_url : null,
       platFormType : null

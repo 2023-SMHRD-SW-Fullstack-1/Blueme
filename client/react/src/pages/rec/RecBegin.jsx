@@ -27,7 +27,7 @@ const RecBegin = () => {
 
   const recBegin = () => {
     if(email === null) {
-      document.getElementById('toast-warning').classList.add("reveal")
+      document.getElementById('toast-warning').classList.add("reveal")//토스트 창 생성
       timeout()
     }else {
       navigate('/LoadData')
@@ -37,19 +37,19 @@ const RecBegin = () => {
   return (
     // 추천 페이지 소개
     <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white text-center flex flex-col min-h-screen justify-center items-center'>
-      <p className='text-2xl font-semibold tracking-tighter'>내 건강 데이터를 기반으로 
+      <p className='text-xl tracking-tighter'>내 건강 데이터를 기반으로 
       <br /> ChatGPT가 추천해주는 음악,
       <br /> 궁금하지 않나요?</p>
 
       {/* ChatGPT와 웨어러블 이미지 */}
       <div className='flex flex-row py-5'>
-        <img src={watch} className='m-3 w-[70px] h-[70px] ' />
-        <img src={gpt} className='m-3 w-[70px] h-[70px]' />
+        <img src={watch} className='m-3 w-[55px] h-[55px] ' />
+        <img src={gpt} className='m-3 w-[55px] h-[55px]' />
       </div>
      
 
     {/* 시작하기 버튼  */}
-      <button className='border border-soild border-#FDFDFD rounded-xl p-3 tracking-tighter leading-[1.45]'
+      <button className='border border-soild border-#FDFDFD rounded-xl p-3 tracking-tight leading-[1.45]'
               onClick={recBegin}>시작하기</button>
     
      {/* 토스트 창 띄우기 */}

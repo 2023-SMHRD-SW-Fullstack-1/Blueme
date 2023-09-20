@@ -31,51 +31,19 @@ const MyPage = () => {
   const dispatch = useDispatch()
   console.log('header',user);
 
-
-
+  //마이페이지 들어가면 장르 , 아티스트 , 사용자 정보 받아서 화면 렌더링
   useEffect(() => {
       axios
       .get(`http://172.30.1.45:8104/user/Mypage/${id}`)
       .then((res) => {
         console.log('전체 res',res);
-        setGenres(res.data[0].genres)
-        setArtists(res.data[0].artists)
-        setImg(res.data[0].imgUrl)
-        // console.log('img',img);
-        // console.log(res.data[0].artists);
-        // const genreIds = genres.map(genre => genre.genreId);
-        // const artistIds = genres.map(artist => artist.artistFilePath);
-        // console.log('장르',genreIds); // genreId들의 배열 출력
-
-
-          // for (let i = 0; i< genres.length; i++) {
-          //     if(genres[i] == 0) {
-          //       console.log(genres);
-          //       // setSelectGenre1(genre[i]); 
-          //     }else if(genres[i] == 1) {
-          //       console.log(genres);
-          //       // setSelectGenre2(genre[i])
-          //     }
-          // }      
+        setGenres(res.data[0].genres)//장르
+        setArtists(res.data[0].artists)//아티스트
+        setImg(res.data[0].imgUrl)//프로필
       })
       .catch((err) => console.log(err))
   }, [])
 
-  // useEffect(()=> {
-  //   document.getElementById('toast-warning').classList.add("reveal")
-  // }, [user.nickname])
-  // console.log("11",genres[0], artists[0]);
-  // console.log("22",selectedGenres);
-
-
-   // 선택한 장르 이름을 찾는 함수
-  //  const findGenreNameById = (id) => {
-    
-  //   return genreItem ? genreItem.name : '';
-  //   console.log('이름',genreItem);
-  // }
-  // findGenreNameById()
-  
   //로그아웃 => 토큰 전체 삭제
   const handleLogout = (accessToken) => {
     localStorage.clear()
@@ -83,11 +51,10 @@ const MyPage = () => {
     navigate('/')
   }
 
-// console.log(typeof(user.img_url));
   return (
     <div>
     {localStorage.getItem('accessToken') !== null ? 
-    <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-20 hide-scrollbar">
+    <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-10 hide-scrollbar">
       {/* 사용자 프로필 */}
     <div className="flex justify-between items-center mt-20">
       <div className="flex items-center boar">
@@ -143,7 +110,7 @@ const MyPage = () => {
                     alt="genre image"
                     className="rounded-lg border object-cover blur-[1.5px] w-[130px] h-[130px]"
                   />
-                  <h5 className="font-semibold absolute text-2xl">{genre.name}</h5>
+                  <h5 className=" absolute text-2xl">{genre.name}</h5>
                 </button>
               </SwiperSlide>
             ))}
@@ -155,8 +122,8 @@ const MyPage = () => {
         </div>
       </div>
       {/* 선호하는 아티스트 */}
-      <div className="text-2xl mt-5">당신이 좋아하는 아티스트는?</div>
-      <div className="flex items-start w-full mt-5 text-base">
+      <div className="text-2xl mt-8">당신이 좋아하는 아티스트는?</div>
+      <div className="flex items-start w-full mt-2 text-base">
         <Swiper
           spaceBetween={20}
           slidesPerView={2} 
@@ -172,7 +139,7 @@ const MyPage = () => {
                   alt="artist image"
                   className="rounded-lg img-fixed border object-cover blur-[1.5px]  w-[130px] h-[130px]"
                 />
-                <h5 className="font-semibold absolute text-2xl">{artist.artistName}</h5>
+                <h5 className=" absolute text-2xl">{artist.artistName}</h5>
               </button>
             </SwiperSlide>
           ))}

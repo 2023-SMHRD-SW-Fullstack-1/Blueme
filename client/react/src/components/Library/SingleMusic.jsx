@@ -18,7 +18,7 @@ import Heart from "./Heart";
 import { setCurrentSongId } from "../../store/music/musicActions";
 
 const SingleMusic = ({ item }) => {
-  console.log("single", item);
+  // console.log("single", item);
 
   const musicId = item.musicId;
 

@@ -60,7 +60,7 @@ const RecAppDes = () => {
         {/* 갤럭시 워치에 대한 앱 설명 */}
         <div className='mt-8'>
           <ul>
-            <li className='text-left indent-1 text-xl font-semibold tracking-tight'>• 갤럭시 워치의 경우</li>
+            <li className='text-left indent-1 text-xl tracking-tight'>• 갤럭시 워치의 경우</li>
             <ol className='text-left indent-3 tracking-tight mt-3 leading-loose'>
                 <li>1. 갤럭시 워치에서 구글 스토어를 실행합니다.</li>
                 <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
@@ -79,7 +79,7 @@ const RecAppDes = () => {
         {/* 샤오미 워치에 대한 앱 설명 */}
         <div className='mt-5'>
         <ul>
-            <li className='text-left indent-1 text-xl font-semibold tracking-tight'>• 샤오미 미워치의 경우</li>
+            <li className='text-left indent-1 text-xl tracking-tight'>• 샤오미 미워치의 경우</li>
             <ol className='text-left indent-3 tracking-tight mt-3 leading-loose'>
                 <li>1. 미워치에서 샤오미웨어를 실행합니다.</li>
                 <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>

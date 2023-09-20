@@ -11,15 +11,13 @@ import { useSelector } from "react-redux";
 
 const SelectGenre = () => {
   const navigate = useNavigate();
-  const [genre, setGenre] = useState([])
-  const [checkedState, setCheckedState] = useState([]);
-  const [page, setPage] = useState(1); //페이징 관련
-  const [genres, setGenres] = useState([])//페이징 관련
+  const [genre, setGenre] = useState([])//전체 장르
+  const [checkedState, setCheckedState] = useState([]);//선택 장르
   let id = localStorage.getItem('id')
-  const user = useSelector(state => state.memberReducer.user)
+  const user = useSelector(state => state.memberReducer.user)//memeber리덕스에서 user정보 가져오기
   const location = useLocation()
-  const urlParams = new URLSearchParams(location.search);
-  const snsId = urlParams.get('id');
+  const urlParams = new URLSearchParams(location.search);//쿼리스트링에서
+  const snsId = urlParams.get('id');//키값이 id인 params가져오기
   if(localStorage.getItem('id') === null) {
     id = localStorage.setItem('id', snsId)
   }
@@ -28,7 +26,7 @@ const SelectGenre = () => {
    //3초 로딩 함수
    const timeout = () => {
     setTimeout(() => {
-      document.getElementById('toast-warning').classList.remove("reveal")
+      document.getElementById('toast-warning').classList.remove("reveal")//토스트창 소명
     }, 3000);// 원하는 시간 ms단위로 적어주기
     };
 
@@ -49,11 +47,11 @@ const SelectGenre = () => {
     //화면 로딩 시 장르 데이터 불러오기
     useEffect(() => {
       axios
-      .get("http://172.30.1.45:8104/SelectGenre") 
+      .get("http://172.30.1.45:8104/SelectGenre") //장르 전체 데이터 불러오기
       .then((res) => {
         console.log(res);
         // console.log('userid', id);
-        setGenre(res.data)
+        setGenre(res.data)//전체 장르
       })
       .catch((err) => console.log(err))
     }, [])
@@ -151,8 +149,8 @@ const SelectGenre = () => {
   
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tight h-auto text-custom-white p-3">
-      <h3 className="text-3xl pt-[80px] ">당신이 좋아하는 장르는?</h3>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight h-auto text-custom-white p-3">
+      <h3 className="text-2xl pt-[90px] ">당신이 좋아하는 장르는?</h3>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
         {genre && genre.map((genre, genreId, i) => (
           <button
@@ -165,7 +163,7 @@ const SelectGenre = () => {
               alt="genre img"
               className="rounded-lg w-[180px] h-[175px] object-cover blur-[1.5px]"
             />
-            <p className="absolute text-3xl">{genre.name}</p>
+            <p className="absolute text-2xl">{genre.name}</p>
             {checkedState.includes(parseInt(genreId)+1) && (
               <span className="absolute top-[25%] left-[40%] text-7xl font-bold text-black">
                 ✔

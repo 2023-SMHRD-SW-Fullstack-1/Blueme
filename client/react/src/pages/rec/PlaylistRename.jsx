@@ -18,13 +18,13 @@ const PlaylistRename = () => {
   const id = user.id//member리덕스에서 id 가져오기
   // console.log('header',user);
 
-    const SrecMusicId = localStorage.getItem('recMusicIds')
-    const recMusicIds = JSON.parse(SrecMusicId)
+    const SrecMusicId = localStorage.getItem('recMusicIds')//list제목
+    const recMusicIds = JSON.parse(SrecMusicId)//타입 변환
 
     //3초 로딩 함수
     const timeout = () => {
       setTimeout(() => {
-        document.getElementById('toast-warning').classList.remove("reveal")
+        document.getElementById('toast-warning').classList.remove("reveal")//토스트 창 소멸
         navigate('/PlaylistRemame')
       }, 2000);// 원하는 시간 ms단위로 적어주기
     };
@@ -33,13 +33,13 @@ const PlaylistRename = () => {
       const requestData = { userId : id,  title : title, musicIds : recMusicIds }
       // console.log(musicIds);
       console.log(requestData);
-      axios.post(`http://172.30.1.27:8104/savedMusiclist/add`, requestData)//프리 저장요청 && 제목 수정
+      axios.post(`http://172.30.1.27:8104/savedMusiclist/add`, requestData)//플리 저장요청 && 제목 수정
       .then((res) => {//응답값 userId 실패시 -1
         console.log(res)
         if(res.data > 0 ) {
           navigate('/library')
         }else {
-          document.getElementById('toast-warning').classList.add("reveal")
+          document.getElementById('toast-warning').classList.add("reveal")//토스트 창 생성
           timeout()
         }
         // navigate('/RecPlayList')
@@ -52,10 +52,10 @@ const PlaylistRename = () => {
     <br/><br/><br/>
     {/* 추천 리스트 제목 */}
       <div className='mt-52 text-center'>
-          <h1 className='text-xl font-semibold tracking-tight'>추천 플레이리스트의 제목을 정해주세요.</h1>
+          <h1 className='text-xl tracking-tight'>추천 플레이리스트의 제목을 정해주세요.</h1>
       </div>
 
-    {/* 제목에 기본값으로 현재 날짜와 시간 넣어주기 */}
+    {/* 플레이 리스트 제목 */}
       <div className='mt-12'>
       <input
         type="email"
@@ -76,6 +76,7 @@ const PlaylistRename = () => {
              <Link to='/RecPlayList'><button>취소</button></Link>
         </div>
       </div>
+      {/* 토스트 창 띄우기 */}
       <div className="flex justify-center items-center">
           <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div className="ml-3 font-normal text-center">저장에 실패했습니다.</div>
