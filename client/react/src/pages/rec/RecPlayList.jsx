@@ -17,16 +17,17 @@ import { useSelector } from 'react-redux';
 const RecPlayList = () => {
     const user = useSelector(state => state.memberReducer.user)//member리듀서 가져오기
     const id = user.id//member리듀서에서 id가져오기
-    console.log('header',user);
+    // console.log('header',user);
     const [musiclist, setMusiclist] = useState({recMusiclistDetails: []}); //추천 받은 리스트
-    const [recMusicIds, setRecMusicIds] = useState([])
+    const [recMusicIds, setRecMusicIds] = useState([])//추천 음악 id
     const navigate = useNavigate()
 
     useEffect(()=> {
         const recPlayList = async () => {
         await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/${id}`)//추천 받은 리스트 불러오기
         .then((res) => {
-            setMusiclist(res.data)
+            setMusiclist(res.data)//추천 음악 리스트
+            setRecMusicIds(res.data.recMusiclistsRecent10detail.map(id => id.musicId))
             console.log(res)
             // localStorage.setItem('recMusiclist', res.data[0].img, res.data[0].reason)
         }).catch((err) => console.log(err))
@@ -48,9 +49,9 @@ const RecPlayList = () => {
   
     return (
         // 추천 받은 음악 리스트
-        <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-[1750px] text-custom-white p-3 '>
+        <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 hide-scrollbar overflow-auto text-custom-white p-3 mb-[70px]'>
             <br/><br/>
-            <h1 className='text-center text-xl mt-[20px] font-semibold tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar'>
+            <h1 className='text-center text-xl mt-[20px] tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar p-5'>
                 {musiclist.reason}</h1>  
 
         {/* 전체 재생/ 전체 저장 버튼 */}

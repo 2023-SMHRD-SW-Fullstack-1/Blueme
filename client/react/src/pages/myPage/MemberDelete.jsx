@@ -10,11 +10,12 @@
 설명: 회원탈퇴 기능 구현( +리덕스)
 */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { userDelete } from "../../store/member/memberAction";
+import '../../App.css'
 
 const MemberDelete = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -26,6 +27,15 @@ const MemberDelete = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const id = localStorage.getItem("id");
+
+  //3초 로딩
+  const timeout = () => {
+    setTimeout(() => {
+      document.getElementById('toast-warning').classList.remove("reveal")
+      navigate("/");
+    }, 2000);// 원하는 시간 ms단위로 적어주기
+  };
+
 
   // 탈퇴하기 버튼 클릭 시 실행되는 함수
   const handleDelete = () => {
@@ -55,8 +65,9 @@ const MemberDelete = () => {
       .then((res) => {
         localStorage.clear()
         dispatch(userDelete())
-        alert("회원 탈퇴가 성공적으로 완료되었습니다.");
-        navigate("/");
+        document.getElementById('toast-warning').classList.add("reveal")
+        timeout();
+        // navigate("/");
         console.log(res.data);
       })
       .catch((err) => console.log(err));
@@ -208,6 +219,12 @@ const MemberDelete = () => {
           </div>
         </div>
       </div>
+      {/* 토스트 창 띄우기 */}
+      <div className="flex justify-center items-center">
+          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">회원탈퇴가 완료되었습니다.</div>
+          </div>
+        </div>
     </div>
   );
 };

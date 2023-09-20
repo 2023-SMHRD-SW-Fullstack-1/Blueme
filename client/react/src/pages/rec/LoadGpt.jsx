@@ -58,13 +58,13 @@ const LoadGpt = () => {
   const timeout = () => {
     setTimeout(() => {
         axios
-        .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)
+        .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)//ChatGPT 추천 받디
         .then((res) => {
           console.log(res)
           navigate("/RecPlayList");
         })
         .catch((err) => console.log(err))
-    }, 6000);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -75,8 +75,8 @@ const LoadGpt = () => {
   });
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 p-3 text-center text-custom-white flex flex-col h-full justify-center items-center text-2xl font-semibold tracking-tighter space-y-10">
-      <p className="">{nickname}님의 건강데이터를 기반으로 GPT가 추천해주고 있어요</p>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 p-10 text-center text-custom-white flex flex-col h-full justify-center items-center text-xl tracking-tight space-y-10">
+      <p className="">{nickname}님의 건강데이터를 기반으로 <br/> GPT가 추천해주고 있어요</p>
 
       <div className="from-gray-900 via-stone-950 to-gray-700 w-[100%]">
         <Canvas

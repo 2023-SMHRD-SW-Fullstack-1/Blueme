@@ -122,14 +122,13 @@ const Login = () => {
              bg-[#221a38]  
              rounded-lg border border-soild border-[#fdfdfd]
              text-custom-white
-             tracking-tighter
-             font-bold
+             tracking-tight
              md:w-full w-full">
             로그인
           </button>
 
           <hr className="mt-10" style={{ borderTop: "1px solid gray", width: "100%" }} />
-          <div className="text-custom-white mt-10 mb-4 text-left w-full text-2xl font-semibold tracking-tight">
+          <div className="text-custom-white mt-10 mb-4 text-left w-full text-2xl tracking-tight">
             SNS 로그인
           </div>
 
@@ -149,13 +148,13 @@ const Login = () => {
             className="
   flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
           >
-            <img src={google} alt="Google logo" className="mr-1 w-[5%] h-auto tracking-tighter" />
+            <img src={google} alt="Google logo" className="mr-1 w-[5%] h-auto tracking-tight" />
             구글로 로그인
           </button>
 
           <hr className="mt-10 border-t border-gray-500 w-full" />
 
-          <div className="text-custom-white mt-6 text-xl font-semibold tracking-tight text-center">
+          <div className="text-custom-white mt-6 text-xl tracking-tight text-center">
             <Link to="/Join">
               <button>회원가입</button>
             </Link>

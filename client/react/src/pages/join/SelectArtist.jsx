@@ -139,8 +139,8 @@ const SelectArtist = () => {
 
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tight overflow-auto hide-scrollbar text-custom-white p-3">
-      <h3 className="text-3xl pt-[80px]">당신이 좋아하는 아티스트는?</h3>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight overflow-auto hide-scrollbar text-custom-white p-3">
+      <h3 className="text-2xl pt-[90px]">당신이 좋아하는 아티스트는?</h3>
       {/* 아티스트 검색 */}
       <div className="text-center item-center">
         <input
