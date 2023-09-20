@@ -23,6 +23,7 @@ import com.blueme.backend.dto.gptdto.ChatGptMusicsDto;
 import com.blueme.backend.dto.gptdto.ChatGptReqDto;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.gptdto.QuestionReqDto;
+import com.blueme.backend.enums.Season;
 import com.blueme.backend.model.entity.HealthInfos;
 import com.blueme.backend.model.vo.ChatGptMessage;
 import com.blueme.backend.model.vo.WeatherSummary;
@@ -123,17 +124,17 @@ public class ChatGptService {
                         case MARCH:
                         case APRIL:
                         case MAY:
-                                return "봄";
+                                return Season.SPRING.getTag();
                         case JUNE:
                         case JULY:
                         case AUGUST:
-                                return "여름";
+                                return Season.SUMMER.getTag();
                         case SEPTEMBER:
                         case OCTOBER:
                         case NOVEMBER:
-                                return "가을";
+                                return Season.FALL.getTag();
                         default:
-                                return "겨울";
+                                return Season.WINTER.getTag();
                 }
         }
 
