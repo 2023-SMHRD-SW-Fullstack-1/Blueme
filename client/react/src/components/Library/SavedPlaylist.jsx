@@ -10,14 +10,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-
 const SavedPlaylist = () => {
   const [savedPlaylists, setSavedPlaylists] = useState([]);
   const [selectedPlaylistDetails, setSelectedPlaylistDetails] = useState([]);
   const [musiclistId, setMusiclistId] = useState();
 
-  const user = useSelector(state => state.memberReducer.user)
-  const userId = user.id
+  const user = useSelector((state) => state.memberReducer.user);
+  const userId = user.id;
 
   useEffect(() => {
     const fetchSavedPlaylists = async () => {
@@ -50,28 +49,32 @@ const SavedPlaylist = () => {
   }, [musiclistId]);
 
   return (
-    <div className="flex mt-5 lg:mt-10  ">
+    <div className="flex mt-5 lg:mt-10">
       <Swiper
         spaceBetween={10}
         slidesPerView="0"
         breakpoints={{
           320: {
             slidesPerView: 2,
-            spaceBetween: 20,
+            spaceBetween: 10,
           },
 
           480: {
-            slidesPerView: 3,
-            spaceBetween: 30,
+            slidesPerView: 2,
+            spaceBetween: 10,
           },
 
           640: {
-            slidesPerView: 4,
-            spaceBetween: 40,
+            slidesPerView: 2,
+            spaceBetween: 10,
           },
 
           768: {
-            slidesPerView: 1,
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          1024: {
+            slidesPerView: 3,
             spaceBetween: 10,
           },
         }}

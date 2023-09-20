@@ -19,6 +19,11 @@ const SavedPlaylistDetail = () => {
   let params = useParams();
   let id = params.id;
   function convertSecondsToMinutes(time) {
+    if (isNaN(time)) {
+      console.error("Invalid time value:", time);
+      return "0:00";
+    }
+
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
 
@@ -31,6 +36,8 @@ const SavedPlaylistDetail = () => {
         const response = await axios.get(`http://172.30.1.27:8104/savedMusiclist/get/detail/${id}`);
         setSelectedPlaylistDetails(response.data.savedMusiclistDetailsResDto);
         setTitle(response.data.title);
+        console.log(response.data);
+        console.log(selectedPlaylistDetails);
 
         if (response.data.savedMusiclistDetailsResDto.length > 0) {
           setPlaylistImage(response.data.savedMusiclistDetailsResDto[0].img);
@@ -44,7 +51,7 @@ const SavedPlaylistDetail = () => {
   }, [id]);
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-full text-custom-white p-3">
       <br />
       <div className="flex flex-col items-center justify-center mt-[80px]">
         <img src={"data:image/;base64," + playlistImage} className="w-[160px] h-[160px] rounded-xl" />
@@ -61,7 +68,7 @@ const SavedPlaylistDetail = () => {
               artist: music.musicArtist,
 
               genre1: music.musicGenre,
-              time: convertSecondsToMinutes(music.time),
+              time: music.time,
             }}
           />
         </SwiperSlide>

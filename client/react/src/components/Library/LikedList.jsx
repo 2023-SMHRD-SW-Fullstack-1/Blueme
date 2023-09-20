@@ -19,18 +19,16 @@ import { setMusicIds } from "../../store/music/musicActions.js";
 
 const LikedList = () => {
   // 임의의 사용자 아이디
-  const user = useSelector(state => state.memberReducer.user)
-  const userId = user.id
+  const user = useSelector((state) => state.memberReducer.user);
+  const userId = user.id;
 
   const dispatch = useDispatch();
   const musicIds = useSelector((state) => state.musicReducer.musicIds);
 
   const [likedMusics, setLikedMusics] = useState([]);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const handleResize = () => {
-    setWindowWidth(window.innerWidth);
-  };
+  // 현재 화면 크기가 데스크탑 크기인지 저장하는 상태
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -39,32 +37,41 @@ const LikedList = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+
+    function handleResize() {
+      // 이전과 다른 브레이크포인트에 도달했는지 확인하고 상태 업데이트
+      const desktopSizeReached = window.innerWidth >= 1024;
+      if (desktopSizeReached !== isDesktop) setIsDesktop(desktopSizeReached);
+    }
+  }, [isDesktop]);
 
   useEffect(() => {
-    const fetchLikedList = async () => {
+    async function fetchLikedList() {
       try {
-        const response = await axios.get(`/likemusics/${userId}`);
-        setLikedMusics(response.data);
+        let response = await axios.get(`/likemusics/${userId}`);
         let ids;
-        if (windowWidth >= 1024) {
+
+        if (isDesktop) {
           ids = response.data.slice(0, 10).map((music) => music.musicId);
+          setLikedMusics(response.data.slice(0, 10));
         } else {
           ids = response.data.slice(0, 5).map((music) => music.musicId);
+          setLikedMusics(response.data.slice(0, 5));
         }
+
         console.log("ids", ids);
         dispatch(setMusicIds(ids));
       } catch (error) {
         console.error(`Error: ${error}`);
       }
-    };
+    }
 
     fetchLikedList();
-  }, [windowWidth]);
+  }, [isDesktop]);
 
   return (
-    <div>
-      {likedMusics.slice(0, windowWidth >= 1024 ? 10 : 5).map((song) => (
+    <div className="overflow-auto hide-scrollbar ">
+      {likedMusics.map((song) => (
         <SingleMusic key={song.musicId} item={song} />
       ))}
     </div>
