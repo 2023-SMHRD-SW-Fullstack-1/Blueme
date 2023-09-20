@@ -1,6 +1,6 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-18
+날짜(수정포함): 2023-09-19
 설명: 전역적 음악 재생 관리
 */
 
@@ -13,7 +13,7 @@ import {
    setCurrentSongId,
    setPlayingStatus,
    setCurrentTime,
-   setDuration
+   setRepeatMode
  } from "../../store/music/musicActions";
  
 
@@ -30,18 +30,18 @@ const SoundControl = () => {
    const [sound, setSound] = useState(null);
    // 재생바 이동 관련 useState
    const [isDragging, setIsDragging] = useState(false);
-   // 한곡반복
-   const [isRepeatMode, setIsRepeatMode] = useState(false);
-   const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
-   // const [currentTime, setCurrentTime] = useState(0);
+
 
    // 음악 재생 인덱스 (리덕스 활용)
    const musicIds = useSelector((state) => state.musicReducer.musicIds);
    const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
    const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
    const draggingStatus = useSelector((state) => state.musicReducer.draggingStatus);
+   const currentTime = useSelector((state) => state.musicReducer.currentTime);
+   const repeatMode = useSelector((state) => state.musicReducer.repeatMode);
+   const repeatModeRef = useRef(repeatMode);
 
-   useEffect(() => {
+  useEffect(() => {
       const fetchSound = async () => {
 
         try {
@@ -51,17 +51,16 @@ const SoundControl = () => {
           // 새로운 사운드 로드 및 재생
           const newSound = new Howl({
             src: [`/music/${currentSongId}`],
-            html5: true,
             format: ["mpeg"],
             onload() {
-              setCurrentTime(0);
+              dispatch(setCurrentTime(0));
               dispatch(setPlayingStatus(true));
               newSound.play();
             },
             onend() {
-              if (isRepeatModeRef.current) {
+              if (repeatModeRef.current) {
                 newSound.seek(0);
-                setCurrentTime(0);
+                dispatch(setCurrentTime(0));
                 newSound.play();
               } else {
                // nextTrack 로직
@@ -95,10 +94,10 @@ const SoundControl = () => {
       };
     }, [currentSongId, musicIds]);
   
-    // 한곡반복 Ref
-    // useEffect(() => {
-    //   isRepeatModeRef.current = isRepeatMode;
-    // }, [isRepeatMode]);
+ // 한곡반복
+ useEffect(() => {
+  repeatModeRef.current = repeatMode;
+}, [repeatMode]);
   
     // 재생&정지
     useEffect(() => {
@@ -133,6 +132,14 @@ useEffect(() => {
     return () => clearInterval(intervalId);
   }
 }, [sound, playingStatus]); 
+
+
+// 재생 위치 변경
+useEffect(() => {
+  if (sound != null && !draggingStatus) {
+    sound.seek(currentTime);
+  }
+}, [currentTime, draggingStatus]);
 
    // 리턴문
   return null;

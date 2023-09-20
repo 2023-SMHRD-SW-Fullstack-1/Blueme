@@ -1,10 +1,10 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-18
+날짜(수정포함): 2023-09-19
 설명: 음악 플레이어 수정
 */
-import { useEffect, useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -26,12 +26,12 @@ import {
   setCurrentSongId,
   setPlayingStatus,
   setCurrentTime,
-  setDraggingStatus
+  setDraggingStatus,
+  setRepeatMode
 } from "../store/music/musicActions";
 
 const MusicPlayer = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   // 사용자 id
@@ -39,14 +39,9 @@ const MusicPlayer = () => {
   const userId = user.id
 
   // useState
-  // const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [sound, setSound] = useState(null);
   // 재생바 이동 관련 useState
-  // const [isDragging, setIsDragging] = useState(false);
   // 한곡반복
-  const [isRepeatMode, setIsRepeatMode] = useState(false);
-  const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
   // 음악 관련 정보
   const [musicInfo, setMusicInfo] = useState({
     album: "",
@@ -64,6 +59,7 @@ const MusicPlayer = () => {
   const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
   const currentTime = useSelector((state) => state.musicReducer.currentTime);
   const draggingStatus = useSelector((state) => state.musicReducer.draggingStatus);
+  const repeatMode = useSelector((state) => state.musicReducer.repeatMode);
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
@@ -84,11 +80,6 @@ const MusicPlayer = () => {
     };
     fetchMusicInfo();
   }, [currentSongId]); // songId 변경 시마다 재실행
-
-  // 한곡반복 Ref
-  useEffect(() => {
-    isRepeatModeRef.current = isRepeatMode;
-  }, [isRepeatMode]);
 
   // 이전곡&다음곡
   useEffect(() => {
@@ -169,6 +160,7 @@ const MusicPlayer = () => {
     dispatch(setCurrentTime(newCurrentTime));
   };
   
+  // 드래그 시작 - 음악 정지
   const handleDragStart = () => {
     dispatch(setDraggingStatus(true));
     if(playingStatus){
@@ -176,13 +168,13 @@ const MusicPlayer = () => {
     }
   };
 
+  // 드래그 시작 - 음악 재시작
   const handleDragEnd = () => {
     dispatch(setDraggingStatus(false));
     if(!playingStatus){
       dispatch(setPlayingStatus(true));
     }
   };
-
 
    
   // 재생시간 표시
@@ -196,7 +188,7 @@ const MusicPlayer = () => {
     return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-  return (
+return (
     <div className="full-screen-player">
       <p className="py-[10px]">{musicInfo.album}</p>
       <div className=" w-[300px]">
@@ -211,7 +203,7 @@ const MusicPlayer = () => {
       {/* 재생바 */}
       <div className="w-[85%] h-2.5 bg-black rounded-full mt-10 relative">
         <div
-          style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+          style={{ width: `${(currentTime / duration) * 100}%` }}
           className="h-2 bg-white rounded-full absolute"
         />
         <input
@@ -239,8 +231,8 @@ const MusicPlayer = () => {
         <img
           className= "w-[25px] h-auto"
           alt=""
-          src={isRepeatMode ? rotating : rotate}
-          onClick={() => setIsRepeatMode(!isRepeatMode)}
+          src={repeatMode ? rotating : rotate}
+          onClick={() => dispatch(setRepeatMode(!repeatMode))}
         />
         <Prev
           className= "w-[50px] h-auto"
@@ -276,11 +268,11 @@ const MusicPlayer = () => {
           </button>
         </div>
       </div>
-      <img
+      {/* <img
         src={scroll}
         onClick={() => navigate("/library")}
         className= "w-[40px] h-auto fixed bottom-[10%]"
-      />
+      /> */}
     </div>
   );
 };

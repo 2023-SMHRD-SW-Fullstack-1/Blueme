@@ -125,7 +125,7 @@ const MiniPlayer = () => {
 
 
   return (
-    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
+    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
       <Link to={`/MusicPlayer/${currentSongId}`} className="h-[80%]">
       <div className="h-[95%] flex flex-row">
       <img
@@ -134,31 +134,31 @@ const MiniPlayer = () => {
         alt=""
       />
       
-      <div className="flex flex-col ml-4 justify-center">
-        <p className="lg:text-2xl sm:font-semibold">{musicInfo.title}</p>
-        <p className="lg:text-lg sm:text-sm">{musicInfo.artist}</p>
+      <div className="flex flex-col lg:ml-4 xs:ml-3 justify-center">
+        <p className="lg:text-2xl xs:font-semibold xs:text-sm xs:pb-1">{musicInfo.title}</p>
+        <p className="lg:text-lg xs:text-xs">{musicInfo.artist}</p>
       </div>
       </div>
       </Link>
 
-      <div className="flex flex-row sm:gap-3 lg:gap-5 ml-auto">
-        <Prev className="sm:w-[30px] lg:w-[40px] m h-auto" onClick={prevTrack} />
+      <div className="flex flex-row xs:gap-2 lg:gap-5 ml-auto">
+        <Prev className="xs:w-[25px] lg:w-[40px] m h-auto" onClick={prevTrack} />
         {playingStatus ? (
           <Pause
-            className="sm:w-[30px] lg:w-[40px] h-auto"
+            className="xs:w-[30px] lg:w-[40px] h-auto"
             onClick={() => {
               dispatch(setPlayingStatus(false));
             }}
           />
         ) : (
           <Play
-            className="sm:w-[30px] lg:w-[40px] h-auto"
+            className="xs:w-[30px] lg:w-[40px] h-auto"
             onClick={() => {
               dispatch(setPlayingStatus(true));
             }}
           />
         )}
-        <Next className="sm:w-[30px] lg:w-[40px] h-auto" onClick={nextTrack} />
+        <Next className="xs:w-[25px] lg:w-[40px] h-auto" onClick={nextTrack} />
       </div>
     </div>
   );
