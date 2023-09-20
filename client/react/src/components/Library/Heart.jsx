@@ -16,8 +16,8 @@ const Heart = ({ item }) => {
   const [isLiked, setIsLiked] = useState(isSaved > 0 ? true : false);
 
   // userId
-  const user = useSelector(state => state.memberReducer.user)
-  const userId = user.id
+  const user = useSelector((state) => state.memberReducer.user);
+  const userId = user.id;
 
   // 좋아요 상태 확인
   useEffect(() => {
@@ -52,11 +52,7 @@ const Heart = ({ item }) => {
   return (
     <div>
       <button onClick={toggleLike}>
-        <img
-          className="w-[30px] h-auto"
-          src={isLiked ? likeFull : likeEmpty}
-          alt="{likeEmpty}"
-        />
+        <img className="w-[30px] h-auto" src={isLiked ? likeFull : likeEmpty} alt="{likeEmpty}" />
       </button>
     </div>
   );
