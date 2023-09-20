@@ -433,7 +433,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, setPageView }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          {/* <li className="mb-1 last:mb-0">
                             <NavLink
                               //end
                               //to="/community/users-tiles"
@@ -448,7 +448,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, setPageView }) {
                                 음악 조회
                               </span>
                             </NavLink>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                     </React.Fragment>
@@ -534,7 +534,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, setPageView }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          {/* <li className="mb-1 last:mb-0">
                             <NavLink
                               //end
                               //to="/community/users-tiles"
@@ -549,7 +549,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, setPageView }) {
                                 테마 삭제
                               </span>
                             </NavLink>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                     </React.Fragment>

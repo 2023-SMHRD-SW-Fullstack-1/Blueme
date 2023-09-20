@@ -226,7 +226,13 @@ public class ChatGptService {
          *
          * @return 뮤직 리스트 (String)
          */
-        public String getMusicList() {
+        public String getMusicList(WeatherSummary weatherSummary, HealthInfos healthInfo) {
+                // 현재 전체 태그 상황
+                // 헤어짐,심술,tired,rain,아침,sad,캠퍼스,운전,신남,college,afternoon,저녁,사업,viciously,spring,여행,sun,소중,오후,store,파티,밤,rest,슬픔,depressed,restaurant,summer,추위,집,햇살,크리스마스,lunch,불안,home,새벽
+                // 가을,우울,subway,노래방,바람,travel,flutter,겨울,rage,gym,더위,unrest,drive,autumn,운동,봄,night,hot,눈보라,휴식,cold,오전,winter,비,지하철,snow,그리움,카페,party,여름,점심,공부,dawn,study,고백,morning,cloud,beach,wind,흐림,happy,evening,바다,설렘,tag,
+                // 음악 가져오기 로직 수정중
+
+                // 음악 가져오기
                 List<ChatGptMusicsDto> musicsList = musicsService.getRandomEntities(100)
                                 .stream().map(ChatGptMusicsDto::new).collect(Collectors.toList());
                 String musicsString = musicsList.stream().map(ChatGptMusicsDto::toString)
@@ -252,7 +258,7 @@ public class ChatGptService {
                 String avgSpeed = healthInfo.getSpeed();
                 // String calorie = healthInfo.getCalorie();
                 String stepsPerMinute = healthInfo.getStep();
-                String musicsString = getMusicList();
+                String musicsString = getMusicList(weatherSummary, healthInfo);
                 String heartRateData = getHeartRateStatus(Double.parseDouble(avgHeartRate));
                 String speedData = getSpeedStatus(Double.parseDouble(avgSpeed),
                                 Double.parseDouble(stepsPerMinute), Double.parseDouble(avgHeartRate));

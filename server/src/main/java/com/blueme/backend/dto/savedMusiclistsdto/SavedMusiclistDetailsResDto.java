@@ -14,6 +14,7 @@ public class SavedMusiclistDetailsResDto {
   private String musicArtist;
   private String musicAlbum;
   private String musicGenre;
+  private String time;
 
   public SavedMusiclistDetailsResDto(SavedMusiclistDetails detail) {
     this.savedMusiclistsDetailId = detail.getId();
@@ -23,6 +24,7 @@ public class SavedMusiclistDetailsResDto {
     this.musicArtist = detail.getMusic().getArtist();
     this.musicAlbum = detail.getMusic().getAlbum();
     this.musicGenre = detail.getMusic().getGenre1();
+    this.time = detail.getMusic().getTime();
   }
 
 }

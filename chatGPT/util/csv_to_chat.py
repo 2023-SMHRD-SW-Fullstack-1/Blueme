@@ -1,7 +1,7 @@
 import csv
 import json
 
-with open('musics_202309171447.csv', 'r', encoding='utf-8') as f:
+with open('musics_202309191639_2.txt', 'r', encoding='utf-8') as f:
     reader = csv.DictReader(f)
     with open('chat_format_data.jsonl', 'w', encoding='utf-8') as outfile:
         for row in reader:
@@ -11,11 +11,12 @@ with open('musics_202309171447.csv', 'r', encoding='utf-8') as f:
             title = row['title']
             artist = row['artist']
 
-            user_content = f'태그: {tags} / 장르: {genre}'
-            assistant_content = json.dumps({"music_id": music_id, "title": title, "aritst" : artist})
+            user_content = f'태그: {tags} / 장르: {genre} 에 맞는 음악을 추천해주세요.'
+            #assistant_content = json.dumps({"music_id": music_id, "title": title, "aritst" : artist}, ensure_ascii = False)
+            assistant_content = f'{title} - {artist} 노래를 추천합니다.'
 
             entry = [
-                {"role": "system", "content": 'You are a music recommendation assistant by tags and genre.'},
+                {"role": "system", "content": 'recommendation assistant'},
                 {"role": "user", "content": user_content},
                 {"role": "assistant", "content": assistant_content}
             ]
