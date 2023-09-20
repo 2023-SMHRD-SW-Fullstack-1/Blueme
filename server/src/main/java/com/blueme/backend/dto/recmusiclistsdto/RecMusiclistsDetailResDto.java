@@ -23,6 +23,7 @@ public class RecMusiclistsDetailResDto {
     this.musicAlbum = detailResDto.getMusic().getArtist();
     this.musicAlbum = detailResDto.getMusic().getAlbum();
     this.musicGenre = detailResDto.getMusic().getGenre1();
+    this.musicArtist = detailResDto.getMusic().getArtist();
   }
 
 }
