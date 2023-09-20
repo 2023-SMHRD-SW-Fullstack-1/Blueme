@@ -164,30 +164,26 @@ const MusicPlayer = () => {
   };
 
   // 사용자 재생바 조작
-const changeCurrentTime = (e) => {
-  let newCurrentTime = e.target.value;
-  dispatch(setCurrentTime(newCurrentTime));
-};
-
-const handleDragStart = () => {
-  dispatch(setDraggingStatus(true));
-  if(playingStatus){
-    dispatch(setPlayingStatus(false));
-  }
-};
-
-const handleDragEnd = () => {
-  dispatch(setDraggingStatus(false));
-  if(!playingStatus){
-    dispatch(setPlayingStatus(true));
-  }
-};
-
-useEffect(()=>{
+  const changeCurrentTime = (e) => {
+    let newCurrentTime = e.target.value;
+    dispatch(setCurrentTime(newCurrentTime));
+  };
   
-  console.log(draggingStatus);
+  const handleDragStart = () => {
+    dispatch(setDraggingStatus(true));
+    if(playingStatus){
+      dispatch(setPlayingStatus(false));
+    }
+  };
 
-},[playingStatus]);
+  const handleDragEnd = () => {
+    dispatch(setDraggingStatus(false));
+    if(!playingStatus){
+      dispatch(setPlayingStatus(true));
+    }
+  };
+
+
    
   // 재생시간 표시
   const formatTime = (timeInSeconds) => {

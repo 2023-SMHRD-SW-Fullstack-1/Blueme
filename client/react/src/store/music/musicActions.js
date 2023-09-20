@@ -12,6 +12,7 @@ export const SET_CURRENT_TIME = 'SET_CURRENT_TIME';
 export const SET_DURATION = 'SET_DURATION';
 export const SET_DRAGGING_STATUS = 'SET_DRAGGING_STATUS';
 export const SET_REPEAT_MODE = 'SET_REPEAT_MODE';
+export const SEEK_TO = 'SET_REPEAT_MODE';
 
 
 // 음악 재생할 목록
@@ -61,10 +62,10 @@ export function setDuration(duration) {
   };
 }
 
-export function setDraggingStatus(isDragging) {
+export function setDraggingStatus(draggingStatus) {
   return {
     type: SET_DRAGGING_STATUS,
-    payload: isDragging,
+    payload: draggingStatus,
   };
 }
 

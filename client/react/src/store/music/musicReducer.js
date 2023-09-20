@@ -13,7 +13,10 @@ import {
   SET_DRAGGING_STATUS,
   SET_DURATION,
   SET_REPEAT_MODE,
+  SEEK_TO
 } from "./musicActions";
+
+
 
 const initialState = {
   musicIds: [],
@@ -41,7 +44,7 @@ function music(state = initialState, action) {
     case SET_DURATION:
       return { ...state, duration: action.payload };
     case SET_DRAGGING_STATUS:
-      return { ...state, isDragging: action.payload };
+      return { ...state, draggingStatus: action.payload };
     case SET_REPEAT_MODE:
       return { ...state, repeatMode: action.payload };
     default:
