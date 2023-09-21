@@ -5,8 +5,8 @@
 */
 /*
 작성자: 신지훈
-날짜(수정포함): 2023-09-14
-설명: ReqAppDes 페이지 반응형
+날짜(수정포함): 2023-09-20
+설명: ReqAppDes 페이지 반응형 / 핸드폰 화면크기에 따라 흰 화면 등장함(미완)
 */
 import React, { useState } from "react";
 import watchLogin from "../../assets/img/watchlogin.png";
@@ -14,16 +14,15 @@ import watchHeartRate from "../../assets/img/watchheartrate.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import '../../App.css'
+import "../../App.css";
 import { useSelector } from "react-redux";
 
 const RecAppDes = () => {
-
-  const [modalIsOpen, setModalIsOpen] = useState(false) //모달 열림 여부
-  const user = useSelector(state => state.memberReducer.user)
-  const id = user.id
+  const [modalIsOpen, setModalIsOpen] = useState(false); //모달 열림 여부
+  const user = useSelector((state) => state.memberReducer.user);
+  const id = user.id;
   // console.log('header',user);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   //모달창 열리면 true로 바꿔주는 함수
   const handleTransport = () => {
@@ -33,72 +32,83 @@ const RecAppDes = () => {
   //3초 로딩 함수
   const timeout = () => {
     setTimeout(() => {
-      document.getElementById('toast-warning').classList.remove("reveal")
-    }, 3000);// 원하는 시간 ms단위로 적어주기
+      document.getElementById("toast-warning").classList.remove("reveal");
+    }, 3000); // 원하는 시간 ms단위로 적어주기
   };
 
- 
   //데이터 전송 여부 판단하는 함수
   const isTransformData = () => {
     axios
-      .get(`http://172.30.1.27:8104/healthinfo/get/${id}`)//건강데이터 불러오기
+      .get(`http://172.30.1.27:8104/healthinfo/get/${id}`) //건강데이터 불러오기
       .then((res) => {
         console.log(res);
         navigate("/LoadDataCompl");
       })
-      .catch((err) =>{//데이터가 없다면 토스트 창 띄우기
-        document.getElementById('toast-warning').classList.add("reveal")
-        timeout()
+      .catch((err) => {
+        //데이터가 없다면 토스트 창 띄우기
+        document.getElementById("toast-warning").classList.add("reveal");
+        timeout();
         setModalIsOpen(false);
         console.log(err);
       });
   };
 
   return (
-    <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full '>
-        <br/><br/><br/>
-        {/* 갤럭시 워치에 대한 앱 설명 */}
-        <div className='mt-8'>
-          <ul>
-            <li className='text-left indent-1 text-xl tracking-tight'>• 갤럭시 워치의 경우</li>
-            <ol className='text-left indent-3 tracking-tight mt-3 leading-loose'>
-                <li>1. 갤럭시 워치에서 구글 스토어를 실행합니다.</li>
-                <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
-                <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
-                <li>4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
-            </ol>
-          </ul>
-        </div>
-
-        {/* 위치 이미지  */}
-        <div className='flex flex-row py-5'>
-          <img src={watchLogin} className=' w-[190px] h-[230px] ' />
-          <img src={watchHeartRate} className='w-[190px] h-[220px]' />
-        </div>
-        
-        {/* 샤오미 워치에 대한 앱 설명 */}
-        <div className='mt-5'>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 min-h-screen ">
+      <br />
+      <br />
+      <br />
+      {/* 갤럭시 워치에 대한 앱 설명 */}
+      <div className="mt-3 text-left flex justify-center items-center">
         <ul>
-            <li className='text-left indent-1 text-xl tracking-tight'>• 샤오미 미워치의 경우</li>
-            <ol className='text-left indent-3 tracking-tight mt-3 leading-loose'>
-                <li>1. 미워치에서 샤오미웨어를 실행합니다.</li>
-                <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
-                <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
-                <li>4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
-            </ol>
-          </ul>     
-        </div>
+          <li className="text-left indent-1 text-xl font-semibold tracking-tight">• 갤럭시 워치의 경우</li>
+          <ol className="text-left indent-3 tracking-tighter mt-3 leading-loose">
+            <li>1. 갤럭시 워치에서 구글 스토어를 실행합니다.</li>
+            <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
+            <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
+            <li>4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
+          </ol>
+        </ul>
+      </div>
+
+      {/* 위치 이미지  */}
+      <Swiper slidesPerView={2} className="mt-10">
+        <SwiperSlide className="flex justify-end items-center">
+          <img src={watchLogin} alt="워치 이미지" className="object-cover w-[200px] h-[230px]" />
+        </SwiperSlide>
+        <SwiperSlide className="flex justify-start items-center">
+          <img src={watchHeartRate} alt="워치 이미지" className="object-cover w-[180px] h-[225px]" />
+        </SwiperSlide>
+      </Swiper>
+
+      {/* 샤오미 워치에 대한 앱 설명 */}
+      <div className="mt-3 flex justify-center items-center">
+        <ul>
+          <li className="text-left indent-1 text-xl font-semibold tracking-tight">• 샤오미 미워치의 경우</li>
+          <ol className="text-left indent-3 tracking-tight mt-3 leading-loose">
+            <li>1. 미워치에서 샤오미웨어를 실행합니다.</li>
+            <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
+            <li>3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
+            <li>4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
+          </ol>
+        </ul>
+      </div>
+      <div className="text-right p-3 mt-5">
+        <button onClick={handleTransport} className="mb-20">
+          SKIP
+        </button>
 
         {/* 토스트 창 띄우기 */}
         <div className="flex justify-center items-center">
-          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+          <div
+            id="toast-warning"
+            className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+            role="alert"
+          >
             <div className="ml-3 font-normal text-center">데이터를 전송해주세요.</div>
           </div>
         </div>
-        <div className='text-right p-3 mt-5'>
-          <button onClick={handleTransport}>SKIP</button>
-         
-        
+
         {/* 데이터 전송 여부 판단하는 모달창 => Skip 클릭 시 열림 */}
         <div
           id="popup-modal"
@@ -172,7 +182,6 @@ const RecAppDes = () => {
           </div>
         </div>
       </div>
-     
     </div>
   );
 };

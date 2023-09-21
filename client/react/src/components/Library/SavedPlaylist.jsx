@@ -1,6 +1,6 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-15
+날짜: 2023-09-20
 설명: 반응형, 저장한 플레이리스트 불러오기 구현 
 */
 
@@ -49,7 +49,7 @@ const SavedPlaylist = () => {
   }, [musiclistId]);
 
   return (
-    <div className="flex mt-5 lg:mt-10">
+    <div className="flex mt-3 lg:mt-10">
       <Swiper
         spaceBetween={10}
         slidesPerView="0"
@@ -90,10 +90,12 @@ const SavedPlaylist = () => {
                 <img
                   src={"data:image/;base64," + SavedPlaylist.img}
                   alt="album cover"
-                  className="w-[100px] lg:w-[200px] h-auto rounded-lg xs:w-[100%] sm:h-auto "
+                  className="w-[200px]  h-auto rounded-lg  sm:h-auto lg:mr-20"
                 />
                 {/* 2. 제목/ 아티스트 */}
-                <span className="tracking-tighter text-sm text-center mt-2 lg:text-base ">{SavedPlaylist.title}</span>
+                <span className="tracking-tighter text-sm text-center mt-2 lg:text-base lg:mr-20 ">
+                  {SavedPlaylist.title}
+                </span>
               </div>
             </Link>
           </SwiperSlide>

@@ -16,10 +16,7 @@ import { ReactComponent as Play } from "../../assets/img/musicPlayer/play.svg";
 import { ReactComponent as Pause } from "../../assets/img/musicPlayer/pause.svg";
 
 // Redux
-import {
-  setCurrentSongId,
-  setPlayingStatus,
-} from "../../store/music/musicActions";
+import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
 
 const MiniPlayer = () => {
   const dispatch = useDispatch();

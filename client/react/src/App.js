@@ -40,7 +40,7 @@ import SavedPlaylistDetail from "./components/Library/SavedPlaylistDetail";
 import RecAppDes from "./pages/rec/RecAppDes";
 import PlaylistRename from "./pages/rec/PlaylistRename";
 import { useSelector } from "react-redux";
-import WholeRecPlayList from './pages/rec/WholeRecPlayList'
+import WholeRecPlayList from "./pages/rec/WholeRecPlayList";
 //유영 끝
 
 // 지희 import 시작
@@ -50,16 +50,13 @@ import LoadDataCompl from "./pages/rec/LoadDataCompl";
 import LoadGpt from "./pages/rec/LoadGpt";
 import RecPlayList from "./pages/rec/RecPlayList";
 import SearchPage from "./pages/SearchPage";
-import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner"
+import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner";
 import SoundControl from "./components/music/SoundControl";
 import RecPlayListDetail from "./pages/rec/RecPlayListDetail";
 // 지희 import 끝
 
 const App = () => {
-  
-
   return (
-    
     <Router>
       <div className="app flex flex-col min-h-screen bg-gray-900 ">
         <Header />
@@ -80,7 +77,7 @@ const App = () => {
           {/* 혁 추가 */}
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/addmusic" element={<AddMusicPage />} />
-          <Route path="/search"element={<SearchPage />} />
+          <Route path="/search" element={<SearchPage />} />
           {/* 혁 끝 */}
           <Route path="/Theme" element={<Theme />} />
           {/* 지훈 시작 */}
@@ -106,7 +103,7 @@ const App = () => {
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
         <ShowMiniPlayerInner />
-          {/* 지희 끝 */}
+        {/* 지희 끝 */}
         <Footer />
       </div>
     </Router>
