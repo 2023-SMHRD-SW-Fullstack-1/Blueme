@@ -25,7 +25,7 @@ import RecPlayList from "../rec/RecPlayList";
 import axios from "axios";
 // 리덕스 - 지희 경로변경
 import { useDispatch, useSelector } from "react-redux";
-import { setMusicIds, setPlayingStatus } from "../../store/music/musicActions.js";
+import { setMusicIds,setPlayingStatus } from "../../store/music/musicActions.js";
 // 미니플레이어 import
 //유영 추천 음악 플레이 리스트
 import SingleRecPlayList from "../rec/SingleRecPlayList";
@@ -33,30 +33,32 @@ import SingleRecPlayList from "../rec/SingleRecPlayList";
 const Main = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [myRecMusicList, setMyRecMusicList] = useState([]);
-  const [otherRecMusicList, setOtherRecMusicList] = useState([]);
+  const [otherRecMusicList, setOtherRecMusicList] = useState([])
 
   // 지희 시작 (0918)
-  const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
+  const playingStatus = useSelector(state => state.musicReducer.playingStatus);
   const [ids, setIds] = useState([]);
   const [otherMusicIds, setotherMusicIds] = useState([])//남의 플리 musicId
   const [myMusicIds, setMyMusicIds] = useState([])//나의 플리 musicId
   // const [id, setId] = useState('0');
   // const id = localStorage.getItem('id')
   const dispatch = useDispatch();
-  const musicIds = useSelector(state => state.musicReducer.musicIds);
+  // const musicIds = useSelector(state => state.musicReducer.musicIds);
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
   const isLoggendIn = useSelector(state => state.memberReducer.isLogin)
   const navigate = useNavigate()
   // console.log('header',user);
 
+
+
   useEffect(() => {
     const fetchRecentlyPlayed = async () => {
-       try {
+      try {
         const response = await axios.get(`/playedmusic/get/${id}`);
         setRecentlyPlayed(response.data);
         // 지희(0918) - MusicIds 설정 추가
-        setIds(response.data.map((music) => music.musicId));
+        setIds(response.data.map(music => music.musicId))
         // 지희 끝
       } catch (error) {
         console.error(`Error: ${error}`);
@@ -101,63 +103,101 @@ const Main = () => {
   }, [])
  
   // 지희(0918) - MusicIds 설정
-  const handleListClick = () => {
+ const handleListClick = () => {
     dispatch(setMusicIds(ids));
   };
 
   return (
-    <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 min-h-screen pb-20 hide-scrollbar">
+    <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-20 hide-scrollbar">
       <br />
       <br />
       {/* ChatGPT가 추천해준 나의 플레이리스트 */}
-      <div className="py-2 flex justify-between">
-        <h1 className="overflow-hidden text-left indent-1 text-xl  tracking-tight mt-10 ">
-          Chat GPT가 추천해준 나의 플레이리스트
+      <div>
+        <h1 className="overflow-hidden indent-2 text-xl xl:ml-[180px] tracking-tight mt-[60px] ">
+          AI가 추천해준 나만의 플레이리스트
         </h1>
-        {/* {myRecMusicList !== '' &&
-          <Link to='/RecPlayList'>
-            <button className="flex text-custom-lightgray mt-6 mr-2 text-sm">더보기</button>
-          </Link>
-        } */}
-        
-      </div >
-      {id !== '0'  && myRecMusicList.length !== 0 ? 
-         <Swiper slidesPerView={2.1} spaceBetween={5} className="mt-[20px]"> 
-         {myRecMusicList && myRecMusicList.map((item,i) => (
-               <SwiperSlide key={item.recMusiclistId} className=""> 
-                      <div className="flex flex-col justify-center items-center"></div>
-                      <img
-                       onClick={()=> {navigate(`/RecPlayListDetail/${myMusicIds[i]}`)}}
-                       src={"data:image/;base64,"+item.recMusiclistDetails[0].img} alt="album cover" className="w-[170px] h-[160px] rounded-lg mr-5" />
-                       <p className="tracking-tight text-sm w-[165px] ml-1 mt-2 ">{item.title}</p> 
-                          {/* <WholeRecPlayList key={item.musicId} item={item} />  */}
-                     </SwiperSlide>
-                 ))}   
-         </Swiper> 
-          : <BeforeRegistration />}  
+        <Swiper
+        spaceBetween={10}
+        slidesPerView="0"
+        breakpoints={{
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          400: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },   
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+          },       
+        }}
+      >
 
-      
-
+        { id !== '0' && myRecMusicList.length !== 0 ? (
+          <Swiper>
+            {myRecMusicList &&
+              myRecMusicList.map((item, i) => (
+                <SwiperSlide key={item.recMusiclistId} className="">
+                  <div className="flex flex-col justify-center items-center lg:w-[600px] mt-8 lg:pl-[40px] ">
+                    <img
+                      onClick={() => {
+                        navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
+                      }}
+                      src={"data:image/;base64," + item.recMusiclistDetails[0].img}
+                      alt="album cover"
+                      className="w-[250px] h-auto rounded-lg"
+                    />
+                    <p className="tracking-tight text-sm text-center mt-2 xs:w-[155px] w-[200px] lg:text-base ">
+                      {item.title}
+                    </p>
+                  </div>
+                </SwiperSlide>
+              ))}
+          </Swiper>
+        ) : (
+          <BeforeRegistration />
+        )}
+      </Swiper>
+      </div>
       {/* ChatGPT가 추천해준 남의 플레이리스트 */}
       <div>
-        <h1 className="text-left indent-1 text-xl tracking-tight mt-5 mb-5">
-          ChatGpt가 추천해준 남의 플레이리스트
+        <h1 className="overflow-hidden  indent-2 text-xl xl:ml-[180px] tracking-tight mt-10  ">
+          Blueme가 추천해요👀
         </h1>
-        <Swiper spaceBetween={5} slidesPerView={2.1}>
+
+        <Swiper
+        spaceBetween={10}
+        slidesPerView="0"
+        breakpoints={{
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          400: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },   
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+          },   
+        }}
+      >
          {otherRecMusicList && otherRecMusicList.map((item,i) => (
                     <SwiperSlide key={item.recMusiclistId} className="">
-                      <div className="flex flex-col justify-center items-center "></div>
-                      <img
-                      onClick={()=> {navigate(`/RecPlayListDetail/${otherMusicIds[i]}`)}}
-                      src={"data:image/;base64,"+item.img} alt="album cover" className="w-[170px] h-[160px] rounded-lg " />
-                      <p className="tracking-tight text-sm w-[165px] ml-1 mt-2 ">{item.recMusiclistTitle}</p>
-                        {/* <SavedPlaylist key={item.recMusiclistId} item={item} /> */}
+                      <div className="flex flex-col justify-center items-center lg:w-[600px] mt-8 xl:pl-[40px] relative z-index:2">
+                        <img
+                        onClick={()=> {navigate(`/RecPlayListDetail/${otherMusicIds[i]}`)}}
+                        src={"data:image/;base64,"+item.img} alt="album cover"
+                        className="w-[250px] h-auto rounded-lg " />
+                        <p className="tracking-tight text-sm text-center mt-2 xs:w-[155px] w-[200px] lg:text-base ">{item.recMusiclistTitle}</p>
+                      </div>
                     </SwiperSlide>
                 ))}
+
         </Swiper>
-        {/* <Link to="RecPlayList">
-          <SavedPlaylist />
-        </Link> */}
       </div>
 
       {/* 최근에 재생한 목록 */}

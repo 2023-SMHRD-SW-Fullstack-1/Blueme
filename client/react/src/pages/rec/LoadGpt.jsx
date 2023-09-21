@@ -17,6 +17,7 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from 'axios'
+import '../../App.css'
 
 //Three.js
 const DirectionalLightWithCamera = () => {
@@ -54,16 +55,18 @@ const LoadGpt = () => {
   const id = user.id //id가져오기
 
 
-  //6초 로딩 
+  //타임 로딩
   const timeout = () => {
     setTimeout(() => {
         axios
-        .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)//ChatGPT 추천 받디
+        .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)//ChatGPT 추천 받기
         .then((res) => {
           console.log(res)
           navigate("/RecPlayList");
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          document.getElementById('toast-warning').classList.add("reveal")//토스트 창 생성
+          console.log(err)})
     }, 1000);
   };
 
@@ -95,6 +98,12 @@ const LoadGpt = () => {
           <OrbitControls minDistance={2} maxDistance={10} />
         </Canvas>
       </div>
+      {/* 토스트 창 띄우기 */}
+      <div className="flex justify-center items-center">
+          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">잠시후 다시 시도해주세요</div>
+          </div>
+        </div>
     </div>
   );
 };

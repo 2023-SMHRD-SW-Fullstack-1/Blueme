@@ -56,17 +56,17 @@ const PlaylistRename = () => {
       </div>
 
     {/* 플레이 리스트 제목 */}
-      <div className='mt-12'>
+      <div className='flex mt-12 item-center justify-center'>
       <input
         type="email"
-        className="focus:border-custom-white pl-2 w-full border border-soild rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.35] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
+        className="focus:border-custom-white pl-2 w-full md:w-[600px] border border-soild rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.35] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
         defaultValue={recMusicTitle}
         onChange={(e) => setTitle(e.target.value)}
       />
       </div>
       
       {/* 저장과 취소 버튼 */}
-      <div className='flex justify-end space-x-2'>
+      <div className='flex justify-end md:justify-center md:mt-[30px] space-x-2'>
         <div className="h-[35px] w-[53px] mt-5 border border-soild border-#FDFDFD] 
         rounded-lg bg-custom-blue text-custom-white text-sm text-center peer bg-transparent leading-[2.15] outline-none ease-linear">
             <button onClick={SavedRecPlaylist}>저장</button>
@@ -77,7 +77,7 @@ const PlaylistRename = () => {
         </div>
       </div>
       {/* 토스트 창 띄우기 */}
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center item-center">
           <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div className="ml-3 font-normal text-center">저장에 실패했습니다.</div>
           </div>
