@@ -27,6 +27,7 @@ const MyPage = () => {
   const selectedArtistsFromRecommendation =location.state?.selectedArtists || [];
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
+  const platFormType = user.platFormType
   // console.log('header',user.img_url);
   const dispatch = useDispatch()
   console.log('header',user);
@@ -56,8 +57,8 @@ const MyPage = () => {
     {localStorage.getItem('accessToken') !== null ? 
     <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-10 hide-scrollbar">
       {/* 사용자 프로필 */}
-    <div className="flex justify-between items-center mt-20">
-      <div className="flex items-center boar">
+    <div className="flex justify-between items-center mt-20 md:ml-[250px]">
+      <div className="flex items-center boar ">
         {user.img_url === null ? 
         <img 
         src={basicProfile}
@@ -69,32 +70,33 @@ const MyPage = () => {
           alt="userImg"
           className="w-[70px] h-[70px] mb-3 mt-2 rounded-lg"
         />}
-        <span className="pt-1 ml-3 text-[20px] ">{user.nickname}</span>
+        <span className="pt-1 ml-3 text-[20px] w-[100px]">{user.nickname}</span>
       </div>
-      <div className="mt-3 ">
-        <Link to="/MemberInfoChange">
-          <button className=" bg-gradient-to-t from-gray-600 rounded-2xl text-sm h-8 w-20 p-1">
-            내 프로필
-          </button>
-        </Link>
+      <div className="mt-3 md:mr-[250px]">
+        {platFormType === "blueme" && 
+          <Link to="/MemberInfoChange">
+            <button className=" bg-gradient-to-t from-gray-600 rounded-2xl text-sm h-8 w-20 p-1">
+              내 프로필
+            </button>
+          </Link>}
       </div>
     </div>
 
     {/* 사용자 정보(email, nickname) */}
-    <div className="text-xl mt-4">내 정보</div>
+    <div className="text-xl mt-4 md:ml-[250px] md:mr-[250px] ">내 정보
     <div className="mt-2 sm:mt-2 md:mt-2">
-      <p className="bg-gradient-to-t from-gray-900 h-[45px] font-normal text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-[386px] mt-3 rounded-lg text-custom-white peer  bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
+      <p className="bg-gradient-to-t from-gray-900 h-[45px] font-normal text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2  mt-3 rounded-lg text-custom-white peer  bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
       {user.email}
       </p>
     </div>
     <div className="mt-2 sm:mt-2 md:mt-2">
-    <p className="bg-gradient-to-t from-gray-900 h-[45px] font-normal text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-[386px] mt-3 rounded-lg text-custom-white peer  bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
+    <p className="bg-gradient-to-t from-gray-900 h-[45px] font-normal text-base tracking-tighter border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2  mt-3 rounded-lg text-custom-white peer  bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
       {user.nickname}</p>
 
       {/* 선호하는 음악 장르  */}
-      <div className="mt-10 ">
-        <div className="text-2xl">당신이 좋아하는 음악 장르는?</div>
-        <div className="flex w-full mt-5 text-base">
+      <div className="mt-10">
+        <div className="text-xl">당신이 좋아하는 음악 장르는?</div>
+        <div className="flex w-full mt-5 text-base md:w-[400px]">
           <Swiper
             spaceBetween={20}
             slidesPerView={2}
@@ -121,9 +123,10 @@ const MyPage = () => {
           >더보기</Link>
         </div>
       </div>
+      </div>
       {/* 선호하는 아티스트 */}
-      <div className="text-2xl mt-8">당신이 좋아하는 아티스트는?</div>
-      <div className="flex items-start w-full mt-2 text-base">
+      <div className="text-xl mt-8">당신이 좋아하는 아티스트는?</div>
+      <div className="flex items-start w-full mt-2 md:w-[400px]">
         <Swiper
           spaceBetween={20}
           slidesPerView={2} 
@@ -151,8 +154,20 @@ const MyPage = () => {
       </div>
       
       {/* 로그아웃 */}
-      <div className="flex items-center justify-center pl-2 w-full mt-10 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
-        <button onClick={handleLogout}>로그아웃</button>
+      <div className=" 
+             flex
+             item-center
+             justify-center
+             mt-10
+             mb-[100px]
+             h-11
+             px-3 relative 
+             bg-gradient-to-t from-gray-800
+             rounded-lg border
+             text-custom-lightgray
+             tracking-tight
+            w-full">
+        <button onClick={handleLogout} className="text-center">로그아웃</button>
       </div>
     </div>
   </div> : <Login/ >}

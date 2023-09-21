@@ -11,20 +11,20 @@ import SingleRecPlayList from './SingleRecPlayList'
 import { Link } from "react-router-dom";
 import Heart from "../../components/Library/Heart";
 import { setCurrentSongId } from "../../store/music/musicActions";
+import { setMusicIds } from "../../store/music/musicActions.js";
 
 
-const RecPlayListDetail = ({item}) => {
+const RecPlayListDetail = () => {
 
     const user = useSelector(state => state.memberReducer.user)//member리듀서 가져오기
     const id = user.id//member리듀서에서 id가져오기
     const [musiclist, setMusiclist] = useState([]); //추천 받은 리스트
-    const [recMusicIds, setRecMusicIds] = useState([])
+    const [recMusicIds, setRecMusicIds] = useState([]) //musicId 저장
     const navigate = useNavigate()
     const params = useParams()
     // const musicIds = useSelector(state => state.musicReducer.musicIds);
     const musicId = params.id
     console.log(params.id);
-
     const dispatch = useDispatch()
 
 
@@ -42,7 +42,7 @@ const RecPlayListDetail = ({item}) => {
         recPlayList()
     }, [])
 
-    // console.log(recMusicIds);
+    console.log(recMusicIds);
     //전체 저장
     const SavedPlayList = () => {
         // localStorage.removeItem('recMusicIds')
@@ -53,26 +53,37 @@ const RecPlayListDetail = ({item}) => {
             localStorage.setItem('recMusicTitle', musiclist.recMusiclistTitle)
             // console.log(recMusicIds);
             navigate('/PlayListRename')
+        }
+    
+    //전체 재생
+    const WholePlaying = () => {
+        dispatch(setCurrentSongId(recMusicIds[0]))
+        dispatch(setMusicIds(recMusicIds))
+        // console.log(i);
+        navigate(`/MusicPlayer/${recMusicIds[0]}`)
     }
+    
   return (
            // 추천 받은 음악 리스트
         <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-full text-custom-white p-3 hide-scrollbar overflow-auto mb-[70px]'>
             <br/><br/>
-            <h1 className='text-center text-xl mt-[20px] tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar p-5'>
+            <h1 className='text-center text-xl mt-[20px] tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar p-5 xl:ml-[300px] xl:mr-[300px]  xs:ml-[5px] xs:mr-[5px]'>
                 {musiclist.recMusiclistReason}</h1>  
 
         {/* 전체 재생/ 전체 저장 버튼 */}
-            <div className="flex justify-between mb-6">
-                <button className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple font-semibold tracking-tight w-[180px] h-10 text-xl">전체 재생</button>
-            <button
-            onClick={SavedPlayList} 
-            className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tight w-[180px] h-10 text-xl ">전체 저장</button>
+            <div className="flex justify-between mb-6 xl:ml-[300px] xl:mr-[300px]  xs:ml-[5px] xs:mr-[5px]">
+                <button 
+                onClick={WholePlaying}
+                className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple font-semibold tracking-tight w-[180px] h-10 text-xl">전체 재생</button>
+                <button
+                onClick={SavedPlayList} 
+                className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tight w-[180px] h-10 text-xl ">전체 저장</button>
             </div>
         
         {/* 추천 받은 음악 리스트 목록 */}
             {/* <Swiper direction={'vertical'} slidesPerView={8.2} className="h-[65%]"> */}
                  {musiclist &&  Array.isArray(musiclist.recMusiclistsRecent10detail) && musiclist.recMusiclistsRecent10detail.map((item,i) => (
-                    <div key={item.recMusiclistDetailId} className="flex flex-row items-center ml-2 mr-2">
+                    <div key={item.recMusiclistDetailId} className="flex flex-row items-center ml-2 mr-2 xl:ml-[300px] xl:mr-[300px] xs:ml-[5px] xs:mr-[5px]">
                        <Link to={`/MusicPlayer/${recMusicIds[i]}`} onClick={()=> {dispatch(setCurrentSongId(recMusicIds[i]))}} className="flex-grow">
                         <div className="flex flex-row items-center w-full p-1 mb-1">
                             <img

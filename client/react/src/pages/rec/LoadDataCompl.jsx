@@ -51,14 +51,8 @@ const LoadDataCompl = () => {
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full ">
       <br/><br/><br/>
-      
-      {/* 현재 데이터 가져오기 */}
-      <div className="text-right text-base text-custom-lightgray tracking-tight mt-[70px]">
-        <Link to='/RecAppDes'>
-          <button className="text-sm w-[140px] p-1 h-[40px]">현재 데이터 가져오기</button></Link>
-      </div>
       <div>
-        <p className=" leading-normal mt-12 text-center text-[20px]">
+        <p className=" leading-normal mt-[150px] text-center text-[20px]">
           스마트 워치에서 데이터를 가져온 결과,
           <br />
 
@@ -67,8 +61,17 @@ const LoadDataCompl = () => {
           <br />
           {nickname} 님의 현재 상태입니다.
         </p>
+
+        {/* 현재 데이터 가져오기 */}
+        <div className="text-center text-base text-custom-lightgray tracking-tight mt-[30px]">
+        <Link to='/RecAppDes'>
+          <button className="text-sm w-[180px] p-1 bg-gradient-to-t from-gray-600 rounded-xl">현재 건강 데이터 가져오기</button></Link>
+      </div>
+
+      
         <p className="text-[17px] tracking-tight text-center text-custom-lightpurple mt-12">Blueme가 당신에게 맞는 음악을 추천해드릴게요.</p>
       </div>
+         
 
       {/* 심박수, 스트레스 지수, 속도 결과 */}
       <div className="m-12  tracking-tighter text-center text-[20px]">
@@ -81,6 +84,7 @@ const LoadDataCompl = () => {
           <button className="border tracking-tight border-soild border-#FDFDFD rounded-xl p-3 leading-[1.35]">추천받기</button>
         </Link>
       </div>
+         
     </div>
   );
 };

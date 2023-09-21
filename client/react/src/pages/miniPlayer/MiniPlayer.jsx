@@ -125,7 +125,7 @@ const MiniPlayer = () => {
 
 
   return (
-    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
+    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6 ">
       <Link to={`/MusicPlayer/${currentSongId}`} className="h-[80%]">
       <div className="h-[95%] flex flex-row">
       <img

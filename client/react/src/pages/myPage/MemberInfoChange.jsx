@@ -147,7 +147,7 @@ function MemberInfoChange() {
       {/* 회원정보 수정하기 */}
       <div className="flex items-center justify-center  w-full p-4">
         <div className="w-full md:w-1/2 lg:w-1/4 ">
-          <div className="text-2xl text-custom-white te mt-5 text-left w-full">회원 정보 수정</div>
+          <div className="text-2xl text-custom-white te mt-5 text-left ">회원 정보 수정</div>
           <div className="mt-2 sm:mt-2 md:mt-2 ">
           <p className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 w-full mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
           {user.email}</p></div>
