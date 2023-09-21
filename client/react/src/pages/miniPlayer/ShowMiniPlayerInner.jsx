@@ -1,6 +1,6 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-18
+날짜(수정포함): 2023-09-20
 설명: 미니플레이어
 */
 import { useLocation } from 'react-router-dom';
@@ -20,6 +20,8 @@ const ShowMiniPlayerInner = () => {
     
     if (pathsToShowMiniPlayer.includes(location.pathname)) { // 미니플레이어 O
       dispatch(setShowMiniPlayer(true));
+    }  else if (location.pathname.includes('/MusicPlayer')) {
+      dispatch(setShowMiniPlayer(false));
     } else { // 미니플레이어 X
       dispatch(setShowMiniPlayer(false));
       dispatch(setPlayingStatus(false))

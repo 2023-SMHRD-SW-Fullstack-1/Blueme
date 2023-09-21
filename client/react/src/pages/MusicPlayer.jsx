@@ -54,11 +54,9 @@ const MusicPlayer = () => {
   const [isLiked, setIsLiked] = useState(isSaved > 0 ? true : false);
   // 음악 재생 인덱스 (리덕스 활용)
   const musicIds = useSelector((state) => state.musicReducer.musicIds);
-  const [currentSongIndex, setCurrentSongIndex] = useState(-1);
   const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
   const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
   const currentTime = useSelector((state) => state.musicReducer.currentTime);
-  const draggingStatus = useSelector((state) => state.musicReducer.draggingStatus);
   const repeatMode = useSelector((state) => state.musicReducer.repeatMode);
 
   // 서버에서 음악 정보 가져오기
@@ -66,7 +64,6 @@ const MusicPlayer = () => {
     const fetchMusicInfo = async () => {
       try {
         const response = await axios.get(`/music/info/${currentSongId}`);
-        // console.log(response.data.time);
         setMusicInfo({
           album: response.data.album,
           title: response.data.title,
@@ -79,15 +76,9 @@ const MusicPlayer = () => {
       }
     };
     fetchMusicInfo();
-  }, [currentSongId]); // songId 변경 시마다 재실행
+  }, [currentSongId]);
 
-  // 이전곡&다음곡
-  useEffect(() => {
-    const index = musicIds.indexOf(Number(currentSongId));
-   setCurrentSongIndex(index);
-    setCurrentSongId(Number(currentSongId));
-  }, [musicIds]);
-
+  // 이전곡
   const prevTrack = () => {
     const index = musicIds.indexOf(Number(currentSongId));
     let prevIndex = index - 1;
@@ -101,6 +92,7 @@ const MusicPlayer = () => {
     navigate(`/MusicPlayer/${prevSongId}`);
   };
 
+  // 다음 곡
   const nextTrack = () => {
     const index = musicIds.indexOf(Number(currentSongId));
     let nextIndex = index + 1;
@@ -139,7 +131,7 @@ const MusicPlayer = () => {
     };
 
     fetchLikeStatusAndRecent();
-  }, [currentSongId]);
+  }, [userId, currentSongId]);
 
   // 좋아요버튼 누르기
   const toggleLike = async () => {
@@ -205,6 +197,7 @@ return (
         <div
           style={{ width: `${(currentTime / duration) * 100}%` }}
           className="h-2 bg-white rounded-full absolute"
+          alt=""
         />
         <input
           type="range"
@@ -217,6 +210,7 @@ return (
           onTouchStart={handleDragStart}
           onTouchEnd={handleDragEnd}
           className="w-full h-2 opacity-0 absolute appearance-none cursor-pointer"
+          alt=""
         />
         <div
           className="flex justify-between text-custom-gray mt-4"

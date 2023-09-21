@@ -1,6 +1,6 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-18
+날짜(수정포함): 2023-09-20
 설명: 음악관련 리덕스 리듀서 (재셍바 관련 추가)
 */
 
@@ -12,8 +12,7 @@ import {
   SET_CURRENT_TIME,
   SET_DRAGGING_STATUS,
   SET_DURATION,
-  SET_REPEAT_MODE,
-  SEEK_TO
+  SET_REPEAT_MODE
 } from "./musicActions";
 
 
