@@ -3,6 +3,7 @@ package com.blueme.backend.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +46,8 @@ public class PlayedMusicsService {
    */
   @Transactional(readOnly = true)
   public List<MusicInfoResDto> getPlayedMusic(Long userId) {
-    List<Musics> musicsList = playedMusicsJpaRepository.findDistinctMusicByUserId(userId);
+    PageRequest pageRequest = PageRequest.of(0, 20);
+    List<Musics> musicsList = playedMusicsJpaRepository.findDistinctMusicByUserId(userId, pageRequest);
     return musicsList.stream().map(MusicInfoResDto::new).collect(Collectors.toList());
   }
 

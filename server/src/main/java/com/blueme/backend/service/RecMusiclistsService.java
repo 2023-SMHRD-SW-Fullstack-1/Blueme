@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,14 +126,16 @@ public class RecMusiclistsService {
   }
 
   /**
-   * 특정 사용자의 모든 추천 음악 목록을 조회합니다.
+   * 특정 사용자의 모든 추천 음악 목록을 조회합니다. (최근 20개)
    *
    * @param userId 사용자 ID (String)
    * @return 해당 사용자의 모든 추천 음악 목록. 결과가 없다면 빈 리스트 반환(RecMusiclistsResDto 리스트).
    */
   @Transactional(readOnly = true)
   public List<RecMusiclistsResDto> getAllRecMusiclists(String userId) {
-    return recMusicListsJpaRepository.findByUserId(Long.parseLong(userId)).stream().map(RecMusiclistsResDto::new)
+    PageRequest pageRequest = PageRequest.of(0, 20);
+    return recMusicListsJpaRepository.findByUserIdOrderByCreatedAtDesc(Long.parseLong(userId), pageRequest).stream()
+        .map(RecMusiclistsResDto::new)
         .collect(Collectors.toList());
   }
 

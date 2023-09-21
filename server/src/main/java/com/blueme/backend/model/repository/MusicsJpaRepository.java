@@ -2,6 +2,7 @@ package com.blueme.backend.model.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -43,6 +44,15 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
    */
   @Query(value = "SELECT * FROM musics ORDER BY RAND() LIMIT :count", nativeQuery = true)
   List<Musics> findRandomMusics(@Param("count") int count);
+
+  /**
+   * 태그 필드에 keyword 를 가진 단어가 포함된 음악 리스트를 조회하는 메서드
+   * 
+   * @param keyword 태그 키워드 (String)
+   * @return 음악 목록 List<Musics>
+   */
+  @Query("SELECT m FROM Musics m WHERE m.tag LIKE CONCAT('%', :keyword, '%') ORDER BY function('RAND')")
+  List<Musics> findTop10ByTagContaining(@Param("keyword") String keyword, Pageable pageable);
 
   Musics findByArtistFilePath(String artistFilePath);
 

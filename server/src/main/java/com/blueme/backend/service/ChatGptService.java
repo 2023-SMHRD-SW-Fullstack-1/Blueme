@@ -24,9 +24,12 @@ import com.blueme.backend.dto.gptdto.ChatGptReqDto;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.gptdto.QuestionReqDto;
 import com.blueme.backend.enums.Season;
+import com.blueme.backend.enums.TimeOfDay;
 import com.blueme.backend.model.entity.HealthInfos;
+import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.vo.ChatGptMessage;
 import com.blueme.backend.model.vo.WeatherSummary;
+import com.blueme.backend.model.vo.WeatherInfo.Weather;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * </p>
  * 
  * @author 김혁
- * @version 1.0
+ * @version 1.1
  * @since 2023-09-18
  */
 @Slf4j
@@ -112,56 +115,90 @@ public class ChatGptService {
         }
 
         /**
-         * 현재 계절 상태
+         * 현재 계절 상태 메서드입니다.
          *
          * @return 계절 상태 (String)
          */
-        public String getSeasonStatus() {
+        public String getSeasonStatus(String language) {
                 LocalDate now = LocalDate.now();
                 Month month = now.getMonth();
 
+                String seasonTag;
                 switch (month) {
                         case MARCH:
                         case APRIL:
                         case MAY:
-                                return Season.SPRING.getTag();
+                                seasonTag = language.equals("KOR") ? Season.SPRING.getTag()
+                                                : Season.SPRING_ENG.getTag();
+                                break;
                         case JUNE:
                         case JULY:
                         case AUGUST:
-                                return Season.SUMMER.getTag();
+                                seasonTag = language.equals("KOR") ? Season.SUMMER.getTag()
+                                                : Season.SPRING_ENG.getTag();
+                                break;
                         case SEPTEMBER:
                         case OCTOBER:
                         case NOVEMBER:
-                                return Season.FALL.getTag();
+                                seasonTag = language.equals("KOR") ? Season.FALL.getTag()
+                                                : Season.FALL_ENG.getTag();
+                                break;
                         default:
-                                return Season.WINTER.getTag();
+                                seasonTag = language.equals("KOR") ? Season.WINTER.getTag()
+                                                : Season.WINTER_ENG.getTag();
+                                break;
                 }
+                return seasonTag;
         }
 
         /**
-         * 현재 시간 상태
+         * 현재 시간 상태 메서드입니다.
          *
          * @return 시간 상태 (String)
          */
-        public String getTimeStatus() {
+        public String getTimeStatus(String language) {
                 LocalTime now = LocalTime.now();
                 int hour = now.getHour();
 
-                if (hour >= 0 && hour < 5) {
-                        return "새벽";
-                } else if (hour >= 9 && hour < 12) {
-                        return "아침";
+                String timeTag;
+                if (hour >= 0 && hour < 6) {
+                        timeTag = language.equals("KOR") ? TimeOfDay.DAWN.getTag()
+                                        : TimeOfDay.DAWN_ENG.getTag();
+                } else if (hour >= 6 && hour < 12) {
+                        timeTag = language.equals("KOR") ? TimeOfDay.MORNING.getTag()
+                                        : TimeOfDay.MORNING_ENG.getTag();
                 } else if (hour >= 12 && hour < 13) {
-                        return "점심시간";
+                        timeTag = language.equals("KOR") ? TimeOfDay.LUNCH.getTag()
+                                        : TimeOfDay.LUNCH_ENG.getTag();
                 } else if (hour >= 13 && hour < 18) {
-                        return "오후";
-                } else if (hour >= 18 && hour < 19) {
-                        return "저녁밥시간";
-                } else if (hour >= 19 && hour < 22) {
-                        return "저녁";
+                        timeTag = language.equals("KOR") ? TimeOfDay.AFTERNOON.getTag()
+                                        : TimeOfDay.AFTERNOON_ENG.getTag();
+                } else if (hour >= 18 && hour < 21) {
+                        timeTag = language.equals("KOR") ? TimeOfDay.EVENING.getTag()
+                                        : TimeOfDay.EVENING_ENG.getTag();
                 } else {
-                        return "밤";
+                        timeTag = language.equals("KOR") ? TimeOfDay.NIGHT.getTag()
+                                        : TimeOfDay.NIGHT_ENG.getTag();
                 }
+                return timeTag;
+        }
+
+        public String getWeatherStatus(String language, WeatherSummary weatherSummary) {
+                return "";
+        }
+
+        public String getEmotionStatus(String language, WeatherSummary weatherSummary) {
+                // condition : ThunderStorm , Drizzle(보슬보슬비가 붓다), Rain,
+                // Snow, Atmosphere(안개), Clear, Clouds
+                String condition = weatherSummary.getCondition();
+                String humidity = weatherSummary.getHumidity();
+                String temperature = weatherSummary.getTemp();
+
+                double temp = Double.parseDouble(temperature);
+                double humid = Double.parseDouble(humidity);
+
+                return "";
+
         }
 
         /**
@@ -228,13 +265,28 @@ public class ChatGptService {
          * @return 뮤직 리스트 (String)
          */
         public String getMusicList(WeatherSummary weatherSummary, HealthInfos healthInfo) {
-                // 현재 전체 태그 상황
-                // 헤어짐,심술,tired,rain,아침,sad,캠퍼스,운전,신남,college,afternoon,저녁,사업,viciously,spring,여행,sun,소중,오후,store,파티,밤,rest,슬픔,depressed,restaurant,summer,추위,집,햇살,크리스마스,lunch,불안,home,새벽
-                // 가을,우울,subway,노래방,바람,travel,flutter,겨울,rage,gym,더위,unrest,drive,autumn,운동,봄,night,hot,눈보라,휴식,cold,오전,winter,비,지하철,snow,그리움,카페,party,여름,점심,공부,dawn,study,고백,morning,cloud,beach,wind,흐림,happy,evening,바다,설렘,tag,
-                // 음악 가져오기 로직 수정중
+                // 음악 가져오기 로직 수정중 (현재 곡 수 : 190 곡, 190곡중 약 100개 뽑기)
+                List<Musics> musics = new ArrayList<Musics>();
+                // 계절 태그로 계절 분류 (20개 or DB에 적을경우 더 적은 개수)
+                String seasonData = getSeasonStatus("KOR");
+                String seasonDataEng = getSeasonStatus("ENG");
+                musics.addAll(musicsService.getMusicsWithTag(seasonData));
+                musics.addAll(musicsService.getMusicsWithTag(seasonDataEng));
+                // 시간 태그로 시간 분류 (20개 or DB에 적을경우 더 적은 개수)
+                String timeData = getTimeStatus("KOR");
+                String timeDataEng = getTimeStatus("ENG");
+                musics.addAll(musicsService.getMusicsWithTag(timeData));
+                musics.addAll(musicsService.getMusicsWithTag(timeDataEng));
+                // 날씨 태그로 날씨 분류 (20개 or DB에 적을경우 더 적은 개수)
 
-                // 음악 가져오기
-                List<ChatGptMusicsDto> musicsList = musicsService.getRandomEntities(100)
+                // 감정 태그로 감정 분류 (40개 감정기반 비중높음)
+
+                // 활동 태그로 활동 분류 (20개 or DB에 적을경우 더 적은 개수)
+
+                // 장소 태그로 장소 분류
+
+                // 음악 가져오기 (현재 랜덤 100개)
+                List<ChatGptMusicsDto> musicsList = musicsService.getRandomEntities(60)
                                 .stream().map(ChatGptMusicsDto::new).collect(Collectors.toList());
                 String musicsString = musicsList.stream().map(ChatGptMusicsDto::toString)
                                 .collect(Collectors.joining(""));
@@ -263,15 +315,15 @@ public class ChatGptService {
                 String heartRateData = getHeartRateStatus(Double.parseDouble(avgHeartRate));
                 String speedData = getSpeedStatus(Double.parseDouble(avgSpeed),
                                 Double.parseDouble(stepsPerMinute), Double.parseDouble(avgHeartRate));
-                String timeData = getTimeStatus();
-                String seasonData = getSeasonStatus();
+                String timeData = getTimeStatus("KOR");
+                String seasonData = getSeasonStatus("KOR");
 
                 // 1~5까지 랜덤한 질의문 생성(GPT의 다채로운답변을위해)
                 Random random = new Random();
-                int randomNumber = random.nextInt(13) + 1;
+                // int randomNumber = random.nextInt(13) + 1;
 
                 // 테스트
-                // int randomNumber = 13;
+                int randomNumber = 1;
 
                 String question = null;
                 log.info("포맷타입 = {}", randomNumber);

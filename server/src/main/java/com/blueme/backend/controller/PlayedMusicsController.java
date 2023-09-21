@@ -39,7 +39,7 @@ public class PlayedMusicsController {
   private final PlayedMusicsService playedMusicsService;
 
   /**
-   * 재생된 음악 조회를 위한 GET 매서드입니다.
+   * 재생된 음악 조회를 위한 GET 매서드입니다. (20개 제한)
    * 
    * @param userId 사용자 ID
    * @return 재생된 음악정보 목록, 일치하는 정보가 없을경우 status 404

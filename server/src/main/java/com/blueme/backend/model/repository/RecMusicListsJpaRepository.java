@@ -2,6 +2,7 @@ package com.blueme.backend.model.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.blueme.backend.model.entity.RecMusiclists;
@@ -21,7 +22,7 @@ public interface RecMusicListsJpaRepository extends JpaRepository<RecMusiclists,
    * @param userId 사용자ID
    * @return 추천음악목록 (List<RecMusiclist>)
    */
-  List<RecMusiclists> findByUserId(Long userId);
+  List<RecMusiclists> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
 
   /**
    * 사용자ID를 기반으로 최신 추천음악 하나를 조회하는 메서드

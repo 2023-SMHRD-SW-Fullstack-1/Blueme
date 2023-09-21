@@ -2,6 +2,7 @@ package com.blueme.backend.model.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -27,13 +28,13 @@ public interface PlayedMusicsJpaRepository extends JpaRepository<PlayedMusics, L
   PlayedMusics findByUserIdAndMusicId(Long UserId, Long MusicId);
 
   /**
-   * 특정 사용자가 재생한 고유의 음악 목록을 최신 순으로 반환합니다.
+   * 특정 사용자가 재생한 고유의 음악 목록을 최신 순으로 반환합니다. (20개 제한)
    *
    * @param userId 사용자 ID
    * @return 해당 사용자가 재생한 고유의 음악 목록. 최신 순으로 정렬됨
    */
   @Query("SELECT DISTINCT pm.music FROM PlayedMusics pm WHERE pm.user.id = ?1 ORDER BY pm.createdAt DESC")
-  List<Musics> findDistinctMusicByUserId(Long userId);
+  List<Musics> findDistinctMusicByUserId(Long userId, Pageable pageable);
 
   /**
    * 사용자ID와 음악ID를 기반으로 재생된 음악 정보를 조회합니다.

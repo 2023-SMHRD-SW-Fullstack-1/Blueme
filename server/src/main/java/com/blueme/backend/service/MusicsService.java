@@ -17,6 +17,7 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -270,6 +271,18 @@ public class MusicsService {
     @Transactional(readOnly = true)
     public List<Musics> getRandomEntities(int count) {
         return musicsJpaRepository.findRandomMusics(count);
+    }
+
+    /**
+     * tag 필드가 keyword에 매칭되는 랜덤한 10개의 음악을 조회합니다.
+     * 
+     * @param tag String 태그명
+     * @return 음악 목록 (List<Musics>)
+     */
+    @Transactional(readOnly = true)
+    public List<Musics> getMusicsWithTag(String tag) {
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        return musicsJpaRepository.findTop10ByTagContaining(tag, pageRequest);
     }
 
 }
