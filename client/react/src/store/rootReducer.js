@@ -3,9 +3,15 @@
 날짜(수정포함): 2023-09-16
 설명: combineReducer, reducer-persist
 */
+
+/*
+작성자: 이지희
+날짜(수정포함): 2023-09-20
+설명: musicReducer 추가
+*/
 import memberReducer from './member/memberReducer'
 import musicReducer from './music/musicReducer';
-import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer, setCurrentTime, setDraggingStatus, setRepeatMode, seekTo } from './music/musicActions';
+import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer, setCurrentTime, setDraggingStatus, setRepeatMode } from './music/musicActions';
 
 import { combineReducers, createStore } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist';
