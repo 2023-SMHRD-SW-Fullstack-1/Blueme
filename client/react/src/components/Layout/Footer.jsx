@@ -1,6 +1,6 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-13
+날짜: 2023-09-20
 설명: Footer 세부 조정
 */
 
@@ -10,7 +10,7 @@ import { Link, useLocation } from "react-router-dom";
 import home from "../../assets/img/home.png";
 import tag from "../../assets/img/tag.png";
 import library from "../../assets/img/library.png";
-import recommendAnimationData from "../../assets/img/recommend3.json";
+import recommendAnimationData from "../../assets/img/recommend5.json";
 import Lottie from "lottie-react";
 import Search from "../../assets/img/search.png";
 
@@ -20,13 +20,13 @@ function Footer() {
   if (locationNow.pathname === "/MusicPlayer") return null;
 
   const Lottiestyle = {
-    weight: 70,
-    height: 70,
+    weight: 90,
+    height: 90,
   };
   return (
     <div
       className="text-custom-white p-3 sm:p-4 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700
-    flex justify-between items-center fixed bottom-0 w-full h-[70px]"
+    flex justify-between items-center fixed bottom-0 w-full h-[70px] xs:z-50"
     >
       <Link to="/" className="flex flex-col items-center w-full text-center">
         <img src={home} className="h-[39px] w-[45px] mt-[4px]"></img>

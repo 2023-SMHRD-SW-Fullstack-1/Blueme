@@ -16,10 +16,7 @@ import { ReactComponent as Play } from "../../assets/img/musicPlayer/play.svg";
 import { ReactComponent as Pause } from "../../assets/img/musicPlayer/pause.svg";
 
 // Redux
-import {
-  setCurrentSongId,
-  setPlayingStatus,
-} from "../../store/music/musicActions";
+import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
 
 const MiniPlayer = () => {
   const dispatch = useDispatch();
@@ -39,10 +36,10 @@ const MiniPlayer = () => {
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
   const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
   const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
-  
+
   // 사용자 id
-  const user = useSelector(state => state.memberReducer.user)
-  const userId = user.id
+  const user = useSelector((state) => state.memberReducer.user);
+  const userId = user.id;
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
@@ -67,8 +64,6 @@ const MiniPlayer = () => {
     isRepeatModeRef.current = isRepeatMode;
   }, [isRepeatMode]);
 
-  
-
   // 이전곡&다음곡
   useEffect(() => {
     // console.log('1. songid',songId);
@@ -89,21 +84,19 @@ const MiniPlayer = () => {
     }
 
     const prevSongId = musicIds[prevIndex];
-    
-     dispatch(setCurrentSongId(prevSongId));
 
-
+    dispatch(setCurrentSongId(prevSongId));
   };
 
   const nextTrack = () => {
     let nextIndex = currentSongIndex + 1;
-  
+
     if (nextIndex >= musicIds.length) {
       nextIndex = 0;
     }
-  
+
     const nextSongId = musicIds[nextIndex];
-    
+
     dispatch(setCurrentSongId(nextSongId));
   };
 
@@ -122,23 +115,17 @@ const MiniPlayer = () => {
     fetchRecent();
   }, [userId, currentSongId]);
 
-
-
   return (
-    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
+    <div className="flex items-center z-50 bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] px-6">
       <Link to={`/MusicPlayer/${currentSongId}`} className="h-[80%]">
-      <div className="h-[95%] flex flex-row">
-      <img
-        src={"data:image/;base64," + musicInfo.img}
-        className="h-[100%] rounded-lg"
-        alt=""
-      />
-      
-      <div className="flex flex-col ml-4 justify-center">
-        <p className="lg:text-2xl sm:font-semibold">{musicInfo.title}</p>
-        <p className="lg:text-lg sm:text-sm">{musicInfo.artist}</p>
-      </div>
-      </div>
+        <div className="h-[95%] flex flex-row">
+          <img src={"data:image/;base64," + musicInfo.img} className="h-[100%] rounded-lg" alt="" />
+
+          <div className="flex flex-col ml-4 justify-center">
+            <p className="lg:text-2xl sm:font-semibold">{musicInfo.title}</p>
+            <p className="lg:text-lg sm:text-sm">{musicInfo.artist}</p>
+          </div>
+        </div>
       </Link>
 
       <div className="flex flex-row sm:gap-3 lg:gap-5 ml-auto">

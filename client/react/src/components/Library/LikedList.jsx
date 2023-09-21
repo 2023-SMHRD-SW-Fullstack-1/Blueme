@@ -55,8 +55,8 @@ const LikedList = () => {
           ids = response.data.slice(0, 10).map((music) => music.musicId);
           setLikedMusics(response.data.slice(0, 10));
         } else {
-          ids = response.data.slice(0, 5).map((music) => music.musicId);
-          setLikedMusics(response.data.slice(0, 5));
+          ids = response.data.slice(0, 6).map((music) => music.musicId);
+          setLikedMusics(response.data.slice(0, 6));
         }
 
         console.log("ids", ids);
@@ -70,7 +70,7 @@ const LikedList = () => {
   }, [isDesktop]);
 
   return (
-    <div className="overflow-auto hide-scrollbar ">
+    <div className="hide-scrollbar overflow-scroll">
       {likedMusics.map((song) => (
         <SingleMusic key={song.musicId} item={song} />
       ))}

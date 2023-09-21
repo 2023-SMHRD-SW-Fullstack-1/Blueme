@@ -28,17 +28,18 @@ const ThemePlaylist = () => {
   const [musicList, setMusicList] = useState([]);
   const [showThemePlaylistModal, setshowThemePlaylistModal] = useState(false);
 
-// 사용자 id
-const user = useSelector(state => state.memberReducer.user)
-const userId = user.id
+  // 사용자 id 가져오기
+  const user = useSelector((state) => state.memberReducer.user);
+  const userId = user.id;
 
-// 지희 시작(0918)
-const dispatch = useDispatch();
+  // 지희 시작(0918)
+  const dispatch = useDispatch();
 
-const musicIds = useSelector(state => state.musicReducer.musicIds);
-const [ids, setIds] = useState([]);
-// 지희 끝
+  const musicIds = useSelector((state) => state.musicReducer.musicIds);
+  const [ids, setIds] = useState([]);
+  // 지희 끝
 
+  // 테마 플레이리스트 상세 정보 가져오기
   useEffect(() => {
     const getPlaylistDetails = async () => {
       try {
@@ -62,7 +63,6 @@ const [ids, setIds] = useState([]);
           if (responseMusicList.data) {
             setMusicList(responseMusicList.data);
           }
-
         }
       } catch (error) {
         console.error(`Error: ${error}`);
@@ -72,13 +72,9 @@ const [ids, setIds] = useState([]);
     getPlaylistDetails();
   }, []);
 
+  // 음악 리스트 전체 저장
   const saveMusicList = async () => {
     try {
-      // if (!themeName) {
-      //   console.error("No theme selected");
-      //   return;
-      // }
-
       const dataToSend = {
         userId: userId.toString(),
         title: themeName,
@@ -87,7 +83,7 @@ const [ids, setIds] = useState([]);
       };
       await axios.post("http://172.30.1.27:8104/savedMusiclist/add", dataToSend);
       console.log("Saved music list");
-      setshowThemePlaylistModal(true); // Add this line
+      setshowThemePlaylistModal(true);
     } catch (error) {
       console.error(`Error: ${error}`);
     }
@@ -100,19 +96,19 @@ const [ids, setIds] = useState([]);
 
   const closeModal = () => setshowThemePlaylistModal(false);
 
- // 지희(0918) - MusicIds 설정
- useEffect(() => {
-  const newIds = musicList.map(item => item.musicId);
-  setIds(newIds);
-}, [musicList]);
+  // 지희(0918) - MusicIds 설정
+  useEffect(() => {
+    const newIds = musicList.map((item) => item.musicId);
+    setIds(newIds);
+  }, [musicList]);
 
- const handleListClick = () => {
-  dispatch(setMusicIds(ids));
-};
-// 지희 끝
+  const handleListClick = () => {
+    dispatch(setMusicIds(ids));
+  };
+  // 지희 끝
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-screen text-custom-white p-3">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-full text-custom-white p-3 hide-scrollbar overflow-auto mb-[70px]">
       <br />
 
       <div className="flex flex-col items-center justify-center mt-[80px]">
@@ -160,7 +156,7 @@ const [ids, setIds] = useState([]);
             <div className="flex justify-end pt-2">
               <button
                 onClick={closeModal}
-                className="w-auto bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white border-0 px-[10px] border border-blue hover:border-transparent rounded"
+                className="w-auto bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white border-0 px-[10px] border-blue hover:border-transparent rounded"
               >
                 확인
               </button>
@@ -171,19 +167,11 @@ const [ids, setIds] = useState([]);
 
       {/* Render music list */}
       {/* 지희 시작(0918) - div추가 및 onClick함수 세팅 */}
-     
-      {musicList.length > 0 ? (
-        <Swiper direction={"vertical"} slidesPerView={6.2} spaceBetween={1} className="h-[49%] ml-3 mr-3" onClick={handleListClick}>
-          {musicList.map((item) => (
-            <SwiperSlide key={item.id}>
-              <SingleMusic item={item} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        <p>No music available</p>
-      )}
-      
+      <div className="h-[70%] ml-3 mr-3 overflow-y-scroll hide-scrollbar">
+        {musicList.map((item) => (
+          <SingleMusic key={item.id} item={item} className="mb-20" />
+        ))}
+      </div>
     </div>
   );
 };

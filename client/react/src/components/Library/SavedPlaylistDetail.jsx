@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
 날짜: 2023-09-16  
-설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 구현
+설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 구현, 음악 재생 시간 오류 디버깅
 */
 
 import React, { useEffect, useState } from "react";
@@ -51,28 +51,27 @@ const SavedPlaylistDetail = () => {
   }, [id]);
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tighter h-full text-custom-white p-3">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-full text-custom-white p-3 hide-scrollbar overflow-auto mb-[70px]">
       <br />
       <div className="flex flex-col items-center justify-center mt-[80px]">
         <img src={"data:image/;base64," + playlistImage} className="w-[160px] h-[160px] rounded-xl" />
         <p className="text-2xl py-5">{title}</p>
       </div>
-
-      {selectedPlaylistDetails.map((music) => (
-        <SwiperSlide key={music.musicId}>
+      <div className="mt-[20px]">
+        {selectedPlaylistDetails.map((music) => (
           <SingleMusic
+            key={music.musicId}
             item={{
               musicId: music.musicId,
               img: music.img,
               title: music.musicTitle,
               artist: music.musicArtist,
-
               genre1: music.musicGenre,
               time: music.time,
             }}
           />
-        </SwiperSlide>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
