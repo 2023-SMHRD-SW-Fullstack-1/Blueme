@@ -30,7 +30,7 @@ const MyPage = () => {
   const platFormType = user.platFormType
   // console.log('header',user.img_url);
   const dispatch = useDispatch()
-  console.log('header',user);
+  // console.log('header',user);
 
   //마이페이지 들어가면 장르 , 아티스트 , 사용자 정보 받아서 화면 렌더링
   useEffect(() => {
@@ -53,7 +53,7 @@ const MyPage = () => {
   }
 
   return (
-    <div>
+    <div className="">
     {localStorage.getItem('accessToken') !== null ? 
     <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-10 hide-scrollbar">
       {/* 사용자 프로필 */}

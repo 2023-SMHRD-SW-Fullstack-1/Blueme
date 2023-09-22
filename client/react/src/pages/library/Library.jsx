@@ -17,7 +17,8 @@ import { useSelector, useDispatch } from "react-redux";
 import LikedList from "../../components/Library/LikedList";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
 import { Swiper, SwiperSlide } from "swiper/react";
-import BeforeRegistration from "../main/BeforeRegistration";
+import BeforeRegistration from "../../components/Main/BeforeRegistration";
+
 const Library = () => {
   // 사용자의 추천 음악 목록 상태 변수
   const [myRecMusicList, setMyRecMusicList] = useState([]);

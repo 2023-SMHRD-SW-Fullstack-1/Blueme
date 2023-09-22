@@ -23,7 +23,7 @@ const MainWatch = () => {
           className="object-cover blur-sm w-[150px] h-[210px] "/>
           <div className='absolute'>
             <Link to='/RecBegin'>
-              <button className='text-xl text-custom-recappdes font-semibold tracking-tighter'>스마트 워치를 등록해주세요.</button>
+              <button className='text-xl text-custom-recappdes tracking-tight'>스마트 워치를 등록해주세요.</button>
             </Link>
           </div>
         </div>    

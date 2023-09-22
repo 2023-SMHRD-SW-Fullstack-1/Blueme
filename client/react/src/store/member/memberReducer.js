@@ -19,7 +19,8 @@ import basicProfile from '../../assets/img/basicProfile.jpg'
       // password : null,
       nickname : null,
       img_url : null,
-      platFormType : null
+      platFormType : null,
+      role : null
 
     },
     error: null,

@@ -75,7 +75,7 @@ const Join = () => {
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight flex flex-col px-4 sm:px-8 md:px-16">
       <br />
       <div className="flex items-center justify-center h-screen w-full p-4">
-        <div className="w-full md:w-1/2 lg:w-1/4">
+        <div className="w-[500px]">
           <div className="text-custom-white text-left mt-5 text-xl w-full ">Blueme 일반 계정 회원가입</div>
 
           <input
@@ -116,6 +116,7 @@ const Join = () => {
              bg-[#221a38]  
              rounded-lg border border-soild border-[#fdfdfd]
              text-custom-white
+             
              tracking-tight
              md:w-full w-full"
              
