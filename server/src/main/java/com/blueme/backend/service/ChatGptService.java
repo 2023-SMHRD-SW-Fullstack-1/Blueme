@@ -254,7 +254,7 @@ public class ChatGptService {
                                                         : EmotionState.SAD_ENG.getTag());
                                 } else {
                                         emotionstate = (heartRate < LOW_THRESHOLD ? EmotionState.MISSING.getTag()
-                                                        : EmotionState.SAD_ENG.getTag());
+                                                        : EmotionState.BEAT.getTag());
                                 }
                                 break;
 
@@ -271,10 +271,10 @@ public class ChatGptService {
                         case "Clear":
                                 if (temperature > 30) {
                                         emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD
-                                                        ? EmotionState.HAPPY_ENG.getTag()
+                                                        ? EmotionState.TIRED.getTag()
                                                         :
 
-                                                        EmotionState.TIRED.getTag());
+                                                        EmotionState.HAPPY.getTag());
                                 } else if (temperature <= 30 && temperature >= 20) {
                                         emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD ?
 
@@ -304,7 +304,7 @@ public class ChatGptService {
 
                 }
 
-                return "";
+                return emotionstate;
 
         }
 
@@ -372,22 +372,23 @@ public class ChatGptService {
          * @return 뮤직 리스트 (String)
          */
         public String getMusicList(WeatherSummary weatherSummary, HealthInfos healthInfo) {
-                // 음악 가져오기 로직 수정중 (현재 곡 수 : 190 곡, 190곡중 약 100개 뽑기)
+                // 음악 가져오기 로직 수정중 (현재 곡 수 : 190 곡, 190곡중 약 60곡 뽑기)
                 List<Musics> musics = new ArrayList<Musics>();
-                // 계절 태그로 계절 분류 (20개 or DB에 적을경우 더 적은 개수)
+                // 계절 태그로 계절 분류 (10개 or DB에 적을경우 더 적은 개수)
                 String seasonData = getSeasonStatus("KOR");
                 String seasonDataEng = getSeasonStatus("ENG");
-                musics.addAll(musicsService.getMusicsWithTag(seasonData));
-                musics.addAll(musicsService.getMusicsWithTag(seasonDataEng));
-                // 시간 태그로 시간 분류 (20개 or DB에 적을경우 더 적은 개수)
+                musics.addAll(musicsService.getMusicsWithTag(seasonData, 5));
+                musics.addAll(musicsService.getMusicsWithTag(seasonDataEng, 5));
+
+                // 시간 태그로 시간 분류 (10개 or DB에 적을경우 더 적은 개수)
                 String timeData = getTimeStatus("KOR");
                 String timeDataEng = getTimeStatus("ENG");
-                musics.addAll(musicsService.getMusicsWithTag(timeData));
-                musics.addAll(musicsService.getMusicsWithTag(timeDataEng));
-                // 날씨 태그로 날씨 분류 (20개 or DB에 적을경우 더 적은 개수)
+                musics.addAll(musicsService.getMusicsWithTag(timeData, 5));
+                musics.addAll(musicsService.getMusicsWithTag(timeDataEng, 5));
 
                 // 감정 태그로 감정 분류 (40개 감정기반 비중높음)
-
+                String emotionData = getEmotionStatus("KOR", weatherSummary, healthInfo);
+                musics.addAll(musicsService.getMusicsWithTag(emotionData, 30));
                 // 활동 태그로 활동 분류 (20개 or DB에 적을경우 더 적은 개수)
 
                 // 장소 태그로 장소 분류
@@ -435,7 +436,7 @@ public class ChatGptService {
                 String question = null;
                 log.info("포맷타입 = {}", randomNumber);
                 if (randomNumber == 1) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE, seasonData + " " + timeData,
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE + seasonData + " " + timeData,
                                         temperature, humidity,
                                         avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
                                         musicsString);

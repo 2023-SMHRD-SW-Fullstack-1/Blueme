@@ -280,8 +280,8 @@ public class MusicsService {
      * @return 음악 목록 (List<Musics>)
      */
     @Transactional(readOnly = true)
-    public List<Musics> getMusicsWithTag(String tag) {
-        PageRequest pageRequest = PageRequest.of(0, 10);
+    public List<Musics> getMusicsWithTag(String tag, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
         return musicsJpaRepository.findTop10ByTagContaining(tag, pageRequest);
     }
 
