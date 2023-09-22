@@ -20,9 +20,11 @@ const ShowMiniPlayerInner = () => {
     
     if (pathsToShowMiniPlayer.includes(location.pathname)) { // 미니플레이어 O
       dispatch(setShowMiniPlayer(true));
-    }  else if (location.pathname.includes('/MusicPlayer')) {
+    } else if (location.pathname.includes('/MusicPlayer')) {
       dispatch(setShowMiniPlayer(false));
-    } else { // 미니플레이어 X
+    } else if (location.pathname.includes('/RecPlayListDetail') || location.pathname.includes('/SavedPlaylistDetail')) {
+      dispatch(setShowMiniPlayer(true));
+    } else { // 미니플레이어 X 재생 X
       dispatch(setShowMiniPlayer(false));
       dispatch(setPlayingStatus(false))
     } 

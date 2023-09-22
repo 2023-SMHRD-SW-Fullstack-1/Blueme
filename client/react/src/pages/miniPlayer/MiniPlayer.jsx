@@ -71,12 +71,9 @@ const MiniPlayer = () => {
 
   // 이전곡&다음곡
   useEffect(() => {
-    // console.log('1. songid',songId);
     const index = musicIds.indexOf(Number(currentSongId));
-    // console.log('2. index:', index);
     setCurrentSongIndex(index);
     setCurrentSongId(Number(currentSongId));
-    // console.log('3. currentsongid',currentSongId);
   }, [musicIds, currentSongId]);
 
   const prevTrack = () => {
@@ -136,7 +133,7 @@ const MiniPlayer = () => {
           />
 
           <div className="flex flex-col lg:ml-4 xs:ml-3 justify-center">
-            <p className="lg:text-2xl xs:font-semibold xs:text-sm xs:pb-1">
+            <p className="md:text-2xl xs:font-semibold xs:text-sm xs:pb-1">
               {musicInfo.title}
             </p>
             <p className="lg:text-lg xs:text-xs">{musicInfo.artist}</p>
