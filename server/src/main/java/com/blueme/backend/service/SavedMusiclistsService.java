@@ -51,7 +51,8 @@ public class SavedMusiclistsService {
         @Transactional(readOnly = true)
         public List<SavedMusiclistsResDto> getSavedMusiclists(String userId) {
                 return savedMusiclistsJpaRepository
-                                .findByUserId(Long.parseLong(userId)).stream().map(SavedMusiclistsResDto::new)
+                                .findByUserIdOrderByCreatedAtDesc(Long.parseLong(userId)).stream()
+                                .map(SavedMusiclistsResDto::new)
                                 .collect(Collectors.toList());
         }
 

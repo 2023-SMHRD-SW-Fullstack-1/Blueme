@@ -20,5 +20,5 @@ public interface SavedMusiclistsJpaRepository extends JpaRepository<SavedMusicli
    * @param userId 사용자ID
    * @return 저장한음악목록 (List<SavedMusiclists>)
    */
-  List<SavedMusiclists> findByUserId(Long userId);
+  List<SavedMusiclists> findByUserIdOrderByCreatedAtDesc(Long userId);
 }

@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class SavedMusiclists {
+public class SavedMusiclists extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "saved_musiclist_id")
