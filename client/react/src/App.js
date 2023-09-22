@@ -39,8 +39,6 @@ import SavedPlaylistDetail from "./components/Library/SavedPlaylistDetail";
 // 유영 추천 앱 설명
 import RecAppDes from "./pages/rec/RecAppDes";
 import PlaylistRename from "./pages/rec/PlaylistRename";
-import { useSelector } from "react-redux";
-import WholeRecPlayList from "./pages/rec/WholeRecPlayList";
 //유영 끝
 
 // 지희 import 시작

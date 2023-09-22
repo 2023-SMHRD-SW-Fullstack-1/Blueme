@@ -7,11 +7,12 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import SingleRecPlayList from './SingleRecPlayList'
+import SingleRecPlayList from '../../components/recommend/SingleRecPlayList'
 import { Link } from "react-router-dom";
 import Heart from "../../components/Library/Heart";
 import { setCurrentSongId } from "../../store/music/musicActions";
 import { setMusicIds } from "../../store/music/musicActions.js";
+import DetailRecMusicList from '../../components/recommend/DetailRecMusicList'
 
 
 const RecPlayListDetail = () => {
@@ -51,6 +52,7 @@ const RecPlayListDetail = () => {
             }       
             localStorage.setItem('recMusicIds', JSON.stringify(recMusicIds))
             localStorage.setItem('recMusicTitle', musiclist.recMusiclistTitle)
+            localStorage.setItem('recMusicImg', musiclist.recMusiclistsRecent10detail.img)
             // console.log(recMusicIds);
             navigate('/PlayListRename')
         }
@@ -71,38 +73,29 @@ const RecPlayListDetail = () => {
                 {musiclist.recMusiclistReason}</h1>  
 
         {/* 전체 재생/ 전체 저장 버튼 */}
-            <div className="flex justify-between mb-6 xl:ml-[300px] xl:mr-[300px]  xs:ml-[5px] xs:mr-[5px]">
+            <div className="flex justify-between mb-6 xl:ml-[300px] xl:mr-[300px] xs:ml-[5px] xs:mr-[5px] item-center justify-center">
                 <button 
                 onClick={WholePlaying}
-                className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple font-semibold tracking-tight w-[180px] h-10 text-xl">전체 재생</button>
+                className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple tracking-tight w-[160px] h-10 text-[18px]">전체 재생</button>
                 <button
                 onClick={SavedPlayList} 
-                className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tight w-[180px] h-10 text-xl ">전체 저장</button>
+                className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple  tracking-tight w-[160px] h-10 text-[18px] ">전체 저장</button>
             </div>
         
         {/* 추천 받은 음악 리스트 목록 */}
             {/* <Swiper direction={'vertical'} slidesPerView={8.2} className="h-[65%]"> */}
                  {musiclist &&  Array.isArray(musiclist.recMusiclistsRecent10detail) && musiclist.recMusiclistsRecent10detail.map((item,i) => (
                     <div key={item.recMusiclistDetailId} className="flex flex-row items-center ml-2 mr-2 xl:ml-[300px] xl:mr-[300px] xs:ml-[5px] xs:mr-[5px]">
-                       <Link to={`/MusicPlayer/${recMusicIds[i]}`} onClick={()=> {dispatch(setCurrentSongId(recMusicIds[i]))}} className="flex-grow">
-                        <div className="flex flex-row items-center w-full p-1 mb-1">
-                            <img
-                            src={"data:image/;base64," + item.img}
-                            className="w-[55px] h-[55px] rounded-md"
-                            />
-                            <div className="flex flex-col text-left ml-3">
-                            <span className="text-[17px]  w-[250px] h-[25px] overflow-hidden">{item.title}</span>
-                            <span className="text-sm font-normal">{item.artist}</span>
-                            </div>
-                            <div className="flex-grow"></div>
-                        </div>
+                       <Link to={`/MusicPlayer/${recMusicIds[i]}`} onClick={()=> {dispatch(setCurrentSongId(recMusicIds[i])); dispatch(setMusicIds(recMusicIds))}} className="flex-grow">
+                        <DetailRecMusicList key={item.id} item={item}/>
                         </Link>
-                        <div className="ml-auto">
+                        <div className="ml-auto  xs:ml-[5px] xs:mr-[5px]">
                         {/* 하트 컴포넌트 */}
                         {/* {item.musicId && ( */}
                         <Heart key={item.id} item={item.musicId} />
                         {/* )} */}
-                        </div>
+                        
+                        </div>       
                     </div>
                 ))}
             {/* </Swiper> */}

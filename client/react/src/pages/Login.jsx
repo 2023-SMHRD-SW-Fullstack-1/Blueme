@@ -16,6 +16,7 @@ import kakao from "../assets/img/kakao.png";
 import google from "../assets/img/google.png";
 import {loginRequest, loginSuccess, loginFailure} from '../store/member/memberAction'
 import { useDispatch, useSelector } from "react-redux";
+import '../App.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -51,8 +52,18 @@ const Login = () => {
         })
       .catch(err => {
         console.log(err)
+        document.getElementById('toast-warning').classList.add("reveal")
+        timeout()
         dispatch(loginFailure(err.message))
       })
+  };
+
+  //3초 로딩 함수
+  const timeout = () => {
+    setTimeout(() => {
+      document.getElementById('toast-warning').classList.remove("reveal")
+      navigate('/Login')
+    }, 2000);// 원하는 시간 ms단위로 적어주기
   };
 
   
@@ -92,9 +103,9 @@ const Login = () => {
       {/* <div className="mt-36 text-custom-white mb-3 text-center sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4"></div> */}
 
       <div className="flex items-center justify-center h-screen w-full p-4">
-        <div className="w-full md:w-1/2 lg:w-1/4">
+        <div className="w-[500px]">
           <Link to="/Main" className="self-center flex items-center justify-center">
-            <span className="text-3xl tracking-tight font-bold text-[rgba(255,255,255,0.80)]">Blueme</span>
+            <span className="text-3xl tracking-tight text-[rgba(255,255,255,0.80)]">Blueme</span>
             <img src={logo2} className="w-full max-w-[60px] h-auto" alt="Blueme 로고" />
           </Link>
           <input
@@ -117,10 +128,10 @@ const Login = () => {
             onClick={handleLogin}
               className="
              mt-10
-             h-11
+             h-10
              px-3 relative 
              bg-[#221a38]  
-             rounded-lg border border-soild border-[#fdfdfd]
+             rounded-lg border border-[#fdfdfd]
              text-custom-white
              tracking-tight
              md:w-full w-full">
@@ -128,16 +139,16 @@ const Login = () => {
           </button>
 
           <hr className="mt-10" style={{ borderTop: "1px solid gray", width: "100%" }} />
-          <div className="text-custom-white mt-10 mb-4 text-left w-full text-2xl tracking-tight">
+          <div className="text-custom-white mt-10 mb-4 text-left w-full tracking-tight">
             SNS 로그인
           </div>
 
           <button
             onClick={() => {window.location.href = "http://localhost:8104/oauth2/authorization/kakao"}}
             className="
-     flex items-center justify-center pl-2 w-full mt-6 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
+     flex items-center justify-center pl-2 w-full mt-6 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white text-sm peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
           >
-            <img src={kakao} alt="Kakao logo" className="w-[6%] h-auto mr-1 tracking-tight" />
+            <img src={kakao} alt="Kakao logo" className="w-[4%] h-auto mr-1 tracking-tight" />
             카카오로 로그인
           </button>
 
@@ -146,21 +157,27 @@ const Login = () => {
             window.location.href = "http://localhost:8104/oauth2/authorization/google";
           }}
             className="
-  flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
+  flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white text-sm peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
           >
-            <img src={google} alt="Google logo" className="mr-1 w-[5%] h-auto tracking-tight" />
+            <img src={google} alt="Google logo" className="mr-1 w-[4%] h-auto tracking-tight" />
             구글로 로그인
           </button>
 
           <hr className="mt-10 border-t border-gray-500 w-full" />
 
-          <div className="text-custom-white mt-6 text-xl tracking-tight text-center">
+          <div className="text-custom-white mt-6 tracking-tight text-center">
             <Link to="/Join">
-              <button>회원가입</button>
+              <button>Blueme 회원가입</button>
             </Link>
           </div>
         </div>
       </div>
+      {/* 토스트 창 띄우기 */}
+      <div className="flex justify-center items-center">
+          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div className="ml-3 font-normal text-center">로그인에 실패하셨습니다.</div>
+          </div>
+        </div>
     </div>
   );
 };

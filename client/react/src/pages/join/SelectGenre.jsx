@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Genre from '../../components/MyPage/Genre'
 
 const SelectGenre = () => {
   const navigate = useNavigate();
@@ -158,17 +159,7 @@ const SelectGenre = () => {
             className="relative flex flex-col items-center space-y-1 mb-5 justify-center"
             onClick={()=> handleOnClick(genreId)}
           >
-            <img
-              src={"data:image/;base64," + genre.img}
-              alt="genre img"
-              className="rounded-lg w-[180px] h-[175px] object-cover blur-[1.5px]"
-            />
-            <p className="absolute text-2xl">{genre.name}</p>
-            {checkedState.includes(parseInt(genreId)+1) && (
-              <span className="absolute top-[25%] left-[40%] text-7xl font-bold text-black">
-                ✔
-              </span>
-            )}
+            <Genre key={genre.genreId} genre={genre} checkedState={checkedState} genreId={genreId}/>
           </button>
         ))}
       </div>

@@ -6,9 +6,9 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
-import SingleRecPlayList from './SingleRecPlayList'
+import SingleRecPlayList from '../../components/recommend/SingleRecPlayList'
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSongId } from "../../store/music/musicActions";
 import { setMusicIds } from "../../store/music/musicActions.js";
@@ -29,9 +29,9 @@ const RecPlayList = () => {
         const recPlayList = async () => {
         await axios.get(`http://172.30.1.27:8104/recMusiclist/recent/${id}`)//추천 받은 리스트 불러오기
         .then((res) => {
-            setMusiclist(res.data)//추천 음악 리스트
-            setRecMusicIds(res.data.recMusiclistsRecent10detail.map(id => id.musicId))
             console.log(res)
+            setMusiclist(res.data)//추천 음악 리스트
+            setRecMusicIds(res.data.recMusiclistDetails.map(id => id.musicId))
             // localStorage.setItem('recMusiclist', res.data[0].img, res.data[0].reason)
         }).catch((err) => console.log(err))
     }
@@ -45,6 +45,7 @@ const RecPlayList = () => {
             }       
             localStorage.setItem('recMusicIds', JSON.stringify(recMusicIds))
             localStorage.setItem('recMusicTitle', musiclist.title)
+            localStorage.setItem('recMusicImg', musiclist.recMusiclistDetails.img)
             // console.log(recMusicIds);
             navigate('/PlayListRename')
     }
@@ -64,24 +65,26 @@ const RecPlayList = () => {
         // 추천 받은 음악 리스트
         <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 hide-scrollbar overflow-auto text-custom-white p-3 mb-[70px]'>
             <br/><br/>
-            <h1 className='text-center text-xl mt-[20px] tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar p-5 xl:ml-[300px] xl:mr-[300px] xs:ml-[5px] xs:mr-[5px]'>
-                {musiclist.reason}</h1>  
+            <p className='text-center text-[18px] mt-[20px] tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar p-5 xl:ml-[300px] xl:mr-[300px] xs:ml-[5px] xs:mr-[5px]'>
+                {musiclist.reason}</p>  
 
         {/* 전체 재생/ 전체 저장 버튼 */}
             <div className="flex justify-between mb-6 xl:ml-[300px] xl:mr-[300px] xs:ml-[5px] xs:mr-[5px] item-center justify-center">
                 <button 
                 onClick={WholePlaying}
-                className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple tracking-tight w-[160px] h-10 text-xl">전체 재생</button>
+                className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple tracking-tight w-[160px] h-10 text-[18px]">전체 재생</button>
                 <button
                 onClick={SavedPlayList} 
-                className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple tracking-tight w-[160px] h-10 text-xl ">전체 저장</button>
+                className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple tracking-tight w-[160px] h-10 text-[18px]">전체 저장</button>
             </div>
         
         {/* 추천 받은 음악 리스트 목록 */}
             {/* <Swiper direction={'vertical'} slidesPerView={8.2} className="h-[65%]"> */}
-                {musiclist && musiclist.recMusiclistDetails.map((item) => (
+                {musiclist && musiclist.recMusiclistDetails.map((item,i) => (
                     <div key={item.recMusiclistDetailId} className='xl:ml-[300px] xl:mr-[300px]  xs:ml-[5px] xs:mr-[5px]'>
-                        <SingleRecPlayList key={item.id} item={item} />
+                        <Link  to={`/MusicPlayer/${recMusicIds[i]}`} onClick={()=> {dispatch(setCurrentSongId(recMusicIds[i])); dispatch(setMusicIds(recMusicIds))}}className="flex-grow">
+                            <SingleRecPlayList key={item.id} item={item} />
+                        </Link>
                     </div>
                 ))}
             {/* </Swiper> */}

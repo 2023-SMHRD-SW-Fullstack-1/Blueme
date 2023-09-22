@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { useSelector } from "react-redux";
 import '../../App.css'
+import Artist from '../../components/MyPage/Artist'
 
 
 const SelectArtist = () => {
@@ -22,7 +23,7 @@ const SelectArtist = () => {
   const id = localStorage.getItem('id')
   const location = useLocation()
   // const snsId = localStorage.setitem('id')
-  console.log('snsId', id);
+  // console.log('snsId', id);
 
 
     //3초 로딩 함수
@@ -142,17 +143,17 @@ const SelectArtist = () => {
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight overflow-auto hide-scrollbar text-custom-white p-3">
       <h3 className="text-2xl pt-[90px] md:ml-[150px] md:mr-[150px]">당신이 좋아하는 아티스트는?</h3>
       {/* 아티스트 검색 */}
-      <div className="text-center item-center">
+      <div className="text-center item-center w-[500px] mt-[20px] md:ml-[150px] md:mr-[150px]">
         <input
               type="text"
               onChange={(e) => setArtistInput(e.target.value)}
-              className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 mr-3 sm:w-[320px] md:w-[600px] mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+              className="bg-[#404752] placeholder:italic placeholder:text-slate-400 block w-full rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-white focus:ring sm:text-sm"
               placeholder="아티스트를 입력해주세요."
               onKeyDown={activeEnter}
             />
-        <button
+        {/* <button
         className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 mt-4 w-[55px] rounded-lg text-custom-white peer bg-transparent py-[0.42rem] leading-[1.65] outline-none transition-all "
-        onClick={handleArtist}><span className="mr-2">검색</span></button>
+        onClick={handleArtist}><span className="mr-2">검색</span></button> */}
       </div>
 
       {/* 검색한 아티스트 */}
@@ -189,17 +190,7 @@ const SelectArtist = () => {
               className="relative flex flex-col items-center space-y-1 mb-5 justify-center"
               onClick={()=> handleOnClick(artist.artistFilePath)}
             >
-            <img
-              src={"data:image/;base64," + artist.img}
-              alt="genre img"
-              className="rounded-lg w-[180px] h-[175px] h-auto object-cover blur-[1.5px]"
-            />
-            <p className="absolute text-2xl w-[180px]">{artist.artistName}</p>
-            {checkedState.includes(artist.artistFilePath) && (
-              <span className="absolute top-[25%] left-[40%] text-7xl font-bold text-black">
-                ✔
-              </span>
-            )}
+            <Artist key={artist.artistId} artist={artist} checkedState={checkedState}/>
           </button>
         ))
         )

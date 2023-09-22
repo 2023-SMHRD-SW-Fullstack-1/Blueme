@@ -15,10 +15,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import LikedList from "../../components/Library/LikedList";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
-import SingleRecPlayList from "../rec/SingleRecPlayList";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import BeforeRegistration from "../main/BeforeRegistration";
+import BeforeRegistration from "../../components/Main/BeforeRegistration";
 
 const Library = () => {
   const [myRecMusicList, setMyRecMusicList] = useState([]);

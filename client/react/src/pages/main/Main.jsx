@@ -15,7 +15,7 @@
 */
 import React, { useEffect, useState } from "react";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
-import BeforeRegistration from "./BeforeRegistration";
+import BeforeRegistration from "../../components/Main/BeforeRegistration";
 import LikedList from "../../components/Library/LikedList";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MusicDummy from "../../dummy/MusicDummy.json";
@@ -28,7 +28,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMusicIds,setPlayingStatus } from "../../store/music/musicActions.js";
 // 미니플레이어 import
 //유영 추천 음악 플레이 리스트
-import SingleRecPlayList from "../rec/SingleRecPlayList";
+import SingleRecPlayList from "../../components/recommend/SingleRecPlayList";
+import MyRecMusicList from '../../components/recommend/MyRecMusicList'
+import OtherRecMusicList from '../../components/recommend/OtherRecMusicList'
 
 const Main = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
@@ -72,10 +74,6 @@ const Main = () => {
         .then((res) => {
           setOtherRecMusicList(res.data)//남의 플레이 리스트
           setotherMusicIds(res.data.map(otherRecMusicList => otherRecMusicList.recMusiclistId))
-          // setMyMusicId(res.data.recMusiclistId)
-          // setMusicId(res.data[0].recMusiclistId)
-          // localStorage.setItem('recmusicId', res.data)
-          console.log('other',res);
         })
         .catch((err) => console.log(err))
       }catch (error) {
@@ -96,7 +94,6 @@ const Main = () => {
       .then((res) => {
         setMyRecMusicList(res.data)//나의 플레이리스트에 저장
         setMyMusicIds(res.data.map(myRecMusicList => myRecMusicList.recMusiclistId))
-        console.log('my',res);
       })
       .catch((err) => console.log(err))
     }
@@ -134,25 +131,14 @@ const Main = () => {
           },       
         }}
       >
-
         { id !== '0' && myRecMusicList.length !== 0 ? (
           <Swiper>
             {myRecMusicList &&
               myRecMusicList.map((item, i) => (
                 <SwiperSlide key={item.recMusiclistId} className="">
-                  <div className="flex flex-col justify-center items-center lg:w-[600px] mt-8 lg:pl-[40px] ">
-                    <img
-                      onClick={() => {
-                        navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
-                      }}
-                      src={"data:image/;base64," + item.recMusiclistDetails[0].img}
-                      alt="album cover"
-                      className="w-[250px] h-auto rounded-lg"
-                    />
-                    <p className="tracking-tight text-sm text-center mt-2 xs:w-[155px] w-[200px] lg:text-base ">
-                      {item.title}
-                    </p>
-                  </div>
+                  <Link to= {`/RecPlayListDetail/${myMusicIds[i]}`}>
+                    <MyRecMusicList key={item.musicId} item={item}/>
+                  </Link>
                 </SwiperSlide>
               ))}
           </Swiper>
@@ -187,13 +173,9 @@ const Main = () => {
       >
          {otherRecMusicList && otherRecMusicList.map((item,i) => (
                     <SwiperSlide key={item.recMusiclistId} className="">
-                      <div className="flex flex-col justify-center items-center lg:w-[600px] mt-8 xl:pl-[40px] relative z-index:2">
-                        <img
-                        onClick={()=> {navigate(`/RecPlayListDetail/${otherMusicIds[i]}`)}}
-                        src={"data:image/;base64,"+item.img} alt="album cover"
-                        className="w-[250px] h-auto rounded-lg " />
-                        <p className="tracking-tight text-sm text-center mt-2 xs:w-[155px] w-[200px] lg:text-base ">{item.recMusiclistTitle}</p>
-                      </div>
+                      <Link to={`/RecPlayListDetail/${otherMusicIds[i]}`}>
+                        <OtherRecMusicList key={item.musicId} item={item}/>
+                      </Link>
                     </SwiperSlide>
                 ))}
 
