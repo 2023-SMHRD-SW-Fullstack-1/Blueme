@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  * </p>
  *
  * @author 김혁
- * @version 1.0
+ * @version 1.1
  * @since 2023-09-13
  */
 @Slf4j
@@ -48,14 +48,21 @@ public class RecMusiclistsService {
   private final RecMusicListsJpaRepository recMusicListsJpaRepository;
 
   /**
-   * 특정 사용자의 최근 추천 음악 목록을 조회합니다.
+   * 최근 추천 음악 목록을 조회합니다. (10개)
+   * <p>
+   * ver1.1 - 로그인한 유저 자신은 제외
+   * </p>
    *
    * @return 최근 추천음악목록 10개 (RecMusiclistsRecent10ResDto 리스트)
    */
   @Transactional(readOnly = true)
-  public List<RecMusiclistsRecent10ResDto> getRecent10RecMusiclists() {
-    return recMusicListsJpaRepository.findTop10ByOrderByCreatedAtDesc().stream().map(RecMusiclistsRecent10ResDto::new)
-        .collect(Collectors.toList());
+  public List<RecMusiclistsRecent10ResDto> getRecent10RecMusiclists(Long userId) {
+    return userId == null
+        ? recMusicListsJpaRepository.findTop10ByOrderByCreatedAtDesc().stream().map(RecMusiclistsRecent10ResDto::new)
+            .collect(Collectors.toList())
+        : recMusicListsJpaRepository.findTop10ByUserIdNotOrderByCreatedAtDesc(userId).stream()
+            .map(RecMusiclistsRecent10ResDto::new)
+            .collect(Collectors.toList());
   }
 
   /**

@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.blueme.backend.model.entity.RecMusiclists;
 
@@ -11,9 +14,10 @@ import com.blueme.backend.model.entity.RecMusiclists;
  * RecMusicLists DB 와 연결하여 주는 JPA Repository
  * 
  * @author 김혁
- * @version 1.0
+ * @version 1.1
  * @since 2023-09-07
  */
+@Repository
 public interface RecMusicListsJpaRepository extends JpaRepository<RecMusiclists, Long> {
 
   /**
@@ -38,4 +42,14 @@ public interface RecMusicListsJpaRepository extends JpaRepository<RecMusiclists,
    * @return 최신 추천음악 10개 목록 (List<RecMusiclist>)
    */
   List<RecMusiclists> findTop10ByOrderByCreatedAtDesc();
+
+  /**
+   * 추천음악 최신 10개를 조회하는 메서드 (현재 사용자 제외)
+   * 
+   * @param userId 유저ID
+   * @return 최신 추천음악 10개 목록 (List<RecMusiclists>)
+   */
+  @Query(value = "SELECT * FROM rec_musiclists WHERE user_id != :userId ORDER BY created_at DESC LIMIT 10", nativeQuery = true)
+  List<RecMusiclists> findTop10ByUserIdNotOrderByCreatedAtDesc(@Param("userId") Long userId);
+
 }

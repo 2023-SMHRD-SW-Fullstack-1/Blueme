@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author 김혁
- * @version 1.0
+ * @version 1.1
  * @since 2023-09-14
  */
 @Slf4j
@@ -96,13 +97,17 @@ public class RecMusiclistsController {
 
   /**
    * 추천 음악 목록 중 가장최근 10개를 조회하는 GET 메서드입니다.
+   * <p>
+   * ver1.1 - 로그인한 유저의 추천음악목록 제외하고 반환
+   * </p>
    *
    * @return 최근에 생성된 추천 음악 목록 중 상위 10개 (RecMusiclistsRecent10ResDto 리스트)
    */
   @GetMapping("/recent10")
-  public ResponseEntity<List<RecMusiclistsRecent10ResDto>> getRecent10RecMusiclists() {
+  public ResponseEntity<List<RecMusiclistsRecent10ResDto>> getRecent10RecMusiclists(
+      @RequestParam(value = "userId", required = false) Long userId) {
     log.info("starting getRecent10RecMusiclists");
-    List<RecMusiclistsRecent10ResDto> list = recMusiclistsService.getRecent10RecMusiclists();
+    List<RecMusiclistsRecent10ResDto> list = recMusiclistsService.getRecent10RecMusiclists(userId);
     log.info("ending getRecent10RecMusiclists");
     if (list.isEmpty()) {
       return ResponseEntity.status(404).build();
