@@ -23,12 +23,14 @@ const LikedList = () => {
   const userId = user.id;
 
   const dispatch = useDispatch();
-  const musicIds = useSelector((state) => state.musicReducer.musicIds);
 
   const [likedMusics, setLikedMusics] = useState([]);
 
   // 현재 화면 크기가 데스크탑 크기인지 저장하는 상태
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  // musicIds 설정
+  const [playingIds, setPlayingIds] = useState([]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -60,7 +62,7 @@ const LikedList = () => {
         }
 
         console.log("ids", ids);
-        dispatch(setMusicIds(ids));
+        setPlayingIds(ids);
       } catch (error) {
         console.error(`Error: ${error}`);
       }
@@ -69,8 +71,13 @@ const LikedList = () => {
     fetchLikedList();
   }, [isDesktop]);
 
+  // musicIds 설정
+  const handleListClick = () => {
+    dispatch(setMusicIds(playingIds));
+  };
+
   return (
-    <div className="hide-scrollbar overflow-scroll">
+    <div className="hide-scrollbar overflow-scroll" onClick={handleListClick}>
       {likedMusics.map((song) => (
         <SingleMusic key={song.musicId} item={song} />
       ))}

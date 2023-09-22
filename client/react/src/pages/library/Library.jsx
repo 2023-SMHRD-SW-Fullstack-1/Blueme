@@ -13,27 +13,28 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 import LikedList from "../../components/Library/LikedList";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
-import SingleRecPlayList from "../rec/SingleRecPlayList";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useSelector } from "react-redux/es/hooks/useSelector";
 import BeforeRegistration from "../main/BeforeRegistration";
-
 const Library = () => {
+  // 사용자의 추천 음악 목록 상태 변수
   const [myRecMusicList, setMyRecMusicList] = useState([]);
+  // Redux를 통해 사용자 정보 및 로그인 상태 가져오기
   const user = useSelector((state) => state.memberReducer.user);
   const id = user.id;
   const isLoggendIn = useSelector((state) => state.memberReducer.isLogin);
   const navigate = useNavigate();
-  const [myMusicIds, setMyMusicIds] = useState([]); //나의 플리 musicId
+  const [myMusicIds, setMyMusicIds] = useState([]); // 나의 플리 musicId
 
   useEffect(() => {
     if (isLoggendIn) {
+      // 로그인한 경우 사용자의 추천 플레이리스트 불러오기
       axios
-        .get(`http://172.30.1.27:8104/recMusiclist/${id}`) //나의 추천 플리 불러오기
+        .get(`http://172.30.1.27:8104/recMusiclist/${id}`)
         .then((res) => {
-          setMyRecMusicList(res.data); //나의 플레이리스트에 저장
+          setMyRecMusicList(res.data); // 추천 플레이리스트 저장
           setMyMusicIds(res.data.map((myRecMusicList) => myRecMusicList.recMusiclistId));
           console.log("my", res);
         })
@@ -45,11 +46,10 @@ const Library = () => {
     <div className="overflow-auto hide-scrollbar bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-2 h-full font-semibold tracking-tighter">
       <br />
       <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 pr-0 md:pr-2 order-last md:order-first lg:pr-10 md:pt-10 ">
+        <div className="w-full md:w-1/2 pr-0 md:pr-2 order-last md:order-first lg:pr-10 md:pt-10">
           <p className="text-left text-xl ml-[5px] pt-[20px] lg:pt-[30px] lg:text-3xl lg:ml-8">저장한 플레이리스트</p>
           <SavedPlaylist />
 
-          {/* ChatGPT가 추천해준 나의 플레이리스트*/}
           <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-10 hidden md:block lg:text-3xl  lg:ml-8">
             Chat GPT가 추천해준 나의 플레이리스트
           </h1>
@@ -114,7 +114,7 @@ const Library = () => {
               <Link to="/LikedPlaylist">더보기</Link>
             </button>
           </div>
-          <LikedList />
+          <LikedList />{" "}
         </div>
       </div>
     </div>
