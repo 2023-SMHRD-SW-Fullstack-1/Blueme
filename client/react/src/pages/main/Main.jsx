@@ -25,7 +25,7 @@ import RecPlayList from "../rec/RecPlayList";
 import axios from "axios";
 // 리덕스 - 지희 경로변경
 import { useDispatch, useSelector } from "react-redux";
-import { setMusicIds,setPlayingStatus } from "../../store/music/musicActions.js";
+import { setMusicIds, setPlayingStatus } from "../../store/music/musicActions.js";
 // 미니플레이어 import
 //유영 추천 음악 플레이 리스트
 import SingleRecPlayList from "../../components/recommend/SingleRecPlayList";
@@ -36,24 +36,22 @@ import Play from '../../assets/img/play.png'
 const Main = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [myRecMusicList, setMyRecMusicList] = useState([]);
-  const [otherRecMusicList, setOtherRecMusicList] = useState([])
+  const [otherRecMusicList, setOtherRecMusicList] = useState([]);
 
   // 지희 시작 (0918)
-  const playingStatus = useSelector(state => state.musicReducer.playingStatus);
+  const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
   const [ids, setIds] = useState([]);
-  const [otherMusicIds, setotherMusicIds] = useState([])//남의 플리 musicId
-  const [myMusicIds, setMyMusicIds] = useState([])//나의 플리 musicId
+  const [otherMusicIds, setotherMusicIds] = useState([]); //남의 플리 musicId
+  const [myMusicIds, setMyMusicIds] = useState([]); //나의 플리 musicId
   // const [id, setId] = useState('0');
   // const id = localStorage.getItem('id')
   const dispatch = useDispatch();
   // const musicIds = useSelector(state => state.musicReducer.musicIds);
-  const user = useSelector(state => state.memberReducer.user)
-  const id = user.id
-  const isLoggendIn = useSelector(state => state.memberReducer.isLogin)
-  const navigate = useNavigate()
+  const user = useSelector((state) => state.memberReducer.user);
+  const id = user.id;
+  const isLoggendIn = useSelector((state) => state.memberReducer.isLogin);
+  const navigate = useNavigate();
   // console.log('header',user);
-
-
 
   useEffect(() => {
     const fetchRecentlyPlayed = async () => {
@@ -61,7 +59,7 @@ const Main = () => {
         const response = await axios.get(`/playedmusic/get/${id}`);
         setRecentlyPlayed(response.data);
         // 지희(0918) - MusicIds 설정 추가
-        setIds(response.data.map(music => music.musicId))
+        setIds(response.data.map((music) => music.musicId));
         // 지희 끝
       } catch (error) {
         console.error(`Error: ${error}`);
@@ -101,7 +99,7 @@ const Main = () => {
   
   //나의 추천 플리 불러오기 => 초기값 0으로 설정 처음에 res.data가 null로 되기 때문
   useEffect(() => {
-    if(isLoggendIn) {
+    if (isLoggendIn) {
       axios
       .get(`http://172.30.1.27:8104/recMusiclist/${id}`)//나의 추천 플리 불러오기
       .then((res) => {
@@ -111,10 +109,10 @@ const Main = () => {
       })
       .catch((err) => console.log(err))
     }
-  }, [])
- 
+  }, []);
+
   // 지희(0918) - MusicIds 설정
- const handleListClick = () => {
+  const handleListClick = () => {
     dispatch(setMusicIds(ids));
   };
 

@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-20
-설명: 반응형, 저장한 플레이리스트 불러오기 구현 
+날짜: 2023-09-22
+설명: 반응형, 저장한 플레이리스트 불러오기 구현, 추가 버그 수정 
 */
 
 import React, { useEffect, useState } from "react";
@@ -48,11 +48,13 @@ const SavedPlaylist = () => {
     console.log(musiclistId);
   }, [musiclistId]);
 
+  const slidesPerView = savedPlaylists.length <= 2 ? savedPlaylists.length : 3;
+
   return (
-    <div className="flex mt-3 lg:mt-10">
+    <div className="overflow-hidden indent-2 text-xl tracking-tight mt-3 lg:mt-10">
       <Swiper
         spaceBetween={10}
-        slidesPerView="0"
+        slidesPerView={slidesPerView}
         breakpoints={{
           320: {
             slidesPerView: 2,

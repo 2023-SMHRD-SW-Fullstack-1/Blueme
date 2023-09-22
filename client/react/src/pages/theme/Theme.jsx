@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-18
-설명: 테마 버그 및 세부 디자인 수정 , 반응형 구현  
+날짜: 2023-09-22
+설명: 테마 버그 및 세부 디자인 수정 , 반응형 구현 , 모바일 크기 조정
 */
 
 import React, { useEffect, useState } from "react";
@@ -31,7 +31,7 @@ const ThemeCard = ({ theme, index }) => {
           <img
             src={"data:image/;base64," + themeImage}
             alt=""
-            class="rounded-lg w-[180px] h-[170px] sm:w-[230px] sm:h-[230px] object-cover mt-sm "
+            class="rounded-lg w-[180px] xs:w-[150px] h-[170px] sm:w-[230px] sm:h-[230px] object-cover mt-sm "
           />
           <h5 class="text-sm mt-3 w-[80%]">{themeName}</h5>
         </div>

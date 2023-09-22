@@ -88,7 +88,7 @@ const Library = () => {
             >
               {myRecMusicList &&
                 myRecMusicList.map((item, i) => (
-                  <SwiperSlide key={item.recMusiclistId} className="hidden md:block ">
+                  <SwiperSlide key={item.recMusiclistId} className="hidden md:block">
                     <div className="flex flex-col justify-center items-center ml-2 mr-2 lg:w-[350px]">
                       <img
                         onClick={() => {
