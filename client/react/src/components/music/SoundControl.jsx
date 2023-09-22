@@ -48,7 +48,7 @@ const SoundControl = () => {
           format: ["mpeg"],
           onload() {
             dispatch(setCurrentTime(0));
-            dispatch(setPlayingStatus(true));
+            dispatch(setPlayingStatus(!playingStatus));
             newSound.play();
           },
           onend() {
@@ -73,7 +73,6 @@ const SoundControl = () => {
             dispatch(setPlayingStatus(false));
           },
         });
-
         setSound(newSound);
       } catch (error) {
         console.error("음악 불러오기 실패", error);
@@ -123,7 +122,7 @@ const SoundControl = () => {
     }
     return () => clearInterval(intervalId);
   }
-}, [sound, playingStatus]);
+}, [sound, playingStatus, currentSongId]);
 
   // 드래그 - 재생 위치 변경
   useEffect(() => {
