@@ -23,6 +23,7 @@ import com.blueme.backend.dto.gptdto.ChatGptMusicsDto;
 import com.blueme.backend.dto.gptdto.ChatGptReqDto;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.gptdto.QuestionReqDto;
+import com.blueme.backend.enums.EmotionState;
 import com.blueme.backend.enums.Season;
 import com.blueme.backend.enums.TimeOfDay;
 import com.blueme.backend.model.entity.HealthInfos;
@@ -187,15 +188,121 @@ public class ChatGptService {
                 return "";
         }
 
-        public String getEmotionStatus(String language, WeatherSummary weatherSummary) {
+        /**
+         * 날씨,상태 기반 감정 상태 추측하는 로직 입니다.
+         * 
+         * @param language       언어(KOR, ENG)
+         * @param weatherSummary 현재 날씨상태
+         * @param healthInfo     상태정보
+         * @return 감정 (String)
+         */
+        public String getEmotionStatus(String language, WeatherSummary weatherSummary, HealthInfos healthInfo) {
                 // condition : ThunderStorm , Drizzle(보슬보슬비가 붓다), Rain,
                 // Snow, Atmosphere(안개), Clear, Clouds
                 String condition = weatherSummary.getCondition();
                 String humidity = weatherSummary.getHumidity();
-                String temperature = weatherSummary.getTemp();
+                String temp = weatherSummary.getTemp();
 
-                double temp = Double.parseDouble(temperature);
+                double temperature = Double.parseDouble(temp);
                 double humid = Double.parseDouble(humidity);
+
+                // 심장박동수 상수
+                final double VERY_LOW_THRESHOLD = 60;
+                final double LOW_THRESHOLD = 80;
+                final double NORMAL_THRESHOLD = 110;
+                final double HIGH_THRESHOLD = 130;
+
+                // 운동 상수
+                final double STATIONARY_SPEED = 1.5;
+                final double WALKING_RUNNING_SPEED = 5.0;
+                final double RUNNING_BICYCLE_SPEED = 15.0;
+                final double CAR_SPEED = 25;
+                final double AIRPLANE_SPEED = 180;
+
+                // 워치 데이터
+                double speed = Double.parseDouble(healthInfo.getSpeed());
+                double heartRate = Double.parseDouble(healthInfo.getHeartrate());
+                int stepsPerMinute = Integer.parseInt(healthInfo.getStep());
+
+                final int INACTIVE_STEPS_THRESHOLD = 20;
+                final int NORMAL_ACTIVE_STEPS_THRESHOLD = 40;
+
+                String emotionstate;
+                switch (condition) {
+                        case "ThunderStorm":
+                                if (heartRate > HIGH_THRESHOLD) {
+                                        emotionstate = EmotionState.ANXIOUS.getTag();
+                                } else {
+                                        emotionstate = EmotionState.UNREST.getTag();
+                                }
+                                break;
+
+                        case "Drizzle":
+                        case "Rain":
+                                if (temperature < 20) {
+                                        emotionstate = (heartRate > NORMAL_THRESHOLD ? EmotionState.SAD_ENG.getTag()
+                                                        : EmotionState.GLOOMY.getTag());
+                                } else {
+                                        emotionstate = (heartRate > NORMAL_THRESHOLD ? EmotionState.TIRED.getTag()
+                                                        : EmotionState.MISSING.getTag());
+                                }
+                                break;
+
+                        case "Snow":
+                                if (speed <= STATIONARY_SPEED) {
+                                        emotionstate = (heartRate < LOW_THRESHOLD ? EmotionState.DEPRESSED.getTag()
+                                                        : EmotionState.SAD_ENG.getTag());
+                                } else {
+                                        emotionstate = (heartRate < LOW_THRESHOLD ? EmotionState.MISSING.getTag()
+                                                        : EmotionState.SAD_ENG.getTag());
+                                }
+                                break;
+
+                        case "Atmosphere":
+                                if (speed > RUNNING_BICYCLE_SPEED && speed <= CAR_SPEED) {
+                                        emotionstate = (heartRate > HIGH_THRESHOLD ? EmotionState.UNREST.getTag()
+                                                        : EmotionState.GLOOMY.getTag());
+                                } else {
+                                        emotionstate = (heartRate > HIGH_THRESHOLD ? EmotionState.RAGE.getTag()
+                                                        : EmotionState.GLOOMY.getTag());
+                                }
+                                break;
+
+                        case "Clear":
+                                if (temperature > 30) {
+                                        emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD
+                                                        ? EmotionState.HAPPY_ENG.getTag()
+                                                        :
+
+                                                        EmotionState.TIRED.getTag());
+                                } else if (temperature <= 30 && temperature >= 20) {
+                                        emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD ?
+
+                                                        EmotionState.FLUTTER.getTag() :
+
+                                                        EmotionState.BEAT.getTag());
+                                } else {
+                                        emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD ?
+
+                                                        EmotionState.BEAT.getTag() :
+
+                                                        EmotionState.FLUTTER.getTag());
+                                }
+                                break;
+
+                        case "Clouds":
+                                if (humid > 70) {
+                                        emotionstate = EmotionState.MISSING.getTag();
+                                } else {
+                                        emotionstate = EmotionState.UNREST.getTag();
+                                }
+                                break;
+
+                        default:
+
+                                emotionstate = null;
+
+                }
 
                 return "";
 
