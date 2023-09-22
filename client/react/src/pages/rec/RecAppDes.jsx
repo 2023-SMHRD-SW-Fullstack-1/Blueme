@@ -32,8 +32,8 @@ const RecAppDes = () => {
   //2초 로딩 함수
   const timeout = () => {
     setTimeout(() => {
-      document.getElementById('toast-warning').classList.remove("reveal")
-    }, 2000);// 원하는 시간 ms단위로 적어주기
+      document.getElementById("toast-warning").classList.remove("reveal");
+    }, 2000); // 원하는 시간 ms단위로 적어주기
   };
 
   //데이터 전송 여부 판단하는 함수
@@ -54,54 +54,59 @@ const RecAppDes = () => {
   };
 
   return (
-    <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full item-center justify-center'>
-        <br/><br/><br/>
-        {/* 갤럭시 워치에 대한 앱 설명 */}
-        <div className='mt-8 item-center justify-center text-center'>
-          <ul>
-            <li className='-indent-5 text-xl tracking-tight '>• 갤럭시 워치의 경우</li>
-            <ol className=' tracking-tight mt-3 leading-loose'>
-                <li className="-indent-10">1. 갤럭시 워치에서 구글 스토어를 실행합니다.</li>
-                <li >2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
-                <li className="-indent-5">3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
-                <li className="indent-1.5">4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
-            </ol>
-          </ul>
-        </div>
-
-        {/* 위치 이미지  */}
-        <div className='flex flex-row py-5 item-center justify-center ml-[50px] xs:ml-[10px]'>
-          <img src={watchLogin} className=' w-[190px] h-[230px] ' />
-          <img src={watchHeartRate} className='w-[190px] h-[220px]' />
-        </div>
-        
-        {/* 샤오미 워치에 대한 앱 설명 */}
-        <div className='mt-5 item-center justify-center text-center'>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full item-center justify-center">
+      <br />
+      <br />
+      <br />
+      <button className="indent-[380px] xs:indent-[310px] text-custom-white" onClick={handleTransport}>
+        SKIP
+      </button>
+      {/* 갤럭시 워치에 대한 앱 설명 */}
+      <div className="mt-8 item-center justify-center text-center">
         <ul>
-            <li className='-indent-3 text-xl tracking-tight'>• 샤오미 미워치의 경우</li>
-            <ol className=' tracking-tight mt-3 leading-loose'>
-                <li className="-indent-16">1. 미워치에서 샤오미웨어를 실행합니다.</li>
-                <li className="indent-2">2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
-                <li className="-indent-3">3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
-                <li className="indent-3.5">4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
-            </ol>
-          </ul>     
-        </div>
+          <li className="-indent-5 text-xl tracking-tight ">• 갤럭시 워치의 경우</li>
+          <ol className=" tracking-tight mt-3 leading-loose">
+            <li className="-indent-10">1. 갤럭시 워치에서 구글 스토어를 실행합니다.</li>
+            <li>2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
 
-        {/* 토스트 창 띄우기 */}
-        <div className="flex justify-center items-center">
-          <div
-            id="toast-warning"
-            className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
-            role="alert"
-          >
-            <div className="ml-3 font-normal text-center">데이터를 전송해주세요.</div>
-          </div>
+            <li className="-indent-5">3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
+            <li className="indent-1.5">4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
+          </ol>
+        </ul>
+      </div>
+
+      {/* 위치 이미지  */}
+      <div className="flex flex-row py-5 item-center justify-center ml-[50px] xs:ml-[10px]">
+        <img src={watchLogin} className=" w-[190px] h-[230px] " />
+        <img src={watchHeartRate} className="w-[190px] h-[220px]" />
+      </div>
+
+      {/* 샤오미 워치에 대한 앱 설명 */}
+      <div className="mt-5 item-center justify-center text-center">
+        <ul>
+          <li className="-indent-3 text-xl tracking-tight">• 샤오미 미워치의 경우</li>
+          <ol className=" tracking-tight mt-3 leading-loose">
+            <li className="-indent-16">1. 미워치에서 샤오미웨어를 실행합니다.</li>
+            <li className="indent-2">2. 검색창에 Blueme를 검색하고 다운로드 받습니다.</li>
+            <li className="-indent-3">3. 앱 설치가 완료되면 자사 로그인을 진행합니다.</li>
+            <li className="indent-3.5">4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
+          </ol>
+        </ul>
+      </div>
+
+      {/* 토스트 창 띄우기 */}
+      <div className="flex justify-center items-center">
+        <div
+          id="toast-warning"
+          className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+          role="alert"
+        >
+          <div className="ml-3 font-normal text-center">데이터를 전송해주세요.</div>
         </div>
-        <div className='text-center p-3 mt-5 '>
-          <button className='indent-[380px] xs:indent-[310px]' onClick={handleTransport}>SKIP</button>
-         
-        
+      </div>
+      <div className="text-center p-3 mt-5 ">
+        {/* <button className='indent-[380px] xs:indent-[310px]' onClick={handleTransport}>SKIP</button> */}
+
         {/* 데이터 전송 여부 판단하는 모달창 => Skip 클릭 시 열림 */}
         <div
           id="popup-modal"

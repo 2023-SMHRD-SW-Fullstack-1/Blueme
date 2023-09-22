@@ -112,12 +112,12 @@ const ThemePlaylist = () => {
       </div>
 
       <div className="flex justify-between mb-5 mt-2">
-        <button className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl">
+        <button className="bg-gradient-to-t  from-gray-800 border ml-2 xs:w-[150px] xl:w-[180px] rounded-lg text-custom-lightpurple font-semibold tracking-tighter  h-10 text-xl">
           전체 재생
         </button>
         <button
           onClick={saveMusicList}
-          className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter w-[180px] h-10 text-xl"
+          className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple font-semibold tracking-tighter xs:w-[150px] xl:w-[180px]  h-10 text-xl"
         >
           전체 저장
         </button>
