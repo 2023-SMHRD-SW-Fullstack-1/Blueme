@@ -39,6 +39,7 @@ import SavedPlaylistDetail from "./components/Library/SavedPlaylistDetail";
 // 유영 추천 앱 설명
 import RecAppDes from "./pages/rec/RecAppDes";
 import PlaylistRename from "./pages/rec/PlaylistRename";
+import OauthInfo from "./pages/Login/OauthInfo";
 //유영 끝
 
 // 지희 import 시작
@@ -90,11 +91,12 @@ const App = () => {
           <Route path="/SelectGenre/:id" element={<SelectGenre />} />
           {/* <Route path="/WholeRecPlayList" element={<WholeRecPlayList />} /> */}
           <Route path="/RecPlayListDetail/:id" element={<RecPlayListDetail />} />
-          {/* 유영 끝 */}
           <Route path="/RecBegin" element={<RecBegin />} />
           <Route path="/LoadData" element={<LoadData />} />
           <Route path="/LoadDataCompl" element={<LoadDataCompl />} />
           <Route path="/LoadGpt" element={<LoadGpt />} />
+          <Route path="/OauthInfo" element={<OauthInfo />} />
+          {/* 유영 끝 */}
           {/* 지희 시작 */}
           <Route path="/LikedPlaylist" element={<LikedPlaylist />} />
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
