@@ -21,6 +21,7 @@ import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.service.JwtService;
 import com.blueme.backend.utils.PasswordUtil;
+import com.nimbusds.oauth2.sdk.token.AccessToken;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +69,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	     *  리프레시 토큰으로 유저 정보 찾기 & 액세스 토큰/리프레시 토큰 재발급
 	     */
 	    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
+	    	log.info("checkRefreshTokenAndReIssueAccessToken() 실행");
 	        usersJpaRepository.findByRefreshToken(refreshToken)
 	                .ifPresent(user -> {
 	                    String reIssuedRefreshToken = reIssueRefreshToken(user);
@@ -97,6 +99,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	                        .ifPresent(email -> usersJpaRepository.findByEmail(email)
 	                                .ifPresent(this::saveAuthentication)));
 	        filterChain.doFilter(request, response);
+	        log.info("asdfd");
 	    }
 	    
 	    /**

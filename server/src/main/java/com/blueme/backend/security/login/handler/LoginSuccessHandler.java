@@ -16,8 +16,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.blueme.backend.dto.usersdto.UserInfoDTO;
-import com.blueme.backend.model.entity.Genres;
-import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.service.JwtService;
 import com.blueme.backend.utils.ImageConverter;
@@ -59,7 +57,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		        user.updateRefreshToken(refreshToken);
 		        usersJpaRepository.saveAndFlush(user);
 		        
-		        UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(), getBase64ImageForProfile(user.getImg_url()), user.getPlatformType());
+		        UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(), getBase64ImageForProfile(user.getImg_url()), user.getPlatformType(), user.getRole());
 		        ObjectMapper mapper = new ObjectMapper();
 		        mapper.registerModule(new JavaTimeModule());
 		    
@@ -81,7 +79,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	}
 	
 
-	private String extractUsername(Authentication authentication) {
+	public String extractUsername(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return userDetails.getUsername();
 	}

@@ -17,9 +17,12 @@ import org.springframework.util.StreamUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * "/login" 요청 왔을 때 JSON 값을 매핑 처리하는 필터
  */
+@Slf4j
 public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
 	private static final String DEFAULT_LOGIN_REQUEST_URL = "/login"; 
@@ -54,7 +57,6 @@ public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuth
     String password = usernamePasswordMap.get(PASSWORD_KEY);
 
     UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
-
     return this.getAuthenticationManager().authenticate(authRequest);
 	}
     

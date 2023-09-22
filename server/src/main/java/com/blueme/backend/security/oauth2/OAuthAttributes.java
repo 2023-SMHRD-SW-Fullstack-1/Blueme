@@ -3,11 +3,10 @@ package com.blueme.backend.security.oauth2;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.blueme.backend.model.entity.UserRole;
 import com.blueme.backend.model.entity.Users;
-import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.security.oauth2.userinfo.GoogleOauth2UserInfo;
 import com.blueme.backend.security.oauth2.userinfo.KakaoOauth2UserInfo;
 import com.blueme.backend.security.oauth2.userinfo.OAuth2UserInfo;
@@ -28,7 +27,6 @@ public class OAuthAttributes {
 	private String nameAttributeKey; // OAuth2 로그인 진행 시 키가 되는 필드 값, PK와 같은 의미
 	private OAuth2UserInfo oauth2UserInfo; // 소셜 타입별 로그인 유저 정보(닉네임, 이메일, 프로필 사진 등등)
 	
-//	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Builder
 	public OAuthAttributes(String nameAttributeKey, OAuth2UserInfo oauth2UserInfo) {
@@ -75,7 +73,8 @@ public class OAuthAttributes {
 				.platformType(platformType.name())
 				.socialId(oauth2UserInfo.getId())
 				.img_url(oauth2UserInfo.getImageUrl())
-				.email(UUID.randomUUID() + "@socialUser.com")
+				.email(oauth2UserInfo.getEmail())
+//				.email(UUID.randomUUID() + "@socialUser.com")
 				.nickname(oauth2UserInfo.getNickname())
 				.role(UserRole.GUEST)
 				.password(bCryptPasswordEncoder.encode(PasswordUtil.generateRandomPassword()))

@@ -43,8 +43,17 @@ const Main = () => {
   const isLoggendIn = user.isLogin
   console.log('header',user);
 
+  
+  // axios.get('http://localhost:8104')
+  // .then(res => {
+  //   console.log(res.data);
+
+  // }).catch(err => {
+  //   console.log(err);
+  // })
 
   useEffect(() => {
+    console.log("search : ",window.location.search);
     const fetchRecentlyPlayed = async () => {
       try {
         const userId = 1; // 임의의 사용자 아이디

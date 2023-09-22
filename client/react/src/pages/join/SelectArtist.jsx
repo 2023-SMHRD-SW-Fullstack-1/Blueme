@@ -4,7 +4,7 @@
 설명: 아티스트 선택/ 수정 /검색
 */
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { useSelector } from "react-redux";
 import '../../App.css'
@@ -20,6 +20,9 @@ const SelectArtist = () => {
   const [isLoading, setIsLoading] = useState(true)
   const user = useSelector(state => state.memberReducer.user)
   const id = localStorage.getItem('id')
+  const location = useLocation()
+  // const snsId = localStorage.setitem('id')
+  console.log('snsId', id);
 
 
     //3초 로딩 함수
@@ -57,7 +60,7 @@ const SelectArtist = () => {
     //회원가입 시 아티스트 선택(2개)
     const handleSelect = () => {
         if(checkedState.length === 2) {//아티스트 2명 선택 시 
-          const requestData = {artistIds : checkedState ,favChecklistId : id}
+          const  requestData = {artistIds : checkedState ,favChecklistId : id}
           axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)//아티스트 저장 성공 여부
           .then((res) => {//성공 실패 시 반환값 -1
               if(res.data > 0) {
@@ -109,16 +112,41 @@ const SelectArtist = () => {
       }
     }
 
+     //아티스트 수정하기
+     const handelUpdate = () => {
+      if(checkedState.length === 2) {
+        const requestData = {artistIds : checkedState ,favChecklistId : id}
+          console.log('requestData',requestData);
+          axios
+          .patch("http://172.30.1.45:8104/updateFavArtist",requestData)//선택한 아티스트 저장 성공 여부
+          .then((res) => {//저장 실패일 경우 반환값 -1
+            if(res.data >0) {
+              navigate('/MyPage')
+            }else if(res.data == -1) {
+              alert('저장되지 않았습니다. 다시 선택해주세요.')
+              navigate('./Artistrecommend')
+            }   
+            console.log(res)
+          })
+          .catch((err) => console.log(err))
+          console.log(checkedState);
+    } else{
+        document.getElementById('toast-warning').classList.add("reveal")
+        timeout()
+        navigate('/Artistrecommend')
+    }
+    }
+
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tight overflow-auto hide-scrollbar text-custom-white p-3">
-      <h3 className="text-3xl pt-[80px]">당신이 좋아하는 아티스트는?</h3>
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight overflow-auto hide-scrollbar text-custom-white p-3">
+      <h3 className="text-2xl pt-[90px] md:ml-[150px] md:mr-[150px]">당신이 좋아하는 아티스트는?</h3>
       {/* 아티스트 검색 */}
       <div className="text-center item-center">
         <input
               type="text"
               onChange={(e) => setArtistInput(e.target.value)}
-              className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 mr-3 w-[320px] mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
+              className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 mr-3 sm:w-[320px] md:w-[600px] mt-5 rounded-lg text-custom-white peer min-h-auto bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200"
               placeholder="아티스트를 입력해주세요."
               onKeyDown={activeEnter}
             />
@@ -128,7 +156,7 @@ const SelectArtist = () => {
       </div>
 
       {/* 검색한 아티스트 */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
       
       {isLoading ? (<p>Loading...</p>) : 
 
@@ -144,7 +172,7 @@ const SelectArtist = () => {
               alt="genre img"
               className="rounded-lg w-[180px] h-[175px] h-auto object-cover blur-[1.5px]"
             />
-            <p className="absolute text-2xl">{searchArtist.artistName}</p>
+            <p className="absolute text-2xl w-[180px]">{searchArtist.artistName}</p>
             {checkedState.includes(searchArtist.artistFilePath) && (
               <span className="absolute top-[25%] left-[40%] text-7xl font-bold text-black">
                 ✔
@@ -166,7 +194,7 @@ const SelectArtist = () => {
               alt="genre img"
               className="rounded-lg w-[180px] h-[175px] h-auto object-cover blur-[1.5px]"
             />
-            <p className="absolute text-2xl">{artist.artistName}</p>
+            <p className="absolute text-2xl w-[180px]">{artist.artistName}</p>
             {checkedState.includes(artist.artistFilePath) && (
               <span className="absolute top-[25%] left-[40%] text-7xl font-bold text-black">
                 ✔
@@ -194,7 +222,7 @@ const SelectArtist = () => {
     >
       선택하기
     </button> : <button
-          onClick={handleSelect}
+          onClick={handelUpdate}
           className="
             mt-5
             w-full

@@ -24,8 +24,8 @@ import com.blueme.backend.model.entity.FavCheckLists;
 import com.blueme.backend.model.entity.FavGenres;
 import com.blueme.backend.model.entity.Genres;
 import com.blueme.backend.model.entity.Musics;
+import com.blueme.backend.model.entity.UserRole;
 import com.blueme.backend.model.entity.Users;
-import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.model.repository.FavArtistsJpaRepository;
 import com.blueme.backend.model.repository.FavCheckListsJpaRepository;
 import com.blueme.backend.model.repository.FavGenresJpaRepository;
@@ -226,8 +226,8 @@ public class UsersService {
 
 		 return userProfileDtos;	
 	}
+}
 
 
 	
 
-	}

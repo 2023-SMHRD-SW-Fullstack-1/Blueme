@@ -41,6 +41,7 @@ import RecAppDes from "./pages/rec/RecAppDes";
 import PlaylistRename from "./pages/rec/PlaylistRename";
 import { useSelector } from "react-redux";
 import WholeRecPlayList from './pages/rec/WholeRecPlayList'
+import OauthInfo from "./components/oauth/kakao/OauthInfo";
 //유영 끝
 
 // 지희 import 시작
@@ -52,6 +53,7 @@ import RecPlayList from "./pages/rec/RecPlayList";
 import SearchPage from "./pages/SearchPage";
 import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner"
 import SoundControl from "./components/music/SoundControl";
+import Useremail from "./components/oauth/kakao/Useremail";
 // 지희 import 끝
 
 const App = () => {
@@ -98,6 +100,8 @@ const App = () => {
           <Route path="/LoadData" element={<LoadData />} />
           <Route path="/LoadDataCompl" element={<LoadDataCompl />} />
           <Route path="/LoadGpt" element={<LoadGpt />} />
+          <Route path="/OauthInfo" element={<OauthInfo/>}/>
+          <Route path="/Useremail" element={<Useremail/>}/>
           {/* 지희 시작 */}
           <Route path="/LikedPlaylist" element={<LikedPlaylist />} />
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />

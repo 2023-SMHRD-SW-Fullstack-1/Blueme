@@ -3,6 +3,7 @@ package com.blueme.backend.security.jwt.service;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +15,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 
 import lombok.Getter;
@@ -91,7 +91,10 @@ public class JwtService {
 
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
-        log.info("Access Token, Refresh Token 헤더 설정 완료");
+        setRefreshTokenCookie(response, refreshToken);
+        
+        log.info("refreshToken : {}",refreshToken);
+        log.info("Access Token, Refresh Token 헤더 및 쿠키 설정 완료");
     }
     
     
@@ -123,6 +126,7 @@ public class JwtService {
      */
     public Optional<String> extractEmail(String accessToken) {
         try {
+        	log.info("extractEmail() 호출");
             // 토큰 유효성 검사하는 데에 사용할 알고리즘이 있는 JWT verifier builder 반환
             return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
                     .build() 
@@ -150,6 +154,26 @@ public class JwtService {
     }
     
     /**
+     * 	RefreshToken 쿠키 설정
+     */
+    public void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
+    	Cookie cookie = new Cookie(refreshHeader, refreshToken);
+    	cookie.setMaxAge(refreshTokenExpirationPeriod.intValue());
+    	cookie.setPath("/");
+    	response.addCookie(cookie);
+    }
+    
+    /**
+     * 	사용자 이메일 쿠키 설정
+     */
+    public void setEmailCookie(HttpServletResponse response, String email) {
+    	Cookie cookie = new Cookie(refreshHeader, email);
+    	cookie.setMaxAge(refreshTokenExpirationPeriod.intValue());
+    	cookie.setPath("/");
+    	response.addCookie(cookie);
+    }
+    
+    /**
      * RefreshToken DB 저장(업데이트)
      */
     public void updateRefreshToken(String email, String refreshToken) throws Exception {
@@ -165,6 +189,7 @@ public class JwtService {
 	 */
     public boolean isTokenValid(String token) {
         try {
+        	log.info("토큰의 value 입니다. {}", token);
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {

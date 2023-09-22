@@ -5,26 +5,28 @@
 */
 // SelectArtist.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
 const SelectGenre = () => {
   const navigate = useNavigate();
-  const [genre, setGenre] = useState([])
-  const [checkedState, setCheckedState] = useState([]);
-  const [page, setPage] = useState(1); //페이징 관련
-  const [genres, setGenres] = useState([])//페이징 관련
-  const id = localStorage.getItem('id')
-  const user = useSelector(state => state.memberReducer.user)
-
-  const params = useParams();
-  console.log('params', params);
+  const [genre, setGenre] = useState([])//전체 장르
+  const [checkedState, setCheckedState] = useState([]);//선택 장르
+  let id = localStorage.getItem('id')
+  const user = useSelector(state => state.memberReducer.user)//memeber리덕스에서 user정보 가져오기
+  const location = useLocation()
+  const urlParams = new URLSearchParams(location.search);//쿼리스트링에서
+  const snsId = urlParams.get('id');//키값이 id인 params가져오기
+  if(localStorage.getItem('id') === null) {
+    id = localStorage.setItem('id', snsId)
+  }
+  // const sns = localStorage.setItem('id', snsId)
 
    //3초 로딩 함수
    const timeout = () => {
     setTimeout(() => {
-      document.getElementById('toast-warning').classList.remove("reveal")
+      document.getElementById('toast-warning').classList.remove("reveal")//토스트창 소명
     }, 3000);// 원하는 시간 ms단위로 적어주기
     };
 
@@ -45,11 +47,11 @@ const SelectGenre = () => {
     //화면 로딩 시 장르 데이터 불러오기
     useEffect(() => {
       axios
-      .get("http://172.30.1.45:8104/SelectGenre") 
+      .get("http://172.30.1.45:8104/SelectGenre") //장르 전체 데이터 불러오기
       .then((res) => {
         console.log(res);
-        console.log('userid', id);
-        setGenre(res.data)
+        // console.log('userid', id);
+        setGenre(res.data)//전체 장르
       })
       .catch((err) => console.log(err))
     }, [])
@@ -87,12 +89,14 @@ const SelectGenre = () => {
     //회원가입 시 장르 선택(2개)
     const handleSelect = () => {
           if(checkedState.length === 2) {
-            // localStorage.setItem('genres', JSON.stringify(checkedState)) 
-            // const genres = localStorage.getItem('genres')
-            // const genreIds = JSON.parse(genres)
-            // console.log(typeof(genreIds));
-              const requestData = {genreIds : checkedState ,favChecklistId : id}
-              console.log(requestData);
+          let requestData = 0
+            if(!location.search) {
+                requestData = {genreIds : checkedState ,favChecklistId : id}
+                console.log(requestData);
+            } else {
+                requestData = {genreIds : checkedState ,favChecklistId : snsId}// url로 넘어오는 snsId가져오기
+            }
+          console.log(requestData);
               axios
               .post("http://172.30.1.45:8104/SaveFavGenre",requestData)//선택한 장르 저장 성공 여부
               .then((res) => {//저장 실패일 경우 반환값 -1
@@ -114,7 +118,13 @@ const SelectGenre = () => {
     //장르 수정하기
     const handelUpdate = () => {
       if(checkedState.length === 2) {
-          const requestData = {genreIds : checkedState ,favChecklistId : id}
+        let requestData = 0
+        if(!location.search) {
+            requestData = {genreIds : checkedState ,favChecklistId : id}
+            console.log(requestData);
+        } else {
+            requestData = {genreIds : checkedState ,favChecklistId : snsId}// url로 넘어오는 snsId가져오기
+        }
           console.log('requestData',requestData);
           axios
           .patch("http://172.30.1.45:8104/updateFavGenre",requestData)//선택한 장르 저장 성공 여부
@@ -139,9 +149,9 @@ const SelectGenre = () => {
   
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 font-semibold tracking-tight h-auto text-custom-white p-3">
-      <h3 className="text-3xl pt-[80px] ">당신이 좋아하는 장르는?</h3>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight h-auto text-custom-white p-3">
+      <h3 className="text-2xl pt-[90px] md:ml-[150px] md:mr-[150px]">당신이 좋아하는 장르는?</h3>
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
         {genre && genre.map((genre, genreId, i) => (
           <button
             key={genre.genreId}
@@ -153,7 +163,7 @@ const SelectGenre = () => {
               alt="genre img"
               className="rounded-lg w-[180px] h-[175px] object-cover blur-[1.5px]"
             />
-            <p className="absolute text-3xl">{genre.name}</p>
+            <p className="absolute text-2xl">{genre.name}</p>
             {checkedState.includes(parseInt(genreId)+1) && (
               <span className="absolute top-[25%] left-[40%] text-7xl font-bold text-black">
                 ✔

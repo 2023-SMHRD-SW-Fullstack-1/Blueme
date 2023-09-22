@@ -17,13 +17,22 @@ import google from "../assets/img/google.png";
 import {loginRequest, loginSuccess, loginFailure} from '../store/member/memberAction'
 import { useDispatch } from "react-redux";
 
+
+axios.defaults.withCredentials = true;
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const params = useParams();
-  
+  const urlParams = new URLSearchParams(window.location.search)
+  const snsnickname = urlParams.get('nickname')
+  const snsrole = urlParams.get('role')
+  const snsplatformType = urlParams.get('platformType')
+  const Authorization = urlParams.get('Authorization')
+  const Authorization_refresh = urlParams.get('Authorization-refresh')
+  const snsemail = urlParams.get('email')
+
 
   //일반 로그인
  const handleLogin = async(e) => {

@@ -6,14 +6,15 @@ import java.util.Map;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-import com.blueme.backend.model.entity.Users.UserRole;
+import com.blueme.backend.model.entity.UserRole;
 
 import lombok.Getter;
+
 
 @Getter
 public class CustomOAuth2User extends DefaultOAuth2User{
 	
-//	private static final long serialVersionUID = 1L;
+	/* Resource Server에서 제공하지 않는 추가정보들을 내 서비스에서 가지고 있기 위해 */
 	
 	private String email;
 	private UserRole role; 

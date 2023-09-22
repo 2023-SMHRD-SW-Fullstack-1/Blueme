@@ -1,6 +1,7 @@
 package com.blueme.backend.security.login.service;
 
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
-import com.mysql.cj.log.Log;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,5 +34,9 @@ public class LoginService implements UserDetailsService {
 				.roles(user.getRole().name())
 				.build();
 	}	
-
+	
+	public String extractUsername(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return userDetails.getUsername();
+	}
 }
