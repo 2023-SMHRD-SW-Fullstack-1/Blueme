@@ -119,13 +119,7 @@ const SelectGenre = () => {
     //장르 수정하기
     const handelUpdate = () => {
       if(checkedState.length === 2) {
-        let requestData = 0
-        if(!location.search) {
-            requestData = {genreIds : checkedState ,favChecklistId : id}
-            console.log(requestData);
-        } else {
-            requestData = {genreIds : checkedState ,favChecklistId : snsId}// url로 넘어오는 snsId가져오기
-        }
+          const requestData = {genreIds : checkedState ,favChecklistId : id}
           console.log('requestData',requestData);
           axios
           .patch("http://172.30.1.45:8104/updateFavGenre",requestData)//선택한 장르 저장 성공 여부

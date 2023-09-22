@@ -14,6 +14,7 @@ function Header() {
   const navigator = useNavigate();
   const isLogin = useSelector(state => state.memberReducer.isLogin)
 
+
   const handleNav = () => {
     if (isLogin === false) {
       navigator("/Login");

@@ -98,7 +98,7 @@ function MemberInfoChange() {
         <div className="self-center flex flex-col items-center justify-center">
           <label htmlFor="profileImg">
             {/* 사용자 프로필 */}
-          {user.img_url === null ?
+          {user.img_url === null || user.platFormType !== "blueme"?
             <img
               // src={imgFile ? imgFile : `data:image/;base64,${myFeed[0]?.myFeed.mem_photo}`}
               src={basicProfile}

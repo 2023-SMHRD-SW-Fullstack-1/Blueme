@@ -25,7 +25,6 @@ const RecPlayListDetail = () => {
     const params = useParams()
     // const musicIds = useSelector(state => state.musicReducer.musicIds);
     const musicId = params.id
-    console.log(params.id);
     const dispatch = useDispatch()
 
 
@@ -43,7 +42,6 @@ const RecPlayListDetail = () => {
         recPlayList()
     }, [])
 
-    console.log(recMusicIds);
     //전체 저장
     const SavedPlayList = () => {
         // localStorage.removeItem('recMusicIds')

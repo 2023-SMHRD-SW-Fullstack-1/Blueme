@@ -30,7 +30,8 @@ const MyPage = () => {
   const platFormType = user.platFormType
   // console.log('header',user.img_url);
   const dispatch = useDispatch()
-  // console.log('header',user);
+  console.log('header',user);
+  const url_img = "data:image/;base64,"+user.img_url
 
   //마이페이지 들어가면 장르 , 아티스트 , 사용자 정보 받아서 화면 렌더링
   useEffect(() => {
@@ -54,12 +55,11 @@ const MyPage = () => {
 
   return (
     <div className="">
-    {localStorage.getItem('accessToken') !== null ? 
     <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-10 hide-scrollbar">
       {/* 사용자 프로필 */}
     <div className="flex justify-between items-center mt-20 md:ml-[250px]">
       <div className="flex items-center boar ">
-        {user.img_url === null ? 
+        {user.img_url === null || user.platFormType !== "blueme"? 
         <img 
         src={basicProfile}
         alt="profile"
@@ -73,12 +73,13 @@ const MyPage = () => {
         <span className="pt-1 ml-3 text-[20px] w-[100px]">{user.nickname}</span>
       </div>
       <div className="mt-3 md:mr-[250px]">
-        {platFormType === "blueme" && 
+        {/* {platFormType === "blueme" &&  */}
           <Link to="/MemberInfoChange">
             <button className=" bg-gradient-to-t from-gray-600 rounded-2xl text-sm h-8 w-20 p-1">
               내 프로필
             </button>
-          </Link>}
+          </Link>
+          {/* } */}
       </div>
     </div>
 
@@ -170,8 +171,7 @@ const MyPage = () => {
         <button onClick={handleLogout} className="text-center">로그아웃</button>
       </div>
     </div>
-  </div> : <Login/ >}
-  
+  </div>
   </div>
   );
 };

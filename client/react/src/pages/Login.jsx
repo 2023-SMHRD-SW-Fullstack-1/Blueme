@@ -68,36 +68,6 @@ const Login = () => {
 
   
 
-  // //구글 로그인
-  // const googleLogin = async(e) => {
-  //   e.preventDefault()
-  //   dispatch(loginRequest());
-  //   window.location.href = "http://localhost:8104/oauth2/authorization/google"
-  //   console.log('params', params);
-  //   // const requestData = {
-  //   //   email: email,
-  //   //   password: password,
-  //   // };
-  //   // await axios
-  //   // .post("http://172.30.1.45:8104/login", requestData)
-  //   // .then((res) => {
-      
-  //   //   console.log(res);
-  //   //   let accessToken = res.headers.get("Authorization");
-  //   //   let refreshToken = res.headers["authorization-refresh"];
-  //   //   localStorage.setItem("accessToken", accessToken);
-  //   //   localStorage.setItem("refreshToken", refreshToken);
-  //   //   localStorage.setItem("id", res.data.id);
-  //   //    dispatch(loginSuccess(res.data))
-  //   //    navigate("/");
-  //   //   })
-  //   // .catch(err => {
-  //   //   console.log(err)
-  //   //   dispatch(loginFailure(err.message))
-  //   // })
-    
-  // }
-
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16">
       {/* <div className="mt-36 text-custom-white mb-3 text-center sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4"></div> */}
@@ -144,7 +114,7 @@ const Login = () => {
           </div>
 
           <button
-            onClick={() => {window.location.href = "http://localhost:8104/oauth2/authorization/kakao"}}
+            onClick={() => {window.location.href = "http://172.30.1.45:8104/oauth2/authorization/kakao"}}
             className="
      flex items-center justify-center pl-2 w-full mt-6 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white text-sm peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
           >
@@ -154,7 +124,7 @@ const Login = () => {
 
           <button
            onClick={() => {
-            window.location.href = "http://localhost:8104/oauth2/authorization/google";
+            window.location.href = "http://172.30.1.45:8104/oauth2/authorization/google";
           }}
             className="
   flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white text-sm peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
