@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-18
-설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현 및 디자인 수정
+날짜: 2023-09-21
+설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현 및 디자인 수정, musicIds 설정
 */
 /*
 작성자: 이지희
@@ -10,43 +10,39 @@
 */
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import SingleMusic from "../../components/Library/SingleMusic";
-import { Swiper, SwiperSlide } from "swiper/react";
+
 import "swiper/swiper-bundle.css";
 import axios from "axios";
 import check from "../../assets/img/check.json";
 import Lottie from "lottie-react";
-// 지희시작
 import { useSelector, useDispatch } from "react-redux";
 import { setMusicIds } from "../../store/music/musicActions.js";
-// 지희 끝
 
 const ThemePlaylist = () => {
+  // 상태 변수 초기화
   const [themeImage, setThemeImage] = useState("");
   const [themeName, setThemeName] = useState("");
   const [musicList, setMusicList] = useState([]);
-  const [showThemePlaylistModal, setshowThemePlaylistModal] = useState(false);
+  const [showThemePlaylistModal, setShowThemePlaylistModal] = useState(false);
 
-  // 사용자 id 가져오기
+  // Redux에서 사용자 정보와 음악 ID 가져오기
   const user = useSelector((state) => state.memberReducer.user);
   const userId = user.id;
 
-  // 지희 시작(0918)
   const dispatch = useDispatch();
 
-  const musicIds = useSelector((state) => state.musicReducer.musicIds);
   const [ids, setIds] = useState([]);
-  // 지희 끝
 
-  // 테마 플레이리스트 상세 정보 가져오기
+  // 플레이리스트 상세 정보 가져오기
   useEffect(() => {
     const getPlaylistDetails = async () => {
       try {
+        // 로컬 스토리지에서 이미지 및 테마 이름 가져오기
         const imageFromStorage = localStorage.getItem("themeImage");
         if (imageFromStorage) {
           setThemeImage(imageFromStorage);
-          // console.log(imageFromStorage);
         }
 
         const nameFromStorage = localStorage.getItem("themeName");
@@ -57,11 +53,12 @@ const ThemePlaylist = () => {
         const themeIdFromStorage = localStorage.getItem("themeId");
 
         if (themeIdFromStorage) {
+          // API를 통해 음악 리스트 가져오기
           const responseMusicList = await axios.get(`/theme/themelists/${themeIdFromStorage}`);
-          // .then((res) => console.log(res.data));
 
           if (responseMusicList.data) {
             setMusicList(responseMusicList.data);
+            setIds(responseMusicList.data.map((music) => music.musicId));
           }
         }
       } catch (error) {
@@ -78,41 +75,39 @@ const ThemePlaylist = () => {
       const dataToSend = {
         userId: userId.toString(),
         title: themeName,
-        musicIds: musicList.map((item) => item.musicId), //여기 다시 하기 musicId
+        musicIds: musicList.map((item) => item.musicId),
         image: themeImage,
       };
+
+      // 서버에 데이터 저장 요청
       await axios.post("http://172.30.1.27:8104/savedMusiclist/add", dataToSend);
-      console.log("Saved music list");
-      setshowThemePlaylistModal(true);
+      // console.log("Saved music list");
+      setShowThemePlaylistModal(true);
     } catch (error) {
       console.error(`Error: ${error}`);
     }
   };
 
+  // Lottie 애니메이션 스타일 설정
   const Lottiestyle = {
     weight: 70,
     height: 70,
   };
 
-  const closeModal = () => setshowThemePlaylistModal(false);
+  // 모달 닫기 함수
+  const closeModal = () => setShowThemePlaylistModal(false);
 
-  // 지희(0918) - MusicIds 설정
-  useEffect(() => {
-    const newIds = musicList.map((item) => item.musicId);
-    setIds(newIds);
-  }, [musicList]);
-
+  // MusicIds 설정
   const handleListClick = () => {
     dispatch(setMusicIds(ids));
   };
-  // 지희 끝
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-full text-custom-white p-3 hide-scrollbar overflow-auto mb-[70px]">
       <br />
 
       <div className="flex flex-col items-center justify-center mt-[80px]">
-        <img src={"data:image/;base64," + themeImage} className="w-[160px] h-[160px] rounded-xl" />
+        <img src={"data:image/;base64," + themeImage} className="w-[160px] h-[160px] rounded-xl" alt="Theme" />
         <p className="text-2xl py-5">{themeName}</p>
       </div>
 
@@ -137,9 +132,7 @@ const ThemePlaylist = () => {
       >
         <div className=" absolute w-full h-full bg-gray-900 opacity-50"></div>
         <div className=" bg-gray-900 w-[300px] mx-auto rounded-lg shadow-lg z-50 overflow-y-auto border-2 border-white">
-          {/* 모달 컨텐츠 */}
           <div className=" py-[20px] text-left  text-custom-white px-[30px]  bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 ">
-            {/* Modal Header */}
             <Lottie
               animationData={check}
               style={Lottiestyle}
@@ -149,10 +142,8 @@ const ThemePlaylist = () => {
               className="flex justify-center items-center mb-3"
             />
 
-            {/* Modal Body */}
             <p className="text-center">저장이 완료되었습니다!</p>
 
-            {/* Modal Footer */}
             <div className="flex justify-end pt-2">
               <button
                 onClick={closeModal}
@@ -165,9 +156,7 @@ const ThemePlaylist = () => {
         </div>
       </div>
 
-      {/* Render music list */}
-      {/* 지희 시작(0918) - div추가 및 onClick함수 세팅 */}
-      <div className="h-[70%] ml-3 mr-3 overflow-y-scroll hide-scrollbar">
+      <div className="h-[70%] ml-3 mr-3 overflow-y-scroll hide-scrollbar" onClick={handleListClick}>
         {musicList.map((item) => (
           <SingleMusic key={item.id} item={item} className="mb-20" />
         ))}
