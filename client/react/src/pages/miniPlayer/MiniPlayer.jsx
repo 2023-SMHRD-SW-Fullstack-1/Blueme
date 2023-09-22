@@ -4,7 +4,7 @@
 설명: 미니플레이어
 */
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,15 +16,12 @@ import { ReactComponent as Play } from "../../assets/img/musicPlayer/play.svg";
 import { ReactComponent as Pause } from "../../assets/img/musicPlayer/pause.svg";
 
 // Redux
-import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
+import { setCurrentSongId, setPlayingStatus, setIsMusicPlayer } from "../../store/music/musicActions";
 
 const MiniPlayer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 한곡반복
-  const [isRepeatMode, setIsRepeatMode] = useState(false);
-  const isRepeatModeRef = useRef(isRepeatMode); // Ref 생성
   // 음악 관련 정보
   const [musicInfo, setMusicInfo] = useState({
     album: "",
@@ -42,9 +39,15 @@ const MiniPlayer = () => {
     (state) => state.musicReducer.playingStatus
   );
 
+  // const isMusicPlayer = useSelector((state) => state.musicReducer.isMusicPlayer)
+
   // 사용자 id
   const user = useSelector((state) => state.memberReducer.user);
   const userId = user.id;
+
+  useEffect(() => {
+    dispatch(setIsMusicPlayer(false));
+}, []);
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
@@ -63,11 +66,6 @@ const MiniPlayer = () => {
     };
     fetchMusicInfo();
   }, [currentSongId]); // songId 변경 시마다 재실행
-
-  // 한곡반복 Ref
-  useEffect(() => {
-    isRepeatModeRef.current = isRepeatMode;
-  }, [isRepeatMode]);
 
   // 이전곡&다음곡
   useEffect(() => {

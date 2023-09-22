@@ -6,12 +6,12 @@
 
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-20
-설명: musicReducer 추가
+날짜(수정포함): 2023-09-21
+설명: musicReducer 추가, isMusicPlayer 추가
 */
 import memberReducer from './member/memberReducer'
 import musicReducer from './music/musicReducer';
-import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer, setCurrentTime, setDraggingStatus, setRepeatMode } from './music/musicActions';
+import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer, setCurrentTime, setDraggingStatus, setRepeatMode, setIsMusicPlayer } from './music/musicActions';
 
 import { combineReducers, createStore } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist';
@@ -44,9 +44,11 @@ store.dispatch(setPlayingStatus(false));
 store.dispatch(setCurrentSongId());
 store.dispatch(setShowMiniPlayer(false));
 
-// 지희 추가 (0919)
+// 지희 추가 (0922)
 store.dispatch(setCurrentTime(0));
 store.dispatch(setDraggingStatus(false))
 store.dispatch(setRepeatMode(false))
+store.dispatch(setIsMusicPlayer(false))
+
 
 export { store, persistor };
