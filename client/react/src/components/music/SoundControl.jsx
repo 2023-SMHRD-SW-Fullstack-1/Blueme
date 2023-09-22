@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-19
-설명: 전역적 음악 재생 관리
+날짜(수정포함): 2023-09-22
+설명: 전역적 음악 재생 관리, 접근해있는 컴포넌트 확인(0922)
 */
 
 import { useEffect, useState, useRef } from "react";
@@ -13,6 +13,7 @@ import {
   setPlayingStatus,
   setCurrentTime,
 } from "../../store/music/musicActions";
+import MusicPlayer from "../../pages/MusicPlayer";
 
 const SoundControl = () => {
   const dispatch = useDispatch();
@@ -32,8 +33,19 @@ const SoundControl = () => {
     (state) => state.musicReducer.draggingStatus
   );
   const currentTime = useSelector((state) => state.musicReducer.currentTime);
+  // 한곡반복
   const repeatMode = useSelector((state) => state.musicReducer.repeatMode);
   const repeatModeRef = useRef(repeatMode);
+  // 접근해있는 컴포넌트 확인 (뮤직플레이어 or 미니플레이어)
+  const isMusicPlayer = useSelector((state) => state.musicReducer.isMusicPlayer);
+
+  // const playMusic = () => {
+  //   if (sound) {
+  //     sound.play();
+  //     dispatch(setPlayingStatus(true));
+  //   }
+  // };
+  
 
   // 음원 불러오기
   useEffect(() => {
@@ -48,8 +60,16 @@ const SoundControl = () => {
           format: ["mpeg"],
           onload() {
             dispatch(setCurrentTime(0));
-            dispatch(setPlayingStatus(!playingStatus));
-            newSound.play();
+            if (isMusicPlayer) {
+              newSound.play();
+              dispatch(setPlayingStatus(!playingStatus));
+            } 
+            else {
+              if (playingStatus){
+                newSound.play();
+                dispatch(setPlayingStatus(!playingStatus));
+              }
+             }
           },
           onend() {
             if (repeatModeRef.current) {
@@ -58,11 +78,11 @@ const SoundControl = () => {
               newSound.play();
             } else {
               // nextTrack 로직
-              const nextIndex = musicIds.indexOf(Number(currentSongId)) + 1;
+              let nextIndex = musicIds.indexOf(Number(currentSongId)) + 1;
               if (nextIndex >= musicIds.length) {
                 nextIndex = 0;
               }
-              const nextSongId = musicIds[nextIndex];
+              let nextSongId = musicIds[nextIndex];
               dispatch(setCurrentSongId(nextSongId));
             }
           },

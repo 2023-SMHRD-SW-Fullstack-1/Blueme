@@ -1,8 +1,9 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-20
+날짜(수정포함): 2023-09-22
 설명: 라이브러리 페이지 내 좋아요 누른 곡 리스트 
       0920 - navigate 설정
+      0922 - 음악플레이어 이동 onclikc함수 수정
 */
 
 /*
@@ -14,10 +15,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import Heart from "./Heart";
 
-import { setCurrentSongId, setCurrentTime } from "../../store/music/musicActions";
+import { setCurrentSongId } from "../../store/music/musicActions";
 
 const SingleMusic = ({ item }) => {
   // console.log("single", item);
@@ -41,9 +41,9 @@ const SingleMusic = ({ item }) => {
   }
 
   return (
-    <div className="flex flex-row items-center ml-2 mr-2 justify-between flex-grow" onClick={handleMusicClick}>
-        <div className="flex flex-row items-center p-1 flex-grow">
-          <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-md" />
+    <div className="flex flex-row items-center ml-2 mr-2 justify-between flex-grow">
+        <div className="flex flex-row items-center p-1 flex-grow"  onClick={handleMusicClick}>
+          <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-md"/>
           <div className="flex flex-col text-left ml-3">
             <span className="text-[18px] font-semibold">{item.title}</span>
             <span className="text-sm font-normal">{item.artist}</span>
@@ -51,7 +51,7 @@ const SingleMusic = ({ item }) => {
         </div>
 
       {/* 고정 너비를 가진 컨테이너 */}
-      <div className="w-[40%] hidden md:block text-custom-gray font-normal">
+      <div className="w-[40%] hidden md:block text-custom-gray font-normal"onClick={handleMusicClick}>
         <span>{item.genre1}</span>
       </div>
 

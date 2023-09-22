@@ -17,7 +17,6 @@ import { ReactComponent as Pause } from "../assets/img/musicPlayer/pause.svg";
 // import - 이미지
 import likeEmpty from "../assets/img/likeEmpty.png";
 import likeFull from "../assets/img/likeFull.png";
-import scroll from "../assets/img/musicPlayer/scrollDown.png";
 import rotate from "../assets/img/musicPlayer/rotate.png";
 import rotating from "../assets/img/musicPlayer/rotating.png";
 
@@ -27,7 +26,8 @@ import {
   setPlayingStatus,
   setCurrentTime,
   setDraggingStatus,
-  setRepeatMode
+  setRepeatMode,
+  setIsMusicPlayer
 } from "../store/music/musicActions";
 
 const MusicPlayer = () => {
@@ -59,6 +59,13 @@ const MusicPlayer = () => {
   const currentTime = useSelector((state) => state.musicReducer.currentTime);
   const repeatMode = useSelector((state) => state.musicReducer.repeatMode);
 
+
+// 뮤직플레이어 접속 여부 확인 (음악 자동재생용)
+useEffect(()=>{
+  dispatch(setIsMusicPlayer(true));
+  // dispatch(setPlayingStatus(true));
+}, []);
+
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
     const fetchMusicInfo = async () => {
@@ -71,6 +78,7 @@ const MusicPlayer = () => {
           img: response.data.img
         });
         setDuration(parseInt(response.data.time));
+        
       } catch (error) {
         console.error("음악 정보 가져오기 실패", error);
       }

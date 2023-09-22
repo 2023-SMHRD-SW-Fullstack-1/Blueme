@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-12
-설명: 음악 플레이리스트 리덕스 파일 추가
+날짜(수정포함): 2023-09-22
+설명: 음악 플레이리스트 리덕스 파일 추가 , musicStore 삭제(0922)
 */
 /*
 작성자: 이유영
@@ -17,7 +17,6 @@ import reportWebVitals from "./reportWebVitals";
 
 // 지희 시작
 import { Provider } from "react-redux"; // Provider import
-import musicStore from "./store/music/musicStore"; 
 // 지희 끝
 
 //유영 시작
