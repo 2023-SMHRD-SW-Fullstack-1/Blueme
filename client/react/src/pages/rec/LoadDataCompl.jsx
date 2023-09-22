@@ -3,6 +3,11 @@
 날짜(수정포함): 2023-09-07
 설명: 스마트 워치 데이터 가져오기(+member리덕스)
 */
+
+/*작성자: 신지훈
+날짜(수정포함): 2023-09-22
+설명: 모바일 크기 조정
+*/
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -48,19 +53,14 @@ const LoadDataCompl = () => {
   const second = date.substring(17, 19); //초
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full ">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full hide-scrollbar overflow-auto ">
       <br />
       <br />
       <br />
       <div>
-        <p className=" leading-normal mt-[150px] text-center text-[20px]">
+        <p className=" leading-normal xs:mt-[30px] lg:mt-[160px] text-center text-[20px]">
           스마트 워치에서 데이터를 가져온 결과,
           <br />
-          <Link to="/LoadGpt">
-            <button className="border tracking-tight border-soild border-#FDFDFD rounded-xl p-3 leading-[1.35]">
-              추천받기
-            </button>
-          </Link>
           {/* 사용자가 건강 데이터 보낸 시간 */}
           {year}년 {month}월 {day}일 {hour}시 {minute}분 {second}초
           <br />
@@ -88,9 +88,11 @@ const LoadDataCompl = () => {
         <p className="m-5">속도 {speed}km/h</p>
       </div>
       <div className="flex justify-center item-center">
-        {/* <Link to="/LoadGpt">
-          <button className="border tracking-tight border-soild border-#FDFDFD rounded-xl p-3 leading-[1.35]">추천받기</button>
-        </Link> */}
+        <Link to="/LoadGpt">
+          <button className="border tracking-tight border-soild border-#FDFDFD rounded-xl p-3 leading-[1.35]">
+            추천받기
+          </button>
+        </Link>
       </div>
     </div>
   );

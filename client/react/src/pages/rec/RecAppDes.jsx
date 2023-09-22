@@ -5,8 +5,8 @@
 */
 /*
 작성자: 신지훈
-날짜(수정포함): 2023-09-20
-설명: ReqAppDes 페이지 반응형 / 핸드폰 화면크기에 따라 흰 화면 등장함(미완)
+날짜(수정포함): 2023-09-22
+설명: ReqAppDes 페이지 반응형 , 모바일 크기 조정
 */
 import React, { useState } from "react";
 import watchLogin from "../../assets/img/watchlogin.png";
@@ -54,13 +54,13 @@ const RecAppDes = () => {
   };
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full item-center justify-center">
+    <div className="hide-scrollbar overflow-auto  bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full item-center justify-center">
       <br />
       <br />
       <br />
-      <button className="indent-[380px] xs:indent-[310px] text-custom-white" onClick={handleTransport}>
+      {/* <button className="indent-[380px] xs:indent-[310px] text-custom-white hidden lg:block " onClick={handleTransport}>
         SKIP
-      </button>
+      </button> */}
       {/* 갤럭시 워치에 대한 앱 설명 */}
       <div className="mt-8 item-center justify-center text-center">
         <ul>
@@ -77,12 +77,12 @@ const RecAppDes = () => {
 
       {/* 위치 이미지  */}
       <div className="flex flex-row py-5 item-center justify-center ml-[50px] xs:ml-[10px]">
-        <img src={watchLogin} className=" w-[190px] h-[230px] " />
-        <img src={watchHeartRate} className="w-[190px] h-[220px]" />
+        <img src={watchLogin} className="lg:w-48 lg:h-56  w-[190px] h-[220px]" />
+        <img src={watchHeartRate} className="lg:w-48 lg:h-56  w-[190px] h-[220px]" />
       </div>
 
       {/* 샤오미 워치에 대한 앱 설명 */}
-      <div className="mt-5 item-center justify-center text-center">
+      <div className="mt-5 item-center justify-center text-center mb-20">
         <ul>
           <li className="-indent-3 text-xl tracking-tight">• 샤오미 미워치의 경우</li>
           <ol className=" tracking-tight mt-3 leading-loose">
@@ -92,6 +92,9 @@ const RecAppDes = () => {
             <li className="indent-3.5">4. 데이터가 워치에 보여지면 전송 버튼을 클릭합니다.</li>
           </ol>
         </ul>
+        <button className="indent-[380px] xs:indent-[310px] mt-5" onClick={handleTransport}>
+          SKIP
+        </button>
       </div>
 
       {/* 토스트 창 띄우기 */}
@@ -104,78 +107,73 @@ const RecAppDes = () => {
           <div className="ml-3 font-normal text-center">데이터를 전송해주세요.</div>
         </div>
       </div>
-      <div className="text-center p-3 mt-5 ">
-        {/* <button className='indent-[380px] xs:indent-[310px]' onClick={handleTransport}>SKIP</button> */}
 
-        {/* 데이터 전송 여부 판단하는 모달창 => Skip 클릭 시 열림 */}
-        <div
-          id="popup-modal"
-          tabIndex="-1"
-          className={`fixed top-0 left-0 right-0 bottom-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${
-            modalIsOpen ? "" : "hidden"
-          } flex items-center justify-center`}
-        >
-          <div className="flex justify-center w-full max-h-full">
-            <div className=" bg-custom-blue border rounded-lg shadow dark:bg-gray-700">
-              <button
-                type="button"
-                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="popup-modal"
+      {/* 데이터 전송 여부 판단하는 모달창 => Skip 클릭 시 열림 */}
+      <div
+        id="popup-modal"
+        tabIndex="-1"
+        className={`fixed top-0 left-0 right-0 bottom-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${
+          modalIsOpen ? "" : "hidden"
+        } flex items-center justify-center`}
+      >
+        <div className="flex justify-center w-full max-h-full">
+          <div className=" bg-custom-blue border rounded-lg shadow dark:bg-gray-700">
+            <button
+              type="button"
+              className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="popup-modal"
+            >
+              <svg
+                className="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
               >
-                <svg
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+            <div className="p-6 text-center">
+              <svg
+                className="mx-auto mb-4 text-gray-400 w-40 h-10 dark:text-gray-200"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              <h3 className="mb-5 text-lg font-semibold text-gray-400 dark:text-gray-400">데이터를 전송하셨습니까?</h3>
+              <button
+                data-modal-hide="popup-modal"
+                type="button"
+                onClick={isTransformData}
+                className="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+              >
+                네 전송했어요.
               </button>
-              <div className="p-6 text-center">
-                <svg
-                  className="mx-auto mb-4 text-gray-400 w-40 h-10 dark:text-gray-200"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-                <h3 className="mb-5 text-lg font-semibold text-gray-400 dark:text-gray-400">
-                  데이터를 전송하셨습니까?
-                </h3>
+              <Link to="/RecBegin">
                 <button
                   data-modal-hide="popup-modal"
                   type="button"
-                  onClick={isTransformData}
                   className="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                 >
-                  네 전송했어요.
+                  아니요 안할래요.
                 </button>
-                <Link to="/RecBegin">
-                  <button
-                    data-modal-hide="popup-modal"
-                    type="button"
-                    className="text-white bg-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
-                  >
-                    아니요 안할래요.
-                  </button>
-                </Link>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

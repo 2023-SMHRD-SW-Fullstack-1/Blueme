@@ -78,13 +78,13 @@ const RecPlayList = () => {
       <div className="flex justify-between mb-6 xl:ml-[300px] xl:mr-[300px] xs:ml-[5px] xs:mr-[5px] item-center justify-center">
         <button
           onClick={WholePlaying}
-          className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple tracking-tight xs:w-[130px] xl:w-[180px]  h-10 text-[18px]"
+          className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple tracking-tight xs:w-[150px] xl:w-[180px]  h-10 text-[18px]"
         >
           전체 재생
         </button>
         <button
           onClick={SavedPlayList}
-          className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple tracking-tight xs:w-[130px] xl:w-[180px]  h-10 text-[18px]"
+          className="bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple tracking-tight xs:w-[150px] xl:w-[180px]  h-10 text-[18px]"
         >
           전체 저장
         </button>
