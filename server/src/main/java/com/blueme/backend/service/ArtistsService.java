@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 작성자: 손지연
-날짜(수정포함): 2023-09-16
+날짜(수정포함): 2023-09-20
 설명: 회원가입 시 선호아티스트 관련 서비스
 */
 
@@ -73,12 +73,13 @@ public class ArtistsService {
 		favCheckList = favCheckListsJpaRepository.save(favCheckList);
 
 		for (String favArtistStr : requestDto.getArtistIds()) {
-			Musics musics = musicsJpaRepository.findByArtistFilePath(favArtistStr);
+			Musics musics = musicsJpaRepository.findTop1ByArtistFilePath(favArtistStr);
 			if (musics == null) return -1L;
 			
 			FavArtists favArtists = new FavArtists();
 			favArtists.setFavCheckList(favCheckList);
 			favArtists.setArtistId(musics);
+//			favArtists.setArtistId(musics.getArtistFilePath());
 			favArtistsJpaRepository.save(favArtists);
 		}
 		return Long.parseLong(requestDto.getFavChecklistId());
@@ -102,31 +103,32 @@ public class ArtistsService {
 		}).collect(Collectors.toList());
 	}
 	
+	
 	/**
 	 * 	patch 가수(아티스트) 수정
 	 */
 	@Transactional
-	public Long updateFavArtist(Long userId, List<Long> newArtistIds) {
-		
+	public Long updateFavArtist(Long userId, List<Long> newArtistIds) {	
 		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
 		
 		if(favCheckList.isEmpty()) {
 			throw new UserNotFoundException(userId);
-		}
-		
+		} 
+
 		List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckList.get(1));
-		Musics music1 = musicsJpaRepository.findByArtistFilePath(newArtistIds.get(0).toString());
-		Musics music2 = musicsJpaRepository.findByArtistFilePath(newArtistIds.get(1).toString());
 		
-		favArtists.get(0).setArtistId(music1);
-		favArtists.get(1).setArtistId(music2);
+		Musics music1 = musicsJpaRepository.findTop1ByArtistFilePath(newArtistIds.get(0).toString());
+		Musics music2 = musicsJpaRepository.findTop1ByArtistFilePath(newArtistIds.get(1).toString());
+		
+	    favArtists.get(0).setArtistId(music1);
+	    favArtists.get(1).setArtistId(music2);
 
 		return userId;
 	}
 
 	
 	/**
-	 * 아티스트(가수) 이미지 변환
+	 * 	아티스트(가수) 이미지 변환
 	 */
 	public String getBase64ImageForArtist(Musics music) {
 		if (music.getArtistFilePath() != null) {

@@ -6,7 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,6 @@ import com.blueme.backend.dto.usersdto.UserProfileDto;
 import com.blueme.backend.dto.usersdto.UsersDeleteDto;
 import com.blueme.backend.dto.usersdto.UsersRegisterDto;
 import com.blueme.backend.dto.usersdto.UsersUpdateDto;
-import com.blueme.backend.model.repository.UsersJpaRepository;
-import com.blueme.backend.security.jwt.service.JwtService;
 import com.blueme.backend.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
@@ -111,6 +110,4 @@ public class UsersController {
 		        return new ResponseEntity<>(users, HttpStatus.OK);
 		    }
 	}
-
-	
 }

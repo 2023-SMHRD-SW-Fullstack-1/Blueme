@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.blueme.backend.model.entity.FavArtists;
 import com.blueme.backend.model.entity.Musics;
 
 /**
@@ -54,14 +53,11 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
   @Query("SELECT m FROM Musics m WHERE m.tag LIKE CONCAT('%', :keyword, '%') ORDER BY function('RAND')")
   List<Musics> findTop10ByTagContaining(@Param("keyword") String keyword, Pageable pageable);
 
-  Musics findByArtistFilePath(String artistFilePath);
+  Musics findTop1ByArtistFilePath(String artistFilePath);
 
   @Query("SELECT m FROM Musics m GROUP BY m.artist")
   List<Musics> findByArtist();
 
   @Query(value = "SELECT DISTINCT * FROM musics m WHERE m.artist LIKE %:keyword% GROUP BY m.artist", nativeQuery = true)
   List<Musics> findByDistinctArtist(@Param("keyword") String keyword);
-
-  Musics findByArtist(FavArtists findByFavCheckList);
-
 }

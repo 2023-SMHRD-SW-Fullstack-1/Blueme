@@ -1,5 +1,10 @@
 package com.blueme.backend.model.entity;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.blueme.backend.utils.ImageConverter;
+import com.blueme.backend.utils.ImageToBase64;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -105,11 +114,11 @@ public class Users extends BaseEntity {
 		this.img_url = img_url;
 	}
 
-	public enum UserRole {
-		USER,
-		ADMIN,
-		GUEST
-	}
+//	public enum UserRole {
+//		USER(),
+//		ADMIN,
+//		GUEST
+//	}
 
 	/* 유저 권한 설정 (USER) */
 	public void authorizeUser() {
@@ -135,5 +144,13 @@ public class Users extends BaseEntity {
 		this.password = password;
 		this.img_url = imgUrl;
 	}
+
+	public void update(String nickname2, String imgUrl) {
+		this.nickname=nickname2;
+		this.img_url=imgUrl;
+		
+	}
+	
+
 
 }

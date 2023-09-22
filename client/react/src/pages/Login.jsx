@@ -18,6 +18,9 @@ import {loginRequest, loginSuccess, loginFailure} from '../store/member/memberAc
 import { useDispatch, useSelector } from "react-redux";
 import '../App.css';
 
+
+axios.defaults.withCredentials = true;
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

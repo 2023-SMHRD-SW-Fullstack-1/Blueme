@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -71,44 +72,28 @@ public class SecurityConfig{
 				.headers().frameOptions().disable()
 				.and()
 				
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				
 				.and()
 				
 				.authorizeRequests()
 				// 소셜 로그인 완료되면 접근 주소 변경하깅
-				.antMatchers("/**", "/css/**","/image/**","/js/**","/favicon.ico","/h2-console/**","/user/**").permitAll()
-				.antMatchers("/user/signup","signup", "deactivate","login","update","/index").permitAll() // "/signup" 회원가입페이지 접근 가능
-				.antMatchers("/login/oauth2/code/kakao", "/login/oauth2/code/google").permitAll()
-//				.antMatchers("/admin").hasRole("ADMIN")
+				.antMatchers(HttpMethod.OPTIONS).permitAll()
+				.antMatchers("/admin/**").hasRole("ADMIN") 	// "ROLE_ADMIN"
+				.antMatchers("/**").permitAll()
+//				.antMatchers("/user/signup","signup", "deactivate","login","update","/index").permitAll() // "/signup" 회원가입페이지 접근 가능
+//				.antMatchers("/login/oauth2/code/kakao/**", "/login/oauth2/code/google/**").permitAll()
                 .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
                 // 소셜 로그인 설정
                 .oauth2Login()
+                .authorizationEndpoint().baseUri("/oauth2/authorization").and()
+                .redirectionEndpoint().baseUri("/login/oauth2/code/**").and()
+                .userInfoEndpoint().userService(customOAuth2UserService).and()
                 .successHandler(oAuth2LoginSuccessHandler)
-                .failureHandler(oAuth2LoginFailureHandler)
-                .userInfoEndpoint().userService(customOAuth2UserService);
-		
-		http.logout()
-		.logoutUrl("/logout")
-		.logoutSuccessUrl("/login")
-		.addLogoutHandler((request, response, authentication) -> { 
-            // 사실 굳이 내가 세션 무효화하지 않아도 됨. 
-            // LogoutFilter가 내부적으로 해줌.
-            HttpSession session = request.getSession();
-            if (session != null) {
-                session.invalidate();
-            }
-        })  // 로그아웃 핸들러 추가
-        .logoutSuccessHandler((request, response, authentication) -> {
-            response.sendRedirect("/login");
-        }) // 로그아웃 성공 핸들러
-        .deleteCookies("remember-me"); // 로그아웃 후 삭제할 쿠키 지정
+                .failureHandler(oAuth2LoginFailureHandler);
 
-
-                
-
-		
 		http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
 		http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
                
@@ -175,19 +160,5 @@ public class SecurityConfig{
     	return source;
     }
     
-    @Bean
-    public WebMvcConfigurer corConfigurer() {
-    	return new WebMvcConfigurer() {
-
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedOrigins("http://172.30.1.13:3000")
-                .allowedOrigins("https://www.domain.net");
-			}
-    		
-		};
-    }
 	
 }

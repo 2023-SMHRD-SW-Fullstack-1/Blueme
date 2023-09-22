@@ -3,6 +3,7 @@ package com.blueme.backend.security.jwt.service;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +15,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 
 import lombok.Getter;
@@ -27,10 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtService {
 
-	@Value("${jwt.secretKey}")
-	private String secretKey;
-	
-	@Value("${jwt.access.expiration}")
+    @Value("${jwt.secretKey}")
+    private String secretKey;
+
+    @Value("${jwt.access.expiration}")
     private Long accessTokenExpirationPeriod;
 
     @Value("${jwt.refresh.expiration}")
@@ -41,7 +41,7 @@ public class JwtService {
 
     @Value("${jwt.refresh.header}")
     private String refreshHeader;
-    
+
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
     private static final String ID_CLAIM = "id";
@@ -49,19 +49,19 @@ public class JwtService {
     private static final String BEARER = "Bearer ";
 
     private final UsersJpaRepository usersJpaRepository;
-    
+
     /**
      * AccessToken 생성 메소드
      */
     public String createAccessToken(String email) {
         Date now = new Date();
-        return JWT.create() 
-                .withSubject(ACCESS_TOKEN_SUBJECT) 
+        return JWT.create()
+                .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
                 .withClaim(EMAIL_CLAIM, email)
-                .sign(Algorithm.HMAC512(secretKey)); 
+                .sign(Algorithm.HMAC512(secretKey));
     }
-    
+
     /**
      * RefreshToken 생성
      */
@@ -72,7 +72,7 @@ public class JwtService {
                 .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
                 .sign(Algorithm.HMAC512(secretKey));
     }
-    
+
     /**
      * AccessToken 헤더에 실어서 보내기
      */
@@ -81,8 +81,7 @@ public class JwtService {
         response.setHeader(accessHeader, accessToken);
         log.info("재발급된 Access Token : {}", accessToken);
     }
-    
-    
+
     /**
      * AccessToken + RefreshToken 헤더에 실어서 보내기
      */
@@ -91,10 +90,12 @@ public class JwtService {
 
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
-        log.info("Access Token, Refresh Token 헤더 설정 완료");
+        setRefreshTokenCookie(response, refreshToken);
+
+        log.info("refreshToken : {}", refreshToken);
+        log.info("Access Token, Refresh Token 헤더 및 쿠키 설정 완료");
     }
-    
-    
+
     /**
      * 헤더에서 RefreshToken 추출
      */
@@ -103,52 +104,62 @@ public class JwtService {
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
     }
-    
+
     /**
      * 헤더에서 AccessToken 추출
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
-    	log.info("extractAccessToken() 호출");
+        log.info("extractAccessToken() 호출");
         return Optional.ofNullable(request.getHeader(accessHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
     }
 
-
     /**
      * AccessToken에서 email 추출
      * - ex)
-     * 	     jwtService.extractEmail(accessToken));			// Optional[이메일값]
-	 *       jwtService.extractEmail(accessToken).get());		// 이메일값
+     * jwtService.extractEmail(accessToken)); // Optional[이메일값]
+     * jwtService.extractEmail(accessToken).get()); // 이메일값
      */
     public Optional<String> extractEmail(String accessToken) {
         try {
+            log.info("extractEmail() 호출");
             // 토큰 유효성 검사하는 데에 사용할 알고리즘이 있는 JWT verifier builder 반환
             return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
-                    .build() 
-                    .verify(accessToken) 
-                    .getClaim(EMAIL_CLAIM) 
+                    .build()
+                    .verify(accessToken)
+                    .getClaim(EMAIL_CLAIM)
                     .asString());
         } catch (Exception e) {
             log.error("액세스 토큰이 유효하지 않습니다.");
             return Optional.empty();
         }
     }
-    
+
     /**
      * AccessToken 헤더 설정
      */
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
         response.setHeader(accessHeader, accessToken);
     }
-    
+
     /**
      * RefreshToken 헤더 설정
      */
     public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
         response.setHeader(refreshHeader, refreshToken);
     }
-    
+
+    /**
+     * RefreshToken 쿠키 설정
+     */
+    public void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
+        Cookie cookie = new Cookie(refreshHeader, refreshToken);
+        cookie.setMaxAge(refreshTokenExpirationPeriod.intValue());
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
     /**
      * RefreshToken DB 저장(업데이트)
      */
@@ -156,15 +167,15 @@ public class JwtService {
         usersJpaRepository.findByEmail(email)
                 .ifPresentOrElse(
                         user -> user.updateRefreshToken(refreshToken),
-                        () -> new Exception("일치하는 회원이 없습니다.")
-                );
+                        () -> new Exception("일치하는 회원이 없습니다."));
     }
 
-	/**
-	 * 토큰 유효성 검사
-	 */
+    /**
+     * 토큰 유효성 검사
+     */
     public boolean isTokenValid(String token) {
         try {
+            log.info("토큰의 value 입니다. {}", token);
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {
@@ -172,6 +183,5 @@ public class JwtService {
             return false;
         }
     }
-    
-  
+
 }

@@ -1,5 +1,6 @@
 package com.blueme.backend.security.login.service;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,4 +33,8 @@ public class LoginService implements UserDetailsService {
 				.build();
 	}
 
+	public String extractUsername(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return userDetails.getUsername();
+	}
 }

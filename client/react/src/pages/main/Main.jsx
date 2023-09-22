@@ -54,6 +54,7 @@ const Main = () => {
   // console.log('header',user);
 
   useEffect(() => {
+    console.log("search : ",window.location.search);
     const fetchRecentlyPlayed = async () => {
       try {
         const response = await axios.get(`/playedmusic/get/${id}`);

@@ -1,28 +1,23 @@
 package com.blueme.backend.security.oauth2.handler;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.session.DefaultCookieSerializerCustomizer;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import com.blueme.backend.dto.usersdto.UserInfoDTO;
+import com.blueme.backend.model.entity.UserRole;
 import com.blueme.backend.model.entity.Users;
-import com.blueme.backend.model.entity.Users.UserRole;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.service.JwtService;
 import com.blueme.backend.security.oauth2.CustomOAuth2User;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -46,8 +41,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 
-		log.info("OAuth2 Login 성공!");
-
 		try {
 			CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
@@ -65,9 +58,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				jwtService.sendAccessToken(response, userId.toString());
 				response.addHeader("userId", userId.toString());
 
-				UserInfoDTO userInfo = new UserInfoDTO(Long.parseLong(userId), oAuth2User.getEmail(),
-						oAuth2User.getAttribute("name"), oAuth2User.getAttribute("img_url"));
-
 				String userIdParam = "id=" + userId;
 				String redirectUrl = "http://172.30.1.13:3000/SelectGenre?" + userIdParam;
 				response.sendRedirect(redirectUrl);
@@ -75,10 +65,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				usersJpaRepository.save(findUser); // Role.USER 로 변경
 
 			} else {
-				
-				log.info("oauth2user =========> {}", oAuth2User.toString());
+
+				log.info("oauth2user : {}", oAuth2User.toString());
 				loginSuccess(response, oAuth2User, authentication); // 로그인에 성공한 경우 access, refresh 토큰 생성
-				
+
 			}
 		} catch (Exception e) {
 			log.info("onAuthenticationSuccess : {}", e.getMessage());
@@ -91,39 +81,33 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User, Authentication authentication)
 			throws IOException {
 		log.info("loginSuccess method start ...");
-
 		usersJpaRepository.findByEmail(oAuth2User.getEmail()).ifPresent(user -> {
-			String accessToken = jwtService.createAccessToken(user.getEmail());
+			String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
 			String refreshToken = jwtService.createRefreshToken();
 
 			response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
 			response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
 
 			jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
-			user.updateRefreshToken(refreshToken);
-			usersJpaRepository.save(user);
+			// jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
+			System.out.println("accessToken : " + accessToken);
 
-			UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(),
-					user.getImg_url());
+			UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(), user.getImg_url(),
+					user.getPlatformType(), user.getRole());
 
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.registerModule(new JavaTimeModule());
-			
+
 			String userInfoJson;
 			try {
 				userInfoJson = mapper.writeValueAsString(userInfo);
-				response.setContentType("application/json;charset=UTF-8");
-				response.getWriter().write(userInfoJson);
-//				response.sendRedirect("http://172.30.1.13:3000/");
-			} catch (Exception e) {
-				log.info("error");
+				log.info(userInfoJson);
+				String encodedUserInfo = URLEncoder.encode(userInfoJson, "UTF-8");
+				String redirectUri = "http://localhost:3000/OauthInfo?OauthInfo=" + encodedUserInfo;
+				response.sendRedirect(redirectUri);
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			log.info("소셜로그인 성공! 이메일 : {}", user.getEmail());
-			log.info("소셜로그인 성공! AccessToken : {}", accessToken);
-			log.info("발급된 AccessToken 만료 기간 : {}", accessTokenExpiration);
 		});
 	}
-
 }
