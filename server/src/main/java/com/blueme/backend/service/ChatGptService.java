@@ -24,6 +24,7 @@ import com.blueme.backend.dto.gptdto.ChatGptReqDto;
 import com.blueme.backend.dto.gptdto.ChatGptResDto;
 import com.blueme.backend.dto.gptdto.QuestionReqDto;
 import com.blueme.backend.enums.EmotionState;
+import com.blueme.backend.enums.PlaceActivity;
 import com.blueme.backend.enums.Season;
 import com.blueme.backend.enums.TimeOfDay;
 import com.blueme.backend.model.entity.HealthInfos;
@@ -378,6 +379,69 @@ public class ChatGptService {
         }
 
         /**
+         * 건강 정보 기반 장소 추측하는 메서드입니다.
+         * 
+         * @param healthInfo 건강정보(HealthInfos)
+         * @return 장소 (String)
+         */
+        public String getLocationState(HealthInfos healthInfo) {
+                // 상수 선언
+                final double STATIONARY_SPEED = 1.5;
+                final double WALKING_SPEED = 5.0;
+                final double RUNNING_SPEED = 10.0;
+                final double BICYCLE_SPEED = 15.0;
+                final double CAR_SPEED = 25;
+
+                // 심장박동수 상태
+                final double VERY_LOW_THRESHOLD = 60;
+                final double LOW_THRESHOLD = 80;
+                final double NORMAL_THRESHOLD = 110;
+
+                Double speedVal = Double.parseDouble(healthInfo.getSpeed());
+                Double heartRateVal = Double.parseDouble(healthInfo.getHeartrate());
+
+                String placeActivityTag = "";
+
+                if (speedVal <= STATIONARY_SPEED) {
+                        if (heartRateVal <= VERY_LOW_THRESHOLD) {
+                                placeActivityTag = PlaceActivity.HOME.getTag();
+                        } else if (heartRateVal <= LOW_THRESHOLD) {
+                                placeActivityTag = PlaceActivity.STUDY.getTag();
+                        } else {
+                                placeActivityTag = PlaceActivity.GYM.getTag();
+                        }
+                } else if (speedVal <= WALKING_SPEED) {
+                        if (heartRateVal <= NORMAL_THRESHOLD) {
+                                placeActivityTag = PlaceActivity.CAMPUS.getTag();
+                        } else {
+                                placeActivityTag = PlaceActivity.PARTY.getTag();
+                        }
+                } else if (speedVal <= RUNNING_SPEED) {
+                        if (heartRateVal <= NORMAL_THRESHOLD) {
+                                placeActivityTag = PlaceActivity.BEACH.getTag();
+                        } else {
+                                placeActivityTag = PlaceActivity.CAMPUS.getTag();
+                        }
+                } else if (speedVal <= BICYCLE_SPEED) {
+                        if (heartRateVal < NORMAL_THRESHOLD) {
+                                placeActivityTag = PlaceActivity.CAMPUS.getTag();
+                        } else {
+                                placeActivityTag = PlaceActivity.GYM_ENG.getTag();
+                        }
+                }
+
+                else {
+                        if (heartRateVal < LOW_THRESHOLD) {
+                                placeActivityTag = PlaceActivity.DRIVING.getTag();
+                        } else {
+                                placeActivityTag = PlaceActivity.SUBWAY_ENG.getTag();
+                        }
+                }
+
+                return placeActivityTag;
+        }
+
+        /**
          * 뮤직 리스트를 문자열로 반환합니다.
          *
          * @return 뮤직 리스트 (String)
@@ -397,11 +461,11 @@ public class ChatGptService {
                 musics.addAll(musicsService.getMusicsWithTag(timeData, 5));
                 musics.addAll(musicsService.getMusicsWithTag(timeDataEng, 5));
 
-                // 감정 태그로 감정 분류 (40개 감정기반 비중높음)
+                // 감정 태그로 감정 분류 (25개 감정기반 비중높음, or DB에 적을경우 더 적은 개수)
                 String emotionData = getEmotionStatus("KOR", weatherSummary, healthInfo);
-                musics.addAll(musicsService.getMusicsWithTag(emotionData, 40));
+                musics.addAll(musicsService.getMusicsWithTag(emotionData, 25));
 
-                // 장소 태그로 장소 분류
+                // 장소 태그로 장소 분류 (25개, or DB에 적을경우 더 적은 개수)
 
                 // 음악 가져오기 (현재 랜덤 100개)
                 List<ChatGptMusicsDto> musicsList = musicsService.getRandomEntities(60)
