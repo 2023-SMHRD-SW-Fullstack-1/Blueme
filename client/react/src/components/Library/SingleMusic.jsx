@@ -23,7 +23,7 @@ const SingleMusic = ({ item }) => {
   // console.log("single", item);
 
   const musicId = item.musicId;
-  const currentSongId = useSelector((state)=> state.musicReducer.currentSongId)
+  const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,14 +41,14 @@ const SingleMusic = ({ item }) => {
   }
 
   return (
-    <div className="flex flex-row items-center ml-2 mr-2 justify-between flex-grow">
-        <div className="flex flex-row items-center p-1 flex-grow"  onClick={handleMusicClick}>
-          <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-md"/>
-          <div className="flex flex-col text-left ml-3">
-            <span className="text-[18px] font-semibold">{item.title}</span>
-            <span className="text-sm font-normal">{item.artist}</span>
-          </div>
+    <div className="flex flex-row items-center ml-2 mr-2 justify-between flex-grow" onClick={handleMusicClick}>
+      <div className="flex flex-row items-center p-1 flex-grow">
+        <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-md" />
+        <div className="flex flex-col text-left ml-3">
+          <span className="text-[18px] font-semibold">{item.title}</span>
+          <span className="text-sm font-normal">{item.artist}</span>
         </div>
+      </div>
 
       {/* 고정 너비를 가진 컨테이너 */}
       <div className="w-[40%] hidden md:block text-custom-gray font-normal"onClick={handleMusicClick}>
@@ -60,7 +60,7 @@ const SingleMusic = ({ item }) => {
       </div>
 
       {/* 하트 컴포넌트 */}
-      <div className="ml-auto">
+      <div className="ml-auto ">
         <Heart item={item.musicId} />
       </div>
     </div>
