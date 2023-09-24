@@ -191,6 +191,17 @@ public class ChatGptService {
         /**
          * 날씨,상태 기반 감정 상태 추측하는 로직 입니다.
          * 
+         * <p>
+         * 참고문헌
+         * </p>
+         * <p>
+         * Weather impacts expressed sentiment (Baylis et al., 2018)
+         * </p>
+         * <p>
+         * "The temperature of emotions(Francisco Barbosa Escobar., 2021)
+         * </p>
+         * 
+         * 
          * @param language       언어(KOR, ENG)
          * @param weatherSummary 현재 날씨상태
          * @param healthInfo     상태정보
@@ -250,8 +261,8 @@ public class ChatGptService {
 
                         case "Snow":
                                 if (speed <= STATIONARY_SPEED) {
-                                        emotionstate = (heartRate < LOW_THRESHOLD ? EmotionState.DEPRESSED.getTag()
-                                                        : EmotionState.SAD_ENG.getTag());
+                                        emotionstate = (heartRate < LOW_THRESHOLD ? EmotionState.SAD.getTag()
+                                                        : EmotionState.VALUABLE.getTag());
                                 } else {
                                         emotionstate = (heartRate < LOW_THRESHOLD ? EmotionState.MISSING.getTag()
                                                         : EmotionState.BEAT.getTag());
@@ -291,8 +302,8 @@ public class ChatGptService {
                                 break;
 
                         case "Clouds":
-                                if (humid > 70) {
-                                        emotionstate = EmotionState.MISSING.getTag();
+                                if (humid > 80) {
+                                        emotionstate = EmotionState.DEPRESSED.getTag();
                                 } else {
                                         emotionstate = EmotionState.UNREST.getTag();
                                 }
@@ -388,8 +399,7 @@ public class ChatGptService {
 
                 // 감정 태그로 감정 분류 (40개 감정기반 비중높음)
                 String emotionData = getEmotionStatus("KOR", weatherSummary, healthInfo);
-                musics.addAll(musicsService.getMusicsWithTag(emotionData, 30));
-                // 활동 태그로 활동 분류 (20개 or DB에 적을경우 더 적은 개수)
+                musics.addAll(musicsService.getMusicsWithTag(emotionData, 40));
 
                 // 장소 태그로 장소 분류
 
