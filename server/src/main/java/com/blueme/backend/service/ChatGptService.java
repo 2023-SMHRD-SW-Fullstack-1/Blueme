@@ -28,7 +28,9 @@ import com.blueme.backend.enums.PlaceActivity;
 import com.blueme.backend.enums.Season;
 import com.blueme.backend.enums.TimeOfDay;
 import com.blueme.backend.model.entity.HealthInfos;
+import com.blueme.backend.model.entity.MusicSpecifications;
 import com.blueme.backend.model.entity.Musics;
+import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.vo.ChatGptMessage;
 import com.blueme.backend.model.vo.WeatherSummary;
 import com.blueme.backend.model.vo.WeatherInfo.Weather;
@@ -53,6 +55,7 @@ public class ChatGptService {
 
         private final RestTemplate restTemplate;
         private final MusicsService musicsService;
+        private final MusicsJpaRepository musicsJpaRepository;
 
         @Value("${api-key.chat-gpt}")
         private String apiKey;
@@ -448,26 +451,61 @@ public class ChatGptService {
          */
         public String getMusicList(WeatherSummary weatherSummary, HealthInfos healthInfo) {
                 // 음악 가져오기 로직 수정중 (현재 곡 수 : 190 곡, 190곡중 약 60곡 뽑기)
-                List<Musics> musics = new ArrayList<Musics>();
                 // 계절 태그로 계절 분류 (10개 or DB에 적을경우 더 적은 개수)
                 String seasonData = getSeasonStatus("KOR");
                 String seasonDataEng = getSeasonStatus("ENG");
-                musics.addAll(musicsService.getMusicsWithTag(seasonData, 5));
-                musics.addAll(musicsService.getMusicsWithTag(seasonDataEng, 5));
+                // musics.addAll(musicsService.getMusicsWithTag(seasonData, 5));
+                // musics.addAll(musicsService.getMusicsWithTag(seasonDataEng, 5));
 
                 // 시간 태그로 시간 분류 (10개 or DB에 적을경우 더 적은 개수)
                 String timeData = getTimeStatus("KOR");
                 String timeDataEng = getTimeStatus("ENG");
-                musics.addAll(musicsService.getMusicsWithTag(timeData, 5));
-                musics.addAll(musicsService.getMusicsWithTag(timeDataEng, 5));
+                // musics.addAll(musicsService.getMusicsWithTag(timeData, 5));
+                // musics.addAll(musicsService.getMusicsWithTag(timeDataEng, 5));
 
                 // 감정 태그로 감정 분류 (25개 감정기반 비중높음, or DB에 적을경우 더 적은 개수)
                 String emotionData = getEmotionStatus("KOR", weatherSummary, healthInfo);
-                musics.addAll(musicsService.getMusicsWithTag(emotionData, 25));
+                // musics.addAll(musicsService.getMusicsWithTag(emotionData, 25));
 
                 // 장소 태그로 장소 분류 (25개, or DB에 적을경우 더 적은 개수)
+                String locationData = getLocationState(healthInfo);
+                // musics.addAll(musicsService.getMusicsWithTag(locationData, 25));
 
-                // 음악 가져오기 (현재 랜덤 100개)
+                // 음악 가져오기 (로직에 의한 필터링 , 알고리즘에 따라 최선을 추출, 부족하다면 중요도 낮은순(밑)으로 제거)
+                // 위에거 밑으로 넣어서 코드 줄이기
+                StringBuilder sb = new StringBuilder();
+                sb.append(emotionData).append(", ");
+                sb.append(locationData).append(", ");
+                sb.append(timeData).append(", ");
+                sb.append(timeDataEng).append(", ");
+                sb.append(seasonData).append(", ");
+                sb.append(seasonDataEng);
+
+                List<Musics> musicsList33;
+                while (true) {
+                        musicsList33 = musicsJpaRepository.findAll(MusicSpecifications.hasTags(sb.toString()));
+                        System.out.println(musicsList33.size());
+                        if (musicsList33.size() >= 60 || sb.length() == 0) {
+                                break;
+                        }
+
+                        int lastCommaIndex = sb.lastIndexOf(",");
+                        if (lastCommaIndex != -1) {
+                                sb.delete(lastCommaIndex, sb.length());
+                                while (sb.length() > 0 && Character.isWhitespace(sb.charAt(sb.length() - 1))) {
+                                        sb.deleteCharAt(sb.length() - 1);
+                                }
+                        } else {
+                                // 더이상 지울 태그가 없을때 탈출
+                                break;
+                        }
+                }
+
+                if (musicsList33.size() < 60) {
+
+                }
+
+                // 음악 가져오기 (랜덤 60개)
                 List<ChatGptMusicsDto> musicsList = musicsService.getRandomEntities(60)
                                 .stream().map(ChatGptMusicsDto::new).collect(Collectors.toList());
                 String musicsString = musicsList.stream().map(ChatGptMusicsDto::toString)

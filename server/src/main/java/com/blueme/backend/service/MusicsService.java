@@ -274,7 +274,7 @@ public class MusicsService {
     }
 
     /**
-     * tag 필드가 keyword에 매칭되는 랜덤한 10개의 음악을 조회합니다.
+     * tag 필드가 keyword에 매칭되는 랜덤한 10개의 음악을 조회합니다.(단일 태그)
      * 
      * @param tag String 태그명
      * @return 음악 목록 (List<Musics>)

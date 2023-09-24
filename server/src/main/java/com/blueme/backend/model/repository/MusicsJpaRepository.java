@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -16,7 +17,7 @@ import com.blueme.backend.model.entity.Musics;
  * @version 1.0
  * @since 2023-09-07
  */
-public interface MusicsJpaRepository extends JpaRepository<Musics, Long> {
+public interface MusicsJpaRepository extends JpaRepository<Musics, Long>, JpaSpecificationExecutor<Musics> {
   /**
    * 음악 조회시 제목필드에 키워드가 포함된 음악 목록을 조회하는 메서드
    * 
