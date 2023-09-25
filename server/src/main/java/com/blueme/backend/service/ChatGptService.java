@@ -580,10 +580,9 @@ public class ChatGptService {
 
                 // 1~5까지 랜덤한 질의문 생성(GPT의 다채로운답변을위해)
                 Random random = new Random();
-                // int randomNumber = random.nextInt(13) + 1;
+                int randomNumber = random.nextInt(4) + 1;
 
-                // 테스트
-                int randomNumber = 1;
+                // int randomNumber = 4;
 
                 String question = null;
                 log.info("포맷타입 = {}", randomNumber);
@@ -593,68 +592,20 @@ public class ChatGptService {
                                         avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
                                         musicsString);
                 } else if (randomNumber == 2) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE2, seasonData + " " + timeData,
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE2,
                                         temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
                                         musicsString);
                 } else if (randomNumber == 3) {
                         question = String.format(ChatGptConfig.QUESTION_TEMPLATE3,
                                         temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
                                         musicsString);
                 } else if (randomNumber == 4) {
                         question = String.format(ChatGptConfig.QUESTION_TEMPLATE4,
-                                        temperature,
                                         avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
-                                        musicsString);
-                } else if (randomNumber == 5) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE5,
-                                        temperature,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
-                                        musicsString);
-                } else if (randomNumber == 6) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE6, seasonData + " " + timeData,
-                                        temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
-                                        musicsString);
-                } else if (randomNumber == 7) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE7, seasonData + " " + timeData,
-                                        temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
-                                        musicsString);
-                } else if (randomNumber == 8) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE8, seasonData + " " + timeData,
-                                        temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
-                                        musicsString);
-                } else if (randomNumber == 9) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE9, seasonData + " " + timeData,
-                                        temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
-                                        musicsString);
-                } else if (randomNumber == 10) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE10, seasonData + " " + timeData,
-                                        temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
-                                        musicsString);
-                } else if (randomNumber == 11) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE11, seasonData + " " + timeData,
-                                        temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
-                                        musicsString);
-                } else if (randomNumber == 12) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE12, seasonData + " " + timeData,
-                                        temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
-                                        musicsString);
-                } else if (randomNumber == 13) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE13, seasonData + " " + timeData,
-                                        temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
                                         musicsString);
                 }
-
-                log.info(question);
                 return question;
         }
 
