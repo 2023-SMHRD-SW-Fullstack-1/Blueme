@@ -80,7 +80,8 @@ class PrepareFragment : Fragment(R.layout.fragment_prepare) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Unbind from the service.
+        Log.d("test", "ㅂ파괴파괴파괴")
+//         Unbind from the service.
         ExerciseService.unbindService(requireContext().applicationContext, serviceConnection)
         _binding = null
     }

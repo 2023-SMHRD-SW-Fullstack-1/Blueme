@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.entity.PlayedMusics;
@@ -43,6 +44,7 @@ public interface PlayedMusicsJpaRepository extends JpaRepository<PlayedMusics, L
    * @param music Musics 객체
    * @return 일치하는 재생된 음악 정보. 일치하는 정보가 없을 경우 null
    */
-  PlayedMusics findDistinctByUserAndMusic(Users user, Musics music);
+  @Query("SELECT DISTINCT pm FROM PlayedMusics pm WHERE pm.user = :user AND pm.music = :music")
+  PlayedMusics findDistinctByUserAndMusic(@Param("user") Users user, @Param("music") Musics music);
 
 }

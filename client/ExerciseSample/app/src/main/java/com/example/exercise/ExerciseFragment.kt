@@ -533,20 +533,22 @@ class ExerciseFragment : Fragment() {
         val iconTint = if (isAmbient) {
             Color.WHITE
         } else {
-            resources.getColor(R.color.primary_orange, null)
+            resources.getColor(R.color.blueme_red, null)
         }
         ColorStateList.valueOf(iconTint).let {
             binding.clockIcon.imageTintList = it
-            //binding.heartRateIcon.imageTintList = it
-            //binding.caloriesIcon.imageTintList = it
-            //binding.distanceIcon.imageTintList = it
-            //binding.lapsIcon.imageTintList = it
+            binding.heartRateIcon.imageTintList = it
+            binding.caloriesIcon.imageTintList = it
+            binding.distanceIcon.imageTintList = it
+            binding.lapsIcon.imageTintList = it
+            binding.imageView6.imageTintList=it
+            binding.imageView7.imageTintList=it
         }
 
         // Hide the buttons in ambient mode.
         val buttonVisibility = if (isAmbient) View.INVISIBLE else View.VISIBLE
         buttonVisibility.let {
-            //binding.startEndButton.visibility = it
+            binding.startEndButton.visibility = it
             //binding.pauseResumeButton.visibility = it
         }
     }

@@ -17,6 +17,7 @@
 package com.example.exercise
 
 import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,6 +29,7 @@ import javax.inject.Inject
 /**
  * Coordinates messages between [MainActivity] and [ExerciseFragment].
  */
+// modified by orthh
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
 
@@ -48,6 +50,8 @@ class MainViewModel @Inject constructor() : ViewModel() {
             _keyPressChannel.send(Unit)
         }
     }
+
+
 }
 
 sealed class AmbientEvent {

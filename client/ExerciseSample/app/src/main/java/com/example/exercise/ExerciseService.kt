@@ -134,6 +134,7 @@ class ExerciseService : LifecycleService() {
         removeOngoingActivityNotification()
     }
 
+    //
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         Log.d(TAG, "onStartCommand")

@@ -2,4 +2,5 @@
 <!-- added by orthh -->
 <resources>
     <color name="blueme_color">#283655</color>
+    <color name="blueme_red">#E91E63</color>
 </resources>
