@@ -22,7 +22,6 @@ import { setCurrentSongId, setPlayingStatus, setIsMusicPlayer } from "../../stor
 import ProgressBar from "../../components/music/ProgressBar";
 
 const MiniPlayer = () => {
-
   const duration = useSelector((state) => state.musicReducer.duration);
 
   const dispatch = useDispatch();
@@ -39,14 +38,9 @@ const MiniPlayer = () => {
   // 음악 재생 인덱스 (리덕스 활용)
   const musicIds = useSelector((state) => state.musicReducer.musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
-  const currentSongId = useSelector(
-    (state) => state.musicReducer.currentSongId
-  );
-  const playingStatus = useSelector(
-    (state) => state.musicReducer.playingStatus
-  );
+  const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
+  const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
   const currentTime = useSelector((state) => state.musicReducer.currentTime);
-
 
   // 사용자 id
   const user = useSelector((state) => state.memberReducer.user);
@@ -54,7 +48,7 @@ const MiniPlayer = () => {
 
   useEffect(() => {
     dispatch(setIsMusicPlayer(false));
-}, []);
+  }, []);
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
@@ -128,32 +122,22 @@ const MiniPlayer = () => {
   };
 
   return (
-    <div className="flex items-center bg-custom-blue text-custom-white fixed xs:bottom-[8%] md:bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
+    <div className="flex items-center bg-custom-blue text-custom-white fixed xs:bottom-[9.3%] md:bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
       <div onClick={handleMusicClick} className="h-[80%]">
         <div className="h-[100%] flex flex-row">
-          <img
-            src={"data:image/;base64," + musicInfo.img}
-            className="h-[100%] rounded-lg"
-            alt=""
-          />
+          <img src={"data:image/;base64," + musicInfo.img} className="h-[100%] rounded-lg" alt="" />
 
           <div className="flex flex-col lg:ml-4 xs:ml-3 justify-center">
-            <p className="md:text-xl font-semibold xs:text-sm xs:pb-1">
-              {musicInfo.title}
-            </p>
-            <p className="lg:text-lg xs:text-xs">{musicInfo.artist}</p>
+            <p className="md:text-base font-semibold xs:text-sm xs:pb-1">{musicInfo.title}</p>
+            <p className="lg:text-sm xs:text-xs">{musicInfo.artist}</p>
           </div>
         </div>
-
       </div>
-      <div className="xl:flex xl:justify-center xl:w-[60%] xl:pb-[10px] xl:mt-[-35px]">
-      <ProgressBar currentTime={currentTime} duration={duration} playingStatus={playingStatus} />
+      <div className="xl:flex xl:justify-center xl:w-[80%] xl:pb-[10px] xl:mt-[-35px]">
+        <ProgressBar currentTime={currentTime} duration={duration} playingStatus={playingStatus} />
       </div>
       <div className="flex flex-row xs:gap-2 lg:gap-6 ml-auto">
-        <Prev
-          className="xs:w-[25px] lg:w-[40px] m h-auto"
-          onClick={prevTrack}
-        />
+        <Prev className="xs:w-[25px] lg:w-[40px] m h-auto" onClick={prevTrack} />
         {playingStatus ? (
           <Pause
             className="xs:w-[30px] lg:w-[40px] h-auto"

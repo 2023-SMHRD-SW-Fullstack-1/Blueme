@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-21
-설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현 및 디자인 수정, musicIds 설정
+날짜: 2023-09-25
+설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현 및 디자인 수정, musicIds 설정, 전체 재생 구현
 */
 /*
 작성자: 이지희
@@ -10,7 +10,7 @@
 */
 
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import SingleMusic from "../../components/Library/SingleMusic";
 
 import "swiper/swiper-bundle.css";
@@ -20,12 +20,16 @@ import Lottie from "lottie-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setMusicIds } from "../../store/music/musicActions.js";
 
+import { setCurrentSongId } from "../../store/music/musicActions";
+
 const ThemePlaylist = () => {
   // 상태 변수 초기화
   const [themeImage, setThemeImage] = useState("");
   const [themeName, setThemeName] = useState("");
   const [musicList, setMusicList] = useState([]);
   const [showThemePlaylistModal, setShowThemePlaylistModal] = useState(false);
+
+  const navigate = useNavigate();
 
   // Redux에서 사용자 정보와 음악 ID 가져오기
   const user = useSelector((state) => state.memberReducer.user);
@@ -102,6 +106,12 @@ const ThemePlaylist = () => {
     dispatch(setMusicIds(ids));
   };
 
+  const WholePlaying = () => {
+    dispatch(setCurrentSongId(ids[0])); // 첫 번째 음악을 재생
+    dispatch(setMusicIds(ids));
+    navigate(`/MusicPlayer/${ids[0]}`);
+  };
+
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-full text-custom-white p-3 hide-scrollbar overflow-auto mb-[70px]">
       <br />
@@ -112,7 +122,10 @@ const ThemePlaylist = () => {
       </div>
 
       <div className="flex justify-between mb-5 mt-2">
-        <button className="bg-gradient-to-t  from-gray-800 border ml-2 xs:w-[150px] xl:w-[180px] rounded-lg text-custom-lightpurple font-semibold tracking-tighter  h-10 text-xl">
+        <button
+          onClick={WholePlaying}
+          className="bg-gradient-to-t  from-gray-800 border ml-2 xs:w-[150px] xl:w-[180px] rounded-lg text-custom-lightpurple font-semibold tracking-tighter  h-10 text-xl"
+        >
           전체 재생
         </button>
         <button
