@@ -12,6 +12,7 @@ import {
   setCurrentSongId,
   setPlayingStatus,
   setCurrentTime,
+  setDuration,
 } from "../../store/music/musicActions";
 import MusicPlayer from "../../pages/MusicPlayer";
 
@@ -39,14 +40,6 @@ const SoundControl = () => {
   // 접근해있는 컴포넌트 확인 (뮤직플레이어 or 미니플레이어)
   const isMusicPlayer = useSelector((state) => state.musicReducer.isMusicPlayer);
 
-  // const playMusic = () => {
-  //   if (sound) {
-  //     sound.play();
-  //     dispatch(setPlayingStatus(true));
-  //   }
-  // };
-  
-
   // 음원 불러오기
   useEffect(() => {
     const fetchSound = async () => {
@@ -70,7 +63,8 @@ const SoundControl = () => {
                 dispatch(setPlayingStatus(!playingStatus));
               }
              }
-          },
+            dispatch(setDuration(newSound.duration()))            
+            },
           onend() {
             if (repeatModeRef.current) {
               newSound.seek(0);
@@ -106,6 +100,9 @@ const SoundControl = () => {
     };
   }, [currentSongId, musicIds]);
 
+
+
+  
   // 한곡반복
   useEffect(() => {
     repeatModeRef.current = repeatMode;

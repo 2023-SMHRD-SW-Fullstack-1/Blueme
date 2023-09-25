@@ -22,10 +22,10 @@ body {
 /* 뮤직 플레이어  */
 /* 미니 버전 */
 .mini-player {
-    @apply flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] bg-custom-gray px-6;
-  }
-  
+  @apply flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] bg-custom-gray px-6;
+}
+
 /* 풀 버전 */
-  .full-screen-player {
-    @apply flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full;
-  }
+.full-screen-player {
+  @apply flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full;
+}

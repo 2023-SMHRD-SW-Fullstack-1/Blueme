@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-22
-설명: 음악관련 리덕스 리듀서 (재셍바 관련 추가), 접근해있는 컴포넌트 확인(0922)
+날짜(수정포함): 2023-09-24
+설명: 음악관련 리덕스 리듀서 (재셍바 관련 추가), 접근해있는 컴포넌트 확인(0922), 총재생시간-duration추가(0924)
 */
 
 import {
@@ -12,7 +12,8 @@ import {
   SET_CURRENT_TIME,
   SET_DRAGGING_STATUS,
   SET_REPEAT_MODE,
-  SET_IS_MUSIC_PLAYER
+  SET_IS_MUSIC_PLAYER,
+  SET_DURATION
 } from "./musicActions";
 
 
@@ -20,12 +21,13 @@ import {
 const initialState = {
   musicIds: [],
   playingStatus: false,
-  currentSongId: 1,
+  currentSongId: 0,
   showMiniPlayer: false,
   currentTime: 0,
   isDragging: false,
   repeatMode: false,
-  isMusicPlayer : false
+  isMusicPlayer : false,
+  duration : 0
 };
 
 function music(state = initialState, action) {
@@ -46,6 +48,8 @@ function music(state = initialState, action) {
       return { ...state, repeatMode: action.payload };
     case  SET_IS_MUSIC_PLAYER:
       return { ...state, isMusicPlayer: action.payload };
+    case  SET_DURATION:
+      return { ...state, duration: action.payload };
     default:
       return state;
   }
