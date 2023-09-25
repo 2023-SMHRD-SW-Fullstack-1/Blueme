@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-14
-설명: 음악플레이어 미니/풀 버전 css 설정
+날짜(수정포함): 2023-09-25
+설명: 음악 제목 자동 넘김 설정
 */
 
 @import 'tailwindcss/base';
@@ -19,13 +19,14 @@ body {
   font-family: "Pretendard-Regular", sans-serif;
 }
 
-/* 뮤직 플레이어  */
-/* 미니 버전 */
-.mini-player {
-  @apply flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] bg-custom-gray px-6;
+/* 음악 제목 자동넘김 */
+.marquee {
+  white-space: nowrap; 
+  overflow: hidden;
+  animation: marquee 12s linear infinite;
 }
 
-/* 풀 버전 */
-.full-screen-player {
-  @apply flex flex-col items-center justify-center bg-custom-blue text-custom-white h-full;
+@keyframes marquee {
+  from { text-indent: 100% }
+  to { text-indent: -100% }
 }

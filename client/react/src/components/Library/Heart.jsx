@@ -34,7 +34,7 @@ const Heart = ({ item }) => {
       }
     };
     fetchLikeStatus();
-  }, [userId, item]);
+  }, [item]);
 
   // 좋아요버튼 누르기
   const toggleLike = async () => {
@@ -52,7 +52,7 @@ const Heart = ({ item }) => {
   return (
     <div>
       <button onClick={toggleLike}>
-        <img className="w-[30px] h-auto" src={isLiked ? likeFull : likeEmpty} alt="{likeEmpty}" />
+        <img className="w-[30px] xs:w-[25px] h-auto mt-3" src={isLiked ? likeFull : likeEmpty} alt="{likeEmpty}" />
       </button>
     </div>
   );
