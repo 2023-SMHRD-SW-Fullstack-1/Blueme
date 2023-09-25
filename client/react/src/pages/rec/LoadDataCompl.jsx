@@ -63,7 +63,7 @@ const LoadDataCompl = () => {
           <br />
           {/* 사용자가 건강 데이터 보낸 시간 */}
           {year}년 {month}월 {day}일 {hour}시 {minute}분 {second}초
-          <br />ㅞ{nickname} 님의 현재 상태입니다.
+          <br />{nickname} 님의 현재 상태입니다.
         </p>
 
         {/* 현재 데이터 가져오기 */}

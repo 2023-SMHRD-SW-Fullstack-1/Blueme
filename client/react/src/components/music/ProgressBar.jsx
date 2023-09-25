@@ -30,7 +30,7 @@ const ProgressBar = ({ currentTime, duration, playingStatus }) => {
  
 
    return (
-      <div className="w-[85%] h-2.5 bg-black rounded-full mt-10 relative">
+      <div className="w-[82%] h-2.5 bg-black rounded-full mt-10 relative">
         <div
           style={{ width: `${(currentTime / duration) * 100}%` }}
           className="h-2 bg-white rounded-full absolute"

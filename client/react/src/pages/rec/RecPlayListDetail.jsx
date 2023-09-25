@@ -9,16 +9,20 @@
 날짜(수정포함): 2023-09-22
 설명: 모바일 크기 조정
 */
+
+/*
+작성자: 이지희
+날짜(수정포함): 2023-09-25
+설명: 음악 개별 정보 컴포넌트 SingleRecPlayList -> SingleMusic으로 수정 
+*/
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import SingleRecPlayList from "../../components/recommend/SingleRecPlayList";
 import { Link } from "react-router-dom";
-import Heart from "../../components/Library/Heart";
 import { setCurrentSongId } from "../../store/music/musicActions";
 import { setMusicIds } from "../../store/music/musicActions.js";
-import DetailRecMusicList from "../../components/recommend/DetailRecMusicList";
+import SingleMusic from "../../components/Library/SingleMusic";
 
 const RecPlayListDetail = () => {
   const user = useSelector((state) => state.memberReducer.user); //member리듀서 가져오기
@@ -112,13 +116,9 @@ const RecPlayListDetail = () => {
               }}
               className="flex-grow"
             >
-              <DetailRecMusicList key={item.id} item={item} />
+              <SingleMusic key={item.id} item={item} />
             </Link>
             <div className="ml-auto  xs:ml-[5px] xs:mr-[5px]">
-              {/* 하트 컴포넌트 */}
-              {/* {item.musicId && ( */}
-              <Heart key={item.id} item={item.musicId} />
-              {/* )} */}
             </div>
           </div>
         ))}
