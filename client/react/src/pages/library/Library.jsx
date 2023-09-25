@@ -13,11 +13,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import LikedList from "../../components/Library/LikedList";
 import SavedPlaylist from "../../components/Library/SavedPlaylist";
 import { Swiper, SwiperSlide } from "swiper/react";
-import BeforeRegistration from "../../components/Main/BeforeRegistration";
 
 const Library = () => {
   // 사용자의 추천 음악 목록 상태 변수
@@ -57,7 +56,7 @@ const Library = () => {
 
           {isLoggendIn && myRecMusicList.length > 0 && (
             <Swiper
-              className=" mt-5 lg:mt-10 hidden md:block overflow-hidden xs:mb-20"
+              className="ml-10 mt-5 lg:mt-10 hidden md:block overflow-hidden xs:mb-20"
               spaceBetween={10}
               slidesPerView="0"
               breakpoints={{

@@ -8,7 +8,11 @@
 날짜: 2023-09-21
 설명: 리덕스 musicIds 설정
 */
-
+/*
+작성자: 이지희
+날짜: 2023-09-25
+설명: 리덕스 playingStatus 설정
+*/
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -19,7 +23,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import axios from "axios";
 import { setMusicIds } from "../../store/music/musicActions.js";
-import { setCurrentSongId } from "../../store/music/musicActions";
+import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
 const SavedPlaylistDetail = () => {
   const dispatch = useDispatch();
 
@@ -70,6 +74,7 @@ const SavedPlaylistDetail = () => {
   const WholePlaying = () => {
     dispatch(setCurrentSongId(ids[0])); // 첫 번째 음악을 재생
     dispatch(setMusicIds(ids));
+    dispatch(setPlayingStatus(true));
     navigate(`/MusicPlayer/${ids[0]}`);
   };
 
