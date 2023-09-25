@@ -89,7 +89,7 @@ const Library = () => {
               {myRecMusicList &&
                 myRecMusicList.map((item, i) => (
                   <SwiperSlide key={item.recMusiclistId} className="">
-                    <div className="flex flex-col justify-center items-center ml-2 mr-2 mb-14  lg:w-[350px]">
+                    <div>
                       <img
                         onClick={() => {
                           navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
