@@ -108,7 +108,7 @@ public class SecurityConfig{
 	
 	@Bean
 	public AuthenticationManager authenticationManager() {
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();	// 비밀번호 검증
 		provider.setPasswordEncoder(bCryptPasswordEncoder());
 		provider.setUserDetailsService(loginService);
 		return new ProviderManager(provider);

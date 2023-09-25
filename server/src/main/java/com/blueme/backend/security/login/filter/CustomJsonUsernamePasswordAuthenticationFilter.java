@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StreamUtils;
 
+import com.blueme.backend.dto.usersdto.LoginRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,15 +50,25 @@ public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuth
         throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
     }
 
-    String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
-
-    Map<String, String> usernamePasswordMap = om.readValue(messageBody, Map.class);
-
-    String email = usernamePasswordMap.get(USERNAME_KEY);
-    String password = usernamePasswordMap.get(PASSWORD_KEY);
-
-    UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
-    return this.getAuthenticationManager().authenticate(authRequest);
+//    String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
+//
+//    Map<String, String> usernamePasswordMap = om.readValue(messageBody, Map.class);
+//
+//    String email = usernamePasswordMap.get(USERNAME_KEY);
+//    String password = usernamePasswordMap.get(PASSWORD_KEY);
+//
+//    UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
+//    return this.getAuthenticationManager().authenticate(authRequest);
+    
+    ObjectMapper om = new ObjectMapper();
+    LoginRequestDto loginDto = om.readValue(request.getInputStream(), LoginRequestDto.class);
+    
+    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+    		loginDto.getEmail(), 
+    		loginDto.getPassword());
+    
+    return getAuthenticationManager().authenticate(authenticationToken);
+    		
 	}
     
     
