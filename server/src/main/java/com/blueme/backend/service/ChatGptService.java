@@ -5,8 +5,10 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +31,7 @@ import com.blueme.backend.enums.EmotionState;
 import com.blueme.backend.enums.PlaceActivity;
 import com.blueme.backend.enums.Season;
 import com.blueme.backend.enums.TimeOfDay;
+import com.blueme.backend.model.entity.Genres;
 import com.blueme.backend.model.entity.HealthInfos;
 import com.blueme.backend.model.entity.MusicSpecifications;
 import com.blueme.backend.model.entity.Musics;
@@ -349,7 +352,7 @@ public class ChatGptService {
         }
 
         /**
-         * 일정한 기준에 따라 현재 상태를 반환합니다.
+         * 속도 상태를 반환하는 메서드입니다.
          *
          * @param avgSpeed       평균 속도
          * @param stepsPerMinute 분당 걸음수
@@ -484,26 +487,22 @@ public class ChatGptService {
                 // tagList.add(timeDataEng);
                 // tagList2.add(seasonData);
                 // tagList.add(seasonDataEng);
-                System.out.println(tagList.toString());
 
-                List<Musics> selectedMusicsList = new ArrayList<>();
+                Set<Musics> selectedMusicsSet = new HashSet<>();
 
                 while (!tagList.isEmpty()) {
                         StringBuilder sb = new StringBuilder();
-
                         for (String tag : tagList) {
                                 sb.append(tag).append(", ");
                         }
-
                         List<Musics> musicsForTag = musicsJpaRepository
                                         .findAll(MusicSpecifications.hasTags(sb.toString()), PageRequest.of(0, 60))
                                         .getContent();
+                        selectedMusicsSet.addAll(musicsForTag);
 
-                        selectedMusicsList.addAll(musicsForTag);
-
-                        if (selectedMusicsList.size() >= 60 || tagList.size() <= 1) { // 음악 개수가 충분하면 종료
+                        if (selectedMusicsSet.size() >= 60 || tagList.size() <= 1) {
                                 break;
-                        } else { // 그렇지 않다면 우선순위가 가장 낮은 태그 제거
+                        } else {
                                 int lastIndex = tagList.size() - 1;
                                 if (lastIndex >= 0) {
                                         System.out.println("Removing: " + tagList.get(lastIndex));
@@ -513,43 +512,46 @@ public class ChatGptService {
                 }
 
                 while (!tagList2.isEmpty()) {
-                        StringBuilder sb = new StringBuilder();
+                        StringBuilder sb2 = new StringBuilder();
 
-                        for (String tag : tagList2) {
-                                sb.append(tag).append(", ");
+                        for (String tags : tagList2) {
+                                sb2.append(tags).append(", ");
                         }
 
-                        List<Musics> musicsForTag = musicsJpaRepository
-                                        .findAll(MusicSpecifications.hasTags(sb.toString()), PageRequest.of(0, 60))
+                        List<Musics> musicesfortag = musicsJpaRepository
+                                        .findAll(MusicSpecifications.hasTags(sb2.toString()), PageRequest.of(0, 60))
                                         .getContent();
 
-                        selectedMusicsList.addAll(musicsForTag);
+                        selectedMusicsSet.addAll(musicesfortag);
 
-                        if (selectedMusicsList.size() >= 60 || tagList2.size() <= 1) { // 음악 개수가 충분하면 종료
+                        if (selectedMusicsSet.size() >= 60 || tagList2.size() <= 1) {
                                 break;
-                        } else { // 그렇지 않다면 우선순위가 가장 낮은 태그 제거
-                                int lastIndex = tagList.size() - 1;
-                                if (lastIndex >= 0) {
-                                        System.out.println("Removing: " + tagList2.get(lastIndex));
-                                        tagList2.remove(lastIndex);
+                        } else {
+                                int lastindex = tagList2.size() - 1;
+
+                                if (lastindex >= 0) {
+
+                                        tagList2.remove(lastindex);
                                 }
                         }
                 }
-                if (selectedMusicsList.size() < 60) { // 여전히 음악이 부족하다면 랜덤으로 추가
-                        int emptyCount = 60 - selectedMusicsList.size();
+
+                if (selectedMusicsSet.size() < 60) {
+                        int emptyCount = 60 - selectedMusicsSet.size();
                         List<Musics> additionalMusic = new ArrayList<>(musicsService.getRandomEntities(emptyCount));
-                        selectedMusicsList.addAll(additionalMusic);
+                        for (Musics music : additionalMusic) {
+                                selectedMusicsSet.add(music);
+                        }
                 }
 
-                // 순서를 섞음.
-                Collections.shuffle(selectedMusicsList);
+                List<Musics> shuffledSelectedMusicist = new ArrayList<>(selectedMusicsSet);
+                Collections.shuffle(shuffledSelectedMusicist);
 
-                // 음악Dto 엔터티로 변환시킵니다.
-                List<ChatGptMusicsDto> musicsList = selectedMusicsList.stream().map(ChatGptMusicsDto::new)
+                List<ChatGptMusicsDto> muciesList = shuffledSelectedMusicist.stream().map(ChatGptMusicsDto::new)
                                 .collect(Collectors.toList());
-                String musicsString = musicsList.stream().map(ChatGptMusicsDto::toString)
+                String muciesString = muciesList.stream().map(ChatGptMusicsDto::toString)
                                 .collect(Collectors.joining(""));
-                return musicsString;
+                return muciesString;
 
         }
 
@@ -560,12 +562,17 @@ public class ChatGptService {
          * @param healthInfo     건강 정보
          * @return 생성된 질의문 (String)
          */
-        public String makeQuestion(WeatherSummary weatherSummary, HealthInfos healthInfo) {
+        public String makeQuestion(WeatherSummary weatherSummary, HealthInfos healthInfo, List<Genres> genres,
+                        List<Musics> artists) {
                 // 날씨 데이터
                 String condition = weatherSummary.getCondition();
                 String temperature = String.valueOf(Double.parseDouble(weatherSummary.getTemp()) - 273) + "도";
                 String humidity = weatherSummary.getHumidity() + "%";
-
+                // 가수, 장르 데이터
+                String genre1 = genres.get(0).getName();
+                String genre2 = genres.get(1).getName();
+                String artist1 = artists.get(0).getArtist();
+                String artist2 = artists.get(1).getArtist();
                 // 건강 데이터
                 String avgHeartRate = healthInfo.getHeartrate();
                 String avgSpeed = healthInfo.getSpeed();
@@ -578,18 +585,16 @@ public class ChatGptService {
                 String timeData = getTimeStatus("KOR");
                 String seasonData = getSeasonStatus("KOR");
 
-                // 1~5까지 랜덤한 질의문 생성(GPT의 다채로운답변을위해)
+                // 1~4까지 랜덤한 질의문 생성(GPT의 다채로운답변을위해)
                 Random random = new Random();
                 int randomNumber = random.nextInt(4) + 1;
-
-                // int randomNumber = 4;
-
                 String question = null;
                 log.info("포맷타입 = {}", randomNumber);
                 if (randomNumber == 1) {
                         question = String.format(ChatGptConfig.QUESTION_TEMPLATE, seasonData + " " + timeData,
                                         temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, genre1,
+                                        genre2, artist1, artist2, condition,
                                         musicsString);
                 } else if (randomNumber == 2) {
                         question = String.format(ChatGptConfig.QUESTION_TEMPLATE2,
@@ -599,10 +604,12 @@ public class ChatGptService {
                 } else if (randomNumber == 3) {
                         question = String.format(ChatGptConfig.QUESTION_TEMPLATE3,
                                         temperature, humidity,
-                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
+                                        avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, genre1, genre2,
+                                        artist1, artist2,
+                                        speedData,
                                         musicsString);
                 } else if (randomNumber == 4) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE4,
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE4, timeData,
                                         avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
                                         musicsString);
                 }

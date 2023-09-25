@@ -10,12 +10,13 @@ import com.blueme.backend.model.entity.Users;
 
 @Repository
 public interface FavCheckListsJpaRepository extends JpaRepository<FavCheckLists, Long> {
-	
-	
+
 	FavCheckLists findAllByUser(Users user);
 
+	FavCheckLists findFirstByUserId(Long userId);
+
 	FavCheckLists findByUser(Users user);
-	
+
 	List<FavCheckLists> findByUserId(Long long1);
 
 }
