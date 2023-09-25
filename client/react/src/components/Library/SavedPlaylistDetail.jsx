@@ -89,7 +89,7 @@ const SavedPlaylistDetail = () => {
           전체 재생
         </button>
       </div>
-      <div className="mt-[20px]" onClick={handleListClick}>
+      <div className="mt-[20px] xs:mb-14" onClick={handleListClick}>
         {selectedPlaylistDetails.map((music) => (
           <SingleMusic
             key={music.musicId}

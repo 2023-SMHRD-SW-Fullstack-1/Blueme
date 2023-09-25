@@ -116,7 +116,7 @@ const ThemePlaylist = () => {
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-full text-custom-white p-3 hide-scrollbar overflow-auto mb-[70px]">
       <br />
 
-      <div className="flex flex-col items-center justify-center mt-[80px]">
+      <div className="flex flex-col items-center justify-center mt-[50px]">
         <img src={"data:image/;base64," + themeImage} className="w-[160px] h-[160px] rounded-xl" alt="Theme" />
         <p className="text-xl py-5 text-center whitespace-normal">{themeName}</p>
       </div>
@@ -169,9 +169,9 @@ const ThemePlaylist = () => {
         </div>
       </div>
 
-      <div className="h-[70%] ml-3 mr-3 overflow-y-scroll hide-scrollbar" onClick={handleListClick}>
+      <div className=" ml-3 mr-3 overflow-y-scroll hide-scrollbar xs:mb-14 " onClick={handleListClick}>
         {musicList.map((item) => (
-          <SingleMusic key={item.id} item={item} className="mb-20" />
+          <SingleMusic key={item.id} item={item} />
         ))}
       </div>
     </div>

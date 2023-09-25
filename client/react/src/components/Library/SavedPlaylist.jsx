@@ -95,7 +95,7 @@ const SavedPlaylist = () => {
                   className="w-[200px]  h-auto rounded-lg  sm:h-auto lg:mr-20"
                 />
                 {/* 2. 제목/ 아티스트 */}
-                <span className="tracking-tighter text-sm text-center mt-2 lg:text-base lg:mr-20 xs:mb-20 ">
+                <span className="tracking-tighter text-sm text-center mt-2 lg:text-base lg:mr-20 ">
                   {SavedPlaylist.title}
                 </span>
               </div>
@@ -103,7 +103,7 @@ const SavedPlaylist = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="mb-10"></div>
+      <div className="xs:mb-32 lg:mb-12 "></div>
     </div>
   );
 };

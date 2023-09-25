@@ -60,7 +60,7 @@ const Theme = () => {
   return (
     <div className="overflow-auto hide-scrollbar min-h-screen mb-auto bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-byte text-custom-white font-semibold ">
       <p className="text-center pt-10 sm:pt-20 text-xl sm:text-3xl mt-10"></p>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-1 gap-y-1 sm:gap-x-1 sm:gap-y-1 lg:gap-x-0 lg:gap-y-1 mt-[10px] mb-[90px] text-custom-black mx-auto max-w-screen-lg justify-items-center">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-1 gap-y-1 sm:gap-x-1 sm:gap-y-1 lg:gap-x-0 lg:gap-y-1 mt-[10px] mb-[170px] xs:mb-[130px] text-custom-black mx-auto max-w-screen-lg justify-items-center">
         {/* 각각의 테마에 대해 ThemeCard 컴포넌트를 생성 */}
         {themes.map((theme, i) => (
           <ThemeCard key={i} theme={theme} index={i} />

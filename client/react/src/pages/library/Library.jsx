@@ -51,25 +51,45 @@ const Library = () => {
           <p className="text-left text-xl ml-[5px] pt-[20px] lg:pt-[30px] lg:text-3xl lg:ml-8 ">저장한 플레이리스트</p>
           <SavedPlaylist />
 
-          <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-10 hidden md:block lg:text-3xl  lg:ml-8">
+          <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-1 hidden md:block lg:text-3xl  lg:ml-8">
             Chat GPT가 추천해준 나의 플레이리스트
           </h1>
 
           {isLoggendIn && myRecMusicList.length > 0 && (
             <Swiper
-              className=" mt-5 lg:mt-10 hidden md:block   overflow-hidden mb-20"
+              className=" mt-5 lg:mt-10 hidden md:block overflow-hidden xs:mb-20"
               spaceBetween={10}
               slidesPerView="0"
-              breakpoints={
-                {
-                  //...
-                }
-              }
+              breakpoints={{
+                320: {
+                  slidesPerView: 2,
+                  spaceBetween: 10,
+                },
+
+                480: {
+                  slidesPerView: 2,
+                  spaceBetween: 10,
+                },
+
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 10,
+                },
+
+                768: {
+                  slidesPerView: 3,
+                  spaceBetween: 10,
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 10,
+                },
+              }}
             >
               {myRecMusicList &&
                 myRecMusicList.map((item, i) => (
                   <SwiperSlide key={item.recMusiclistId} className="">
-                    <div className="flex flex-col justify-center items-center ml-2 mr-2 lg:w-[350px]">
+                    <div className="flex flex-col justify-center items-center ml-2 mr-2 mb-14  lg:w-[350px]">
                       <img
                         onClick={() => {
                           navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
