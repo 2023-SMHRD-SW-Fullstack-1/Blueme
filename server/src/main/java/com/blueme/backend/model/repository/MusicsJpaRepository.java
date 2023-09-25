@@ -54,6 +54,9 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long>, JpaSpe
   @Query("SELECT m FROM Musics m WHERE m.tag LIKE CONCAT('%', :keyword, '%') ORDER BY function('RAND')")
   List<Musics> findTop10ByTagContaining(@Param("keyword") String keyword, Pageable pageable);
 
+  @Query(nativeQuery = true, value = "SELECT * FROM musics WHERE id IN :ids ORDER BY RAND() LIMIT 60")
+  List<Musics> findRandomMusics(@Param("ids") List<Long> ids);
+
   Musics findTop1ByArtistFilePath(String artistFilePath);
 
   @Query("SELECT m FROM Musics m GROUP BY m.artist")

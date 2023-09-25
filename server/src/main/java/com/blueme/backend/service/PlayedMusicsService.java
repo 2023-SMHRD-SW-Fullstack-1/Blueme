@@ -66,7 +66,7 @@ public class PlayedMusicsService {
         .orElseThrow(() -> new UserNotFoundException(request.getParsedUserId()));
     Musics music = musicsJpaRepository.findById(request.getParsedMusicId())
         .orElseThrow(() -> new MusicNotFoundException(request.getParsedMusicId()));
-    PlayedMusics playedMusics = playedMusicsJpaRepository.findByUserAndMusic(user, music);
+    PlayedMusics playedMusics = playedMusicsJpaRepository.findDistinctByUserAndMusic(user, music);
     if (playedMusics == null) {
       return playedMusicsJpaRepository.save(PlayedMusics.builder().user(user).music(music).build()).getId();
     } else {

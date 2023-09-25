@@ -43,6 +43,6 @@ public interface PlayedMusicsJpaRepository extends JpaRepository<PlayedMusics, L
    * @param music Musics 객체
    * @return 일치하는 재생된 음악 정보. 일치하는 정보가 없을 경우 null
    */
-  PlayedMusics findByUserAndMusic(Users user, Musics music);
+  PlayedMusics findDistinctByUserAndMusic(Users user, Musics music);
 
 }

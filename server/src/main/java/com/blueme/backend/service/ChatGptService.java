@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -237,7 +239,7 @@ public class ChatGptService {
                 // 워치 데이터
                 double speed = Double.parseDouble(healthInfo.getSpeed());
                 double heartRate = Double.parseDouble(healthInfo.getHeartrate());
-                int stepsPerMinute = Integer.parseInt(healthInfo.getStep());
+                double stepsPerMinute = Double.parseDouble(healthInfo.getStep());
 
                 final int INACTIVE_STEPS_THRESHOLD = 20;
                 final int NORMAL_ACTIVE_STEPS_THRESHOLD = 40;
@@ -330,8 +332,8 @@ public class ChatGptService {
          * @return 심장 박동수 상태 (String)
          */
         public String getHeartRateStatus(double avgHeartRate) {
-                final double VERY_LOW_THRESHOLD = 60;
-                final double LOW_THRESHOLD = 80;
+                final double VERY_LOW_THRESHOLD = 70;
+                final double LOW_THRESHOLD = 90;
                 final double NORMAL_THRESHOLD = 110;
                 final double HIGH_THRESHOLD = 130;
                 if (avgHeartRate <= VERY_LOW_THRESHOLD)
@@ -396,8 +398,8 @@ public class ChatGptService {
                 final double CAR_SPEED = 25;
 
                 // 심장박동수 상태
-                final double VERY_LOW_THRESHOLD = 60;
-                final double LOW_THRESHOLD = 80;
+                final double VERY_LOW_THRESHOLD = 70;
+                final double LOW_THRESHOLD = 90;
                 final double NORMAL_THRESHOLD = 110;
 
                 Double speedVal = Double.parseDouble(healthInfo.getSpeed());
@@ -406,9 +408,9 @@ public class ChatGptService {
                 String placeActivityTag = "";
 
                 if (speedVal <= STATIONARY_SPEED) {
-                        if (heartRateVal <= VERY_LOW_THRESHOLD) {
+                        if (heartRateVal <= LOW_THRESHOLD) {
                                 placeActivityTag = PlaceActivity.HOME.getTag();
-                        } else if (heartRateVal <= LOW_THRESHOLD) {
+                        } else if (heartRateVal <= NORMAL_THRESHOLD) {
                                 placeActivityTag = PlaceActivity.STUDY.getTag();
                         } else {
                                 placeActivityTag = PlaceActivity.GYM.getTag();
@@ -454,14 +456,10 @@ public class ChatGptService {
                 // 계절 태그로 계절 분류 (10개 or DB에 적을경우 더 적은 개수)
                 String seasonData = getSeasonStatus("KOR");
                 String seasonDataEng = getSeasonStatus("ENG");
-                // musics.addAll(musicsService.getMusicsWithTag(seasonData, 5));
-                // musics.addAll(musicsService.getMusicsWithTag(seasonDataEng, 5));
 
                 // 시간 태그로 시간 분류 (10개 or DB에 적을경우 더 적은 개수)
                 String timeData = getTimeStatus("KOR");
                 String timeDataEng = getTimeStatus("ENG");
-                // musics.addAll(musicsService.getMusicsWithTag(timeData, 5));
-                // musics.addAll(musicsService.getMusicsWithTag(timeDataEng, 5));
 
                 // 감정 태그로 감정 분류 (25개 감정기반 비중높음, or DB에 적을경우 더 적은 개수)
                 String emotionData = getEmotionStatus("KOR", weatherSummary, healthInfo);
@@ -469,48 +467,90 @@ public class ChatGptService {
 
                 // 장소 태그로 장소 분류 (25개, or DB에 적을경우 더 적은 개수)
                 String locationData = getLocationState(healthInfo);
-                // musics.addAll(musicsService.getMusicsWithTag(locationData, 25));
 
                 // 음악 가져오기 (로직에 의한 필터링 , 알고리즘에 따라 최선을 추출, 부족하다면 중요도 낮은순(밑)으로 제거)
                 // 위에거 밑으로 넣어서 코드 줄이기
-                StringBuilder sb = new StringBuilder();
-                sb.append(emotionData).append(", ");
-                sb.append(locationData).append(", ");
-                sb.append(timeData).append(", ");
-                sb.append(timeDataEng).append(", ");
-                sb.append(seasonData).append(", ");
-                sb.append(seasonDataEng);
+                List<String> tagList = new ArrayList<>();
+                tagList.add(emotionData);
+                tagList.add(locationData);
+                tagList.add(timeData);
+                // tagList.add(timeDataEng);
+                tagList.add(seasonData);
+                // tagList.add(seasonDataEng);
 
-                List<Musics> musicsList33;
-                while (true) {
-                        musicsList33 = musicsJpaRepository.findAll(MusicSpecifications.hasTags(sb.toString()));
-                        System.out.println(musicsList33.size());
-                        if (musicsList33.size() >= 60 || sb.length() == 0) {
-                                break;
+                List<String> tagList2 = new ArrayList<>();
+                tagList2.add(locationData);
+                tagList2.add(timeData);
+                // tagList.add(timeDataEng);
+                // tagList2.add(seasonData);
+                // tagList.add(seasonDataEng);
+                System.out.println(tagList.toString());
+
+                List<Musics> selectedMusicsList = new ArrayList<>();
+
+                while (!tagList.isEmpty()) {
+                        StringBuilder sb = new StringBuilder();
+
+                        for (String tag : tagList) {
+                                sb.append(tag).append(", ");
                         }
 
-                        int lastCommaIndex = sb.lastIndexOf(",");
-                        if (lastCommaIndex != -1) {
-                                sb.delete(lastCommaIndex, sb.length());
-                                while (sb.length() > 0 && Character.isWhitespace(sb.charAt(sb.length() - 1))) {
-                                        sb.deleteCharAt(sb.length() - 1);
+                        List<Musics> musicsForTag = musicsJpaRepository
+                                        .findAll(MusicSpecifications.hasTags(sb.toString()), PageRequest.of(0, 60))
+                                        .getContent();
+
+                        selectedMusicsList.addAll(musicsForTag);
+
+                        if (selectedMusicsList.size() >= 60 || tagList.size() <= 1) { // 음악 개수가 충분하면 종료
+                                break;
+                        } else { // 그렇지 않다면 우선순위가 가장 낮은 태그 제거
+                                int lastIndex = tagList.size() - 1;
+                                if (lastIndex >= 0) {
+                                        System.out.println("Removing: " + tagList.get(lastIndex));
+                                        tagList.remove(lastIndex);
                                 }
-                        } else {
-                                // 더이상 지울 태그가 없을때 탈출
-                                break;
                         }
                 }
 
-                if (musicsList33.size() < 60) {
+                while (!tagList2.isEmpty()) {
+                        StringBuilder sb = new StringBuilder();
 
+                        for (String tag : tagList2) {
+                                sb.append(tag).append(", ");
+                        }
+
+                        List<Musics> musicsForTag = musicsJpaRepository
+                                        .findAll(MusicSpecifications.hasTags(sb.toString()), PageRequest.of(0, 60))
+                                        .getContent();
+
+                        selectedMusicsList.addAll(musicsForTag);
+
+                        if (selectedMusicsList.size() >= 60 || tagList2.size() <= 1) { // 음악 개수가 충분하면 종료
+                                break;
+                        } else { // 그렇지 않다면 우선순위가 가장 낮은 태그 제거
+                                int lastIndex = tagList.size() - 1;
+                                if (lastIndex >= 0) {
+                                        System.out.println("Removing: " + tagList2.get(lastIndex));
+                                        tagList2.remove(lastIndex);
+                                }
+                        }
+                }
+                if (selectedMusicsList.size() < 60) { // 여전히 음악이 부족하다면 랜덤으로 추가
+                        int emptyCount = 60 - selectedMusicsList.size();
+                        List<Musics> additionalMusic = new ArrayList<>(musicsService.getRandomEntities(emptyCount));
+                        selectedMusicsList.addAll(additionalMusic);
                 }
 
-                // 음악 가져오기 (랜덤 60개)
-                List<ChatGptMusicsDto> musicsList = musicsService.getRandomEntities(60)
-                                .stream().map(ChatGptMusicsDto::new).collect(Collectors.toList());
+                // 순서를 섞음.
+                Collections.shuffle(selectedMusicsList);
+
+                // 음악Dto 엔터티로 변환시킵니다.
+                List<ChatGptMusicsDto> musicsList = selectedMusicsList.stream().map(ChatGptMusicsDto::new)
+                                .collect(Collectors.toList());
                 String musicsString = musicsList.stream().map(ChatGptMusicsDto::toString)
                                 .collect(Collectors.joining(""));
                 return musicsString;
+
         }
 
         /**
@@ -548,7 +588,7 @@ public class ChatGptService {
                 String question = null;
                 log.info("포맷타입 = {}", randomNumber);
                 if (randomNumber == 1) {
-                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE + seasonData + " " + timeData,
+                        question = String.format(ChatGptConfig.QUESTION_TEMPLATE, seasonData + " " + timeData,
                                         temperature, humidity,
                                         avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData, condition,
                                         musicsString);
