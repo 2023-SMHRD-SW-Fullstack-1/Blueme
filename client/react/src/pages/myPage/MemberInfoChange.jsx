@@ -71,16 +71,17 @@ function MemberInfoChange() {
     if(user.img_url === null) {
       user.img_url = profile
     }
+    const headers = { Authorization : localStorage.getItem('accessToken') }
     const requestData = {
-      id: id,
-      email: user.email,
+      // id: id,
+      // email: user.email,
       password: password || user.password, // 비밀번호를 입력하지 않으면 이전 비밀번호 유지
       nickname: nickname || user.nickname, // 닉네임을 입력하지 않으면 이전 닉네임 유지
       img_url: imgFile || user.img_url, // 이미지를 선택하지 않으면 이전 이미지 유지
     };
     console.log('requestData', requestData);
     await axios
-      .patch(`http://172.30.1.45:8104/user/update`, requestData) //수정 요청
+      .patch(`http://172.30.1.45:8104/user/update`,requestData, {headers} ) //수정 요청
       .then((res) => {
         dispatch(userUpdate(requestData))//store도 업데이트
         // localStorage.setItem("password", password);

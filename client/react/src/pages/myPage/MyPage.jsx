@@ -15,7 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { userUpdate, logoutSuccess } from "../../store/member/memberAction";
 import basicProfile from '../../assets/img/basicProfile.jpg'
 
-
+axios.defaults.baseURL = "http://localhost:3000/"
+axios.defaults.withCredentials = true;
 const MyPage = () => {
   // const [singers, setSingers] = useState([]);
   const [genres, setGenres] = useState([])
@@ -36,7 +37,9 @@ const MyPage = () => {
   //마이페이지 들어가면 장르 , 아티스트 , 사용자 정보 받아서 화면 렌더링
   useEffect(() => {
       axios
-      .get(`http://172.30.1.45:8104/user/Mypage/${id}`)
+      .get(`http://172.30.1.45:8104/user/Mypage`,{
+        headers : {Authorization : localStorage.getItem('accessToken')}
+      })
       .then((res) => {
         console.log('전체 res',res);
         setGenres(res.data[0].genres)//장르

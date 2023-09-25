@@ -3,6 +3,8 @@ package com.blueme.backend.security.oauth2.service;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -16,6 +18,7 @@ import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.oauth2.CustomOAuth2User;
 import com.blueme.backend.security.oauth2.OAuthAttributes;
 import com.blueme.backend.security.oauth2.SocialType;
+import com.blueme.backend.security.oauth2.dto.SessionUserDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
 	private final UsersJpaRepository usersJpaRepository;
+	private final HttpSession httpSession;
 	private static final String KAKAO = "kakao";
 	
 	@Override
@@ -48,13 +52,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		String userNameAttributeName = userRequest.getClientRegistration()
 				.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		Map<String, Object> attributes = oAuth2User.getAttributes();
-		log.info("loadUser() - registrationId : {}",registrationId);
-		log.info("loadUser() - userNameAttributeName : {}", userNameAttributeName);
 		
 		// socialType에 따라 유저 정보를 통해 OAuthAttributes 객체 생성 (SuccessHandler가 사용할 수 있도록 등록)
 		OAuthAttributes extractAttributes = OAuthAttributes.of(socialType, userNameAttributeName, attributes);
 		
 		Users createdUser = getUser(extractAttributes, socialType);	// 로그인한 유저 정보
+		SessionUserDto userDto = new SessionUserDto(createdUser);
+		httpSession.setAttribute("user", userDto);
 		
 		
 		// DefaultOAuth2User 를 구현한 CustomOAuth2User 객체를 생성해서 반환

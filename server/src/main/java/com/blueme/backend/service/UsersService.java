@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,9 +76,8 @@ public class UsersService {
 
 			Users user = Users.builder().email(usersRegisterDto.getEmail())
 					.password(bCryptPasswordEncoder.encode(usersRegisterDto.getPassword()))
-					.nickname(usersRegisterDto.getNickname()).refreshToken(usersRegisterDto.getRefreshToken()).build();
-			user.setPlatformType("blueme");
-			user.setRole(UserRole.USER);
+					.nickname(usersRegisterDto.getNickname()).refreshToken(usersRegisterDto.getRefreshToken())
+					.platformType("blueme").role(UserRole.USER).build();
 
 			usersJpaRepository.save(user);
 			return user.getId();
@@ -156,8 +154,11 @@ public class UsersService {
 	 */
 
 	@Transactional
-	public Long update(UsersUpdateDto requestDto) throws IOException {
+	public Long update(Optional<Users> user, UsersUpdateDto requestDto) throws IOException {
 		log.info("userService method update start...");
+		System.out.println("user "+ user.get().getNickname());
+		System.out.println("request "+requestDto.getNickname());
+		
 		// base64 to multipart
 		// 저장할 파일 경로를 지정합니다.
 		String fileNameWithUUID = UUID.randomUUID().toString() + "_" + requestDto.getNickname();
@@ -170,13 +171,13 @@ public class UsersService {
         fileOutputStream.write(decodedBytes);
         fileOutputStream.close();
 		
-		Users user = usersJpaRepository.findByEmail(requestDto.getEmail())
-				.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. email=" + requestDto.getEmail()));
+		Users users = usersJpaRepository.findByEmail(user.get().getEmail())
+				.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. email=" + user.get().getEmail()));
 
 		if(requestDto.getPassword() != null) {
-			user.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()),filePath);
+			users.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()),filePath);
 		}else {
-			user.update(requestDto.getNickname(), filePath);
+			users.update(requestDto.getNickname(), filePath);
 		}
 		return -1L;
 //	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
@@ -190,15 +191,12 @@ public class UsersService {
 	/**
 	 * 	마이페이지
 	 */
-	public List<UserProfileDto> myprofile(String userId) {
+	public List<UserProfileDto> myprofile(Long userId) {
 		 log.info("Getting profile for userId : {}", userId);
-//		 @AuthenticationPrincipal prin
-
-		 Users user = usersJpaRepository.findById(Long.parseLong(userId))
+		 Users user = usersJpaRepository.findById(userId)
 				 .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " not found"));
 		 
 		 List<FavCheckLists> favCheckLists = favCheckListsJpaRepository.findByUserId(user.getId());
-		 
 		 List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckLists.get(0));	
 		 List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckLists.get(1));	
 		 
