@@ -1,5 +1,6 @@
 package com.blueme.backend.security.oauth2.handler;
 
+
 import java.io.IOException;
 import java.net.URLEncoder;
 
@@ -18,6 +19,7 @@ import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.service.JwtService;
 import com.blueme.backend.security.oauth2.CustomOAuth2User;
+import com.blueme.backend.security.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -29,8 +31,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
+	
 	private final JwtService jwtService;
 	private final UsersJpaRepository usersJpaRepository;
+	private final HttpCookieOAuth2AuthorizationRequestRepository auth2AuthorizationRequestRepository;
 
 	@Value("${jwt.access.expiration}")
 	private String accessTokenExpiration;
@@ -40,6 +44,16 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		
+		
+//		String targetUrl = determineTargetUrl(request, response, authentication);
+//		if(response.isCommitted()) {
+//			log.debug("Response has already been committed. Unable to redirect to "
+//			          + targetUrl);
+//			      return;
+//		}
+//		
+//		clearAuthenticationAttributes(request, response);
 
 		try {
 			CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
@@ -110,4 +124,79 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			}
 		});
 	}
+	
+//	protected String determineTargetUrl(HttpServletRequest request,
+//		      HttpServletResponse response, Authentication authentication) {
+//		    Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+//		        .map(Cookie::getValue);
+//
+//		    if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
+//		      throw new IllegalArgumentException(
+//		          "Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
+//		    }
+//
+//		    String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
+//
+//		    OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
+//		    SocialType socialType = socialType.valueOf(authToken.getAuthorizedClientRegistrationId().toUpperCase());
+//
+//		    OidcUser oidcUser = ((OidcUser) authentication.getPrincipal());
+//		    OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(socialType, oidcUser.getAttributes());
+//
+//		    String accessToken = jwtService.createAccessToken(userInfo.getEmail());
+//
+//		    // refresh 토큰 설정
+//		    String refreshToken = jwtService.createRefreshToken();
+//		    // DB 저장
+//		    Users user = usersJpaRepository.findByEmail(userInfo.getEmail())
+//		        .orElse(null);
+//		    if (user != null) {
+//		      user.setRefreshToken(refreshToken);
+//		    }
+//		    usersJpaRepository.saveAndFlush(Objects.requireNonNull(user));
+//
+//		    int cookieMaxAge = (int) (appProperties.getAuth().getRefreshTokenExpiry() / 60);
+//
+//		    CookieUtils.deleteCookie(request, response, REFRESH_TOKEN);
+//		    CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken, cookieMaxAge);
+//
+//		    return UriComponentsBuilder.fromUriString(targetUrl)
+//		        .queryParam("token", accessToken)
+//		        .build().toUriString();
+//		  }
+//	
+//	 protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
+//		    super.clearAuthenticationAttributes(request);
+//		    auth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
+//		  }
+//
+//		  private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) {
+//		    String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
+//		    String refreshToken = jwtService.createRefreshToken();
+//		    response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
+//		    response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
+//
+//		    try {
+//		    	jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+//				jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		  }
+//
+//		  private boolean isAuthorizedRedirectUri(String uri) {
+//		    URI clientRedirectUri = URI.create(uri);
+//
+//		    return appProperties.getOauth2().getAuthorizedRedirectUris()
+//		        .stream()
+//		        .anyMatch(authorizedRedirectUri -> {
+//		          // Only validate host and port. Let the clients use different paths if they want to
+//		          URI authorizedURI = URI.create(authorizedRedirectUri);
+//		          return authorizedURI.getHost()
+//		              .equalsIgnoreCase(clientRedirectUri.getHost())
+//		              && authorizedURI.getPort() == clientRedirectUri.getPort();
+//		        });
+//		  }
+
 }

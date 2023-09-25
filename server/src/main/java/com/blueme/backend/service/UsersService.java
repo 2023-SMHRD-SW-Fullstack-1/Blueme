@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -191,6 +192,7 @@ public class UsersService {
 	 */
 	public List<UserProfileDto> myprofile(String userId) {
 		 log.info("Getting profile for userId : {}", userId);
+//		 @AuthenticationPrincipal prin
 
 		 Users user = usersJpaRepository.findById(Long.parseLong(userId))
 				 .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " not found"));
