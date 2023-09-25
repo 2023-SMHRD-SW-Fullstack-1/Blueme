@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Heart from "./Heart";
 
-import { setCurrentSongId } from "../../store/music/musicActions";
+import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
 
 const SingleMusic = ({ item }) => {
   // console.log("single", item);
@@ -30,7 +30,8 @@ const SingleMusic = ({ item }) => {
 
   const handleMusicClick = () => {
     dispatch(setCurrentSongId(musicId));
-    navigate(`/MusicPlayer/${currentSongId}`);
+    dispatch(setPlayingStatus(true))
+    navigate(`/MusicPlayer/${musicId}`);
   };
 
   function convertSecondsToMinutes(time) {

@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-22
-설명: 음악관련 리덕스 액션, 접근해있는 컴포넌트 확인(0922)
+날짜(수정포함): 2023-09-24
+설명: 음악관련 리덕스 액션, 접근해있는 컴포넌트 확인(0922), 총재생시간-DURATION 추가(0924)
 */
 
 export const SET_MUSIC_IDS = "SET_MUSIC_IDS";
@@ -12,6 +12,8 @@ export const SET_CURRENT_TIME = 'SET_CURRENT_TIME';
 export const SET_DRAGGING_STATUS = 'SET_DRAGGING_STATUS';
 export const SET_REPEAT_MODE = 'SET_REPEAT_MODE';
 export const SET_IS_MUSIC_PLAYER = 'SET_IS_MUSIC_PLAYER';
+export const SET_DURATION = 'SET_DURATION';
+
 
 // 음악 재생할 목록
 export function setMusicIds(musicIds) {
@@ -45,11 +47,19 @@ export function setShowMiniPlayer(show) {
   };
 }
 
-// 재생시간
+// 현재 재생시간
 export function setCurrentTime(time) {
   return {
     type: SET_CURRENT_TIME,
     payload: time,
+  };
+}
+
+// 총 재생시간
+export function setDuration(duration) {
+  return {
+    type: SET_DURATION,
+    payload: duration,
   };
 }
 

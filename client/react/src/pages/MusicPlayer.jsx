@@ -20,6 +20,8 @@ import likeFull from "../assets/img/likeFull.png";
 import rotate from "../assets/img/musicPlayer/rotate.png";
 import rotating from "../assets/img/musicPlayer/rotating.png";
 
+import ProgressBar from "../components/music/ProgressBar"
+
 // Redux - 음악 관련
 import {
   setCurrentSongId,
@@ -30,6 +32,8 @@ import {
   setIsMusicPlayer
 } from "../store/music/musicActions";
 
+// component
+
 const MusicPlayer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,10 +42,6 @@ const MusicPlayer = () => {
   const user = useSelector(state => state.memberReducer.user)
   const userId = user.id
 
-  // useState
-  const [duration, setDuration] = useState(0);
-  // 재생바 이동 관련 useState
-  // 한곡반복
   // 음악 관련 정보
   const [musicInfo, setMusicInfo] = useState({
     album: "",
@@ -57,14 +57,14 @@ const MusicPlayer = () => {
   const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
   const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
   const currentTime = useSelector((state) => state.musicReducer.currentTime);
+  const duration = useSelector((state) => state.musicReducer.duration);
   const repeatMode = useSelector((state) => state.musicReducer.repeatMode);
 
 
 // 뮤직플레이어 접속 여부 확인 (음악 자동재생용)
 useEffect(()=>{
   dispatch(setIsMusicPlayer(true));
-  // dispatch(setPlayingStatus(true));
-}, []);
+}, [dispatch]);
 
   // 서버에서 음악 정보 가져오기
   useEffect(() => {
@@ -77,7 +77,6 @@ useEffect(()=>{
           artist: response.data.artist,
           img: response.data.img
         });
-        setDuration(parseInt(response.data.time));
         
       } catch (error) {
         console.error("음악 정보 가져오기 실패", error);
@@ -154,31 +153,8 @@ useEffect(()=>{
     }
   };
 
-  // 사용자 재생바 조작
-  const changeCurrentTime = (e) => {
-    let newCurrentTime = e.target.value;
-    dispatch(setCurrentTime(newCurrentTime));
-  };
-  
-  // 드래그 시작 - 음악 정지
-  const handleDragStart = () => {
-    dispatch(setDraggingStatus(true));
-    if(playingStatus){
-      dispatch(setPlayingStatus(false));
-    }
-  };
-
-  // 드래그 시작 - 음악 재시작
-  const handleDragEnd = () => {
-    dispatch(setDraggingStatus(false));
-    if(!playingStatus){
-      dispatch(setPlayingStatus(true));
-    }
-  };
-
-   
-  // 재생시간 표시
-  const formatTime = (timeInSeconds) => {
+   // 재생시간 표시
+   const formatTime = (timeInSeconds) => {
 
     timeInSeconds = Number(timeInSeconds);
 
@@ -201,35 +177,13 @@ return (
         <p>{musicInfo.artist}</p>
       </div>
       {/* 재생바 */}
-      <div className="w-[85%] h-2.5 bg-black rounded-full mt-10 relative">
-        <div
-          style={{ width: `${(currentTime / duration) * 100}%` }}
-          className="h-2 bg-white rounded-full absolute"
-          alt=""
-        />
-        <input
-          type="range"
-          min={0}
-          max={duration || 1}
-          value={currentTime}
-          onChange={changeCurrentTime}
-          onMouseDown={handleDragStart}
-          onMouseUp={handleDragEnd}
-          onTouchStart={handleDragStart}
-          onTouchEnd={handleDragEnd}
-          className="w-full h-2 opacity-0 absolute appearance-none cursor-pointer"
-          alt=""
-        />
-        <div
-          className="flex justify-between text-custom-gray mt-4"
-        >
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
+      <ProgressBar currentTime={currentTime} duration={duration} playingStatus={playingStatus} />
+        <div className="flex justify-between text-custom-gray mt-4" style={{width: '84%'}}> 
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
         </div>
-      </div>
-
       <div
-        className="flex flex-row justify-center items-center gap-10 mt-20">
+        className="flex flex-row justify-center items-center gap-10 mt-5">
         <img
           className= "w-[25px] h-auto"
           alt=""

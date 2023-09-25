@@ -1,7 +1,7 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-18
-설명: 미니플레이어
+날짜(수정포함): 2023-09-24
+설명: 미니플레이어, ProgressBar추가(0924)
 */
 
 import { useEffect, useState } from "react";
@@ -18,7 +18,13 @@ import { ReactComponent as Pause } from "../../assets/img/musicPlayer/pause.svg"
 // Redux
 import { setCurrentSongId, setPlayingStatus, setIsMusicPlayer } from "../../store/music/musicActions";
 
+// component
+import ProgressBar from "../../components/music/ProgressBar";
+
 const MiniPlayer = () => {
+
+  const duration = useSelector((state) => state.musicReducer.duration);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,6 +35,7 @@ const MiniPlayer = () => {
     artist: "",
     img: "",
   });
+
   // 음악 재생 인덱스 (리덕스 활용)
   const musicIds = useSelector((state) => state.musicReducer.musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
@@ -38,8 +45,8 @@ const MiniPlayer = () => {
   const playingStatus = useSelector(
     (state) => state.musicReducer.playingStatus
   );
+  const currentTime = useSelector((state) => state.musicReducer.currentTime);
 
-  // const isMusicPlayer = useSelector((state) => state.musicReducer.isMusicPlayer)
 
   // 사용자 id
   const user = useSelector((state) => state.memberReducer.user);
@@ -121,7 +128,7 @@ const MiniPlayer = () => {
   };
 
   return (
-    <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
+    <div className="flex items-center bg-custom-blue text-custom-white fixed xs:bottom-[8%] md:bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
       <div onClick={handleMusicClick} className="h-[80%]">
         <div className="h-[100%] flex flex-row">
           <img
@@ -131,14 +138,18 @@ const MiniPlayer = () => {
           />
 
           <div className="flex flex-col lg:ml-4 xs:ml-3 justify-center">
-            <p className="md:text-2xl xs:font-semibold xs:text-sm xs:pb-1">
+            <p className="md:text-xl font-semibold xs:text-sm xs:pb-1">
               {musicInfo.title}
             </p>
             <p className="lg:text-lg xs:text-xs">{musicInfo.artist}</p>
           </div>
         </div>
+
       </div>
-      <div className="flex flex-row xs:gap-2 lg:gap-5 ml-auto">
+      <div className="xl:flex xl:justify-center xl:w-[60%] xl:pb-[10px] xl:mt-[-35px]">
+      <ProgressBar currentTime={currentTime} duration={duration} playingStatus={playingStatus} />
+      </div>
+      <div className="flex flex-row xs:gap-2 lg:gap-6 ml-auto">
         <Prev
           className="xs:w-[25px] lg:w-[40px] m h-auto"
           onClick={prevTrack}
