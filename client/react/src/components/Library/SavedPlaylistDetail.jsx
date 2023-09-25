@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
 날짜: 2023-09-25
-설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 구현, 음악 재생 시간 오류 디버깅, 전체 재생 추가
+설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 구현, 음악 재생 시간 오류 디버깅, 전체 재생 추가, 모바일화면 텍스트 개행
 */
 /*
 작성자: 신지훈
@@ -79,7 +79,7 @@ const SavedPlaylistDetail = () => {
 
       <div className="flex flex-col items-center justify-center mt-[80px]">
         <img src={"data:image/;base64," + playlistImage} className="w-[160px] h-[160px] rounded-xl" />
-        <p className="text-2xl py-5">{title}</p>
+        <p className="text-xl py-5 text-center whitespace-normal">{title}</p>
       </div>
       <div className="flex items-center justify-center">
         <button

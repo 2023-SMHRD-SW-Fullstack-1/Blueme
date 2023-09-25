@@ -95,7 +95,7 @@ const SavedPlaylist = () => {
                   className="w-[200px]  h-auto rounded-lg  sm:h-auto lg:mr-20"
                 />
                 {/* 2. 제목/ 아티스트 */}
-                <span className="tracking-tighter text-sm text-center mt-2 lg:text-base lg:mr-20 ">
+                <span className="tracking-tighter text-sm text-center mt-2 lg:text-base lg:mr-20 xs:mb-20 ">
                   {SavedPlaylist.title}
                 </span>
               </div>
@@ -103,13 +103,7 @@ const SavedPlaylist = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {selectedPlaylistDetails.map((detail) => (
-        <div key={detail.savedMusiclistId}>
-          <img src={"data:image/;base64," + detail.img} alt="music cover" />
-          <p>{detail.title}</p>
-          <p>{detail.artist}</p>
-        </div>
-      ))}
+      <div className="mb-10"></div>
     </div>
   );
 };

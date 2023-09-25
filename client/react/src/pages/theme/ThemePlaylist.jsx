@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
 날짜: 2023-09-25
-설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현 및 디자인 수정, musicIds 설정, 전체 재생 구현
+설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 , 모달창 구현 및 디자인 수정, musicIds 설정, 전체 재생 구현, 모바일화면 텍스트 개행
 */
 /*
 작성자: 이지희
@@ -118,7 +118,7 @@ const ThemePlaylist = () => {
 
       <div className="flex flex-col items-center justify-center mt-[80px]">
         <img src={"data:image/;base64," + themeImage} className="w-[160px] h-[160px] rounded-xl" alt="Theme" />
-        <p className="text-2xl py-5">{themeName}</p>
+        <p className="text-xl py-5 text-center whitespace-normal">{themeName}</p>
       </div>
 
       <div className="flex justify-between mb-5 mt-2">

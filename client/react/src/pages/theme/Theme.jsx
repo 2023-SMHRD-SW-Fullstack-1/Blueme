@@ -65,6 +65,7 @@ const Theme = () => {
         {themes.map((theme, i) => (
           <ThemeCard key={i} theme={theme} index={i} />
         ))}
+        <div className="mb-8"></div>
       </div>
     </div>
   );

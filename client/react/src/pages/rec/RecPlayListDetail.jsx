@@ -75,7 +75,7 @@ const RecPlayListDetail = () => {
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-full text-custom-white p-3 hide-scrollbar overflow-auto mb-[70px]">
       <br />
       <br />
-      <h1 className="text-center text-xl mt-[20px] tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar p-5 xl:ml-[300px] xl:mr-[300px]  xs:ml-[5px] xs:mr-[5px]">
+      <h1 className="text-center  text-xl mt-[20px] tracking-tight p-7 overflow-scroll h-[95px] mb-10 hide-scrollbar p-5 xl:ml-[300px] xl:mr-[300px]  xs:ml-[5px] xs:mr-[5px]">
         {musiclist.recMusiclistReason}
       </h1>
 

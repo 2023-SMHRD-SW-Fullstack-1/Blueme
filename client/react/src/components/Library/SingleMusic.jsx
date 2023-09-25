@@ -35,6 +35,10 @@ const SingleMusic = ({ item }) => {
   };
 
   function convertSecondsToMinutes(time) {
+    if (isNaN(time)) {
+      return null;
+    }
+
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
 
@@ -60,7 +64,7 @@ const SingleMusic = ({ item }) => {
       </div>
 
       <div className="w-[20%] hidden md:block text-custom-gray font-normal">
-        <span>{convertSecondsToMinutes(item.time)}</span>
+        {item.time && <span>{convertSecondsToMinutes(item.time)}</span>}
       </div>
 
       {/* 하트 컴포넌트 */}
