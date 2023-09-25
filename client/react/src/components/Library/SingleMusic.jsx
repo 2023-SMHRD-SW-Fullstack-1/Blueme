@@ -8,8 +8,8 @@
 
 /*
 작성자: 신지훈
-날짜(수정포함): 2023-09-18
-설명: 장르, 음악 재생 시간 위치 조정 및 반응형 추가
+날짜(수정포함): 2023-09-25
+설명: 장르, 음악 재생 시간 위치 조정 및 반응형 추가, 좋아요 버그 수정
 */
 
 import React, { useState } from "react";
@@ -30,11 +30,15 @@ const SingleMusic = ({ item }) => {
 
   const handleMusicClick = () => {
     dispatch(setCurrentSongId(musicId));
-    dispatch(setPlayingStatus(true))
+    dispatch(setPlayingStatus(true));
     navigate(`/MusicPlayer/${musicId}`);
   };
 
   function convertSecondsToMinutes(time) {
+    if (isNaN(time)) {
+      return null;
+    }
+
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
 
@@ -42,26 +46,29 @@ const SingleMusic = ({ item }) => {
   }
 
   return (
-    <div className="flex flex-row items-center ml-2 mr-2 justify-between flex-grow" onClick={handleMusicClick}>
+    <div
+      className="flex flex-row items-center ml-2 mr-2 justify-between flex-grow  cursor-pointer"
+      onClick={handleMusicClick}
+    >
       <div className="flex flex-row items-center p-1 flex-grow">
         <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-md" />
         <div className="flex flex-col text-left ml-3">
-          <span className="text-[18px] font-semibold">{item.title}</span>
-          <span className="text-sm font-normal">{item.artist}</span>
+          <span className="text-base font-semibold">{item.title}</span>
+          <span className="text-xs font-normal">{item.artist}</span>
         </div>
       </div>
 
       {/* 고정 너비를 가진 컨테이너 */}
-      <div className="w-[40%] hidden md:block text-custom-gray font-normal"onClick={handleMusicClick}>
+      <div className="w-[40%] hidden md:block text-custom-gray font-normal" onClick={handleMusicClick}>
         <span>{item.genre1}</span>
       </div>
 
       <div className="w-[20%] hidden md:block text-custom-gray font-normal">
-        <span>{convertSecondsToMinutes(item.time)}</span>
+        {item.time && <span>{convertSecondsToMinutes(item.time)}</span>}
       </div>
 
       {/* 하트 컴포넌트 */}
-      <div className="ml-auto ">
+      <div className="ml-auto flex-shrink-0">
         <Heart item={item.musicId} />
       </div>
     </div>

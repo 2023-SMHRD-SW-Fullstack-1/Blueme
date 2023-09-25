@@ -4,6 +4,12 @@
 설명: 좋아요 표시 컴포넌트 
 */
 
+/*
+작성자: 신지훈
+날짜(수정포함): 2023-09-11
+설명: 좋아요 표시 버그 수정
+*/
+
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -37,7 +43,9 @@ const Heart = ({ item }) => {
   }, [item]);
 
   // 좋아요버튼 누르기
-  const toggleLike = async () => {
+  const toggleLike = async (event) => {
+    event.stopPropagation(); // 부모 요소로의 이벤트 전파 막기
+
     try {
       await axios.put("/likemusics/toggleLike", {
         userId: userId,

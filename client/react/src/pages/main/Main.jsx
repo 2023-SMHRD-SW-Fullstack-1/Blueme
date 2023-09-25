@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-11
-설명: 최근 재생목록 불러오기
+날짜: 2023-09-25
+설명: 최근 재생목록 불러오기, 최근 재생목록 디자인
 */
 /*
 작성자: 이지희
@@ -29,9 +29,9 @@ import { setMusicIds, setPlayingStatus } from "../../store/music/musicActions.js
 // 미니플레이어 import
 //유영 추천 음악 플레이 리스트
 import SingleRecPlayList from "../../components/recommend/SingleRecPlayList";
-import MyRecMusicList from '../../components/recommend/MyRecMusicList'
-import OtherRecMusicList from '../../components/recommend/OtherRecMusicList'
-import Play from '../../assets/img/play.png'
+import MyRecMusicList from "../../components/recommend/MyRecMusicList";
+import OtherRecMusicList from "../../components/recommend/OtherRecMusicList";
+import Play from "../../assets/img/play.png";
 
 const Main = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
@@ -54,7 +54,7 @@ const Main = () => {
   // console.log('header',user);
 
   useEffect(() => {
-    console.log("search : ",window.location.search);
+    console.log("search : ", window.location.search);
     const fetchRecentlyPlayed = async () => {
       try {
         const response = await axios.get(`/playedmusic/get/${id}`);
@@ -69,46 +69,46 @@ const Main = () => {
     //남의 추천 플레이 리스트
     const otherRecPlaylist = async () => {
       try {
-        if(isLoggendIn) {//로그인 한 유저 플리 숨기기
-        await axios
-        .get(`http://172.30.1.27:8104/recMusiclist/recent10?userId=${id}`)//남의 추천 플리 불러오기
-        .then((res) => {
-          console.log(res);
-          setOtherRecMusicList(res.data)//남의 플레이 리스트
-          setotherMusicIds(res.data.map(otherRecMusicList => otherRecMusicList.recMusiclistId))
-        })
-        .catch((err) => console.log(err))
-      } else {//로그인 전엔 최신 10개 플리 불러오기
-        await axios
-        .get(`http://172.30.1.27:8104/recMusiclist/recent10`)//남의 추천 플리 불러오기
-        .then((res) => {
-          console.log(res);
-          setOtherRecMusicList(res.data)//남의 플레이 리스트
-          setotherMusicIds(res.data.map(otherRecMusicList => otherRecMusicList.recMusiclistId))
-        })
-        .catch((err) => console.log(err))
-      }
-      }catch (error) {
-
-      }
-    }
+        if (isLoggendIn) {
+          //로그인 한 유저 플리 숨기기
+          await axios
+            .get(`http://172.30.1.27:8104/recMusiclist/recent10?userId=${id}`) //남의 추천 플리 불러오기
+            .then((res) => {
+              console.log(res);
+              setOtherRecMusicList(res.data); //남의 플레이 리스트
+              setotherMusicIds(res.data.map((otherRecMusicList) => otherRecMusicList.recMusiclistId));
+            })
+            .catch((err) => console.log(err));
+        } else {
+          //로그인 전엔 최신 10개 플리 불러오기
+          await axios
+            .get(`http://172.30.1.27:8104/recMusiclist/recent10`) //남의 추천 플리 불러오기
+            .then((res) => {
+              console.log(res);
+              setOtherRecMusicList(res.data); //남의 플레이 리스트
+              setotherMusicIds(res.data.map((otherRecMusicList) => otherRecMusicList.recMusiclistId));
+            })
+            .catch((err) => console.log(err));
+        }
+      } catch (error) {}
+    };
 
     fetchRecentlyPlayed();
     otherRecPlaylist();
   }, []);
   // console.log('other', myMusicIds);
-  
+
   //나의 추천 플리 불러오기 => 초기값 0으로 설정 처음에 res.data가 null로 되기 때문
   useEffect(() => {
     if (isLoggendIn) {
       axios
-      .get(`http://172.30.1.27:8104/recMusiclist/${id}`)//나의 추천 플리 불러오기
-      .then((res) => {
-        console.log(res);
-        setMyRecMusicList(res.data)//나의 플레이리스트에 저장
-        setMyMusicIds(res.data.map(myRecMusicList => myRecMusicList.recMusiclistId))
-      })
-      .catch((err) => console.log(err))
+        .get(`http://172.30.1.27:8104/recMusiclist/${id}`) //나의 추천 플리 불러오기
+        .then((res) => {
+          console.log(res);
+          setMyRecMusicList(res.data); //나의 플레이리스트에 저장
+          setMyMusicIds(res.data.map((myRecMusicList) => myRecMusicList.recMusiclistId));
+        })
+        .catch((err) => console.log(err));
     }
   }, []);
 
@@ -127,42 +127,42 @@ const Main = () => {
           AI가 추천해준 나만의 플레이리스트
         </h1>
         <Swiper
-        spaceBetween={10}
-        slidesPerView="0"
-        breakpoints={{
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 10,
-          },
-          400: {
-            slidesPerView: 2,
-            spaceBetween: 10,
-          },   
-          765: {
-            slidesPerView: 3,
-            spaceBetween: 10,
-          },   
-          1280: {
-            slidesPerView: 5,
-            spaceBetween: 5,
-          }   
-        }}
-      >
-        { id !== '0' && myRecMusicList.length !== 0 ? (
-          <Swiper>
-            {myRecMusicList &&
-              myRecMusicList.map((item, i) => (
-                <SwiperSlide key={item.recMusiclistId} >
-                  <Link to= {`/RecPlayListDetail/${myMusicIds[i]}`}>
-                    <MyRecMusicList key={item.musicId} item={item} myMusicIds={myMusicIds} i={i}/>
-                  </Link>
-                </SwiperSlide>
-              ))}
-          </Swiper>
-        ) : (
-          <BeforeRegistration />
-        )}
-      </Swiper>
+          spaceBetween={10}
+          slidesPerView="0"
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            400: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            765: {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            1280: {
+              slidesPerView: 5,
+              spaceBetween: 5,
+            },
+          }}
+        >
+          {id !== "0" && myRecMusicList.length !== 0 ? (
+            <Swiper>
+              {myRecMusicList &&
+                myRecMusicList.map((item, i) => (
+                  <SwiperSlide key={item.recMusiclistId}>
+                    <Link to={`/RecPlayListDetail/${myMusicIds[i]}`}>
+                      <MyRecMusicList key={item.musicId} item={item} myMusicIds={myMusicIds} i={i} />
+                    </Link>
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          ) : (
+            <BeforeRegistration />
+          )}
+        </Swiper>
       </div>
       {/* ChatGPT가 추천해준 남의 플레이리스트 */}
       <div>
@@ -171,50 +171,52 @@ const Main = () => {
         </h1>
 
         <Swiper
-        spaceBetween={10}
-        slidesPerView="0"
-        breakpoints={{
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 10,
-          },
-          400: {
-            slidesPerView: 2,
-            spaceBetween: 10,
-          },   
-          765: {
-            slidesPerView: 3,
-            spaceBetween: 10,
-          },   
-          1280: {
-            slidesPerView: 5,
-            spaceBetween: 5,
-          }
-        }}
-      >
-         {otherRecMusicList && otherRecMusicList.map((item,i) => (
-                    <SwiperSlide key={item.recMusiclistId} className="">
-                      <Link to={`/RecPlayListDetail/${otherMusicIds[i]}`}>
-                        <OtherRecMusicList key={item.musicId} item={item} i={i}/>
-                      </Link>
-                    </SwiperSlide>
-                ))}
-
+          spaceBetween={10}
+          slidesPerView="0"
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            400: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            765: {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            1280: {
+              slidesPerView: 5,
+              spaceBetween: 5,
+            },
+          }}
+        >
+          {otherRecMusicList &&
+            otherRecMusicList.map((item, i) => (
+              <SwiperSlide key={item.recMusiclistId} className="">
+                <Link to={`/RecPlayListDetail/${otherMusicIds[i]}`}>
+                  <OtherRecMusicList key={item.musicId} item={item} i={i} />
+                </Link>
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
 
       {/* 최근에 재생한 목록 */}
-      {isLoggendIn && 
-      <div onClick={handleListClick}>
-      <h1 className="indent-2 text-[23px] xl:ml-[50px] tracking-tight mt-10 w-[240px] font-semiblod">최근에 재생한 목록</h1>
-      {/* <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]"> */}
-      <div onClick={setMusicIds}>
-      {recentlyPlayed.map((song) => (
-        <SingleMusic key={song.id} item={song}/>
-      ))}
-      </div>
-      </div>}
-      
+      {isLoggendIn && (
+        <div onClick={handleListClick}>
+          <h1 className="indent-2 text-[23px] xl:ml-[50px] tracking-tight mt-10 w-[240px] font-semiblod">
+            최근에 재생한 목록
+          </h1>
+          {/* <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]"> */}
+          <div onClick={setMusicIds}>
+            {recentlyPlayed.map((song) => (
+              <SingleMusic key={song.id} item={song} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

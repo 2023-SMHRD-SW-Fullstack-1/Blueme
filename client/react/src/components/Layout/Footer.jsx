@@ -20,8 +20,8 @@ function Footer() {
   if (locationNow.pathname === "/MusicPlayer") return null;
 
   const Lottiestyle = {
-    weight: 90,
-    height: 90,
+    weight: 100,
+    height: 100,
   };
   return (
     <div

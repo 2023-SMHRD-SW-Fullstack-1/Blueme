@@ -14,10 +14,9 @@ import axios from "axios";
 import logo2 from "../assets/img/logo2.png";
 import kakao from "../assets/img/kakao.png";
 import google from "../assets/img/google.png";
-import {loginRequest, loginSuccess, loginFailure} from '../store/member/memberAction'
+import { loginRequest, loginSuccess, loginFailure } from "../store/member/memberAction";
 import { useDispatch, useSelector } from "react-redux";
-import '../App.css';
-
+import "../App.css";
 
 axios.defaults.withCredentials = true;
 
@@ -27,21 +26,20 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-  const user = useSelector(state => state.memberReducer.user)
-  const id = user.id
-  
+  const user = useSelector((state) => state.memberReducer.user);
+  const id = user.id;
 
   //일반 로그인
- const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginRequest());
     const requestData = {
-          email: email,
-          password: password,
-        };
-        // console.log(requestData);
-      await axios
-      .post("http://172.30.1.45:8104/login", requestData)
+      email: email,
+      password: password,
+    };
+    // console.log(requestData);
+    await axios
+      .post("http://172.30.1.27:8104/login", requestData)
       .then((res) => {
         console.log(res);
         let accessToken = res.headers.get("Authorization");
@@ -49,27 +47,25 @@ const Login = () => {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("id", res.data.id);
-        localStorage.setItem('img', res.data.img_url)
-         dispatch(loginSuccess(res.data))
-         navigate("/");
-        })
-      .catch(err => {
-        console.log(err)
-        document.getElementById('toast-warning').classList.add("reveal")
-        timeout()
-        dispatch(loginFailure(err.message))
+        localStorage.setItem("img", res.data.img_url);
+        dispatch(loginSuccess(res.data));
+        navigate("/");
       })
+      .catch((err) => {
+        console.log(err);
+        document.getElementById("toast-warning").classList.add("reveal");
+        timeout();
+        dispatch(loginFailure(err.message));
+      });
   };
 
   //3초 로딩 함수
   const timeout = () => {
     setTimeout(() => {
-      document.getElementById('toast-warning').classList.remove("reveal")
-      navigate('/Login')
-    }, 2000);// 원하는 시간 ms단위로 적어주기
+      document.getElementById("toast-warning").classList.remove("reveal");
+      navigate("/Login");
+    }, 2000); // 원하는 시간 ms단위로 적어주기
   };
-
-  
 
   return (
     <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16">
@@ -99,7 +95,7 @@ const Login = () => {
 
           <button
             onClick={handleLogin}
-              className="
+            className="
              mt-10
              h-10
              px-3 relative 
@@ -107,17 +103,18 @@ const Login = () => {
              rounded-lg border border-[#fdfdfd]
              text-custom-white
              tracking-tight
-             md:w-full w-full">
+             md:w-full w-full"
+          >
             로그인
           </button>
 
           <hr className="mt-10" style={{ borderTop: "1px solid gray", width: "100%" }} />
-          <div className="text-custom-white mt-10 mb-4 text-left w-full tracking-tight">
-            SNS 로그인
-          </div>
+          <div className="text-custom-white mt-10 mb-4 text-left w-full tracking-tight">SNS 로그인</div>
 
           <button
-            onClick={() => {window.location.href = "http://172.30.1.45:8104/oauth2/authorization/kakao"}}
+            onClick={() => {
+              window.location.href = "http://172.30.1.45:8104/oauth2/authorization/kakao";
+            }}
             className="
      flex items-center justify-center pl-2 w-full mt-6 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white text-sm peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
           >
@@ -126,9 +123,9 @@ const Login = () => {
           </button>
 
           <button
-           onClick={() => {
-            window.location.href = "http://172.30.1.45:8104/oauth2/authorization/google";
-          }}
+            onClick={() => {
+              window.location.href = "http://172.30.1.45:8104/oauth2/authorization/google";
+            }}
             className="
   flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white text-sm peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "
           >
@@ -147,10 +144,14 @@ const Login = () => {
       </div>
       {/* 토스트 창 띄우기 */}
       <div className="flex justify-center items-center">
-          <div id="toast-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
-            <div className="ml-3 font-normal text-center">로그인에 실패하셨습니다.</div>
-          </div>
+        <div
+          id="toast-warning"
+          className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+          role="alert"
+        >
+          <div className="ml-3 font-normal text-center">로그인에 실패하셨습니다.</div>
         </div>
+      </div>
     </div>
   );
 };

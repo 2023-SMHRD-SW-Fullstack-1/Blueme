@@ -6,8 +6,8 @@
 
 /*
 작성자: 신지훈
-날짜(수정포함): 2023-09-20
-설명: 사용자 라이브러리 웹 디자인 및 반응형 완료
+날짜(수정포함): 2023-09-25
+설명: 사용자 라이브러리 웹 디자인 및 반응형 완료 , 디버깅 완료
 */
 
 import React, { useEffect, useState } from "react";
@@ -48,16 +48,16 @@ const Library = () => {
       <br />
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 pr-0 md:pr-2 order-last md:order-first lg:pr-10 md:pt-10">
-          <p className="text-left text-xl ml-[5px] pt-[20px] lg:pt-[30px] lg:text-3xl lg:ml-8">저장한 플레이리스트</p>
+          <p className="text-left text-xl ml-[5px] pt-[20px] lg:pt-[30px] lg:text-3xl lg:ml-8 ">저장한 플레이리스트</p>
           <SavedPlaylist />
 
-          <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-10 hidden md:block lg:text-3xl  lg:ml-8">
+          <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-1 hidden md:block lg:text-3xl  lg:ml-8">
             Chat GPT가 추천해준 나의 플레이리스트
           </h1>
 
-          {id !== "0" && myRecMusicList.length !== 0 ? (
+          {isLoggendIn && myRecMusicList.length > 0 && (
             <Swiper
-              className="flex mt-5 lg:mt-10  overflow-hidden mb-20"
+              className=" mt-5 lg:mt-10 hidden md:block overflow-hidden xs:mb-20"
               spaceBetween={10}
               slidesPerView="0"
               breakpoints={{
@@ -88,8 +88,8 @@ const Library = () => {
             >
               {myRecMusicList &&
                 myRecMusicList.map((item, i) => (
-                  <SwiperSlide key={item.recMusiclistId} className="hidden md:block">
-                    <div className="flex flex-col justify-center items-center ml-2 mr-2 lg:w-[350px]">
+                  <SwiperSlide key={item.recMusiclistId} className="">
+                    <div>
                       <img
                         onClick={() => {
                           navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
@@ -103,8 +103,6 @@ const Library = () => {
                   </SwiperSlide>
                 ))}
             </Swiper>
-          ) : (
-            <BeforeRegistration />
           )}
         </div>
 

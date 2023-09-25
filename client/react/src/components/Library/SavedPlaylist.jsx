@@ -103,13 +103,7 @@ const SavedPlaylist = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {selectedPlaylistDetails.map((detail) => (
-        <div key={detail.savedMusiclistId}>
-          <img src={"data:image/;base64," + detail.img} alt="music cover" />
-          <p>{detail.title}</p>
-          <p>{detail.artist}</p>
-        </div>
-      ))}
+      <div className="xs:mb-32 lg:mb-12 "></div>
     </div>
   );
 };

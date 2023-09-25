@@ -1,7 +1,7 @@
 /*
 작성자: 신지훈
-날짜: 2023-09-16  
-설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 구현, 음악 재생 시간 오류 디버깅
+날짜: 2023-09-25
+설명: 테마별 플레이리스트 화면, 불러오기, 전체 저장 구현, 음악 재생 시간 오류 디버깅, 전체 재생 추가, 모바일화면 텍스트 개행
 */
 /*
 작성자: 신지훈
@@ -12,14 +12,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+
+import { useNavigate } from "react-router-dom";
 import SingleMusic from "../../components/Library/SingleMusic";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import axios from "axios";
 import { setMusicIds } from "../../store/music/musicActions.js";
-
+import { setCurrentSongId } from "../../store/music/musicActions";
 const SavedPlaylistDetail = () => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const [selectedPlaylistDetails, setSelectedPlaylistDetails] = useState([]);
   const [playlistImage, setPlaylistImage] = useState("");
@@ -63,15 +67,29 @@ const SavedPlaylistDetail = () => {
   const handleListClick = () => {
     dispatch(setMusicIds(ids));
   };
+  const WholePlaying = () => {
+    dispatch(setCurrentSongId(ids[0])); // 첫 번째 음악을 재생
+    dispatch(setMusicIds(ids));
+    navigate(`/MusicPlayer/${ids[0]}`);
+  };
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 h-full text-custom-white p-3 hide-scrollbar overflow-auto mb-[70px]">
       <br />
+
       <div className="flex flex-col items-center justify-center mt-[80px]">
         <img src={"data:image/;base64," + playlistImage} className="w-[160px] h-[160px] rounded-xl" />
-        <p className="text-2xl py-5">{title}</p>
+        <p className="text-xl py-5 text-center whitespace-normal">{title}</p>
       </div>
-      <div className="mt-[20px]" onClick={handleListClick}>
+      <div className="flex items-center justify-center">
+        <button
+          onClick={WholePlaying}
+          className="bg-gradient-to-t from-gray-800 border ml-2 xs:w-[80px] xl:w-[180px] rounded-lg text-custom-lightpurple font-semibold tracking-tighter h-10 text-base"
+        >
+          전체 재생
+        </button>
+      </div>
+      <div className="mt-[20px] xs:mb-14" onClick={handleListClick}>
         {selectedPlaylistDetails.map((music) => (
           <SingleMusic
             key={music.musicId}
