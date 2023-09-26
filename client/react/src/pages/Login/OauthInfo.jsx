@@ -18,6 +18,8 @@ const OauthInfo = () => {
         // URL에서 OauthInfo 쿼리 파라미터를 추출합니다.
         const urlParams = new URLSearchParams(query);
         const oauthInfoJson = urlParams.get('OauthInfo');
+        const accessToken = urlParams.get('accessToken')
+        const refreshToken = urlParams.get('refreshToken')
         
         dispatch(loginFailure())
 
@@ -27,6 +29,9 @@ const OauthInfo = () => {
           dispatch(loginSuccess(oauthInfo))
           localStorage.setItem("id", oauthInfo.id);
           console.log('OAuth Info:', oauthInfo);
+
+          localStorage.setItem("accessToken", "Bearer "+accessToken);
+          localStorage.setItem("refreshToken", "Bearer "+refreshToken);
           
           navigate("/")
         }

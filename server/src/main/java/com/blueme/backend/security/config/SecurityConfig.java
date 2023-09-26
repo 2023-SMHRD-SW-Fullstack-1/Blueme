@@ -127,7 +127,6 @@ public class SecurityConfig{
     }
 
     
-
     @Bean
     public CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
         CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordLoginFilter
@@ -159,6 +158,6 @@ public class SecurityConfig{
     	source.registerCorsConfiguration("/**", configuration);
     	return source;
     }
-    
+ 
 	
 }

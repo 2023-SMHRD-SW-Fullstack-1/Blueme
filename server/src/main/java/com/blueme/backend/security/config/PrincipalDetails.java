@@ -2,31 +2,20 @@ package com.blueme.backend.security.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.blueme.backend.model.entity.UserRole;
 import com.blueme.backend.model.entity.Users;
-import com.blueme.backend.security.oauth2.SocialType;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 /**
- *   Spring Security는 객체에 저장된 정보를 사용하여 UserPrincipal인증 및 권한을 부여
+ *   Spring Security는 객체에 저장된 정보를 사용하여 UserPrincipal 인증 및 권한을 부여
  */
 
 //@Schema(hidden = true)
 public class PrincipalDetails implements UserDetails, OAuth2User {
-    private static final long serialVersionUID = 1L;
     private Users user;
     private Map<String, Object> attributes;
 

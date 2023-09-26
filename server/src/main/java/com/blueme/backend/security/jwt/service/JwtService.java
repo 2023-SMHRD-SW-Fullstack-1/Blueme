@@ -44,7 +44,6 @@ public class JwtService {
 
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-    private static final String ID_CLAIM = "id";
     private static final String EMAIL_CLAIM = "email";
     private static final String BEARER = "Bearer ";
 
@@ -117,9 +116,6 @@ public class JwtService {
 
     /**
      * AccessToken에서 email 추출
-     * - ex)
-     * jwtService.extractEmail(accessToken)); // Optional[이메일값]
-     * jwtService.extractEmail(accessToken).get()); // 이메일값
      */
     public Optional<String> extractEmail(String accessToken) {
         try {

@@ -12,16 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.blueme.backend.security.config.PrincipalDetails;
 import com.blueme.backend.security.jwt.service.JwtService;
-import com.blueme.backend.utils.PasswordUtil;
-import com.nimbusds.oauth2.sdk.token.AccessToken;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +32,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	
 	private final JwtService jwtService;
 	private final UsersJpaRepository usersJpaRepository;
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 	
@@ -99,28 +95,15 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	                        .ifPresent(email -> usersJpaRepository.findByEmail(email)
 	                                .ifPresent(this::saveAuthentication)));
 	        filterChain.doFilter(request, response);
-	        log.info("asdfd");
 	    }
 	    
 	    /**
 	     * 인증 허가
 	     */
 	    public void saveAuthentication(Users myUser) {
-	        String password = myUser.getPassword();
-	        if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
-	            password = bCryptPasswordEncoder.encode(PasswordUtil.generateRandomPassword());
-	        }
-
-	        UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
-	                .username(myUser.getEmail())
-	                .password(password)
-	                .roles(myUser.getRole().name())
-	                .build();
-
+	        PrincipalDetails principalDetails = PrincipalDetails.create(myUser);
 	        Authentication authentication =
-	                new UsernamePasswordAuthenticationToken(userDetailsUser, null,
-	                authoritiesMapper.mapAuthorities(userDetailsUser.getAuthorities()));
-
+	        new UsernamePasswordAuthenticationToken(principalDetails,null,authoritiesMapper.mapAuthorities(principalDetails.getAuthorities()));
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
 	    }
 	

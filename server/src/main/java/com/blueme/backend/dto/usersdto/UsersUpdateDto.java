@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UsersUpdateDto {
 	
-	private String email;
+//	private String email;
 	
 	private String password;
 	
@@ -18,7 +18,7 @@ public class UsersUpdateDto {
 	private String img_url;
 	
 	public Users toEntity() {
-        return Users.builder().email(email).password(password).nickname(nickname).img_url(img_url).build();
+        return Users.builder().password(password).nickname(nickname).img_url(img_url).build();
     }
 	
 }

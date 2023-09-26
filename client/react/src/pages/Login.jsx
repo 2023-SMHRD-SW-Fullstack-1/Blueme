@@ -34,16 +34,24 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginRequest());
     const requestData = {
-      email: email,
-      password: password,
-    };
-    // console.log(requestData);
-    await axios
-      .post("http://172.30.1.27:8104/login", requestData)
+          email: email,
+          password: password,
+        };
+    const headers = {
+      'content-type' : 'application/json'
+    }
+        // console.log(requestData);
+      await axios
+      .post("http://172.30.1.45:8104/login", requestData)
       .then((res) => {
         console.log(res);
-        let accessToken = res.headers.get("Authorization");
-        let refreshToken = res.headers["authorization-refresh"];
+        const acToken = res.data.accessToken
+        const reToken = res.data.refreshToken
+        axios.defaults.headers.common['Authoriztion'] = `Bearer ${acToken}`
+        axios.defaults.headers.common['Authoriztion-refresh'] = `Bearer ${reToken}`
+        console.log("axiosHeaders : ",axios.defaults.headers);
+        let accessToken = "Bearer "+res.headers.get("Authorization");
+        let refreshToken = "Bearer "+res.headers["authorization-refresh"];
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("id", res.data.id);
