@@ -114,6 +114,7 @@ public class RecMusiclistsService {
    * @param userId 사용자ID (String)
    * @return 장르리스트 (List<Genres>)
    */
+  @Transactional(readOnly = true)
   public List<Genres> getGenres(String userId) {
     FavCheckLists fcl = favCheckListsJpaRepository.findFirstByUserId(Long.parseLong(userId));
     List<FavGenres> result = favGenresJpaRepository.findByFavCheckList(fcl);
@@ -129,6 +130,7 @@ public class RecMusiclistsService {
    * @param userId 사용자ID (String)
    * @return 음악리스트(List<Musics>)
    */
+  @Transactional(readOnly = true)
   public List<Musics> getArtists(String userId) {
     List<FavCheckLists> fcl = favCheckListsJpaRepository.findByUserId(Long.parseLong(userId));
     FavCheckLists artistChecklist = fcl.get(1);
@@ -142,6 +144,7 @@ public class RecMusiclistsService {
    * @param healthInfo 건강정보 (위도,경도 사용)
    * @return 현재날씨정보 (WeatherSummary)
    */
+  @Transactional(readOnly = true)
   private WeatherSummary getWeatherSummary(HealthInfos healthInfo) {
     WeatherInfo weatherData = weatherAPIClient.getWeather(healthInfo.getLat(), healthInfo.getLon());
     String condition = weatherData.getWeather().get(0).getMain();
@@ -157,6 +160,7 @@ public class RecMusiclistsService {
    * @param userId   사용자ID (String)
    * @return userId || null (Long)
    */
+  @Transactional(readOnly = true)
   private Long processChatGptResponse(ChatGptResDto response, String userId) {
     String content = response.getChoices().get(0).getMessage().getContent();
     ObjectMapper objectMapper = new ObjectMapper();

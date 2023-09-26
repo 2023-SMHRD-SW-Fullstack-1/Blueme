@@ -14,6 +14,7 @@ public class RecMusiclistsDetailResDto {
   private String musicArtist;
   private String musicAlbum;
   private String musicGenre;
+  private String musicTime;
 
   public RecMusiclistsDetailResDto(RecMusiclistDetails detailResDto) {
     this.recMusiclistDetailId = detailResDto.getId();
@@ -24,6 +25,7 @@ public class RecMusiclistsDetailResDto {
     this.musicAlbum = detailResDto.getMusic().getAlbum();
     this.musicGenre = detailResDto.getMusic().getGenre1();
     this.musicArtist = detailResDto.getMusic().getArtist();
+    this.musicTime = detailResDto.getMusic().getTime();
   }
 
 }
