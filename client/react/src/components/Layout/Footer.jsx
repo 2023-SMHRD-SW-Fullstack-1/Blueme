@@ -29,27 +29,27 @@ function Footer() {
     flex justify-between items-center fixed bottom-0 w-full h-[70px] xs:z-50"
     >
       <Link to="/" className="flex flex-col items-center w-full text-center">
-        <img src={home} className="h-[35px] w-[35px] mt-[4px]"></img>
-        <p className="text-sm h-[15px]">홈</p>
+        <img src={home} className="h-[35px] w-[41px] mt-[4px]"></img>
+        <p className="text-xs h-[15px]">홈</p>
       </Link>
       <Link to="/search" className="flex flex-col items-center w-full text-center">
-        <img src={Search} className="h-[30px] w-[30px] mt-[8px]"></img>
-        <p className="text-sm h-[15px]">검색</p>
+        <img src={Search} className="h-[31px] w-[31px] mt-[8px]"></img>
+        <p className="text-xs h-[15px]">검색</p>
       </Link>
       {/* 지훈 - 검색 , 추천 애니메이션 추가  (0913) */}
       <Link to="/RecBegin" className="flex flex-col items-center w-full text-center mt-4">
         <Lottie animationData={recommendAnimationData} style={Lottiestyle} />
-        <p className="text-sm h-[15px]"></p>
+        <p className="text-xs h-[15px]"></p>
       </Link>
 
       {/* 지희 - 연결변경 to Theme.jsx (0908) */}
       <Link to="/Theme" className="flex flex-col items-center w-full text-center">
-        <img src={tag} className="w-[30px] h-[30px] mt-[7px] mb-[2px]"></img>
-        <button className="text-sm h-[15px]">테마</button>
+        <img src={tag} className="w-[29px] h-[31px] mt-[7px] mb-[2px]"></img>
+        <button className="text-xs h-[15px]">테마</button>
       </Link>
       <Link to="/library" className="flex flex-col items-center w-full text-center">
-        <img src={library} className="w-[30px] h-[30px] mt-[4px] mb-[4px]"></img>
-        <button className="text-sm h-[15px]">라이브러리</button>
+        <img src={library} className="w-[31px] h-[34px] mt-[7px] mb-[0px]"></img>
+        <button className="text-xs h-[15px]">라이브러리</button>
       </Link>
     </div>
   );

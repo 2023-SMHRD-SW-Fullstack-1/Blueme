@@ -12,18 +12,16 @@
 설명: 장르, 음악 재생 시간 위치 조정 및 반응형 추가, 좋아요 버그 수정
 */
 
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Heart from "./Heart";
 
 import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
 
 const SingleMusic = ({ item }) => {
-  // console.log("single", item);
 
   const musicId = item.musicId;
-  const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

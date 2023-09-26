@@ -25,8 +25,8 @@ function Header() {
   return (
     <div
       className=" text-sm sm:text-base md:text-lg 
-        lg:text-xl xl:text-xl text-custom-white p-3 sm:p-4 flex 
-        justify-end items-center absolute w-full bg-custom-blue z-50 "
+        lg:text-xl xl:text-xl text-custom-white p-2 sm:p-4 flex 
+        justify-end items-center fixed w-full bg-custom-blue z-50 "
     >
       <Link to="/dashboard" className="mr-5">
         <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">관리자페이지</button>
