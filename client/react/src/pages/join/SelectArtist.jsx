@@ -141,9 +141,9 @@ const SelectArtist = () => {
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight overflow-auto hide-scrollbar text-custom-white p-3">
-      <h3 className="text-2xl pt-[90px] md:ml-[150px] md:mr-[150px]">당신이 좋아하는 아티스트는?</h3>
+      <h3 className="text-2xl pt-[90px] md:ml-[100px] md:mr-[100px]">당신이 좋아하는 아티스트는?</h3>
       {/* 아티스트 검색 */}
-      <div className="text-center item-center w-[500px] mt-[20px] md:ml-[150px] md:mr-[150px]">
+      <div className="text-center item-center w-[500px] mt-[20px] md:ml-[100px] md:mr-[100px]">
         <input
               type="text"
               onChange={(e) => setArtistInput(e.target.value)}
@@ -157,7 +157,7 @@ const SelectArtist = () => {
       </div>
 
       {/* 검색한 아티스트 */}
-      <div className="grid md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
+      <div className="grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
       
       {isLoading ? (<p>Loading...</p>) : 
 

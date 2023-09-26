@@ -5,7 +5,7 @@
 */
 // SelectArtist.jsx
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Genre from '../../components/MyPage/Genre'
@@ -22,7 +22,7 @@ const SelectGenre = () => {
   if(localStorage.getItem('id') === null) {
     id = localStorage.setItem('id', snsId)
   }
-  // const sns = localStorage.setItem('id', snsId)
+
 
    //3초 로딩 함수
    const timeout = () => {
@@ -56,36 +56,7 @@ const SelectGenre = () => {
       })
       .catch((err) => console.log(err))
     }, [])
-      // console.log(checkedState);
 
-    // //카카오 로그인
-
-    // e.preventDefault()
-    // dispatch(loginRequest());
-    // window.location.href = "http://localhost:8104/oauth2/authorization/kakao"
-    // console.log('params', params);
-    // const requestData = {
-    //   email: email,
-    //   password: password,
-    // };
-    // await axios
-    // .post("http://172.30.1.45:8104/login", requestData)
-    // .then((res) => {
-      
-    //   console.log(res);
-    //   let accessToken = res.headers.get("Authorization");
-    //   let refreshToken = res.headers["authorization-refresh"];
-    //   localStorage.setItem("accessToken", accessToken);
-    //   localStorage.setItem("refreshToken", refreshToken);
-    //   localStorage.setItem("id", res.data.id);
-    //    dispatch(loginSuccess(res.data))
-    //    navigate("/");
-    //   })
-    // .catch(err => {
-    //   console.log(err)
-    //   dispatch(loginFailure(err.message))
-    // })
-    
 
     //회원가입 시 장르 선택(2개)
     const handleSelect = () => {
@@ -116,6 +87,8 @@ const SelectGenre = () => {
             navigate('/SelectGenre')
         }
     };
+
+
     //장르 수정하기
     const handelUpdate = () => {
       if(checkedState.length === 2) {
@@ -151,8 +124,8 @@ const SelectGenre = () => {
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight h-auto text-custom-white p-3">
-      <h3 className="text-2xl pt-[90px] md:ml-[150px] md:mr-[150px]">당신이 좋아하는 장르는?</h3>
-      <div className="grid md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
+      <h3 className="text-2xl pt-[90px] md:ml-[100px] md:mr-[100px]">당신이 좋아하는 장르는?</h3>
+      <div className="grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
         {genre && genre.map((genre, genreId, i) => (
           <button
             key={genre.genreId}
@@ -175,7 +148,8 @@ const SelectGenre = () => {
         rounded-lg border border-soild border-[#fdfdfd]
         text-custom-white
         text-[16px]
-        mb-[80px]"
+        mb-[80px]
+        "
     >
       선택하기
     </button> : <button
@@ -188,7 +162,8 @@ const SelectGenre = () => {
             rounded-lg border border-soild border-[#fdfdfd]
             text-custom-white
             text-[16px]
-            mb-[80px]"
+            mb-[80px]
+            "
         >
           수정하기
         </button>}
