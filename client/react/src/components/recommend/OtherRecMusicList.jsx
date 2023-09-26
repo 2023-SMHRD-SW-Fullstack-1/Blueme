@@ -29,8 +29,8 @@ const OtherRecMusicList = ({ item }) => {
             <img src={"data:image/;base64,"+ item.img} alt="album cover"/>
             {isMouseOver && 
               <>
-                <img src={Play} alt="noimg" className="absolute top-0 right-0 w-[30px]" />
-                <p className="absolute bottom-0 left-0 w-full h-[105px] overflow-hidden  text-white bg-black bg-opacity-50 p-2">{item.recMusiclistReason}</p>
+                <img src={Play} alt="noimg" className="absolute top-1 right-1 w-[25px]" />
+                {/* <p className="absolute bottom-0 left-0 w-full h-[105px] overflow-hidden  text-white bg-black bg-opacity-50 p-2">{item.recMusiclistReason}</p> */}
               </>
             }
           </div>
