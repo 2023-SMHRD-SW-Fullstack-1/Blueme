@@ -29,11 +29,11 @@ function Footer() {
     flex justify-between items-center fixed bottom-0 w-full h-[70px] xs:z-50"
     >
       <Link to="/" className="flex flex-col items-center w-full text-center">
-        <img src={home} className="h-[39px] w-[45px] mt-[4px]"></img>
+        <img src={home} className="h-[35px] w-[35px] mt-[4px]"></img>
         <p className="text-sm h-[15px]">홈</p>
       </Link>
       <Link to="/search" className="flex flex-col items-center w-full text-center">
-        <img src={Search} className="h-[35px] w-[35px] mt-[8px]"></img>
+        <img src={Search} className="h-[30px] w-[30px] mt-[8px]"></img>
         <p className="text-sm h-[15px]">검색</p>
       </Link>
       {/* 지훈 - 검색 , 추천 애니메이션 추가  (0913) */}
@@ -44,11 +44,11 @@ function Footer() {
 
       {/* 지희 - 연결변경 to Theme.jsx (0908) */}
       <Link to="/Theme" className="flex flex-col items-center w-full text-center">
-        <img src={tag} className="w-[33px] h-[35px] mt-[7px] mb-[2px]"></img>
+        <img src={tag} className="w-[30px] h-[30px] mt-[7px] mb-[2px]"></img>
         <button className="text-sm h-[15px]">테마</button>
       </Link>
       <Link to="/library" className="flex flex-col items-center w-full text-center">
-        <img src={library} className="w-[35px] h-[39px] mt-[4px] mb-[4px]"></img>
+        <img src={library} className="w-[30px] h-[30px] mt-[4px] mb-[4px]"></img>
         <button className="text-sm h-[15px]">라이브러리</button>
       </Link>
     </div>
