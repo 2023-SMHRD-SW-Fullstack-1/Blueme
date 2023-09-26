@@ -13,7 +13,7 @@ const MainContent = () => {
 
           {/* Cards */}
           <div className="grid grid-cols-12 gap-6">
-            {/* Table (Top Channels) */}
+            {/* Table (Top Musics) */}
             <DashboardCard07 />
             {/* Card (Customers) */}
             <DashboardCard10 />

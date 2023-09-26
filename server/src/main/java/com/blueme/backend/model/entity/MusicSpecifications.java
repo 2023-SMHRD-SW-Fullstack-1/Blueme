@@ -24,7 +24,7 @@ public class MusicSpecifications {
       for (int i = 0; i < tags.length; i++) {
         predicates[i] = criteriaBuilder.like(root.get("tag"), "%" + tags[i] + "%");
       }
-      return criteriaBuilder.or(predicates);
+      return criteriaBuilder.and(predicates);
     };
   }
 }
