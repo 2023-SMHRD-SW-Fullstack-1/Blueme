@@ -15,8 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.checkerframework.checker.units.qual.C;
-
 import com.blueme.backend.config.FilePathConfig;
 import com.blueme.backend.utils.ImageConverter;
 import com.blueme.backend.utils.ImageToBase64;

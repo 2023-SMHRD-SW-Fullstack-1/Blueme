@@ -289,29 +289,23 @@ public class ChatGptService {
                                 break;
 
                         case "Clear":
-                                if (temperature > 30) {
+                                if (temperature >= 30) {
                                         emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD
                                                         ? EmotionState.TIRED.getTag()
-                                                        :
-
-                                                        EmotionState.HAPPY.getTag());
+                                                        : EmotionState.HAPPY.getTag());
                                 } else if (temperature <= 30 && temperature >= 20) {
-                                        emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD ?
-
-                                                        EmotionState.FLUTTER.getTag() :
-
-                                                        EmotionState.BEAT.getTag());
+                                        emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD
+                                                        ? EmotionState.FLUTTER.getTag()
+                                                        : EmotionState.BEAT.getTag());
                                 } else {
-                                        emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD ?
-
-                                                        EmotionState.BEAT.getTag() :
-
-                                                        EmotionState.FLUTTER.getTag());
+                                        emotionstate = (stepsPerMinute >= NORMAL_ACTIVE_STEPS_THRESHOLD
+                                                        ? EmotionState.TIRED.getTag()
+                                                        : EmotionState.UNREST.getTag());
                                 }
                                 break;
 
                         case "Clouds":
-                                if (humid > 80) {
+                                if (humid >= 80) {
                                         emotionstate = EmotionState.DEPRESSED.getTag();
                                 } else {
                                         emotionstate = EmotionState.UNREST.getTag();
