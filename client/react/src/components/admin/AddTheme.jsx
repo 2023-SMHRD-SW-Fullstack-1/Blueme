@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
+/*
+작성자 : 김혁
+설명 : 테마 태그 페이지
+작성일 : 2023-09-25
+*/
 const AddTheme = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -12,13 +17,15 @@ const AddTheme = () => {
   const itemsPerPage = 30;
   const [isImgUploaded, setIsImgUploaded] = useState(false);
   const [imgFile, setImgFile] = useState("");
+  const [tags, setTags] = useState([]);
   const imgRef = useRef();
+  
   // 음악 데이터 가져오기
   useEffect(() => {
     const fetchMusicData = async () => {
       try {
         const response = await axios.get(
-          `http://172.30.1.27:8104/music/page?page=${currentPage}&size=${itemsPerPage}`
+          `${process.env.REACT_APP_API_BASE_URL}/music/page?page=${currentPage}&size=${itemsPerPage}`
         );
         setMusicList(response.data);
       } catch (error) {
@@ -47,35 +54,6 @@ const AddTheme = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    /*
-    try {
-      await axios.post("http://172.30.1.27:8104/theme/register", {
-        title,
-        content,
-        musicIds,
-      });
-      alert("테마가 성공적으로 등록되었습니다.");
-    } catch (error) {
-      console.error("테마 등록 중 오류가 발생했습니다:", error);
-    }
-
-    try {
-      const formData = new FormData();
-      formData.append("theme_img_file", imgRef.current.files[0]);
-
-      await axios.post(
-        "http://172.30.1.27:8104/theme/register/image",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-    } catch (error) {
-      console.error("이미지 업로드 중 오류가 발생했습니다:", error);
-    }*/
 
     try {
       const formData = new FormData();
@@ -113,7 +91,6 @@ const AddTheme = () => {
         `http://172.30.1.27:8104/music/search?keyword=${searchTerm}`
       );
       setSearchList(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("음악 검색 중 오류가 발생했습니다:", error);
     }
@@ -135,6 +112,13 @@ const AddTheme = () => {
       setIsImgUploaded(true);
     };
   };
+
+  // 모든 테마 태그 조회
+  useEffect(() => {
+    fetch('http://172.30.1.27:8104/theme/tags')
+      .then(response => response.json())
+      .then(data => setTags(data));
+  }, []);
 
   return (
     <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
@@ -195,7 +179,19 @@ const AddTheme = () => {
                 className="border p-2 rounded w-full"
               />
             </div>
-
+            {/* 태그등록 */}
+            <div className="mb-4">
+              <label htmlFor="tag" className="block mb-2">
+                태그:
+              </label>
+              <select id="tag" className="border p-2 rounded w-full">
+                {tags.map(tag => (
+                  <option key={tag.tagId} value={tag.tagId}>
+                    {tag.name}
+                  </option>
+                ))}
+              </select>
+            </div>
             <input
               type="submit"
               value="등록"
