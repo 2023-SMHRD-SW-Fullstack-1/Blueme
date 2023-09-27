@@ -34,9 +34,10 @@ import OtherRecMusicList from "../../components/recommend/OtherRecMusicList";
 import Play from "../../assets/img/play.png";
 
 const Main = () => {
-  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
-  const [myRecMusicList, setMyRecMusicList] = useState([]);
-  const [otherRecMusicList, setOtherRecMusicList] = useState([]);
+  const [recentlyPlayed, setRecentlyPlayed] = useState([]);//최근 재생 목록
+  const [myRecMusicList, setMyRecMusicList] = useState([]);//나의 추천 리스트
+  const [otherRecMusicList, setOtherRecMusicList] = useState([]);//블루미 추천 리스트
+  const [isLoading, setIsLoading] = useState(true);//로딩여부
 
   // 지희 시작 (0918)
   const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
@@ -46,6 +47,7 @@ const Main = () => {
 
   const dispatch = useDispatch();
 
+  //member Reducer
   const user = useSelector((state) => state.memberReducer.user);
   const id = user.id;
   const isLoggendIn = useSelector((state) => state.memberReducer.isLogin);
@@ -53,7 +55,24 @@ const Main = () => {
 
 
   useEffect(() => {
-    console.log("search : ", window.location.search);
+    //나의 추천 플리 불러오기 => 초기값 0으로 설정 처음에 res.data가 null로 되기 때문
+    const myRecPlaylist = async () => {
+      try{
+          await axios
+            .get(`http://172.30.1.27:8104/recMusiclist/${id}`) //나의 추천 플리 불러오기
+            .then((res) => {
+              // console.log(res);
+              setMyRecMusicList(res.data); //나의 플레이리스트에 저장
+              setMyMusicIds(res.data.map((myRecMusicList) => myRecMusicList.recMusiclistId));
+              setIsLoading(false);
+            })
+      }catch(error) {
+          setMyRecMusicList([])
+          setIsLoading(false)
+          console.log("error",error);
+      }
+  }
+    //최근 재생 목록
     const fetchRecentlyPlayed = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/playedmusic/get/${id}`);
@@ -62,8 +81,12 @@ const Main = () => {
         setIds(response.data.map((music) => music.musicId));
         // 지희 끝
       } catch (error) {
+        if(error.response.status === 404) {
+          setRecentlyPlayed(null)
+        }
         console.error(`Error: ${error}`);
       }
+   
     };
     //남의 추천 플레이 리스트
     const otherRecPlaylist = async () => {
@@ -92,10 +115,10 @@ const Main = () => {
       } catch (error) {}
     };
 
+    myRecPlaylist();
     fetchRecentlyPlayed();
     otherRecPlaylist();
   }, []);
-  // console.log('other', myMusicIds);
 
   //나의 추천 플리 불러오기 => 초기값 0으로 설정 처음에 res.data가 null로 되기 때문
   useEffect(() => {
@@ -116,7 +139,7 @@ const Main = () => {
     dispatch(setMusicIds(ids));
   };
 
-  console.log(recentlyPlayed);
+  // console.log(recentlyPlayed);
 
   return (
     <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-20 hide-scrollbar">
@@ -149,20 +172,25 @@ const Main = () => {
             },
           }}
         >
-          {id !== "0" && myRecMusicList.length !== 0 ? (
-            <Swiper>
-              {myRecMusicList &&
-                myRecMusicList.map((item, i) => (
-                  <SwiperSlide key={item.recMusiclistId}>
-                    <Link to={`/RecPlayListDetail/${myMusicIds[i]}`}>
-                      <MyRecMusicList key={item.musicId} item={item} myMusicIds={myMusicIds} i={i} />
-                    </Link>
-                  </SwiperSlide>
-                ))}
-            </Swiper>
-          ) : (
-            <BeforeRegistration />
-          )}
+          {isLoading ? 
+          (<p className="text-2xl text-center mt-10 text-custom-lightgray">Loading ...</p>
+          ) : 
+            (id !== 0 && myRecMusicList.length !== 0 ? (
+              <Swiper>
+                {
+                  myRecMusicList.map((item, i) => (
+                    <SwiperSlide key={item.recMusiclistId}>
+                      <Link to={`/RecPlayListDetail/${myMusicIds[i]}`}>
+                        <MyRecMusicList key={item.musicId} item={item} myMusicIds={myMusicIds} i={i} />
+                      </Link>
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+            ) : (<BeforeRegistration setIsLoading={setIsLoading}/>)
+            )
+          }
+          {/* {id == 0 && myRecMusicList.length == 0   && <BeforeRegistration setIsLoading={setIsLoading}/> }    */}
+              
         </Swiper>
       </div>
       {/* ChatGPT가 추천해준 남의 플레이리스트 */}
@@ -211,7 +239,7 @@ const Main = () => {
             최근에 재생한 목록
           </h1>
           {recentlyPlayed === null ? 
-           <p>최근에 재생한 목록이 없습니다.</p> : 
+           <p className=" text-left ml-2 mt-5 text-custom-lightgray">최근에 재생한 목록이 없습니다.</p> : 
            <div onClick={setMusicIds} className="mt-5">
            {recentlyPlayed.map((song) => (
              <SingleMusic key={song.musicId} item={song} />

@@ -10,11 +10,17 @@
 설명: 워치 화면 구현
 */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import watch from '../../assets/img/watch.png'
 import { Link } from 'react-router-dom'
 
-const MainWatch = () => {
+
+const MainWatch = ({setIsLoading}) => {
+
+  useEffect(() => {
+    setIsLoading(false)
+  })
+
   return (
     <div>
       <div className='flex flex-col justify-center items-center p-5 mt-3 relative'>
