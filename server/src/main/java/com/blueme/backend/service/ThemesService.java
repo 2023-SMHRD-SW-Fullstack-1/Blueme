@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.blueme.backend.dto.themesdto.TagDetailsResDto;
 import com.blueme.backend.dto.themesdto.ThemeDetailsResDto;
 import com.blueme.backend.dto.themesdto.ThemeSaveReqDto;
 import com.blueme.backend.dto.themesdto.ThemelistResDto;
@@ -21,6 +22,7 @@ import com.blueme.backend.model.entity.ThemeMusiclists;
 import com.blueme.backend.model.entity.Themes;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.ThemeMusiclistsJpaRepository;
+import com.blueme.backend.model.repository.ThemeTagsJpaRepository;
 import com.blueme.backend.model.repository.ThemesJpaRepository;
 import com.blueme.backend.utils.ImgStorageUtil;
 
@@ -44,6 +46,7 @@ public class ThemesService {
   private final MusicsJpaRepository musicsJpaRepository;
 
   private final ThemeMusiclistsJpaRepository themeMusiclistsJpaRepository;
+  private final ThemeTagsJpaRepository themeTagsJpaRepository;
 
   /**
    * 테마 등록을 수행합니다.
@@ -95,6 +98,15 @@ public class ThemesService {
   public List<ThemeDetailsResDto> getThemeDetailsById(Long id) {
     List<ThemeMusiclists> themeDetails = themeMusiclistsJpaRepository.findByThemeId(id);
     return themeDetails.stream().map(ThemeDetailsResDto::new).collect(Collectors.toList());
+  }
 
+  /**
+   * 모든 테마의 태그 조회를 수행합니다.
+   * 
+   * @return 테마 태그 목록(List<ThemeDetailsResDto>)
+   */
+  @Transactional(readOnly = true)
+  public List<TagDetailsResDto> getAllThemeTags() {
+    return themeTagsJpaRepository.findAll().stream().map(TagDetailsResDto::new).collect(Collectors.toList());
   }
 }

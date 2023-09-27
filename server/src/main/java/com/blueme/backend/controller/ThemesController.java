@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.blueme.backend.dto.themesdto.TagDetailsResDto;
 import com.blueme.backend.dto.themesdto.ThemeDetailsResDto;
 import com.blueme.backend.dto.themesdto.ThemeSaveReqDto;
 import com.blueme.backend.dto.themesdto.ThemelistResDto;
@@ -38,7 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/theme")
-@CrossOrigin("*")
 public class ThemesController {
 
     private final ThemesService themesService;
@@ -98,6 +98,19 @@ public class ThemesController {
         } else {
             return ResponseEntity.ok(themeDetailsResDtos);
         }
+    }
+
+    /**
+     * 모든 테마의 태그를 조회합니다.
+     * 
+     * @return 모든 태마 목록 (List<TagDetailsResdDto>)
+     */
+    @GetMapping("/tags")
+    public ResponseEntity<List<TagDetailsResDto>> getTags() {
+        log.info("Starting tag selection");
+        List<TagDetailsResDto> tagDetailsResDtos = themesService.getAllThemeTags();
+        log.info("Ending tag selection");
+        return ResponseEntity.ok(tagDetailsResDtos);
     }
 
 }
