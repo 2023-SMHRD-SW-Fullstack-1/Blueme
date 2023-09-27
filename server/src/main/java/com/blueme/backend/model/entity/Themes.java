@@ -78,11 +78,13 @@ public class Themes {
 	}
 
 	@Builder
-	public Themes(String title, String content, List<ThemeMusiclists> themeMusicList, String themeImgPath) {
+	public Themes(String title, String content, List<ThemeMusiclists> themeMusicList, String themeImgPath,
+			ThemeTags themeTag) {
 		this.title = title;
 		this.content = content;
 		this.themeMusicList = themeMusicList;
 		this.themeImgPath = themeImgPath;
+		this.themeTags = themeTag;
 	}
 
 }

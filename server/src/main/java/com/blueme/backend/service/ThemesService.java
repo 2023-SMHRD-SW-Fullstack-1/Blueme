@@ -19,6 +19,7 @@ import com.blueme.backend.dto.themesdto.ThemeSaveReqDto;
 import com.blueme.backend.dto.themesdto.ThemelistResDto;
 import com.blueme.backend.model.entity.Musics;
 import com.blueme.backend.model.entity.ThemeMusiclists;
+import com.blueme.backend.model.entity.ThemeTags;
 import com.blueme.backend.model.entity.Themes;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.ThemeMusiclistsJpaRepository;
@@ -65,7 +66,8 @@ public class ThemesService {
     List<ThemeMusiclists> themeMusicList = musics.stream()
         .map(music -> ThemeMusiclists.builder().music(music).build())
         .collect(Collectors.toList());
-
+    ThemeTags tag = themeTagsJpaRepository.findById(Long.parseLong(requestDto.getSelectedTagId()))
+        .orElseThrow(null);
     ImgStorageUtil imgStorage = new ImgStorageUtil();
     String filePath = imgStorage.storeFile(imageFile);
     return themesJpaRepository.save(Themes.builder()
@@ -73,6 +75,7 @@ public class ThemesService {
         .content(requestDto.getContent())
         .themeImgPath(filePath)
         .themeMusicList(themeMusicList)
+        .themeTag(tag)
         .build())
         .getId();
   }

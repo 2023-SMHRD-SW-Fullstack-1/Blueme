@@ -18,6 +18,7 @@ const AddTheme = () => {
   const [isImgUploaded, setIsImgUploaded] = useState(false);
   const [imgFile, setImgFile] = useState("");
   const [tags, setTags] = useState([]);
+  const [selectedTagId, setSelectedTagId] = useState(null);
   const imgRef = useRef();
   
   // 음악 데이터 가져오기
@@ -60,10 +61,10 @@ const AddTheme = () => {
       formData.append("theme_img_file", imgRef.current.files[0]);
       formData.append(
         "requestDto",
-        JSON.stringify({ title, content, musicIds })
+        JSON.stringify({ title, content, musicIds, selectedTagId  })
       );
 
-      await axios.post("http://172.30.1.27:8104/theme/register", formData, {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/theme/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -88,7 +89,7 @@ const AddTheme = () => {
     event.preventDefault();
     try {
       const response = await axios.get(
-        `http://172.30.1.27:8104/music/search?keyword=${searchTerm}`
+        `${process.env.REACT_APP_API_BASE_URL}/music/search?keyword=${searchTerm}`
       );
       setSearchList(response.data);
     } catch (error) {
@@ -115,9 +116,9 @@ const AddTheme = () => {
 
   // 모든 테마 태그 조회
   useEffect(() => {
-    fetch('http://172.30.1.27:8104/theme/tags')
-      .then(response => response.json())
-      .then(data => setTags(data));
+  axios.get(`${process.env.REACT_APP_API_BASE_URL}/theme/tags`)
+    .then(response => setTags(response.data))
+    .catch(error => console.error("태그 조회 중 오류가 발생했습니다:", error));
   }, []);
 
   return (
@@ -184,7 +185,7 @@ const AddTheme = () => {
               <label htmlFor="tag" className="block mb-2">
                 태그:
               </label>
-              <select id="tag" className="border p-2 rounded w-full">
+              <select id="tag" className="border p-2 rounded w-full" onChange={e => setSelectedTagId(e.target.value)}>
                 {tags.map(tag => (
                   <option key={tag.tagId} value={tag.tagId}>
                     {tag.name}

@@ -6,19 +6,21 @@ import com.blueme.backend.model.entity.Themes;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-  
+
 @Getter
 @NoArgsConstructor
 public class ThemeSaveReqDto {
 
-    private String title;
-    
-    private String content;
+  private String title;
 
-    private List<String> musicIds;
-  
-    public Themes toEntityThemes(String title, String content){
-      return Themes.builder().title(title).content(content).build();
-    }
+  private String content;
+
+  private List<String> musicIds;
+
+  private String selectedTagId;
+
+  public Themes toEntityThemes(String title, String content, String selectedTagId) {
+    return Themes.builder().title(title).content(content).build();
+  }
 
 }
