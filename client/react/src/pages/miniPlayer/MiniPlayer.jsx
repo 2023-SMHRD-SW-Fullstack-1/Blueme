@@ -16,11 +16,7 @@ import { ReactComponent as Play } from "../../assets/img/musicPlayer/play.svg";
 import { ReactComponent as Pause } from "../../assets/img/musicPlayer/pause.svg";
 
 // Redux
-import {
-  setCurrentSongId,
-  setPlayingStatus,
-  setIsMusicPlayer,
-} from "../../store/music/musicActions";
+import { setCurrentSongId, setPlayingStatus, setIsMusicPlayer } from "../../store/music/musicActions";
 
 // component
 import ProgressBar from "../../components/music/ProgressBar";
@@ -126,60 +122,49 @@ const MiniPlayer = () => {
   };
 
   return (
-    currentSongId && 
-    <div className="flex items-center bg-custom-blue text-custom-white fixed xs:bottom-[10.55%] sm:bottom-[8.3%] md:bottom-[7.7%] xl:bottom-[7.6%] 2xl:bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
-      <div onClick={handleMusicClick} className="h-[80%]">
-        <div className="h-[100%] flex flex-row">
-        
-  <img
-    src={"data:image/;base64," + musicInfo.img}
-    className="h-[100%] rounded-lg"
-    alt=""
-  />
+    currentSongId && (
+      <div className="flex items-center bg-custom-blue text-custom-white fixed xs:bottom-[9.25%] sm:bottom-[8.3%] md:bottom-[7.7%] xl:bottom-[7.6%] 2xl:bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
+        <div onClick={handleMusicClick} className="h-[80%]">
+          <div className="h-[100%] flex flex-row">
+            <img src={"data:image/;base64," + musicInfo.img} className="h-[100%] rounded-lg" alt="" />
 
-<div className="flex flex-col lg:ml-4 xs:ml-3 justify-center"> 
-    <p className="md:text-lg font-semibold xs:text-sm xs:pb-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style={{maxWidth: '190px'}}> 
-        {musicInfo.title} 
-    </p> 
-    <p className="lg:text-md xs:text-xs">
-        {musicInfo.artist}
-    </p> 
-</div>
+            <div className="flex flex-col lg:ml-4 xs:ml-3 justify-center">
+              <p
+                className="md:text-lg font-semibold xs:text-sm xs:pb-1 overflow-hidden overflow-ellipsis whitespace-nowrap"
+                style={{ maxWidth: "190px" }}
+              >
+                {musicInfo.title}
+              </p>
+              <p className="lg:text-md xs:text-xs">{musicInfo.artist}</p>
+            </div>
+          </div>
+        </div>
+        <div className="xl:flex xl:justify-center xl:w-[75%] xl:pb-[10px] xl:mt-[-30px] ml-auto mr-auto">
+          <ProgressBar currentTime={currentTime} duration={duration} playingStatus={playingStatus} />
+        </div>
+        <div className="flex flex-row xs:gap-3 lg:gap-6 ml-auto lg:mr-[30px]">
+          <Prev className="xs:w-[25px] lg:w-[40px] m h-auto" onClick={prevTrack} />
+          {playingStatus ? (
+            <Pause
+              className="xs:w-[30px] lg:w-[40px] h-auto"
+              onClick={() => {
+                dispatch(setPlayingStatus(false));
+              }}
+              alt="Pause"
+            />
+          ) : (
+            <Play
+              className="xs:w-[30px] lg:w-[40px] h-auto"
+              onClick={() => {
+                dispatch(setPlayingStatus(true));
+              }}
+              alt="Pause"
+            />
+          )}
+          <Next className="xs:w-[25px] lg:w-[40px] h-auto" onClick={nextTrack} />
         </div>
       </div>
-      <div className="xl:flex xl:justify-center xl:w-[75%] xl:pb-[10px] xl:mt-[-30px] ml-auto mr-auto">
-        <ProgressBar
-          currentTime={currentTime}
-          duration={duration}
-          playingStatus={playingStatus}
-        />
-      </div>
-      <div className="flex flex-row xs:gap-3 lg:gap-6 ml-auto lg:mr-[30px]">
-        <Prev
-          className="xs:w-[25px] lg:w-[40px] m h-auto"
-          onClick={prevTrack}
-        />
-        {playingStatus ? (
-          <Pause
-            className="xs:w-[30px] lg:w-[40px] h-auto"
-            onClick={() => {
-              dispatch(setPlayingStatus(false));
-            }}
-            alt="Pause"
-          />
-        ) : (
-          <Play
-            className="xs:w-[30px] lg:w-[40px] h-auto"
-            onClick={() => {
-              dispatch(setPlayingStatus(true));
-            }}
-            alt="Pause"
-
-          />
-        )}
-        <Next className="xs:w-[25px] lg:w-[40px] h-auto" onClick={nextTrack} />
-      </div>
-    </div>
+    )
   );
 };
 
