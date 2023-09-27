@@ -356,28 +356,29 @@ public class ChatGptService {
         public String getSpeedStatus(double avgSpeed, double stepsPerMinute, double avgHeartRate) {
                 final double STATIONARY_SPEED = 1.0;
                 final double WALKING_RUNNING_SPEED = 5.0;
-                final double RUNNING_BICYCLE_SPEED = 15.0;
-                final double CAR_SPEED = 25;
-                final double AIRPLANE_SPEED = 180;
+                final double RUNNING_BICYCLE_SPEED = 20.0;
+                final double CAR_SPEED = 130.0;
+                final double AIRPLANE_SPEED = 180.0;
 
-                if (avgSpeed <= STATIONARY_SPEED) {
-                        return "가만히 있는 중";
-                } else if (avgSpeed <= WALKING_RUNNING_SPEED && stepsPerMinute >= 50) {
-                        return "걷는 중";
+                if (avgSpeed <= STATIONARY_SPEED && avgHeartRate >= 120) {
+                        return "운동중";
+                } else if (avgSpeed <= STATIONARY_SPEED) {
+                        return "가만히 있는 상태";
+                } else if (avgSpeed <= WALKING_RUNNING_SPEED && stepsPerMinute >= 30) {
+                        return "걷는중";
                 } else if (avgSpeed <= RUNNING_BICYCLE_SPEED) {
-                        if (avgHeartRate >= 100 && avgHeartRate < 150) {
-                                return "뛰는 중";
-                        } else if (stepsPerMinute >= 50 || avgHeartRate >= 100) {
-                                return "운동중";
+                        if (avgHeartRate >= 100 && stepsPerMinute >= 50) {
+                                return "뛰는중";
                         } else {
-                                return "자전거타는중 이거나 운전중이거나 차에 타있는중";
+                                return "자전거타는중";
                         }
                 } else if (avgSpeed <= CAR_SPEED) {
-                        return "차량 이동중";
+                        return "운전중";
+                } else if (avgSpeed <= AIRPLANE_SPEED) {
+                        return "기차 타는중";
                 } else {
-                        return "비행기 타는 중 혹은 기차 타는 중";
+                        return "비행기 타는중";
                 }
-
         }
 
         /**
@@ -391,8 +392,8 @@ public class ChatGptService {
                 final double STATIONARY_SPEED = 1.0;
                 final double WALKING_SPEED = 5.0;
                 final double RUNNING_SPEED = 10.0;
-                final double BICYCLE_SPEED = 15.0;
-                final double CAR_SPEED = 25;
+                final double BICYCLE_SPEED = 20.0;
+                final double CAR_SPEED = 130;
 
                 // 심장박동수 상태
                 final double VERY_LOW_THRESHOLD = 70;
@@ -430,10 +431,8 @@ public class ChatGptService {
                         } else {
                                 placeActivityTag = PlaceActivity.GYM_ENG.getTag();
                         }
-                }
-
-                else {
-                        if (heartRateVal < LOW_THRESHOLD) {
+                } else {
+                        if (heartRateVal < NORMAL_THRESHOLD) {
                                 placeActivityTag = PlaceActivity.DRIVING.getTag();
                         } else {
                                 placeActivityTag = PlaceActivity.SUBWAY_ENG.getTag();
@@ -600,6 +599,7 @@ public class ChatGptService {
                 // 1~4까지 랜덤한 질의문 생성(GPT의 다채로운답변을위해)
                 Random random = new Random();
                 int randomNumber = random.nextInt(4) + 1;
+                // int randomNumber = 3;
                 String question = null;
                 log.info("포맷타입 = {}", randomNumber);
                 if (randomNumber == 1) {

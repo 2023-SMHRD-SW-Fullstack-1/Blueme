@@ -1,6 +1,5 @@
 package com.blueme.backend.dto.themesdto;
 
-import com.blueme.backend.model.entity.ThemeTags;
 import com.blueme.backend.model.entity.Themes;
 
 import lombok.Getter;

@@ -35,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/likemusics")
-@CrossOrigin("http://localhost:3000")
 public class LikeMusicsController {
 
   private final LikeMusicsService likeMusicsService;
