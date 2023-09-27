@@ -59,7 +59,7 @@ const Main = () => {
     const myRecPlaylist = async () => {
       try{
           await axios
-            .get(`http://172.30.1.27:8104/recMusiclist/${id}`) //나의 추천 플리 불러오기
+            .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/${id}`) //나의 추천 플리 불러오기
             .then((res) => {
               // console.log(res);
               setMyRecMusicList(res.data); //나의 플레이리스트에 저장
@@ -69,7 +69,7 @@ const Main = () => {
       }catch(error) {
           setMyRecMusicList([])
           setIsLoading(false)
-          console.log("error",error);
+          // console.log("error",error);
       }
   }
     //최근 재생 목록
@@ -84,7 +84,7 @@ const Main = () => {
         if(error.response.status === 404) {
           setRecentlyPlayed(null)
         }
-        console.error(`Error: ${error}`);
+        // console.error(`Error: ${error}`);
       }
    
     };
@@ -120,19 +120,6 @@ const Main = () => {
     otherRecPlaylist();
   }, []);
 
-  //나의 추천 플리 불러오기 => 초기값 0으로 설정 처음에 res.data가 null로 되기 때문
-  useEffect(() => {
-    if (isLoggendIn) {
-      axios
-        .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/${id}`) //나의 추천 플리 불러오기
-        .then((res) => {
-          // console.log(res);
-          setMyRecMusicList(res.data); //나의 플레이리스트에 저장
-          setMyMusicIds(res.data.map((myRecMusicList) => myRecMusicList.recMusiclistId));
-        })
-        .catch((err) => console.log(err));
-    }
-  }, []);
 
   // 지희(0918) - MusicIds 설정
   const handleListClick = () => {

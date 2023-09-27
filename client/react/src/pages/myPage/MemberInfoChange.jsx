@@ -62,7 +62,12 @@ function MemberInfoChange() {
       navigate("/MyPage");
     }, 2000);// 원하는 시간 ms단위로 적어주기
   };
-
+  const timeoutPW = () => {
+    setTimeout(() => {
+      document.getElementById('password-warning').style.display = "none"// 토스트창 닫기
+      navigate("/MemberInfoChange");
+    }, 1000);// 원하는 시간 ms단위로 적어주기
+  };
 
   //회원정보 수정
   const handleUpdate = async (e) => {
@@ -80,6 +85,7 @@ function MemberInfoChange() {
       img_url: imgFile || user.img_url, // 이미지를 선택하지 않으면 이전 이미지 유지
       platFormType
     };
+    // console.log(requestData);
 
     await axios
       .patch(`${process.env.REACT_APP_API_BASE_URL}/user/update`,requestData, {headers} ) //수정 요청
@@ -89,12 +95,17 @@ function MemberInfoChange() {
         timeout()
         // console.log(res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if(requestData.password === undefined) {
+          document.getElementById('password-warning').style.display = 'block'//토스트 창 띄우기
+          timeoutPW()
+        }
+        console.log(err)});
   };
   
 
   return (
-    <div className=" bg-gradient-to-t from-gray-950 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16 min-h-screen tracking-tight">
+    <div className=" bg-gradient-to-t from-gray-950 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16 min-h-screen tracking-tight w-full overflow-scroll">
       <div className="mt-36 text-custom-white mb-3 text-center  ">
         <div className="self-center flex flex-col items-center justify-center">
           <label htmlFor="profileImg">
@@ -206,6 +217,13 @@ function MemberInfoChange() {
             <div className="ml-3 font-normal text-center">수정이 완료되었습니다.</div>
           </div>
         </div>
+         {/* 토스트 창 띄우기 */}
+         <div className="flex justify-center items-center">
+          <div id="password-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert" style={{display: 'none'}}>
+            <div className="ml-3 font-normal text-center">비밀번호를 입력해주세요.</div>
+          </div>
+        </div>
+        <div className="mb-[80px]"></div>
     </div>
   );
 }

@@ -51,7 +51,7 @@ const SingleMusic = ({ item }) => {
       <div className="flex flex-row items-center p-1 w-[300px] flex-grow xs:ml-[5px] xs:mr-[5px]">
         <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-sm" />
         <div className="flex flex-col text-left ml-3">
-          <p className=" font-semibold text-sm xs:pb-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[180px]">
+          <p className=" font-semibold text-sm xs:pb-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[110px]">
             {item.title}
           </p>
           <p className="text-xs font-normal">{item.artist}</p>

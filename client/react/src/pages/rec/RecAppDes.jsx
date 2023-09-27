@@ -41,7 +41,7 @@ const RecAppDes = () => {
     axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/healthinfo/get/${id}`) //건강데이터 불러오기
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         navigate("/LoadDataCompl");
       })
       .catch((err) => {

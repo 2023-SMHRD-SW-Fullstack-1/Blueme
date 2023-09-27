@@ -48,7 +48,7 @@ const SelectGenre = () => {
     //화면 로딩 시 장르 데이터 불러오기
     useEffect(() => {
       axios
-      .get("http://172.30.1.45:8104/SelectGenre") //장르 전체 데이터 불러오기
+      .get(`${process.env.REACT_APP_API_BASE_URL}/SelectGenre`) //장르 전체 데이터 불러오기
       .then((res) => {
         console.log(res);
         // console.log('userid', id);
@@ -70,7 +70,7 @@ const SelectGenre = () => {
             }
           console.log(requestData);
               axios
-              .post("http://172.30.1.45:8104/SaveFavGenre",requestData)//선택한 장르 저장 성공 여부
+              .post(`${process.env.REACT_APP_API_BASE_URL}/SaveFavGenre`,requestData)//선택한 장르 저장 성공 여부
               .then((res) => {//저장 실패일 경우 반환값 -1
                 if(res.data > 0) {
                   navigate('/Artistrecommend')
@@ -78,7 +78,7 @@ const SelectGenre = () => {
                   alert('저장되지 않았습니다. 다시 선택해주세요.')
                   navigate('./SelectGenre')
                 }   
-                console.log(res)
+                // console.log(res)
               })
               .catch((err) => console.log(err))
         } else{
@@ -95,13 +95,13 @@ const SelectGenre = () => {
         let requestData = 0
         if(!location.search) {
             requestData = {genreIds : checkedState ,favChecklistId : id}
-            console.log(requestData);
+            // console.log(requestData);
         } else {
             requestData = {genreIds : checkedState ,favChecklistId : snsId}// url로 넘어오는 snsId가져오기
         }
-          console.log('requestData',requestData);
+          // console.log('requestData',requestData);
           axios
-          .patch("http://172.30.1.45:8104/updateFavGenre",requestData)//선택한 장르 저장 성공 여부
+          .patch(`${process.env.REACT_APP_API_BASE_URL}/updateFavGenre`,requestData)//선택한 장르 저장 성공 여부
           .then((res) => {//저장 실패일 경우 반환값 -1
             if(res.data >0) {
               navigate('/MyPage')
@@ -109,10 +109,10 @@ const SelectGenre = () => {
               alert('저장되지 않았습니다. 다시 선택해주세요.')
               navigate('./SelectGenre')
             }   
-            console.log(res)
+            // console.log(res)
           })
           .catch((err) => console.log(err))
-          console.log(checkedState);
+          // console.log(checkedState);
     } else{
         document.getElementById('toast-warning').classList.add("reveal")
         timeout()
@@ -125,7 +125,7 @@ const SelectGenre = () => {
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight h-auto text-custom-white p-3">
       <h3 className="text-2xl pt-[90px] xl:ml-[100px] xl:mr-[100px]">당신이 좋아하는 장르는?</h3>
-      <div className="grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
+      <div className="mb-[100px] grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
         {genre && genre.map((genre, genreId, i) => (
           <button
             key={genre.genreId}
@@ -135,6 +135,7 @@ const SelectGenre = () => {
             <Genre key={genre.genreId} genre={genre} checkedState={checkedState} genreId={genreId}/>
           </button>
         ))}
+        
       </div>
       {user.email === null ?
       <button
@@ -142,12 +143,12 @@ const SelectGenre = () => {
       className="
           mt-5
           w-full
-          px-3 h-10
+          px-3 h-[60px]
           bg-[#221a38]  
           rounded-lg border border-soild border-[#fdfdfd]
           text-custom-white
-          text-[16px]
-          mb-[80px]
+          text-[20px]
+          mb-[65px]
           bottom-0
           fixed left-0 right-0 mx-auto
         "
@@ -156,16 +157,16 @@ const SelectGenre = () => {
     </button> : <button
           onClick={handelUpdate}
           className="
-            mt-5
-            w-full
-            px-3 h-10
-            bg-[#221a38]  
-            rounded-lg border border-soild border-[#fdfdfd]
-            text-custom-white
-            text-[16px]
-            mb-[80px]
-            bottom-0
-            fixed left-0 right-0 mx-auto
+              mt-5
+              w-full
+              px-3 h-[60px]
+              bg-[#221a38]  
+              rounded-lg border border-soild border-[#fdfdfd]
+              text-custom-white
+              text-[20px]
+              mb-[65px]
+              bottom-0
+              fixed left-0 right-0 mx-auto
             "
         >
           수정하기

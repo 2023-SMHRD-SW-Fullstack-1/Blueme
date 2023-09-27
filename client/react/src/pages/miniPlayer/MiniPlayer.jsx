@@ -123,7 +123,7 @@ const MiniPlayer = () => {
 
   return (
     currentSongId && (
-      <div className="flex items-center bg-custom-blue text-custom-white fixed xs:bottom-[10.3%] sm:bottom-[8.3%] md:bottom-[7.7%] xl:bottom-[7.6%] 2xl:bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
+      <div className="flex items-center bg-custom-blue text-custom-white fixed bottom-16 w-full h-[8%] xs:px-3 lg:px-6 z-50">
         <div onClick={handleMusicClick} className="h-[80%]">
           <div className="h-[100%] flex flex-row">
             <img src={"data:image/;base64," + musicInfo.img} className="h-[100%] rounded-lg" alt="" />

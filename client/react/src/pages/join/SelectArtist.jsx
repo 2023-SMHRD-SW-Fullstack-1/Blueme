@@ -54,7 +54,7 @@ const SelectArtist = () => {
 
     //화면 로딩 시 전체 아티스트 데이터 불러오기
     useEffect(() => {
-        axios.get("http://172.30.1.45:8104/Artistrecommend")
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/Artistrecommend`)
         .then((res) => {
             // console.log(res);
             setArtist(res.data) //artist에 데이터 삽입
@@ -68,7 +68,7 @@ const SelectArtist = () => {
     const handleSelect = () => {
         if(checkedState.length === 2) {//아티스트 2명 선택 시 
           const  requestData = {artistIds : checkedState ,favChecklistId : id}
-          axios.post("http://172.30.1.45:8104/SaveFavArtist",requestData)//아티스트 저장 성공 여부
+          axios.post(`${process.env.REACT_APP_API_BASE_URL}/SaveFavArtist`,requestData)//아티스트 저장 성공 여부
           .then((res) => {//성공 실패 시 반환값 -1
               if(res.data > 0) {
                 if(user.email === null) {//회원가입 시
@@ -80,7 +80,7 @@ const SelectArtist = () => {
                 alert('저장되지 않았습니다. 다시 선택해주세요.')
                 navigate('./Artistrecommend')
               }   
-              console.log(res)
+              // console.log(res)
           }).catch((err) => console.log(err))
 
       } else {//2명 이하 선택 시
@@ -94,18 +94,18 @@ const SelectArtist = () => {
     //아티스트 검색 => 검색 후 입력값 지우면 전체 리스트 보여지도록
     const handleArtist = async () => {
       if(artistInput === '') {
-        axios.get("http://172.30.1.45:8104/Artistrecommend")
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/Artistrecommend`)
         .then((res) => {
-            console.log(res);
+            // console.log(res);
             setSearchArtist(res.data)
             setIsLoading(false)
         })
         .catch((err) => console.log(err))
       }else {
-       await axios.get(`http://172.30.1.45:8104/searchArtist/${artistInput}`)
+       await axios.get(`${process.env.REACT_APP_API_BASE_URL}/searchArtist/${artistInput}`)
         .then((res) => {
           setSearchArtist(res.data)
-          console.log('검색', res)
+          // console.log('검색', res)
         }).catch((err) => {
           if(err.response.data == '') {
             document.getElementById('search-warning').style.display = 'block'//토스트 창 띄우기
@@ -133,9 +133,9 @@ const SelectArtist = () => {
      const handelUpdate = () => {
       if(checkedState.length === 2) {
         const requestData = {artistIds : checkedState ,favChecklistId : id}
-          console.log('requestData',requestData);
+          // console.log('requestData',requestData);
           axios
-          .patch("http://172.30.1.45:8104/updateFavArtist",requestData)//선택한 아티스트 저장 성공 여부
+          .patch(`${process.env.REACT_APP_API_BASE_URL}/updateFavArtist`,requestData)//선택한 아티스트 저장 성공 여부
           .then((res) => {//저장 실패일 경우 반환값 -1
             if(res.data >0) {
               navigate('/MyPage')
@@ -143,10 +143,10 @@ const SelectArtist = () => {
               alert('저장되지 않았습니다. 다시 선택해주세요.')
               navigate('./Artistrecommend')
             }   
-            console.log(res)
+            // console.log(res)
           })
           .catch((err) => console.log(err))
-          console.log(checkedState);
+          // console.log(checkedState);
     } else{
         document.getElementById('toast-warning').classList.add("reveal")
         timeout()
@@ -170,7 +170,7 @@ const SelectArtist = () => {
       </div>
 
       {/* 검색한 아티스트 */}
-      <div className="grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8 justify-center">
+      <div className="mb-[100px] grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8 justify-center">
       
       {isLoading ? (<p>Loading...</p>) : 
 
@@ -215,12 +215,12 @@ const SelectArtist = () => {
       className="
           mt-5
           w-full
-          px-3 h-10
+          px-3 h-[60px]
           bg-[#221a38]  
           rounded-lg border border-soild border-[#fdfdfd]
           text-custom-white
-          text-[16px]
-          mb-[80px]
+          text-[20px]
+          mb-[65px]
           bottom-0
           fixed left-0 right-0 mx-auto
         "
@@ -232,12 +232,12 @@ const SelectArtist = () => {
           className="
             mt-5
             w-full
-            px-3 h-10
+            px-3 h-[60px]
             bg-[#221a38]  
             rounded-lg border border-soild border-[#fdfdfd]
             text-custom-white
-            text-[16px]
-            mb-[80px]
+            text-[20px]
+            mb-[65px]
             bottom-0
             fixed left-0 right-0 mx-auto
             "

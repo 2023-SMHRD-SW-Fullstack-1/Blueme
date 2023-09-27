@@ -26,7 +26,7 @@ const RecentSearch = ({ item }) => {
   // 최근검색 등록
   const uploadRecentMusic = () => {
     axios
-      .put(`${process.env.REACT_APP_API_BASE_URL}:8104/search`, {
+      .put(`${process.env.REACT_APP_API_BASE_URL}/search`, {
         userId: userId,
         musicId: item.musicId,
       })

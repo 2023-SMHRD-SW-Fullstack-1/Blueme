@@ -26,7 +26,7 @@ function Footer() {
   return (
     <div
       className="text-custom-white p-3 sm:p-4 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700
-    flex justify-between items-center fixed bottom-0 w-full h-[70px] xs:z-50"
+    flex justify-between items-center fixed bottom-0 w-full h-[65px] xs:z-50"
     >
       <Link to="/" className="flex flex-col items-center w-full text-center">
         <img src={home} className="h-[35px] w-[35px] mt-[4px]"></img>

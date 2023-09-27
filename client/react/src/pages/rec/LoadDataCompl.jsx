@@ -37,7 +37,7 @@ const LoadDataCompl = () => {
         setStep(res.data.stepsPerMinute); //걸음수
         setSpeed(res.data.avgSpeed); //속도
         setDate(res.data.createdAt); //건강데이터 생성 시간
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -58,7 +58,7 @@ const LoadDataCompl = () => {
       <br />
       <br />
       <div>
-        <p className=" leading-normal mt-[120px] text-center text-[20px]">
+        <p className=" leading-normal mt-[120px] text-center text-[20px] p-3">
           스마트 워치에서 데이터를 가져온 결과,
           <br />
           {/* 사용자가 건강 데이터 보낸 시간 */}
