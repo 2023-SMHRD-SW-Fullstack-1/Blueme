@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-import com.blueme.backend.model.entity.UserRole;
+import com.blueme.backend.enums.UserRole;
 
 import lombok.Getter;
 

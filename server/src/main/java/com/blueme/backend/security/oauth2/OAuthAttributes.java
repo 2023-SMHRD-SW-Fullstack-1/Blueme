@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.blueme.backend.model.entity.UserRole;
+import com.blueme.backend.enums.UserRole;
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.security.oauth2.userinfo.GoogleOauth2UserInfo;
 import com.blueme.backend.security.oauth2.userinfo.KakaoOauth2UserInfo;

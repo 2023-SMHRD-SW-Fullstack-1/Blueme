@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.blueme.backend.dto.usersdto.UserInfoDTO;
-import com.blueme.backend.model.entity.UserRole;
+import com.blueme.backend.enums.UserRole;
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.service.JwtService;
