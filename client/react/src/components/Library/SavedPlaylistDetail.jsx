@@ -24,6 +24,7 @@ import "swiper/swiper-bundle.css";
 import axios from "axios";
 import { setMusicIds } from "../../store/music/musicActions.js";
 import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
+import RecPlayList from '../recommend/SingleRecPlayList'
 const SavedPlaylistDetail = () => {
   const dispatch = useDispatch();
 
@@ -58,7 +59,7 @@ const SavedPlaylistDetail = () => {
         if (response.data.savedMusiclistDetailsResDto.length > 0) {
           setPlaylistImage(response.data.savedMusiclistDetailsResDto[0].img);
         }
-        console.log("response.data", response.data.savedMusiclistDetailsResDto);
+        console.log("response.data", response.data);
         setIds(response.data.savedMusiclistDetailsResDto.map((music) => music.musicId));
       } catch (error) {
         console.error(`Error: ${error}`);
@@ -83,13 +84,13 @@ const SavedPlaylistDetail = () => {
       <br />
 
       <div className="flex flex-col items-center justify-center mt-[80px]">
-        <img src={"data:image/;base64," + playlistImage} className="w-[160px] h-[160px] rounded-xl" />
+        <img src={"data:image/;base64," + playlistImage} className="w-[160px] h-[160px] rounded-sm" />
         <p className="text-xl py-5 text-center whitespace-normal">{title}</p>
       </div>
       <div className="flex items-center justify-center">
         <button
           onClick={WholePlaying}
-          className="bg-gradient-to-t from-gray-800 border ml-2 xs:w-[80px] xl:w-[180px] rounded-lg text-custom-lightpurple font-semibold tracking-tighter h-10 text-base"
+          className="className=bg-gradient-to-t from-gray-800 border mr-2 rounded-lg text-custom-lightpurple  tracking-tight xs:w-[150px] xl:w-[180px] h-10 text-[18px]"
         >
           전체 재생
         </button>
@@ -97,7 +98,7 @@ const SavedPlaylistDetail = () => {
       <div className="mt-[20px] xs:mb-14" onClick={handleListClick}>
         {selectedPlaylistDetails.map((music) => (
           <SingleMusic
-            key={music.musicId}
+            key={music.savedMusiclistsDetailId}
             item={{
               musicId: music.musicId,
               img: music.img,
@@ -109,6 +110,7 @@ const SavedPlaylistDetail = () => {
           />
         ))}
       </div>
+      <div className="mb-[80px]"></div>
     </div>
   );
 };

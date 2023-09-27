@@ -76,10 +76,10 @@ const Login = () => {
   };
 
   return (
-    <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16">
+    <div className=" min-h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 flex flex-col px-4 sm:px-8 md:px-16 overflow-scroll">
       {/* <div className="mt-36 text-custom-white mb-3 text-center sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4"></div> */}
-
-      <div className="flex items-center justify-center h-screen w-full p-4">
+      <br /><br />
+      <div className="flex items-center justify-center h-screen w-full p-4 mt-10">
         <div className="w-[500px]">
           <Link to="/Main" className="self-center flex items-center justify-center">
             <span className="text-3xl tracking-tight text-[rgba(255,255,255,0.80)]">Blueme</span>
@@ -143,7 +143,7 @@ const Login = () => {
 
           <hr className="mt-10 border-t border-gray-500 w-full" />
 
-          <div className="text-custom-white mt-6 tracking-tight text-center">
+          <div className="text-custom-white mt-6 tracking-tight text-center mb-20">
             <Link to="/Join">
               <button>Blueme 회원가입</button>
             </Link>

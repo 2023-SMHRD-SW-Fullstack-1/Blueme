@@ -48,18 +48,18 @@ const SingleMusic = ({ item }) => {
       className="flex flex-row items-center ml-2 mr-2 justify-between flex-grow  cursor-pointer"
       onClick={handleMusicClick}
     >
-      <div className="flex flex-row items-center p-1 flex-grow">
-        <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-md" />
+      <div className="flex flex-row items-center p-1 w-[300px] flex-grow xs:ml-[5px] xs:mr-[5px]">
+        <img src={"data:image/;base64," + item.img} className="w-[55px] h-[55px] rounded-sm" />
         <div className="flex flex-col text-left ml-3">
-          <p className="md:text-lg font-semibold xs:text-sm xs:pb-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[180px]">
+          <p className=" font-semibold text-sm xs:pb-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[180px]">
             {item.title}
           </p>
-          <span className="text-xs font-normal">{item.artist}</span>
+          <p className="text-xs font-normal">{item.artist}</p>
         </div>
       </div>
 
       {/* 고정 너비를 가진 컨테이너 */}
-      <div className="w-[40%] hidden md:block text-custom-gray font-normal" onClick={handleMusicClick}>
+      <div className="w-[40%] hidden md:block text-custom-gray font-normal w-[100px]" onClick={handleMusicClick}>
         <span>{item.genre1}</span>
       </div>
 
@@ -68,7 +68,7 @@ const SingleMusic = ({ item }) => {
       </div>
 
       {/* 하트 컴포넌트 */}
-      <div className="ml-auto flex-shrink-0">
+      <div className="ml-auto flex-shrink-0 xs:ml-[5px] xs:mr-[5px]">
         <Heart item={item.musicId} />
       </div>
     </div>

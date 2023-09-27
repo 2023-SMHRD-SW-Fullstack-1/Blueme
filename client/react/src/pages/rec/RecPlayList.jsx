@@ -16,8 +16,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SingleRecPlayList from "../../components/recommend/SingleRecPlayList";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentSongId } from "../../store/music/musicActions";
 import { setMusicIds } from "../../store/music/musicActions.js";
+import SingleMusic from '../../components/Library/SingleMusic'
+import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
 
 const RecPlayList = () => {
   const user = useSelector((state) => state.memberReducer.user); //member리듀서 가져오기
@@ -45,25 +46,25 @@ const RecPlayList = () => {
 
   //전체 저장
   const SavedPlayList = () => {
-    for (let i = 0; i < musiclist.recMusiclistDetails.length; i++) {
-      recMusicIds.push(musiclist.recMusiclistDetails[i].musicId);
-    }
     localStorage.setItem("recMusicIds", JSON.stringify(recMusicIds));
     localStorage.setItem("recMusicTitle", musiclist.title);
     localStorage.setItem("recMusicImg", musiclist.recMusiclistDetails.img);
-    // console.log(recMusicIds);
+    console.log(recMusicIds);
     navigate("/PlayListRename");
+  };
+
+ //개별 음악 재생
+  const handleListClick = () => {
+    dispatch(setMusicIds(recMusicIds));
   };
 
   //전체 재생
   const WholePlaying = () => {
-    dispatch(setCurrentSongId(recMusicIds[0]));
+    dispatch(setCurrentSongId(recMusicIds[0])); // 첫 번째 음악을 재생
     dispatch(setMusicIds(recMusicIds));
-    // console.log(i);
+    dispatch(setPlayingStatus(true));
     navigate(`/MusicPlayer/${recMusicIds[0]}`);
   };
-
-  console.log(recMusicIds);
 
   return (
     // 추천 받은 음악 리스트
@@ -75,7 +76,7 @@ const RecPlayList = () => {
       </p>
 
       {/* 전체 재생/ 전체 저장 버튼 */}
-      <div className="flex justify-between mb-6 xl:ml-[300px] xl:mr-[300px] xs:ml-[5px] xs:mr-[5px] item-center justify-center">
+      <div className="flex justify-between mb-6 xs:ml-[5px] xs:mr-[5px] item-center justify-center">
         <button
           onClick={WholePlaying}
           className="bg-gradient-to-t from-gray-800 border ml-2 rounded-lg text-custom-lightpurple tracking-tight xs:w-[150px] xl:w-[180px]  h-10 text-[18px]"
@@ -91,23 +92,22 @@ const RecPlayList = () => {
       </div>
 
       {/* 추천 받은 음악 리스트 목록 */}
-      {/* <Swiper direction={'vertical'} slidesPerView={8.2} className="h-[65%]"> */}
       {musiclist &&
-        musiclist.recMusiclistDetails.map((item, i) => (
-          <div key={item.recMusiclistDetailId} className="xl:ml-[300px] xl:mr-[300px]  xs:ml-[5px] xs:mr-[5px]">
-            <Link
-              to={`/MusicPlayer/${recMusicIds[i]}`}
-              onClick={() => {
-                dispatch(setCurrentSongId(recMusicIds[i]));
-                dispatch(setMusicIds(recMusicIds));
-              }}
-              className="flex-grow"
-            >
-              <SingleRecPlayList key={item.id} item={item} />
-            </Link>
+        musiclist.recMusiclistDetails.map((item) => (
+          <div key={item.recMusiclistDetailId}  onClick={handleListClick}>
+               <SingleMusic
+                  key={item.savedMusiclistsDetailId}
+                  item={{
+                    musicId: item.musicId,
+                    img: item.img,
+                    title: item.musicTitle,
+                    artist: item.musicArtist,
+                    genre1: item.musicGenre,
+                    time: item.musicTime,
+                  }}
+          />
           </div>
         ))}
-      {/* </Swiper> */}
     </div>
   );
 };

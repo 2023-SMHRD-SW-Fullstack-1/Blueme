@@ -32,7 +32,8 @@ function MemberInfoChange() {
   const user = useSelector(state => state.memberReducer.user)
   const id = user.id
   const profile = basicProfile.substring(basicProfile.indexOf(",") + 1);//,앞에 자르기
- 
+  const platFormType = user.platFormType
+
 
 
   // 선택된 이미지 파일을 저장하는 함수
@@ -65,7 +66,6 @@ function MemberInfoChange() {
 
   //회원정보 수정
   const handleUpdate = async (e) => {
-    // let storageEmail = localStorage.getItem("email");
     e.preventDefault();
     //처음 프로필 이미지가 null일 경우 기본 프로필로 세팅
     if(user.img_url === null) {
@@ -73,21 +73,21 @@ function MemberInfoChange() {
     }
     const headers = { Authorization : localStorage.getItem('accessToken') }
     const requestData = {
-      // id: id,
-      // email: user.email,
+      id: id,
+      email: user.email,
       password: password || user.password, // 비밀번호를 입력하지 않으면 이전 비밀번호 유지
       nickname: nickname || user.nickname, // 닉네임을 입력하지 않으면 이전 닉네임 유지
       img_url: imgFile || user.img_url, // 이미지를 선택하지 않으면 이전 이미지 유지
+      platFormType
     };
-    console.log('requestData', requestData);
+
     await axios
       .patch(`http://172.30.1.45:8104/user/update`,requestData, {headers} ) //수정 요청
       .then((res) => {
         dispatch(userUpdate(requestData))//store도 업데이트
-        // localStorage.setItem("password", password);
         document.getElementById('toast-warning').classList.add("reveal")//토스트 창 생성
         timeout()
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => console.log(err));
   };
@@ -99,7 +99,7 @@ function MemberInfoChange() {
         <div className="self-center flex flex-col items-center justify-center">
           <label htmlFor="profileImg">
             {/* 사용자 프로필 */}
-          {user.img_url === null || user.platFormType !== "blueme"?
+          {user.img_url === null ?
             <img
               // src={imgFile ? imgFile : `data:image/;base64,${myFeed[0]?.myFeed.mem_photo}`}
               src={basicProfile}

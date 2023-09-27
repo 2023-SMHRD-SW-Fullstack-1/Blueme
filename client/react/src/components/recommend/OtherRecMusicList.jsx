@@ -11,7 +11,7 @@ import Play from '../../assets/img/play.png'
 
 const OtherRecMusicList = ({ item }) => {
 
-  const [isMouseOver, setIsMouseOver] = useState(false)
+  const [isMouseOver, setIsMouseOver] = useState(false)//마우스오버 여부 판단
 
   const handleMouseOver = () => {
     setIsMouseOver(true)
@@ -19,6 +19,13 @@ const OtherRecMusicList = ({ item }) => {
 
   const handleMouseOut = () => {
     setIsMouseOver(false)
+  }
+
+  const setting = {
+    arrows: false,
+    infinite: true,
+    autoplay: true, // 자동 재생 활성화
+    autoplaySpeed: 5000, // 각 슬라이드가 보여지는 시간 (밀리초 단위)
   }
 
 

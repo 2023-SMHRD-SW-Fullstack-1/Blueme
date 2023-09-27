@@ -5,7 +5,7 @@
 */
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useSelector } from "react-redux";
 import '../../App.css'
 import Artist from '../../components/MyPage/Artist'
@@ -33,6 +33,12 @@ const SelectArtist = () => {
     }, 3000);// 원하는 시간 ms단위로 적어주기
     };
 
+    const searchTime = () => {
+      setTimeout(() => {
+         document.getElementById('search-warning').style.display = "none"//3초 후 토스트창 닫기
+      }, 3000)
+    }
+
     //아티스트 한 개 선택 시 마다 호출됨
     const handleOnClick = (artistId) => {
         if(checkedState.includes(artistId)) {//같은 아티스트 id고르면 아닌 것만 추가
@@ -50,7 +56,7 @@ const SelectArtist = () => {
     useEffect(() => {
         axios.get("http://172.30.1.45:8104/Artistrecommend")
         .then((res) => {
-            console.log(res);
+            // console.log(res);
             setArtist(res.data) //artist에 데이터 삽입
             setIsLoading(false)
         })
@@ -100,8 +106,18 @@ const SelectArtist = () => {
         .then((res) => {
           setSearchArtist(res.data)
           console.log('검색', res)
-        }).catch((err) => console.log(err))
-        console.log(artistInput);
+        }).catch((err) => {
+          if(err.response.data == '') {
+            document.getElementById('search-warning').style.display = 'block'//토스트 창 띄우기
+            searchTime()
+            navigate('/Artistrecommend')
+          }
+            console.log(err);
+            
+
+          
+
+        })
       }
     }
 
@@ -141,9 +157,9 @@ const SelectArtist = () => {
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight overflow-auto hide-scrollbar text-custom-white p-3">
-      <h3 className="text-2xl pt-[90px] md:ml-[100px] md:mr-[100px]">당신이 좋아하는 아티스트는?</h3>
+      <h3 className="text-2xl pt-[90px] lg:ml-[100px] ">당신이 좋아하는 아티스트는?</h3>
       {/* 아티스트 검색 */}
-      <div className="text-center item-center w-[500px] mt-[20px] md:ml-[100px] md:mr-[100px]">
+      <div className="text-center item-center w-[350px] mt-[20px] lg:ml-[100px] justify-center">
         <input
               type="text"
               onChange={(e) => setArtistInput(e.target.value)}
@@ -151,13 +167,10 @@ const SelectArtist = () => {
               placeholder="아티스트를 입력해주세요."
               onKeyDown={activeEnter}
             />
-        {/* <button
-        className="bg-gradient-to-t from-gray-900 h-[45px] text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2 mt-4 w-[55px] rounded-lg text-custom-white peer bg-transparent py-[0.42rem] leading-[1.65] outline-none transition-all "
-        onClick={handleArtist}><span className="mr-2">검색</span></button> */}
       </div>
 
       {/* 검색한 아티스트 */}
-      <div className="grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
+      <div className="grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8 justify-center">
       
       {isLoading ? (<p>Loading...</p>) : 
 
@@ -200,15 +213,17 @@ const SelectArtist = () => {
       <button
       onClick={handleSelect}
       className="
-        mt-5
-        mb-10
-        w-full
-        px-3 h-10 relative 
-        bg-[#221a38]  
-        rounded-lg border border-soild border-[#fdfdfd]
-        text-custom-white
-        text-[16px]
-        mb-[80px]"
+          mt-5
+          w-full
+          px-3 h-10
+          bg-[#221a38]  
+          rounded-lg border border-soild border-[#fdfdfd]
+          text-custom-white
+          text-[16px]
+          mb-[80px]
+          bottom-0
+          fixed left-0 right-0 mx-auto
+        "
         
     >
       선택하기
@@ -217,12 +232,15 @@ const SelectArtist = () => {
           className="
             mt-5
             w-full
-            px-3 h-10 relative 
+            px-3 h-10
             bg-[#221a38]  
             rounded-lg border border-soild border-[#fdfdfd]
             text-custom-white
             text-[16px]
-            mb-[80px]"
+            mb-[80px]
+            bottom-0
+            fixed left-0 right-0 mx-auto
+            "
         >
           수정하기
         </button>}
@@ -235,6 +253,15 @@ const SelectArtist = () => {
            <div className="ml-3 font-normal text-center">아티스트 2명을 선택해주세요.</div>
         </div>
     </div>
+
+     {/* 토스트 창 띄우기 */}
+     <div className="flex justify-center items-center">
+        <div id="search-warning" 
+        className="flex border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert" style={{display: 'none'}}>
+           <div className="ml-3 font-normal text-center">해당하는 아티스트가 없습니다.</div>
+        </div>
+     </div>
+
     </div>
   );
 };

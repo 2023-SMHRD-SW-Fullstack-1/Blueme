@@ -27,7 +27,7 @@ const MyRecMusicList = ({ item, i }) => {
     arrows: false,
     infinite: true,
     autoplay: true, // 자동 재생 활성화
-    autoplaySpeed: 3000, // 각 슬라이드가 보여지는 시간 (밀리초 단위)
+    autoplaySpeed: 5000, // 각 슬라이드가 보여지는 시간 (밀리초 단위)
   }
 
   return (
