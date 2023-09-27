@@ -20,6 +20,8 @@ const OauthInfo = () => {
         const oauthInfoJson = urlParams.get('OauthInfo');
         const accessToken = urlParams.get('accessToken')
         const refreshToken = urlParams.get('refreshToken')
+        const code = urlParams.get('code')
+        console.log(code);
         
         dispatch(loginFailure())
 

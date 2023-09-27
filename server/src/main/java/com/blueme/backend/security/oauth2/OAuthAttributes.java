@@ -43,7 +43,7 @@ public class OAuthAttributes {
 	public static OAuthAttributes of(SocialType platformType, String userNameAttributeName,
 			Map<String, Object> attributes) {
 		
-		log.info("OAuthAttributes");
+		log.info("OAuthAttributes method start!");
 
 		if (platformType == SocialType.KAKAO) {
 			return ofKakao(userNameAttributeName, attributes);
@@ -69,11 +69,19 @@ public class OAuthAttributes {
 	public Users toEntity(SocialType platformType, OAuth2UserInfo oauth2UserInfo) {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		log.info("Users toEntity (OAuthAttributes) start !");
-		return Users.builder()
+		String email;
+		if (oauth2UserInfo.getEmail() != null) {
+		    email = oauth2UserInfo.getEmail();
+		} else {
+		    email = UUID.randomUUID() + "@kakao.com";
+		}
+		
+			return Users.builder()
 				.platformType(platformType.name())
 				.socialId(oauth2UserInfo.getId())
 				.img_url(oauth2UserInfo.getImageUrl())
-				.email(oauth2UserInfo.getEmail())
+				.email(email)
+//				.email(oauth2UserInfo.getEmail())
 //				.email(UUID.randomUUID() + "@socialUser.com")
 				.nickname(oauth2UserInfo.getNickname())
 				.role(UserRole.GUEST)

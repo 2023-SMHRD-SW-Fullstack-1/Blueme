@@ -25,6 +25,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
 	public static final String OAUTH2_AUTHORIZATION_REQUEST_COOKIE = "oauth2_auth_request";
 	public static final String REDIRECT_URI_PARAM_COOKIE = "redirect_url";
 	public final static String REDIRECT_URI_PARAM_COOKIE_NAME = "redirect_uri";
+	public static final String USER_ROLE_PARAMETER = "role";
 	private static final int COOKIE_EXPIRE_SECONDS = 180;
 
 	@Override

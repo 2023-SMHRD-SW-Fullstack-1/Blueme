@@ -41,11 +41,12 @@ public class KakaoOauth2UserInfo extends OAuth2UserInfo {
 	public String getEmail() {
 		Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
 		Map<String, Object> profile = (Map<String, Object>) account.get("profile");
+		System.out.println("email :::: "+ account.get("email"));
 
 		if(account == null || profile == null) {
 			return null;
 		}
-		return (String) profile.get("email");
+		return (String) account.get("email");
 	}
 
 }

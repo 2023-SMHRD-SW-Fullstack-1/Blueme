@@ -28,4 +28,6 @@ public interface UsersJpaRepository extends JpaRepository<Users, Long> {
 
 	Optional<Users> findByPlatformTypeAndSocialId(String platformType, String id);
 
+	boolean existsByEmail(String email);
+
 }

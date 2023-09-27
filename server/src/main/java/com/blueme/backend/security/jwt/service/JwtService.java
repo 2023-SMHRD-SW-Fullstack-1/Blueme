@@ -89,10 +89,10 @@ public class JwtService {
 
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
-        setRefreshTokenCookie(response, refreshToken);
+//        setRefreshTokenCookie(response, refreshToken);
 
         log.info("refreshToken : {}", refreshToken);
-        log.info("Access Token, Refresh Token 헤더 및 쿠키 설정 완료");
+        log.info("Access Token, Refresh Token 헤더 설정 완료");
     }
 
     /**
@@ -108,7 +108,6 @@ public class JwtService {
      * 헤더에서 AccessToken 추출
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
-        log.info("extractAccessToken() 호출");
         return Optional.ofNullable(request.getHeader(accessHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));

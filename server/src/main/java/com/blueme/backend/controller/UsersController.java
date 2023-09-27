@@ -39,7 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("http://172.30.1.13:3000")
 public class UsersController {
 	
 	@Autowired
@@ -58,11 +57,15 @@ public class UsersController {
 //	}
 	
 	@PostMapping("/signup")
-	public Long singup(@RequestBody UsersRegisterDto requestDto) throws Exception {
+	public ResponseEntity<?> singup(@RequestBody UsersRegisterDto requestDto){
 		log.info("Starting user registration for email {}", requestDto.getEmail());
 		Long userId = usersService.signUp(requestDto);
 		log.info("User registration completed with ID {}", userId);
-		return userId;
+		if (userId == null) {
+			return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User registration failed due to server error.");
+		} else {
+			return ResponseEntity.ok().body(userId);
+		}
 	}
 	
 	/**
@@ -80,10 +83,10 @@ public class UsersController {
 	 *  delete 유저 탈퇴 ( 실패시 -1 반환, 성공시 유저의고유ID반환 ), activeStatus 컬럼 "N"으로 변경
 	 */
 	@DeleteMapping("/deactivate")
-	public Long deactivate(@RequestBody UsersDeleteDto requestDto) {
+	public ResponseEntity<Long> deactivate(@RequestBody UsersDeleteDto requestDto) {
 		Long userId = usersService.deactivate(requestDto);
 		log.info("User delete completed with ID {}", userId);
-		return userId;
+		return ResponseEntity.ok().body(userId);
 	}
 	
 	/**
@@ -92,12 +95,12 @@ public class UsersController {
 	 * @throws IOException 
 	 */
 	@PatchMapping("/update")
-	public Long update(@RequestBody UsersUpdateDto requestDto
+	public ResponseEntity<Long> update(@RequestBody UsersUpdateDto requestDto
 			, @AuthenticationPrincipal PrincipalDetails principal) throws IOException{
 		Optional<Users> user = usersJpaRepository.findById(principal.getId());
-		log.info("Starting user update for id{}", principal.getId());
+		log.info("Starting user update for ID : {}", principal.getId());
 		Long userId = usersService.update(user,requestDto);
-		return userId;
+		return ResponseEntity.ok().body(userId);
 	}
 	
 	/**
@@ -105,8 +108,10 @@ public class UsersController {
 	 */
 	@GetMapping("/Mypage")
 	public ResponseEntity<List<UserProfileDto>> myProfile(@AuthenticationPrincipal PrincipalDetails principal) {
+		if (principal == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 		List<UserProfileDto> users = usersService.myprofile(principal.getId());
-		
 		    if (users.isEmpty()) {
 		        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		    } else {

@@ -57,13 +57,13 @@ public class SecurityConfig{
 	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 	private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
 	private final CustomOAuth2UserService customOAuth2UserService;
-	private final CorsFilter corsFilter;
+//	private final CorsFilter corsFilter;
 	
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http.cors().configurationSource(corsConfigurationSource()).and()
-		.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+//		.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 		
 		
 				.formLogin().disable()
@@ -89,7 +89,7 @@ public class SecurityConfig{
                 // 소셜 로그인 설정
                 .oauth2Login()
                 .authorizationEndpoint().baseUri("/oauth2/authorization").and()
-                .redirectionEndpoint().baseUri("/login/oauth2/code/**").and()
+//                .redirectionEndpoint().baseUri("/login/oauth2/code/**").and()
                 .userInfoEndpoint().userService(customOAuth2UserService).and()
                 .successHandler(oAuth2LoginSuccessHandler)
                 .failureHandler(oAuth2LoginFailureHandler);
@@ -147,10 +147,10 @@ public class SecurityConfig{
     public CorsConfigurationSource corsConfigurationSource() {
     	CorsConfiguration configuration = new CorsConfiguration();
     	
-    	configuration.addAllowedOriginPattern("*");
-    	configuration.addAllowedHeader("*");
-    	configuration.addAllowedMethod("*");
-    	configuration.setAllowCredentials(true);
+    	configuration.addAllowedOriginPattern("*");	// 모든 도메인으로부터의 요청 허용
+    	configuration.addAllowedHeader("*");		// 모든 HTTP 헤더를 허용
+    	configuration.addAllowedMethod("*");		// 모든 HTTP 메소드를 허용
+    	configuration.setAllowCredentials(true);	
     	configuration.addExposedHeader("Authorization");
     	configuration.addExposedHeader("Authorization-Refresh");
     	

@@ -39,18 +39,22 @@ public class ArtistsController {
 	public ResponseEntity<List<ArtistInfoDto>> artistrecommend() {
 		log.info("Starting to get all artists!");
 		List<ArtistInfoDto> artists = artistsService.getAllArtist();
-		return new ResponseEntity<>(artists, HttpStatus.OK);
+		return ResponseEntity.ok().body(artists);
 	}
 
 	/**
 	 * post 사용자가 선택한 가수(아티스트) 저장
 	 */
 	@PostMapping("/SaveFavArtist")
-	public Long saveFavArtist(@RequestBody FavArtistReqDto requestDto) {
-		log.info("Starting to save user's favorite artist");
+	public ResponseEntity<Long> saveFavArtist(@RequestBody FavArtistReqDto requestDto) {
+		log.info("Starting to save user's favorite artist!");
 		Long userId = artistsService.saveFavArtist(requestDto);
-		log.info("ArtistController requestDto : {}", userId);
-		return userId;
+		log.info("Ending to save user's favorite artist for userId : {}", userId);
+		if(userId == null) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.status(HttpStatus.CREATED).body(userId);
+		}
 	}
 
 	/**
@@ -59,21 +63,31 @@ public class ArtistsController {
 	 * @return
 	 */
 	@GetMapping("/searchArtist/{keyword}")
-	public List<ArtistInfoDto> searchArtist(@PathVariable("keyword") String keyword) {
-		log.info("Starting search music info");
+	public ResponseEntity<List<ArtistInfoDto>> searchArtist(@PathVariable("keyword") String keyword) {
+		log.info("Starting search music info for keyword = {}", keyword);
 		List<ArtistInfoDto> artists = artistsService.searchArtist(keyword);
-		return artists;
+		log.info("Finished search music info for keyword = {}", keyword);
+		if(artists.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok().body(artists);
+		}
 	}
 
 	/**
 	 * patch 선호가수 수정
 	 */
 	@PatchMapping("/updateFavArtist")
-	public Long updateFavArtist(@RequestBody FavArtistReqDto requestDto) {
+	public ResponseEntity<Long> updateFavArtist(@RequestBody FavArtistReqDto requestDto) {
 		log.info("Starting to update user's favorite artist");
-		List<Long> artistId = requestDto.getArtistIds().stream().map(Long::parseLong).collect(Collectors.toList());
-		Long userId = artistsService.updateFavArtist(Long.parseLong(requestDto.getFavChecklistId()),artistId);
-		return userId;
+		List<Long> artistId = requestDto.getArtistIds().stream()
+				.map(Long::parseLong).collect(Collectors.toList());
+		Long userId = artistsService.updateFavArtist(Long.parseLong(requestDto.getFavChecklistId()), artistId);
+		if (userId == null) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok().body(userId);
+		}
 	}
 
 }
