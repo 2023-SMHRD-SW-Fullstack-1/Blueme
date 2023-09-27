@@ -15,22 +15,23 @@ import { useSelector } from 'react-redux';
 const RecBegin = () => {
   const navigate = useNavigate()
   const user = useSelector(state => state.memberReducer.user)
-  const email = user.email
+  const isLogin = user.isLogin
   // console.log('header',user);
 
   //3초 로딩 함수
   const timeout = () => {
     setTimeout(() => {
+      document.getElementById('toast-warning').classList.remove("reveal")//토스트 창 소멸
       navigate("/Login");
     }, 3000);// 원하는 시간 ms단위로 적어주기
   };
 
   const recBegin = () => {
-    if(email === null) {
+    if(isLogin) {
+      navigate('/LoadData')
+    }else {
       document.getElementById('toast-warning').classList.add("reveal")//토스트 창 생성
       timeout()
-    }else {
-      navigate('/LoadData')
     } 
   }
 

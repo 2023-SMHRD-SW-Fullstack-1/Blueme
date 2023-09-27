@@ -53,12 +53,12 @@ const LoadDataCompl = () => {
   const second = date.substring(17, 19); //초
 
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full hide-scrollbar overflow-auto ">
+    <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full hide-scrollbar overflow-scroll ">
       <br />
       <br />
       <br />
       <div>
-        <p className=" leading-normal xs:mt-[30px] lg:mt-[160px] text-center text-[20px]">
+        <p className=" leading-normal mt-[120px] text-center text-[20px]">
           스마트 워치에서 데이터를 가져온 결과,
           <br />
           {/* 사용자가 건강 데이터 보낸 시간 */}
@@ -88,7 +88,7 @@ const LoadDataCompl = () => {
       </div>
       <div className="flex justify-center item-center">
         <Link to="/LoadGpt">
-          <button className="border tracking-tight border-soild border-#FDFDFD rounded-xl p-3 leading-[1.35]">
+          <button className="border tracking-tight mb-[80px] border-soild border-#FDFDFD rounded-xl p-3 leading-[1.35]">
             추천받기
           </button>
         </Link>

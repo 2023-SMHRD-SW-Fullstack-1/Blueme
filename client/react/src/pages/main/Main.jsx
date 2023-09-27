@@ -43,15 +43,14 @@ const Main = () => {
   const [ids, setIds] = useState([]);
   const [otherMusicIds, setotherMusicIds] = useState([]); //남의 플리 musicId
   const [myMusicIds, setMyMusicIds] = useState([]); //나의 플리 musicId
-  // const [id, setId] = useState('0');
-  // const id = localStorage.getItem('id')
+
   const dispatch = useDispatch();
-  // const musicIds = useSelector(state => state.musicReducer.musicIds);
+
   const user = useSelector((state) => state.memberReducer.user);
   const id = user.id;
   const isLoggendIn = useSelector((state) => state.memberReducer.isLogin);
   const navigate = useNavigate();
-  // console.log('header',user);
+
 
   useEffect(() => {
     console.log("search : ", window.location.search);
@@ -74,7 +73,7 @@ const Main = () => {
           await axios
             .get(`http://172.30.1.27:8104/recMusiclist/recent10?userId=${id}`) //남의 추천 플리 불러오기
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               setOtherRecMusicList(res.data); //남의 플레이 리스트
               setotherMusicIds(res.data.map((otherRecMusicList) => otherRecMusicList.recMusiclistId));
             })
@@ -84,7 +83,7 @@ const Main = () => {
           await axios
             .get(`http://172.30.1.27:8104/recMusiclist/recent10`) //남의 추천 플리 불러오기
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               setOtherRecMusicList(res.data); //남의 플레이 리스트
               setotherMusicIds(res.data.map((otherRecMusicList) => otherRecMusicList.recMusiclistId));
             })
@@ -104,7 +103,7 @@ const Main = () => {
       axios
         .get(`http://172.30.1.27:8104/recMusiclist/${id}`) //나의 추천 플리 불러오기
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setMyRecMusicList(res.data); //나의 플레이리스트에 저장
           setMyMusicIds(res.data.map((myRecMusicList) => myRecMusicList.recMusiclistId));
         })
@@ -117,13 +116,15 @@ const Main = () => {
     dispatch(setMusicIds(ids));
   };
 
+  console.log(recentlyPlayed);
+
   return (
     <div className="overflow-auto mb-16 bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 h-full pb-20 hide-scrollbar">
       <br />
       <br />
       {/* ChatGPT가 추천해준 나의 플레이리스트 */}
       <div>
-        <h1 className="overflow-hidden indent-2 text-[23px] xl:ml-[50px] tracking-tight mt-[60px] w-[350px] font-semiblod">
+        <h1 className="overflow-hidden indent-2 text-xl font-semibold lg:text-2xl xl:ml-[50px] tracking-tight mt-[60px] w-[300px] lg:w-[500px]">
           AI가 추천해준 나만의 플레이리스트
         </h1>
         <Swiper
@@ -166,7 +167,7 @@ const Main = () => {
       </div>
       {/* ChatGPT가 추천해준 남의 플레이리스트 */}
       <div>
-        <h1 className="overflow-hidden  indent-2 text-[23px] xl:ml-[50px] tracking-tight mt-10 w-[240px] font-semiblod">
+        <h1 className="overflow-hidden  indent-2 text-xl font-semibold lg:text-2xl xl:ml-[50px] tracking-tight mt-10 w-[240px]">
           Blueme가 추천해요👀
         </h1>
 
@@ -205,16 +206,18 @@ const Main = () => {
 
       {/* 최근에 재생한 목록 */}
       {isLoggendIn && (
-        <div onClick={handleListClick}>
-          <h1 className="indent-2 text-[23px] xl:ml-[50px] tracking-tight mt-10 w-[240px] font-semiblod">
+        <div onClick={handleListClick} className="xl:ml-[50px] xl:mr-[50px]">
+          <h1 className="indent-2 text-xl font-semibold lg:text-2xl  tracking-tight mt-10 w-[240px] ">
             최근에 재생한 목록
           </h1>
-          {/* <Swiper direction={"vertical"} slidesPerView={2} className="h-[16%]"> */}
-          <div onClick={setMusicIds}>
-            {recentlyPlayed.map((song) => (
-              <SingleMusic key={song.id} item={song} />
-            ))}
-          </div>
+          {recentlyPlayed === null ? 
+           <p>최근에 재생한 목록이 없습니다.</p> : 
+           <div onClick={setMusicIds} className="mt-5">
+           {recentlyPlayed.map((song) => (
+             <SingleMusic key={song.musicId} item={song} />
+           ))}
+         </div>}
+         
         </div>
       )}
     </div>

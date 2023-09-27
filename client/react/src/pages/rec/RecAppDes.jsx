@@ -57,7 +57,7 @@ const RecAppDes = () => {
     <div className='bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-lightblue p-3 h-full item-center justify-center overflow-scroll'>
         <br/><br/><br/>
         {/* 갤럭시 워치에 대한 앱 설명 */}
-        <div className='mt-8 item-center justify-center text-center'>
+        <div className='mt-8 item-center justify-center text-center mt-[40px]'>
           <ul>
             <li className='-indent-5 text-xl tracking-tight '>• 갤럭시 워치의 경우</li>
             <ol className=' tracking-tight mt-3 leading-loose'>
@@ -98,7 +98,7 @@ const RecAppDes = () => {
             <div className="ml-3 font-normal text-center">데이터를 전송해주세요.</div>
           </div>
         </div>
-        <div className='text-center p-3 mt-5 mb-[55px]'>
+        <div className='text-center p-3 mt-5 mb-[48px]'>
           <button className='indent-[290px]' onClick={handleTransport}>SKIP</button>
          
         

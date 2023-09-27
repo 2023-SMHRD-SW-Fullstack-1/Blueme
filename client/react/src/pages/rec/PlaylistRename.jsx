@@ -14,10 +14,8 @@ const PlaylistRename = () => {
   const [title, setTitle] = useState('') //플레이 리스트 제목
   const navigate = useNavigate()
   const recMusicTitle = localStorage.getItem('recMusicTitle')//storage에 저장된 제목 가져오기
-  const recMusicImg = localStorage.getItem('recMusicImg') //storage에 저장된 이미지 가져오기
   const user = useSelector(state => state.memberReducer.user)//member리덕스 가져오기
   const id = user.id//member리덕스에서 id 가져오기
-  // console.log('header',user);
 
     const SrecMusicId = localStorage.getItem('recMusicIds')//list제목
     const recMusicIds = JSON.parse(SrecMusicId)//타입 변환
@@ -30,12 +28,13 @@ const PlaylistRename = () => {
       }, 2000);// 원하는 시간 ms단위로 적어주기
     };
 
+    //음악 리스트 저장 요청
     const SavedRecPlaylist = () => {
       const requestData = { 
         userId : id,  
         title : title || recMusicTitle,
         musicIds : recMusicIds }
-      // console.log(musicIds);
+
       console.log(requestData);
       axios.post(`http://172.30.1.27:8104/savedMusiclist/add`, requestData)//플리 저장요청 && 제목 수정
       .then((res) => {//응답값 userId 실패시 -1

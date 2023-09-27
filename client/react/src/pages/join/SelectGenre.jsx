@@ -124,7 +124,7 @@ const SelectGenre = () => {
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 tracking-tight h-auto text-custom-white p-3">
-      <h3 className="text-2xl pt-[90px] md:ml-[100px] md:mr-[100px]">당신이 좋아하는 장르는?</h3>
+      <h3 className="text-2xl pt-[90px] xl:ml-[100px] xl:mr-[100px]">당신이 좋아하는 장르는?</h3>
       <div className="grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-2 md:grid-cols-gap-x-6 gap-y-1 gap-y-4 gap-x-5 mt-8">
         {genre && genre.map((genre, genreId, i) => (
           <button
@@ -140,29 +140,32 @@ const SelectGenre = () => {
       <button
       onClick={handleSelect}
       className="
-        mt-2
-        mb-10
-        w-full
-        px-3 h-10 relative 
-        bg-[#221a38]  
-        rounded-lg border border-soild border-[#fdfdfd]
-        text-custom-white
-        text-[16px]
-        mb-[80px]
+          mt-5
+          w-full
+          px-3 h-10
+          bg-[#221a38]  
+          rounded-lg border border-soild border-[#fdfdfd]
+          text-custom-white
+          text-[16px]
+          mb-[80px]
+          bottom-0
+          fixed left-0 right-0 mx-auto
         "
     >
       선택하기
     </button> : <button
           onClick={handelUpdate}
           className="
-            mt-2
+            mt-5
             w-full
-            px-3 h-10 relative 
+            px-3 h-10
             bg-[#221a38]  
             rounded-lg border border-soild border-[#fdfdfd]
             text-custom-white
             text-[16px]
             mb-[80px]
+            bottom-0
+            fixed left-0 right-0 mx-auto
             "
         >
           수정하기

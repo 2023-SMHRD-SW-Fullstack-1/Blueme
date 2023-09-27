@@ -43,43 +43,32 @@ const Library = () => {
   }, []);
 
   return (
-    <div className="overflow-auto hide-scrollbar bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-2 h-full font-semibold tracking-tighter">
+    <div className="overflow-auto hide-scrollbar bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-2 h-full font-semibold tracking-tight overflow-scroll">
       <br />
       <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 pr-0 md:pr-2 order-last md:order-first lg:pr-10 md:pt-10">
-          <p className="text-left text-xl ml-[5px] pt-[20px] lg:pt-[30px] lg:text-3xl lg:ml-8 ">저장한 플레이리스트</p>
+        <div className="w-full md:w-1/2 mt-[20px] order-last md:order-first ">
+          <p className="text-left text-xl ml-[5px] mt-[50px] lg:text-2xl">저장한 플레이리스트</p>
           <SavedPlaylist />
 
-          <h1 className="text-left indent-1 text-xl font-semibold tracking-tighter mt-1 hidden md:block lg:text-3xl  lg:ml-8">
+          <h1 className="text-left text-xl ml-[5px] lg:text-2xl ">
             Chat GPT가 추천해준 나의 플레이리스트
           </h1>
 
           {isLoggendIn && myRecMusicList.length > 0 && (
             <Swiper
-              className="ml-10 mt-5 lg:mt-10 hidden md:block overflow-hidden xs:mb-20"
+              className="mt-5 hidden md:block overflow-hidden"
               spaceBetween={10}
               slidesPerView="0"
               breakpoints={{
                 320: {
+                  slidesPerView: 1,
+                  spaceBetween: 10,
+                },
+                800: {
                   slidesPerView: 2,
                   spaceBetween: 10,
                 },
-
-                480: {
-                  slidesPerView: 2,
-                  spaceBetween: 10,
-                },
-
-                640: {
-                  slidesPerView: 2,
-                  spaceBetween: 10,
-                },
-
-                768: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-                1024: {
+                1200: {
                   slidesPerView: 3,
                   spaceBetween: 10,
                 },
@@ -88,16 +77,16 @@ const Library = () => {
               {myRecMusicList &&
                 myRecMusicList.map((item, i) => (
                   <SwiperSlide key={item.recMusiclistId} className="">
-                    <div>
+                    <div className="flex flex-col justify-center items-center ">
                       <img
                         onClick={() => {
                           navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
                         }}
                         src={"data:image/;base64," + item.recMusiclistDetails[0].img}
                         alt="album cover"
-                        className="w-[200px] h-auto rounded-lg sm:h-auto mr-20"
+                        className="w-[200px] h-auto rounded-sm"
                       />
-                      <p className="tracking-tighter text-sm text-center mt-2 lg:text-base lg:mr-20 ">{item.title}</p>
+                      <p className="tracking-tight text-sm text-center mt-2 mb-[150px] lg:w-[200px]">{item.title}</p>
                     </div>
                   </SwiperSlide>
                 ))}
@@ -105,9 +94,9 @@ const Library = () => {
           )}
         </div>
 
-        <div className="w-full md:w-1/2 pl-0 md:pl-2 mt-[30px] md:mt-[10px] order-first md:order-last md:pt-10  lg:pr-10">
+        <div className="w-full md:w-1/2 pl-0 md:pl-2 mt-[30px] md:mt-[10px] order-first md:order-last md:pt-10 ">
           <div className="flex mt-14 xs:mt-5 mb-3">
-            <span className="text-left text-xl ml-[5px]  lg:pt-[0px] lg:text-3xl lg:mb-5 ">좋아요 누른 음악 목록</span>
+            <span className="text-left text-xl ml-[5px]  lg:pt-[0px] lg:text-2xl lg:mb-5 mt-[20px]">좋아요 누른 음악 목록</span>
             <button className="ml-auto text-custom-gray mr-2 text-sm">
               <Link to="/LikedPlaylist">더보기</Link>
             </button>
