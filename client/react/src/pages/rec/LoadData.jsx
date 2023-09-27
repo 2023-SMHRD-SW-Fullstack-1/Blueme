@@ -17,7 +17,6 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-
 //Three.js
 const DirectionalLightWithCamera = () => {
   const { camera } = useThree();
@@ -47,8 +46,8 @@ const DirectionalLightWithCamera = () => {
 
 const LoadData = () => {
   const navigate = useNavigate();
-  const user = useSelector(state => state.memberReducer.user)//member리덕스가져오기
-  const nickname = user.nickname//member리덕스에서 nickname가져오기
+  const user = useSelector((state) => state.memberReducer.user); //member리덕스가져오기
+  const nickname = user.nickname; //member리덕스에서 nickname가져오기
   // console.log('header',user);
 
   //3초 로딩
@@ -64,11 +63,12 @@ const LoadData = () => {
       clearTimeout(timeout);
     };
   });
-  
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 p-3 text-center text-custom-white flex flex-col h-full justify-center items-center text-xl tracking-tight space-y-10">
-      <p className="">{nickname}님의 건강데이터를 <br/> 불러오고 있어요</p>
+      <p className="">
+        {nickname}님의 건강데이터를 <br /> 불러오고 있어요
+      </p>
 
       <div className="from-gray-900 via-stone-950 to-gray-700 w-[100%]">
         <Canvas
@@ -85,7 +85,6 @@ const LoadData = () => {
           <ambientLight />
           <pointLight position={[10, 10, -20]} />
           <Watch />
-          {/* OrbitControls 컴포넌트 추가 */}
           <OrbitControls />
         </Canvas>
       </div>

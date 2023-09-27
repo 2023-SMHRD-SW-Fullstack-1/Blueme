@@ -38,12 +38,8 @@ const MiniPlayer = () => {
   // 음악 재생 인덱스 (리덕스 활용)
   const musicIds = useSelector((state) => state.musicReducer.musicIds);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1);
-  const currentSongId = useSelector(
-    (state) => state.musicReducer.currentSongId
-  );
-  const playingStatus = useSelector(
-    (state) => state.musicReducer.playingStatus
-  );
+  const currentSongId = useSelector((state) => state.musicReducer.currentSongId);
+  const playingStatus = useSelector((state) => state.musicReducer.playingStatus);
   const currentTime = useSelector((state) => state.musicReducer.currentTime);
 
   // 사용자 id

@@ -13,7 +13,6 @@ export function Model(props) {
   const groupRef = useRef();
   const gltf = useGLTF("/scene.gltf");
 
-  // Calculate the bounding box of the model after it's loaded
   useEffect(() => {
     if (gltf.scene) {
       const bbox = new THREE.Box3().setFromObject(gltf.scene);
@@ -22,7 +21,6 @@ export function Model(props) {
       gltf.scene.position.x = -center.x;
       gltf.scene.position.y = -center.y;
 
-      // Change the color of all meshes to green
       gltf.scene.traverse((object) => {
         if (object.isMesh) {
           object.material.color.setRGB(16, 163, 127);

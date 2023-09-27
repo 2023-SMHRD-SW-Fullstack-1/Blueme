@@ -7,7 +7,7 @@
 // 일단 보존
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import SingleMusic from "../components/Library/SingleMusic";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
@@ -65,7 +65,6 @@ const Playlist = () => {
         </button>
       </div>
 
-      {/* Render music list */}
       {musicList.length > 0 ? (
         <Swiper direction={"vertical"} slidesPerView={6.2} spaceBetween={1} className="h-[49%] ml-3 mr-3">
           {musicList.map((item) => (
