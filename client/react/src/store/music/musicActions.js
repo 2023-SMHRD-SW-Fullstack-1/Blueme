@@ -13,6 +13,8 @@ export const SET_DRAGGING_STATUS = 'SET_DRAGGING_STATUS';
 export const SET_REPEAT_MODE = 'SET_REPEAT_MODE';
 export const SET_IS_MUSIC_PLAYER = 'SET_IS_MUSIC_PLAYER';
 export const SET_DURATION = 'SET_DURATION';
+export const CLEAR_PLAYING = 'CLEAR_PLAYING';
+
 
 
 // 음악 재생할 목록
@@ -85,4 +87,11 @@ export function setIsMusicPlayer(musicPlayer) {
     type: SET_IS_MUSIC_PLAYER,
     payload: musicPlayer,
   };
+}
+
+// 로그아웃
+export function clearPlaying() {
+  return {
+      type: CLEAR_PLAYING,
+  }
 }

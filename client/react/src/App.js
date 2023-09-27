@@ -52,9 +52,11 @@ import SearchPage from "./pages/SearchPage";
 import ShowMiniPlayerInner from "./pages/miniPlayer/ShowMiniPlayerInner";
 import SoundControl from "./components/music/SoundControl";
 import RecPlayListDetail from "./pages/rec/RecPlayListDetail";
+import axios from "axios";
 // 지희 import 끝
 
 const App = () => {
+  
   return (
     <Router>
       <div className="app flex flex-col min-h-screen bg-gray-900 ">
@@ -102,7 +104,7 @@ const App = () => {
           <Route path="/ThemePlaylist" element={<ThemePlaylist />} />
           <Route path="/MusicPlayer/:id" element={<MusicPlayer />} />
         </Routes>
-        {/* <ShowMiniPlayerInner /> */}
+        <ShowMiniPlayerInner />
         {/* 지희 끝 */}
         <Footer />
       </div>

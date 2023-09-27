@@ -49,7 +49,7 @@ const SoundControl = () => {
 
         // 새로운 사운드 로드 및 재생
         const newSound = new Howl({
-          src: [`/music/${currentSongId}`],
+          src: [`${process.env.REACT_APP_API_BASE_URL}/music/${currentSongId}`],
           format: ["mpeg"],
           onload() {
             dispatch(setCurrentTime(0));

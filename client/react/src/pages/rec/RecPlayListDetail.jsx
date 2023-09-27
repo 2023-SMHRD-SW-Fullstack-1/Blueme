@@ -38,7 +38,7 @@ const RecPlayListDetail = () => {
     const recPlayList = async () => {
       //회원id가 아니라 musicId 들어가야 함
       await axios
-        .get(`http://172.30.1.27:8104/recMusiclist/detail/${musicId}`) //추천 받은 리스트 불러오기
+        .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/detail/${musicId}`) //추천 받은 리스트 불러오기
         .then((res) => {
           setMusiclist(res.data);
           // console.log(res);

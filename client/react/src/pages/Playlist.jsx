@@ -34,7 +34,7 @@ const Playlist = () => {
         const themeIdFromStorage = localStorage.getItem("themeId");
 
         if (themeIdFromStorage) {
-          const responseMusicList = await axios.get(`/theme/themelists/${themeIdFromStorage}`);
+          const responseMusicList = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/theme/themelists/${themeIdFromStorage}`);
 
           if (responseMusicList.data) {
             setMusicList(responseMusicList.data);

@@ -59,7 +59,7 @@ const LoadGpt = () => {
   const timeout = () => {
     setTimeout(() => {
         axios
-        .post(`http://172.30.1.27:8104/recMusiclist/chatGPT/${id}`)//ChatGPT 추천 받기
+        .post(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/chatGPT/${id}`)//ChatGPT 추천 받기
         .then((res) => {
           console.log(res)
           navigate("/RecPlayList");

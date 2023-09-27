@@ -47,7 +47,8 @@ const Theme = () => {
   useEffect(() => {
     const fetchThemes = async () => {
       try {
-        const response = await axios.get("/theme/themelists");
+        // axios.get(`${process.env.REACT_APP_API_BASE_URL}/your-endpoint`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/theme/themelists`);
         setThemes(response.data);
       } catch (error) {
         console.error(`Error: ${error}`);

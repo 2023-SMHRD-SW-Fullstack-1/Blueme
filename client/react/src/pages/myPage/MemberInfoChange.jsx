@@ -82,7 +82,7 @@ function MemberInfoChange() {
     };
 
     await axios
-      .patch(`http://172.30.1.45:8104/user/update`,requestData, {headers} ) //수정 요청
+      .patch(`${process.env.REACT_APP_API_BASE_URL}/user/update`,requestData, {headers} ) //수정 요청
       .then((res) => {
         dispatch(userUpdate(requestData))//store도 업데이트
         document.getElementById('toast-warning').classList.add("reveal")//토스트 창 생성

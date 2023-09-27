@@ -13,7 +13,8 @@ import {
   SET_DRAGGING_STATUS,
   SET_REPEAT_MODE,
   SET_IS_MUSIC_PLAYER,
-  SET_DURATION
+  SET_DURATION,
+  CLEAR_PLAYING
 } from "./musicActions";
 
 
@@ -50,6 +51,8 @@ function music(state = initialState, action) {
       return { ...state, isMusicPlayer: action.payload };
     case  SET_DURATION:
       return { ...state, duration: action.payload };
+    case CLEAR_PLAYING:
+       return initialState
     default:
       return state;
   }

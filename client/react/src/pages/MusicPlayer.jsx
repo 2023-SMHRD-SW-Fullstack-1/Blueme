@@ -69,7 +69,7 @@ const MusicPlayer = () => {
   useEffect(() => {
     const fetchMusicInfo = async () => {
       try {
-        const response = await axios.get(`/music/info/${currentSongId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/music/info/${currentSongId}`);
         setMusicInfo({
           album: response.data.album,
           title: response.data.title,

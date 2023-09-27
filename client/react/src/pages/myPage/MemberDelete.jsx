@@ -56,7 +56,7 @@ const MemberDelete = () => {
     e.preventDefault();
     //delete는 requestData로 따로 빼주면 오류남..??
     await axios
-      .delete("http://172.30.1.27:8104/user/deactivate", {
+      .delete(`${process.env.REACT_APP_API_BASE_URL}/user/deactivate`, {
         data : {
           email: email,
           password: password

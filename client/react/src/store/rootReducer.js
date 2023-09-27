@@ -11,7 +11,7 @@
 */
 import memberReducer from './member/memberReducer'
 import musicReducer from './music/musicReducer';
-import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer, setCurrentTime, setDuration, setDraggingStatus, setRepeatMode, setIsMusicPlayer } from './music/musicActions';
+import { setMusicIds, setPlayingStatus, setCurrentSongId, setShowMiniPlayer, setCurrentTime, setDuration, setDraggingStatus, setRepeatMode, setIsMusicPlayer, clearPlaying } from './music/musicActions';
 
 import { combineReducers, createStore } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist';
@@ -69,6 +69,7 @@ store.dispatch(setDraggingStatus(false))
 store.dispatch(setRepeatMode(false))
 store.dispatch(setIsMusicPlayer(false))
 store.dispatch(setDuration(0))
+store.dispatch(clearPlaying(0))
 
 
 export { store, persistor };

@@ -21,7 +21,7 @@ const SavedPlaylist = () => {
   useEffect(() => {
     const fetchSavedPlaylists = async () => {
       try {
-        const response = await axios.get(`http://172.30.1.27:8104/savedMusiclist/get/${userId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/savedMusiclist/get/${userId}`);
         console.log("response", response.data);
         setSavedPlaylists(response.data);
         setMusiclistId(response.data.savedMusiclistId);
@@ -37,7 +37,7 @@ const SavedPlaylist = () => {
   const handlePlaylistClick = async (id) => {
     console.log(id);
     try {
-      const response = await axios.get(`http://172.30.1.27:8104/savedMusiclist/get/detail/${id}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/savedMusiclist/get/detail/${id}`);
       setSelectedPlaylistDetails(response.data);
     } catch (error) {
       console.error(`Error: ${error}`);

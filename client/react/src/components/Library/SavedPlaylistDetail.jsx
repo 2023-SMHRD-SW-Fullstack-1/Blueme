@@ -53,7 +53,7 @@ const SavedPlaylistDetail = () => {
   useEffect(() => {
     const fetchSavedPlaylistDetails = async () => {
       try {
-        const response = await axios.get(`http://172.30.1.27:8104/savedMusiclist/get/detail/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/savedMusiclist/get/detail/${id}`);
         setSelectedPlaylistDetails(response.data.savedMusiclistDetailsResDto);
         setTitle(response.data.title);
         if (response.data.savedMusiclistDetailsResDto.length > 0) {

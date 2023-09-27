@@ -36,7 +36,7 @@ const PlaylistRename = () => {
         musicIds : recMusicIds }
 
       console.log(requestData);
-      axios.post(`http://172.30.1.27:8104/savedMusiclist/add`, requestData)//플리 저장요청 && 제목 수정
+      axios.post(`${process.env.REACT_APP_API_BASE_URL}/savedMusiclist/add`, requestData)//플리 저장요청 && 제목 수정
       .then((res) => {//응답값 userId 실패시 -1
         console.log(res)
         if(res.data > 0 ) {

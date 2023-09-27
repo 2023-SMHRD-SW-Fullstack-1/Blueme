@@ -39,7 +39,7 @@ const RecAppDes = () => {
   //데이터 전송 여부 판단하는 함수
   const isTransformData = () => {
     axios
-      .get(`http://172.30.1.27:8104/healthinfo/get/${id}`) //건강데이터 불러오기
+      .get(`${process.env.REACT_APP_API_BASE_URL}/healthinfo/get/${id}`) //건강데이터 불러오기
       .then((res) => {
         console.log(res);
         navigate("/LoadDataCompl");

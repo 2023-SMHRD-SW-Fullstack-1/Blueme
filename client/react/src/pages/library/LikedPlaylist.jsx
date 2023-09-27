@@ -35,7 +35,8 @@ const LikedPlaylist = () => {
   useEffect(() => {
     const fetchLikedList = async () => {
       try {
-        const response = await axios.get(`/likemusics/${userId}`);
+        
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/likemusics/${userId}`);
         setLikedMusics(response.data);
         setIds(response.data.map((music) => music.musicId));
       } catch (error) {

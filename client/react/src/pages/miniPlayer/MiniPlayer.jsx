@@ -58,7 +58,7 @@ const MiniPlayer = () => {
   useEffect(() => {
     const fetchMusicInfo = async () => {
       try {
-        const response = await axios.get(`/music/info/${currentSongId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/music/info/${currentSongId}`);
         setMusicInfo({
           album: response.data.album,
           title: response.data.title,
@@ -109,7 +109,7 @@ const MiniPlayer = () => {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        await axios.post("/playedmusic/add", {
+        await axios.post(`${process.env.REACT_APP_API_BASE_URL}/playedmusic/add`, {
           userId: userId.toString(),
           musicId: currentSongId.toString(),
         });
@@ -127,7 +127,7 @@ const MiniPlayer = () => {
 
   return (
     currentSongId && (
-      <div className="flex items-center bg-custom-blue text-custom-white fixed xs:bottom-[9.25%] sm:bottom-[8.3%] md:bottom-[7.7%] xl:bottom-[7.6%] 2xl:bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
+      <div className="flex items-center bg-custom-blue text-custom-white fixed xs:bottom-[10.3%] sm:bottom-[8.3%] md:bottom-[7.7%] xl:bottom-[7.6%] 2xl:bottom-[7.5%] w-full h-[8%] xs:px-3 lg:px-6 z-50">
         <div onClick={handleMusicClick} className="h-[80%]">
           <div className="h-[100%] flex flex-row">
             <img src={"data:image/;base64," + musicInfo.img} className="h-[100%] rounded-lg" alt="" />

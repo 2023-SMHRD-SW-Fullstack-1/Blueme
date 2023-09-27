@@ -50,7 +50,7 @@ const LikedList = () => {
   useEffect(() => {
     async function fetchLikedList() {
       try {
-        let response = await axios.get(`/likemusics/${userId}`);
+        let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/likemusics/${userId}`);
         let ids;
 
         if (isDesktop) {

@@ -3,6 +3,11 @@
 날짜: 2023-09-16
 설명: 로그아웃 및 사용자 정보 가져오기
 */
+/*
+작성자: 이지희
+날짜: 2023-09-27
+설명: 로그아웃 시 음악 정보 삭제
+*/
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import user from "../../assets/img/defalut.png";
@@ -13,6 +18,7 @@ import Login from "../Login";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { userUpdate, logoutSuccess } from "../../store/member/memberAction";
+import { clearPlaying } from "../../store/music/musicActions";
 import basicProfile from '../../assets/img/basicProfile.jpg'
 
 axios.defaults.baseURL = "http://localhost:3000/"
@@ -50,6 +56,7 @@ const MyPage = () => {
   const handleLogout = (accessToken) => {
     localStorage.clear()
     dispatch(logoutSuccess());
+    dispatch(clearPlaying())
     navigate('/')
   }
 

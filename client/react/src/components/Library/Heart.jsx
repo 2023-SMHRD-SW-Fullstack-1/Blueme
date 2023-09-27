@@ -29,7 +29,7 @@ const Heart = ({ item }) => {
   useEffect(() => {
     const fetchLikeStatus = async () => {
       try {
-        const response = await axios.post("/likemusics/issave", {
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/likemusics/issave`, {
           userId: userId.toString(),
           musicId: item.toString(),
         });
@@ -47,7 +47,7 @@ const Heart = ({ item }) => {
     event.stopPropagation(); // 부모 요소로의 이벤트 전파 막기
 
     try {
-      await axios.put("/likemusics/toggleLike", {
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/likemusics/toggleLike`, {
         userId: userId,
         musicId: item,
       });

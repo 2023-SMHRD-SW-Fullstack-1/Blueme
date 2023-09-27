@@ -58,7 +58,7 @@ const ThemePlaylist = () => {
 
         if (themeIdFromStorage) {
           // API를 통해 음악 리스트 가져오기
-          const responseMusicList = await axios.get(`/theme/themelists/${themeIdFromStorage}`);
+          const responseMusicList = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/theme/themelists/${themeIdFromStorage}`);
 
           if (responseMusicList.data) {
             setMusicList(responseMusicList.data);
@@ -84,7 +84,8 @@ const ThemePlaylist = () => {
       };
 
       // 서버에 데이터 저장 요청
-      await axios.post("http://172.30.1.27:8104/savedMusiclist/add", dataToSend);
+      
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/savedMusiclist/add`, dataToSend);
       // console.log("Saved music list");
       setShowThemePlaylistModal(true);
     } catch (error) {

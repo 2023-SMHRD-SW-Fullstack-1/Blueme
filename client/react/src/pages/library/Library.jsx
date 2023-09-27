@@ -32,7 +32,7 @@ const Library = () => {
     if (isLoggendIn) {
       // 로그인한 경우 사용자의 추천 플레이리스트 불러오기
       axios
-        .get(`http://172.30.1.27:8104/recMusiclist/${id}`)
+        .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/${id}`)
         .then((res) => {
           setMyRecMusicList(res.data); // 추천 플레이리스트 저장
           setMyMusicIds(res.data.map((myRecMusicList) => myRecMusicList.recMusiclistId));

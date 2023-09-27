@@ -32,7 +32,7 @@ const RecPlayList = () => {
   useEffect(() => {
     const recPlayList = async () => {
       await axios
-        .get(`http://172.30.1.27:8104/recMusiclist/recent/${id}`) //추천 받은 리스트 불러오기
+        .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/recent/${id}`) //추천 받은 리스트 불러오기
         .then((res) => {
           console.log(res);
           setMusiclist(res.data); //추천 음악 리스트

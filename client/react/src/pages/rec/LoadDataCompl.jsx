@@ -31,7 +31,7 @@ const LoadDataCompl = () => {
 
   useEffect(() => {
     axios
-      .get(`http://172.30.1.27:8104/healthinfo/get/${id}`) //사용자 건강데이터 불러오기
+      .get(`${process.env.REACT_APP_API_BASE_URL}/healthinfo/get/${id}`) //사용자 건강데이터 불러오기
       .then((res) => {
         setHeartRate(res.data.avgHeartRate); //심박수
         setStep(res.data.stepsPerMinute); //걸음수

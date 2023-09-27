@@ -23,7 +23,7 @@ const logginedUserId = user.id
 
   // 최근 검색목록 조회하는 함수
   useEffect(() => {
-    axios.get(`http://172.30.1.27:8104/search/${logginedUserId}`)
+    axios.get(`${process.env.REACT_APP_API_BASE_URL}/search/${logginedUserId}`)
       .then((res) => {
         setRecentList(res.data);
       }).catch(err => console.log(err)); 
@@ -34,7 +34,7 @@ const logginedUserId = user.id
   // 검색값 db가져오는 함수
   const handleSearchKeyword = (e) => {
     if(e.target.value !== "") {
-      axios.get(`http://172.30.1.27:8104/search/music/${e.target.value}`)
+      axios.get(`${process.env.REACT_APP_API_BASE_URL}/search/music/${e.target.value}`)
       .then((res) => {
           setSearchList(res.data);
         }).catch(err => console.log(err));

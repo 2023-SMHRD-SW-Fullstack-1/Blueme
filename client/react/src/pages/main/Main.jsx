@@ -56,7 +56,7 @@ const Main = () => {
     console.log("search : ", window.location.search);
     const fetchRecentlyPlayed = async () => {
       try {
-        const response = await axios.get(`/playedmusic/get/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/playedmusic/get/${id}`);
         setRecentlyPlayed(response.data);
         // 지희(0918) - MusicIds 설정 추가
         setIds(response.data.map((music) => music.musicId));
@@ -71,7 +71,7 @@ const Main = () => {
         if (isLoggendIn) {
           //로그인 한 유저 플리 숨기기
           await axios
-            .get(`http://172.30.1.27:8104/recMusiclist/recent10?userId=${id}`) //남의 추천 플리 불러오기
+            .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/recent10?userId=${id}`) //남의 추천 플리 불러오기
             .then((res) => {
               // console.log(res);
               setOtherRecMusicList(res.data); //남의 플레이 리스트
@@ -81,7 +81,7 @@ const Main = () => {
         } else {
           //로그인 전엔 최신 10개 플리 불러오기
           await axios
-            .get(`http://172.30.1.27:8104/recMusiclist/recent10`) //남의 추천 플리 불러오기
+            .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/recent10`) //남의 추천 플리 불러오기
             .then((res) => {
               // console.log(res);
               setOtherRecMusicList(res.data); //남의 플레이 리스트
@@ -101,7 +101,7 @@ const Main = () => {
   useEffect(() => {
     if (isLoggendIn) {
       axios
-        .get(`http://172.30.1.27:8104/recMusiclist/${id}`) //나의 추천 플리 불러오기
+        .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/${id}`) //나의 추천 플리 불러오기
         .then((res) => {
           // console.log(res);
           setMyRecMusicList(res.data); //나의 플레이리스트에 저장
