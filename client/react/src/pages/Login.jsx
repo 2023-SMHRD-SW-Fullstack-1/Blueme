@@ -44,7 +44,7 @@ const Login = () => {
       await axios
       .post("http://172.30.1.45:8104/login", requestData)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const acToken = res.data.accessToken
         const reToken = res.data.refreshToken
         axios.defaults.headers.common['Authoriztion'] = `Bearer ${acToken}`

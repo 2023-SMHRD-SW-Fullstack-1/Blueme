@@ -75,7 +75,7 @@ const randomize = () => {
     >
       {/* 플레이리스트 */}
       <div className="flex flex-col items-center justify-center">
-        <p className="text-3xl">내가 좋아요 누른 곡</p>
+        <p className="text-2xl">내가 좋아요 누른 곡</p>
       </div>
       <div className="flex justify-center p-6">
         <button
@@ -88,7 +88,7 @@ const randomize = () => {
       {/* 음악 데이터 */}
       <div className="h-[70%] ml-3 mr-3" onClick={handleListClick}>
         {likedMusics.map((song) => (
-          <SingleMusic key={song.id} item={song} />
+          <SingleMusic key={song.musicId} item={song} />
         ))}
       </div>
     </div>

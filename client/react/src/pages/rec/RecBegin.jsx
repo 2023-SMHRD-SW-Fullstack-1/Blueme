@@ -14,8 +14,7 @@ import { useSelector } from 'react-redux';
 
 const RecBegin = () => {
   const navigate = useNavigate()
-  const user = useSelector(state => state.memberReducer.user)
-  const isLogin = user.isLogin
+  const isLogin = useSelector(state => state.memberReducer.isLogin)
   // console.log('header',user);
 
   //3초 로딩 함수
