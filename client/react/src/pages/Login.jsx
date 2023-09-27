@@ -44,12 +44,12 @@ const Login = () => {
       await axios
       .post(`${process.env.REACT_APP_API_BASE_URL}/login`, requestData)
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         const acToken = res.data.accessToken
         const reToken = res.data.refreshToken
         axios.defaults.headers.common['Authoriztion'] = `Bearer ${acToken}`
         axios.defaults.headers.common['Authoriztion-refresh'] = `Bearer ${reToken}`
-        console.log("axiosHeaders : ",axios.defaults.headers);
+        // console.log("axiosHeaders : ",axios.defaults.headers);
         let accessToken = "Bearer "+res.headers.get("Authorization");
         let refreshToken = "Bearer "+res.headers["authorization-refresh"];
         localStorage.setItem("accessToken", accessToken);

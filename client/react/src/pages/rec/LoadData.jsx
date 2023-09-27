@@ -68,7 +68,7 @@ const LoadData = () => {
 
   return (
     <div className="bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 p-3 text-center text-custom-white flex flex-col h-full justify-center items-center text-xl tracking-tight space-y-10">
-      <p className="">{nickname}님의 건강데이터를 <br/> 불러오고 있어요</p>
+      <p className="p-5">{nickname}님의 건강데이터를 <br/> 불러오고 있어요</p>
 
       <div className="from-gray-900 via-stone-950 to-gray-700 w-[100%]">
         <Canvas

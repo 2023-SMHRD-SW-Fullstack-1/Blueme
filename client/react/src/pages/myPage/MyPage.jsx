@@ -40,11 +40,11 @@ const MyPage = () => {
   //마이페이지 들어가면 장르 , 아티스트 , 사용자 정보 받아서 화면 렌더링
   useEffect(() => {
       axios
-      .get(`http://172.30.1.45:8104/user/Mypage`,{
+      .get(`${process.env.REACT_APP_API_BASE_URL}/user/Mypage`,{
         headers : {Authorization : localStorage.getItem('accessToken')}
       })
       .then((res) => {
-        // console.log('전체 res',res);
+        console.log('전체 res',res);
         setGenres(res.data[0].genres)//장르
         setArtists(res.data[0].artists)//아티스트
         setImg(res.data[0].imgUrl)//프로필
@@ -63,7 +63,7 @@ const MyPage = () => {
   return (
     <div className="font-semibold overflow-scroll flex justify-center items-center h-screen bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-3 ">
     
-    <div className="xs:mt-[200px] mt-[100px] xs:w-full md:w-[400px]">
+    <div className="xs:mt-[250px] mt-[100px] xs:w-full xl:w-[1250px]">
       <br /><br /><br /><br />
       {/* 사용자 프로필 */}
     <div className="flex justify-between items-center ">
@@ -73,13 +73,17 @@ const MyPage = () => {
         src={basicProfile}
         alt="profile"
         className="w-[70px] h-[70px] mb-3 mt-2 rounded-sm "
-        /> : 
-        <img
-          src={"data:image/;base64," +user.img_url}
-          alt="userImg"
-          className="w-[65px] h-[65px] mb-3 mt-2 rounded-sm "
-        />}
-        <span className="pt-1 ml-3 text-[20px] w-[80px]">{user.nickname}</span>
+        /> : (user.platFormType === "blueme" ? <img
+        src={"data:image/;base64," +user.img_url}
+        alt="userImg"
+        className="w-[65px] h-[65px] mb-3 mt-2 rounded-sm "
+      /> : <img
+      src={user.img_url}
+      alt="userImg"
+      className="w-[65px] h-[65px] mb-3 mt-2 rounded-sm "
+    />)
+        }
+        <span className="pt-1 ml-3 text-[17px] font-normal overflow-hidden h-[58px] mr-10">{user.nickname}</span>
       </div>
       <div className="mt-3">
         {platFormType === "blueme" && 
@@ -95,18 +99,18 @@ const MyPage = () => {
     {/* 사용자 정보(email, nickname) */}
     <div className="text-xl mt-4">내 정보
     <div className="mt-2">
-      <p className="bg-gradient-to-t from-gray-900 h-[45px] font-normal text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2  mt-3 rounded-lg text-custom-white peer  bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
+      <p className="bg-gradient-to-t from-gray-900 overflow-hidden h-[42px] font-normal text-base tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2  mt-3 rounded-lg text-custom-white peer  bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
       {user.email}
       </p>
     </div>
     <div className="mt-2 sm:mt-2 md:mt-2">
-    <p className="bg-gradient-to-t from-gray-900 h-[45px] font-normal tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2  mt-3 rounded-lg text-custom-white peer  bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
+    <p className="bg-gradient-to-t from-gray-900 overflow-hidden text-base h-[42px] font-normal tracking-tight border border-[rgba(253,253,253,0.10)] focus:border-custom-white pl-2  mt-3 rounded-lg text-custom-white peer  bg-transparent py-[0.32rem] leading-[1.85] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200">
       {user.nickname}</p>
 
       {/* 선호하는 음악 장르  */}
       <div className="mt-10">
         <div className="text-xl">당신이 좋아하는 음악 장르는?</div>
-        <div className="flex w-full mt-5 text-base ">
+        <div className="flex w-full mt-5 text-base justify-start">
           <Swiper
             spaceBetween={20}
             slidesPerView={2}
@@ -136,7 +140,7 @@ const MyPage = () => {
       </div>
       {/* 선호하는 아티스트 */}
       <div className="text-xl mt-8">당신이 좋아하는 아티스트는?</div>
-      <div className="flex items-start w-full mt-2 ">
+      <div className="flex items-start w-full mt-2 justify-start">
         <Swiper
           spaceBetween={20}
           slidesPerView={2} 
@@ -152,7 +156,10 @@ const MyPage = () => {
                   alt="artist image"
                   className="rounded-lg img-fixed border object-cover blur-[1.5px]  w-[130px] h-[130px]"
                 />
-                <h5 className="font-normal absolute text-2xl">{artist.artistName}</h5>
+                <h5 className="font-normal absolute text-2xl
+                transform -translate-x-half -translate-y-half 
+                left-half top-half 
+                -translate-x[-50%] -translate-y[-50%]">{artist.artistName}</h5>
               </button>
             </SwiperSlide>
           ))}
@@ -169,7 +176,7 @@ const MyPage = () => {
              item-center
              justify-center
              mt-10
-             mb-[60px]
+             mb-[80px]
              h-11
              px-3 relative 
              bg-gradient-to-t from-gray-800

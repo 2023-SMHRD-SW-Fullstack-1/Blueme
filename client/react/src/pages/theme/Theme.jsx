@@ -3,6 +3,11 @@
 날짜: 2023-09-22
 설명: 테마 버그 및 세부 디자인 수정 , 반응형 구현 , 모바일 크기 조정
 */
+/*
+작성자: 이유영
+날짜: 2023-09-27
+설명: 테마 테그별 필터링
+*/
 
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -42,6 +47,7 @@ const ThemeCard = ({ theme, index }) => {
 
 const Theme = () => {
   const [themes, setThemes] = useState([]);
+  const [filterTheme, setFilterTheme] = useState([])
 
   // API 호출을 통해 테마 데이터 가져오기
   useEffect(() => {
@@ -50,34 +56,65 @@ const Theme = () => {
         // axios.get(`${process.env.REACT_APP_API_BASE_URL}/your-endpoint`);
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/theme/themelists`);
         setThemes(response.data);
+        // console.log(response);
       } catch (error) {
         console.error(`Error: ${error}`);
       }
     };
-
     fetchThemes();
   }, []);
+  
+  const handleCommute = () => {
+   const filter = themes.filter((theme) => (theme.tag === "출퇴근"))
+   setFilterTheme(filter)
+  }
+
+  const handleFall = () => {
+    const filter = themes.filter((theme) => theme.tag === "가을")
+    setFilterTheme(filter)
+  }
+
+  const handleLonging  = () => {
+    const filter = themes.filter((themes) => themes.tag === "그리움")
+    setFilterTheme(filter)
+  }
+
+  const handleCool = () => {
+    const filter = themes.filter((theme) => (theme.tag === "선선한"))
+    setFilterTheme(filter)
+  }
 
   return (
     <div className=" item-center justify-center overflow-auto hide-scrollbar min-h-screen mb-auto bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-byte text-custom-white font-semibold ">
       <p className="text-center pt-10 sm:pt-20 text-xl sm:text-3xl mt-20"></p>
       <div className="flex item-center justify-center ml-2">
-      <button className="mr-5 mb-3 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-1">
+      <button 
+      onClick={handleCommute}
+      className="mr-5 mb-3 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-1">
               # 출퇴근
       </button>
-      <button className="mr-5 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-1">
+      <button 
+      onClick={handleFall}
+      className="mr-5 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-1">
               # 가을
       </button>
-      <button className="mr-5 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-1">
+      <button 
+      onClick={handleLonging}
+      className="mr-5 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-1">
               # 그리움
       </button>
-      <button className="mr-5 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-1">
+      <button 
+      onClick={handleCool}
+      className="mr-5 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-1">
               # 선선한
       </button>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-1 gap-y-1 sm:gap-x-1 sm:gap-y-1 lg:gap-x-0 lg:gap-y-1 mt-[10px] mb-[170px] xs:mb-[130px] text-custom-black mx-auto max-w-screen-lg justify-items-center">
         {/* 각각의 테마에 대해 ThemeCard 컴포넌트를 생성 */}
-        {themes.map((theme, i) => (
+        {filterTheme.length == 0 ? 
+        themes.map((theme, i) => (
+          <ThemeCard key={i} theme={theme} index={i} />
+        )) : filterTheme.map((theme, i) => (
           <ThemeCard key={i} theme={theme} index={i} />
         ))}
         <div className="mb-8"></div>

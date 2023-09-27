@@ -49,7 +49,7 @@ const Join = () => {
     const requestData = { email : email, password : password, nickname : nickname}
 
      await axios
-     .post("http://172.30.1.45:8104/user/signup", requestData)
+     .post(`${process.env.REACT_APP_API_BASE_URL}/user/signup`, requestData)
      .then((res) => {
         console.log(res.data);
         // setId(res.data)

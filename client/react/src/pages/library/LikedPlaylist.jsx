@@ -76,7 +76,7 @@ const randomize = () => {
     >
       {/* 플레이리스트 */}
       <div className="flex flex-col items-center justify-center">
-        <p className="text-2xl">내가 좋아요 누른 곡</p>
+        <p className="text-2xl font-semibold">내가 좋아요 누른 곡</p>
       </div>
       <div className="flex justify-center p-6">
         <button

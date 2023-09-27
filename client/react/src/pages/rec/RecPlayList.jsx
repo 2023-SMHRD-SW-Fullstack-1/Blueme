@@ -34,7 +34,7 @@ const RecPlayList = () => {
       await axios
         .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/recent/${id}`) //추천 받은 리스트 불러오기
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setMusiclist(res.data); //추천 음악 리스트
           setRecMusicIds(res.data.recMusiclistDetails.map((id) => id.musicId));
           // localStorage.setItem('recMusiclist', res.data[0].img, res.data[0].reason)
