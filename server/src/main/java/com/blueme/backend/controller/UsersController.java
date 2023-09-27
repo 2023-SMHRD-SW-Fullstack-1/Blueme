@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,11 +28,16 @@ import com.blueme.backend.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
-작성자: 김혁, 손지연
-날짜(수정포함): 2023-09-16
-설명: 회원관련 컨트롤러
-*/
+/**
+ * UsersController는 회원 관련 컨트롤러 클래스입니다.
+ * <p>
+ * 이 클래스는 회원 등록, 회원 탈퇴, 회원 정보 수정, 마이페이지 정보 조회 기능을 처리합니다.
+ * </p>
+ * 
+ * @author 김혁, 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,16 +50,12 @@ public class UsersController {
 	private final UsersJpaRepository usersJpaRepository;
 	
 	/**
-	 *  post 유저 등록 ( 이메일 중복시 -1 반환 )
+	 * 회원 가입을 처리하기 위한 POST 메서드입니다.
+	 * 
+	 * @param requestDto 사용자 등록 요청 DTO (UsersRegisterDto)
+	 * @return userId를 포함한 ResponseEntity, 실패 시 메시지와 함께 INTERNAL_SERVER_ERROR 상태의 ResponseEntity 반환
+	 * 
 	 */
-//	@PostMapping("/signup")
-//	public Long registerNewUser(@RequestBody UsersRegisterDto requestDto) {
-//		log.info("Starting user registration for email {}", requestDto.getEmail());
-//		Long userId = usersService.save(requestDto);
-//		log.info("User registration completed with ID {}", userId);
-//		return userId;
-//	}
-	
 	@PostMapping("/signup")
 	public ResponseEntity<?> singup(@RequestBody UsersRegisterDto requestDto){
 		log.info("Starting user registration for email {}", requestDto.getEmail());
@@ -69,18 +69,10 @@ public class UsersController {
 	}
 	
 	/**
-	 *  post 유저 로그인 ( 불일치시(+비활성화계정) -1 반환, 일치시 유저의고유ID반환 )
-	 */
-	//@PostMapping("/login")
-	//public Long login(@RequestBody UsersLoginDto requestDto) {
-	//	log.info("Starting user login for email {}", requestDto.getEmail());
-	//	Long userId = usersService.login(requestDto);
-	//	log.info("User registration login completed with ID {}", userId);
-	//	return userId;
-	//}
-	
-	/**
-	 *  delete 유저 탈퇴 ( 실패시 -1 반환, 성공시 유저의고유ID반환 ), activeStatus 컬럼 "N"으로 변경
+	 * 회원 탈퇴를 처리하기 위한 DELETE 메서드입니다.
+	 * 
+	 * @param requestDto 사용자 탈퇴 요청 DTO (UserDeleteDto)
+	 * @return 성공 시 : 회원 고유 ID를 포함한 ResponseEntity, 실패 시 -1을 포함한 ResponseEntity 반환
 	 */
 	@DeleteMapping("/deactivate")
 	public ResponseEntity<Long> deactivate(@RequestBody UsersDeleteDto requestDto) {
@@ -90,9 +82,12 @@ public class UsersController {
 	}
 	
 	/**
-	 *  PATCH 유저 수정 
-	 * @return 
-	 * @throws IOException 
+	 * 회원 정보를 수정하기 위한 PATCH 메서드입니다.
+	 * 
+	 * @param requestDto 사용자 정보 수정 요청 DTO (UsersUpdateDto)
+	 * @param principal 현재 인증된 사용자의 정보 (PrincipalDetails)
+	 * @return 성공 시, 수정된 횐원의 고유 ID를 포함한 ResponseEntity 반환
+	 * @throws IOException 입출력 처리 중 발생할 수 있는 예외
 	 */
 	@PatchMapping("/update")
 	public ResponseEntity<Long> update(@RequestBody UsersUpdateDto requestDto
@@ -104,7 +99,12 @@ public class UsersController {
 	}
 	
 	/**
-	 *  get 마이페이지 정보
+	 * 마이페이지 정보를 가져오기 위한 GET 메서드입니다.
+	 * 
+	 * @param principal 현재 인증된 사용자의 정보
+	 * @return 성공 시 UserProfileDto 목록을 포함한 ResposneEntity 반환,
+	 *         실패 시 UNAUTHORIZED 상태의 ResponseEntity 반환,
+	 * 		   데이터가 없는 경우 NO_CONTENT 상태의 ResponseEntity 반환 
 	 */
 	@GetMapping("/Mypage")
 	public ResponseEntity<List<UserProfileDto>> myProfile(@AuthenticationPrincipal PrincipalDetails principal) {
