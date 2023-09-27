@@ -1,19 +1,19 @@
 /*
 작성자: 이지희
-날짜(수정포함): 2023-09-24
-설명: 음악관련 리덕스 액션, 접근해있는 컴포넌트 확인(0922), 총재생시간-DURATION 추가(0924)
+날짜(수정포함): 2023-09-27
+설명: 음악관련 리덕스 액션, 접근해있는 컴포넌트 확인(0922), 총재생시간-DURATION 추가(0924), 주석추가(0927)
 */
 
-export const SET_MUSIC_IDS = "SET_MUSIC_IDS";
-export const SET_PLAYING_STATUS = "SET_PLAYING_STATUS";
-export const SET_CURRENT_SONG_ID = "SET_CURRENT_SONG_ID";
-export const SET_SHOW_MINI_PLAYER = "SET_SHOW_MINI_PLAYER";
-export const SET_CURRENT_TIME = 'SET_CURRENT_TIME';
-export const SET_DRAGGING_STATUS = 'SET_DRAGGING_STATUS';
-export const SET_REPEAT_MODE = 'SET_REPEAT_MODE';
-export const SET_IS_MUSIC_PLAYER = 'SET_IS_MUSIC_PLAYER';
-export const SET_DURATION = 'SET_DURATION';
-export const CLEAR_PLAYING = 'CLEAR_PLAYING';
+export const SET_MUSIC_IDS = "SET_MUSIC_IDS";  // 재생할 음악 목록
+export const SET_PLAYING_STATUS = "SET_PLAYING_STATUS"; // 재생 상태
+export const SET_CURRENT_SONG_ID = "SET_CURRENT_SONG_ID"; // 현재 재생곡
+export const SET_SHOW_MINI_PLAYER = "SET_SHOW_MINI_PLAYER"; // 미니플레이어 On/Off
+export const SET_CURRENT_TIME = 'SET_CURRENT_TIME'; // 현재 재생시간
+export const SET_DRAGGING_STATUS = 'SET_DRAGGING_STATUS'; // 드래그상태(재생바 관리)
+export const SET_DURATION = 'SET_DURATION'; // 총재생시간
+export const SET_REPEAT_MODE = 'SET_REPEAT_MODE'; // 한곡반복
+export const SET_IS_MUSIC_PLAYER = 'SET_IS_MUSIC_PLAYER'; // 뮤직플레이어 컴포넌트 확인(자동재생 확인)  
+export const CLEAR_PLAYING = 'CLEAR_PLAYING'; // 현재 재생음악 삭제(로그아웃시)
 
 
 
@@ -89,7 +89,7 @@ export function setIsMusicPlayer(musicPlayer) {
   };
 }
 
-// 로그아웃
+// 로그아웃 시 현재재생음악 삭제
 export function clearPlaying() {
   return {
       type: CLEAR_PLAYING,

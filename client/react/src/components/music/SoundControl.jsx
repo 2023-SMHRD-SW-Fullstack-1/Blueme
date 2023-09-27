@@ -66,7 +66,7 @@ const SoundControl = () => {
             dispatch(setDuration(newSound.duration()))            
             },
           onend() {
-            if (repeatModeRef.current) {
+            if (repeatModeRef.current || musicIds.length === 1) {
               newSound.seek(0);
               dispatch(setCurrentTime(0));
               newSound.play();
