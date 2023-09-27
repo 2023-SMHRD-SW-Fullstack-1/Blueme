@@ -43,16 +43,14 @@ const Library = () => {
   }, []);
 
   return (
-    <div className="overflow-auto hide-scrollbar bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-2 h-full font-semibold tracking-tight overflow-scroll">
+    <div className="overflow-auto hide-scrollbar bg-gradient-to-t from-gray-900 via-stone-950 to-gray-700 text-custom-white p-2 h-full font-semibold tracking-tight">
       <br />
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 mt-[20px] order-last md:order-first ">
           <p className="text-left text-xl ml-[5px] mt-[50px] lg:text-2xl">저장한 플레이리스트</p>
           <SavedPlaylist />
 
-          <h1 className="text-left text-xl ml-[5px] lg:text-2xl ">
-            Chat GPT가 추천해준 나의 플레이리스트
-          </h1>
+          <h1 className="text-left text-xl ml-[5px] lg:text-2xl ">AI가 추천해준 나의 플레이리스트</h1>
 
           {isLoggendIn && myRecMusicList.length > 0 && (
             <Swiper
@@ -96,7 +94,9 @@ const Library = () => {
 
         <div className="w-full md:w-1/2 pl-0 md:pl-2 mt-[30px] md:mt-[10px] order-first md:order-last md:pt-10 ">
           <div className="flex mt-14 xs:mt-5 mb-3">
-            <span className="text-left text-xl ml-[5px]  lg:pt-[0px] lg:text-2xl lg:mb-5 mt-[20px]">좋아요 누른 음악 목록</span>
+            <span className="text-left text-xl ml-[5px]  lg:pt-[0px] lg:text-2xl lg:mb-5 mt-[20px]">
+              좋아요 누른 음악 목록
+            </span>
             <button className="ml-auto text-custom-gray mr-2 text-sm">
               <Link to="/LikedPlaylist">더보기</Link>
             </button>

@@ -16,15 +16,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
 import { useNavigate } from "react-router-dom";
 import SingleMusic from "../../components/Library/SingleMusic";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import axios from "axios";
 import { setMusicIds } from "../../store/music/musicActions.js";
 import { setCurrentSongId, setPlayingStatus } from "../../store/music/musicActions";
-import RecPlayList from '../recommend/SingleRecPlayList'
+
 const SavedPlaylistDetail = () => {
   const dispatch = useDispatch();
 
@@ -73,7 +71,7 @@ const SavedPlaylistDetail = () => {
     dispatch(setMusicIds(ids));
   };
   const WholePlaying = () => {
-    dispatch(setCurrentSongId(ids[0])); // 첫 번째 음악을 재생
+    dispatch(setCurrentSongId(ids[0])); // 첫 번째 음악 재생
     dispatch(setMusicIds(ids));
     dispatch(setPlayingStatus(true));
     navigate(`/MusicPlayer/${ids[0]}`);

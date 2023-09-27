@@ -16,23 +16,23 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 // 지희 시작
-import { Provider } from "react-redux"; // Provider import
+import { Provider } from "react-redux";
 // 지희 끝
 
 //유영 시작
-  // In your store.js file 
-  import { PersistGate } from 'redux-persist/integration/react';
-  import { store, persistor }from './store/rootReducer'; 
-  
+// In your store.js file
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store/rootReducer";
+
 //유영 끝
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>
 
   // </React.StrictMode>

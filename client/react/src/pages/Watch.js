@@ -13,7 +13,6 @@ export function Watch(props) {
   const groupRef = useRef();
   const { nodes, materials } = useGLTF("/watch/scene.gltf");
 
-  // Calculate the bounding box of the model after it's loaded
   useEffect(() => {
     if (groupRef.current) {
       const bbox = new THREE.Box3().setFromObject(groupRef.current);
