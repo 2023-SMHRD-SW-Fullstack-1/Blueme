@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin("*")
 public class GenresController {
 	
 	private final GenresService genresService;
@@ -40,29 +39,36 @@ public class GenresController {
 	public ResponseEntity<List<GenreInfoDto>> getAllGenre(){
 		log.info("Starting to get all genres!");
 		List<GenreInfoDto> genres = genresService.getAllGenre();
-		return new ResponseEntity<>(genres, HttpStatus.OK);
+		return ResponseEntity.ok().body(genres);
 	}
 	
 	/**
 	 * 	post 사용자가 선택한 장르 저장
 	 */
 	@PostMapping("/SaveFavGenre")
-	public Long saveFavGenre(@RequestBody FavGenreReqDto requestDto) {
-		log.info("Starting to save user's favorite genre");
+	public ResponseEntity<Long> saveFavGenre(@RequestBody FavGenreReqDto requestDto) {
+		log.info("Starting to save user's favorite genre!");
 		Long userId = genresService.saveFavGenre(requestDto);
-		log.info("GenreController requestDto : {}",userId);
-		return userId;
+		log.info("Ending to save user's favorite genre for userId : {}",userId);
+		if (userId == null) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.status(HttpStatus.CREATED).body(userId);
+		}
 		
 	}
 	/**
 	 *	patch 선호장르 수정
 	 */
 	@PatchMapping("/updateFavGenre")
-	public Long updateFavGenre(@RequestBody FavGenreReqDto requestDto) {
+	public ResponseEntity<Long> updateFavGenre(@RequestBody FavGenreReqDto requestDto) {
 		log.info("Starting to update user's favorite genre");
 		List<Long> genreIds = requestDto.getGenreIds().stream().map(Long::parseLong).collect(Collectors.toList());
 		Long userId = genresService.updateFavGenre(Long.parseLong(requestDto.getFavChecklistId()), genreIds);
-		log.info("GenreController requestDto : {}", userId);
-		return userId;
+		if (userId == null) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok().body(userId);
+		}
 	}
 }

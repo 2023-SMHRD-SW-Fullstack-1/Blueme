@@ -101,6 +101,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      */
     private Users saveUser(OAuthAttributes attributes, SocialType socialType) {
         Users createdUser = attributes.toEntity(socialType, attributes.getOauth2UserInfo());
+        System.out.println(createdUser.getEmail());
+        System.out.println(createdUser.getNickname());
         return usersJpaRepository.save(createdUser);
     }
 

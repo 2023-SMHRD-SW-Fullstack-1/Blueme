@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.blueme.backend.dto.usersdto.UserInfoDTO;
 import com.blueme.backend.model.entity.UserRole;
@@ -54,7 +55,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
 				response.addHeader("email", oAuth2User.getEmail());
 
-				jwtService.sendAccessAndRefreshToken(response, accessToken, null);
+				jwtService.sendAccessAndRefreshToken(response, accessToken, accessToken);
 				Users findUser = usersJpaRepository.findByEmail(oAuth2User.getEmail())
 						.orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
 				userId = findUser.getId().toString();
@@ -105,10 +106,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			String userInfoJson;
 			try {
 				userInfoJson = mapper.writeValueAsString(userInfo);
-				log.info(userInfoJson);
+				log.info("userInfoJson : {}", userInfoJson);
 				String encodedUserInfo = URLEncoder.encode(userInfoJson, "UTF-8");
-				String redirectUri = "http://localhost:3000/OauthInfo?OauthInfo=" + encodedUserInfo
-						+"&accessToken="+accessToken+"&refreshToken="+refreshToken;
+				String redirectUri = UriComponentsBuilder.fromHttpUrl("http://localhost:3000/OauthInfo")
+					    .queryParam("OauthInfo", encodedUserInfo)
+					    .queryParam("accessToken", accessToken)
+					    .queryParam("refreshToken", refreshToken)
+					    .toUriString();
 				
 				response.sendRedirect(redirectUri);
 			} catch (IOException e) {

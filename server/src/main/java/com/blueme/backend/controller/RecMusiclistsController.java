@@ -4,6 +4,7 @@ import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsDetailResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsRecent10ResDto;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsResDto;
 import com.blueme.backend.model.entity.RecMusiclistDetails;
+import com.blueme.backend.security.config.PrincipalDetails;
 import com.blueme.backend.dto.recmusiclistsdto.RecMusiclistsSelectDetailResDto;
 import com.blueme.backend.model.entity.RecMusiclistDetails;
 import com.blueme.backend.service.RecMusiclistsService;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

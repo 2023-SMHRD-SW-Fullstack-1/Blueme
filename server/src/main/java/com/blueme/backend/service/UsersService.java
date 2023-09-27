@@ -32,6 +32,7 @@ import com.blueme.backend.model.repository.FavGenresJpaRepository;
 import com.blueme.backend.model.repository.GenresJpaRepository;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.blueme.backend.service.exception.EmailAlreadyExistsException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,19 +62,16 @@ public class UsersService {
 	 * 유저 등록
 	 */
 	@Transactional
-	public Long signUp(UsersRegisterDto usersRegisterDto) throws Exception {
+	public Long signUp(UsersRegisterDto usersRegisterDto){
 		log.info("userService method save start...");
 		
 		Optional<Users> users = usersJpaRepository.findByEmail(usersRegisterDto.getEmail());
-
 		if (users.isPresent()) {
-			throw new Exception("이미 존재하는 이메일입니다.");
+			throw new EmailAlreadyExistsException(usersRegisterDto.getEmail());
 		} else {
-//		
 //		if (usersJpaRepository.findByNickname(usersRegisterDto.getNickname()).isPresent()) {
 //			throw new Exception("이미 존재하는 닉네임입니다.");
 //		}
-
 			Users user = Users.builder().email(usersRegisterDto.getEmail())
 					.password(bCryptPasswordEncoder.encode(usersRegisterDto.getPassword()))
 					.nickname(usersRegisterDto.getNickname()).refreshToken(usersRegisterDto.getRefreshToken())
@@ -155,37 +153,22 @@ public class UsersService {
 
 	@Transactional
 	public Long update(Optional<Users> user, UsersUpdateDto requestDto) throws IOException {
-		log.info("userService method update start...");
-		System.out.println("user "+ user.get().getNickname());
-		System.out.println("request "+requestDto.getNickname());
-		
-		// base64 to multipart
-		// 저장할 파일 경로를 지정합니다.
-		String fileNameWithUUID = UUID.randomUUID().toString() + "_" + requestDto.getNickname();
-        String fileName =  fileNameWithUUID + ".jpg";
-        String filePath = "/usr/blueme/profileImg/" + fileName;
-        File file = new File(filePath);
-		Base64.Decoder decoder = Base64.getDecoder();
-		byte[] decodedBytes = decoder.decode(requestDto.getImg_url().getBytes());
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
-        fileOutputStream.write(decodedBytes);
-        fileOutputStream.close();
+		log.info("userService method update start!");
 		
 		Users users = usersJpaRepository.findByEmail(user.get().getEmail())
 				.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. email=" + user.get().getEmail()));
 
-		if(requestDto.getPassword() != null) {
+		String filePath = null;
+	    if (requestDto.getImg_url() != null) {
+	        filePath = saveImage(requestDto.getImg_url(), requestDto.getNickname());
+	    }
+	    
+		if (requestDto.getPassword() != null) {
 			users.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()),filePath);
 		}else {
 			users.update(requestDto.getNickname(), filePath);
 		}
 		return -1L;
-//	    Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
-//			user.setPassword(requestDto.getPassword());
-//			user.setNickname(requestDto.getNickname());
-//			System.out.println(user.getNickname());
-//			return user.getId();
-//	    return null;
 	}
 
 	/**
@@ -206,7 +189,6 @@ public class UsersService {
 		 
 		 for(FavGenres fav : favGenres) {    
 			Genres genre = genresJpaRepository.findById(fav.getGenre().getId()).orElse(null);
-		 	System.out.println();
 		 	if(genre != null){
 		 	    GenreInfoDto genreInfoDTO=new GenreInfoDto(genre,genresService.getBase64ImageForGenre(genre));
 		 	    genreDtos.add(genreInfoDTO);
@@ -225,6 +207,32 @@ public class UsersService {
 		 userProfileDtos.add(userProfileDTODto);
 
 		 return userProfileDtos;	
+	}
+	
+	/**
+	 * Base64 형태의 이미지 데이터를 받아서 파일로 저장하고, 해당 파일의 경로를 반환합니다.
+	 *
+	 * @param base64Image Base64 인코딩된 이미지 데이터
+	 * @param nickname 사용자 닉네임
+	 * @return 저장된 이미지 파일의 경로
+	 * @throws IOException 파일 입출력 중 발생할 수 있는 예외
+	 */
+	private String saveImage(String base64Image, String nickname) throws IOException {
+	    // base64 to multipart
+	    // 저장할 파일 경로를 지정합니다.
+		String fileNameWithUUID = UUID.randomUUID().toString() + "_" + nickname;
+		String fileName =  fileNameWithUUID + ".jpg";
+		String filePath = "/usr/blueme/profileImg/" + fileName;
+
+		File file = new File(filePath);
+		Base64.Decoder decoder = Base64.getDecoder();
+		byte[] decodedBytes = decoder.decode(base64Image.getBytes());
+
+		FileOutputStream fileOutputStream = new FileOutputStream(file);
+		fileOutputStream.write(decodedBytes);
+		fileOutputStream.close();
+
+		return filePath;
 	}
 }
 

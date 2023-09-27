@@ -21,6 +21,7 @@ import com.blueme.backend.model.repository.FavCheckListsJpaRepository;
 import com.blueme.backend.model.repository.FavGenresJpaRepository;
 import com.blueme.backend.model.repository.GenresJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
+import com.blueme.backend.service.exception.UserNotFoundException;
 import com.blueme.backend.utils.ImageConverter;
 import com.blueme.backend.utils.ImageToBase64;
 
@@ -44,10 +45,10 @@ public class GenresService {
 	private final FavCheckListsJpaRepository favCheckListsJpaRepository;
 
 	/**
-	 * 모든 장르 조회 (회원가입 시)
+	 * 	모든 장르 조회
 	 */
 	@Transactional
-	public List<GenreInfoDto> getAllGenre() {
+	public List<GenreInfoDto> getAllGenre() {	
 		return genresJpaRepository.findAll().stream().flatMap(genre -> {
 			String base64Image = getBase64ImageForGenre(genre);
 			if (base64Image != null) {
@@ -56,7 +57,6 @@ public class GenresService {
 				return Stream.empty();
 			}
 		}).collect(Collectors.toList());
-
 	}
 
 	/**
@@ -64,8 +64,11 @@ public class GenresService {
 	 */
 	@Transactional
 	public Long saveFavGenre(FavGenreReqDto requestDto) {
-		Users user = usersJpaRepository.findById(Long.parseLong(requestDto.getFavChecklistId()))
-				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
+		log.info("Starting to save favorite genre : {}", requestDto);
+		Long userId = Long.parseLong(requestDto.getFavChecklistId());
+		Users user = usersJpaRepository.findById(userId)
+		            .orElseThrow(() -> new UserNotFoundException(userId));
+		
 		FavCheckLists favCheckList = new FavCheckLists();
 		favCheckList.setUser(user);
 		favCheckList = favCheckListsJpaRepository.save(favCheckList);
@@ -77,12 +80,31 @@ public class GenresService {
 			FavGenres favGenres = new FavGenres();
 			favGenres.setFavCheckList(favCheckList);
 			favGenres.setGenre(genres);
-
 			favGenresJpaRepository.save(favGenres);
+			
+			log.info("Saved favorite genres : {}", genres.getName());
 		}
-		return Long.parseLong(requestDto.getFavChecklistId());
+		return userId;
 	}
 
+
+	/**
+	 * 	patch 장르 수정
+	 */
+	@Transactional
+	public Long updateFavGenre(Long userId, List<Long> newGenreIds) {
+		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
+		
+		List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckList.get(0));
+		Genres genres = genresJpaRepository.findById(newGenreIds.get(0)).orElseThrow(null);
+		Genres genres2 = genresJpaRepository.findById(newGenreIds.get(1)).orElseThrow(null);
+	
+		favGenres.get(0).setGenre(genres);
+		favGenres.get(1).setGenre(genres2);
+		
+	    return userId;
+	}
+	
 	/**
 	 * 장르 이미지 변환
 	 */
@@ -101,24 +123,6 @@ public class GenresService {
 			}
 		}
 		return null;
-	}
-	
-	@Transactional
-	public Long updateFavGenre(Long userId, List<Long> newGenreIds) {
-		
-		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
-		
-		Long id = favCheckList.get(0).getId();
-		
-		List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckList.get(0));
-		Genres genres = genresJpaRepository.findById(newGenreIds.get(0)).orElseThrow(null);
-		Genres genres2 = genresJpaRepository.findById(newGenreIds.get(1)).orElseThrow(null);
-	
-		favGenres.get(0).setGenre(genres);
-		favGenres.get(1).setGenre(genres2);
-		
-	    return userId;
-
 	}
 
 }
