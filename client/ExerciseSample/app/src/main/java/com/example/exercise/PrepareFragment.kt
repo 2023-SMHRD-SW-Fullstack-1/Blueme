@@ -45,6 +45,7 @@ class PrepareFragment : Fragment(R.layout.fragment_prepare) {
         }
     }
 
+    // modified by orthh
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -96,6 +97,7 @@ class PrepareFragment : Fragment(R.layout.fragment_prepare) {
         }
     }
 
+    // modified by orthh
     private fun updatePrepareLocationStatus(locationAvailability: LocationAvailability) {
         val gpsText = when (locationAvailability) {
             LocationAvailability.ACQUIRED_TETHERED,

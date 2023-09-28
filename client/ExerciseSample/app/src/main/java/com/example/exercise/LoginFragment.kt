@@ -16,7 +16,8 @@ import com.android.volley.toolbox.Volley
 import com.example.exercise.R
 import org.json.JSONObject
 
-// 사용안함
+// added by orthh
+// not using
 class LoginFragment : Fragment() {
 
     lateinit var etLoginEmail: EditText

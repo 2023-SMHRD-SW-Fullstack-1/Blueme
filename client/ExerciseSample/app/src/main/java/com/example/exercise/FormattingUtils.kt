@@ -77,7 +77,7 @@ fun formatSpeed(speed: String) = buildSpannedString {
         append("km/h")
     }
 }
-
+// added by orthh
 fun formatSteps(steps: String) = buildSpannedString {
     append(steps)
     inSpans(RelativeSizeSpan(UNITS_RELATIVE_SIZE)) {

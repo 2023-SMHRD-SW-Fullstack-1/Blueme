@@ -106,6 +106,7 @@ class ExerciseFragment : Fragment() {
         return binding.root
     }
 
+    //modified by orthh
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -422,7 +423,7 @@ class ExerciseFragment : Fragment() {
         binding.pauseResumeButton.setText(if (state.isPaused) R.string.resume else R.string.pause)
         binding.pauseResumeButton.isEnabled = !state.isEnded
     }
-
+    //modified by orthh
     private fun updateMetrics(latestMetrics: DataPointContainer) {
         latestMetrics.getData(DataType.HEART_RATE_BPM).let {
             if (it.isNotEmpty()) {
@@ -527,7 +528,7 @@ class ExerciseFragment : Fragment() {
     }
 
     // -- Ambient Mode support
-
+//modified by orthh
     private fun setAmbientUiState(isAmbient: Boolean) {
         // Change icons to white while in ambient mode.
         val iconTint = if (isAmbient) {

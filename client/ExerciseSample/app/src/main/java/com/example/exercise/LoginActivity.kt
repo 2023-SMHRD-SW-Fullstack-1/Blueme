@@ -19,7 +19,6 @@ import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 // added by orthh
-// Fragment로 변경중
 class LoginActivity: AppCompatActivity() {
 
     lateinit var etLoginEmail : EditText
