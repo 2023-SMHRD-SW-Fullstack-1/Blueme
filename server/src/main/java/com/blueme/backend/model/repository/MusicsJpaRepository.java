@@ -57,11 +57,24 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long>, JpaSpe
   @Query(nativeQuery = true, value = "SELECT * FROM musics WHERE id IN :ids ORDER BY RAND() LIMIT 60")
   List<Musics> findRandomMusics(@Param("ids") List<Long> ids);
 
+  /**
+   * 아티스트 파일 경로에 해당하는 첫번째 음악을 조회하는 메서드
+   *
+   * @param artistFilePath 아티스트 파일 경로 (string)
+   */
   Musics findTop1ByArtistFilePath(String artistFilePath);
 
+  /**
+   * 각 아티스트에 대한 고유한 음악 리스트를 그룹화하여 조회하는 메서드
+   */
   @Query("SELECT m FROM Musics m GROUP BY m.artist")
   List<Musics> findByArtist();
 
+  /**
+   * 주어진 키워드가 포함된 고유한 아티스트를 찾아 그룹화하여 조회하는 메서드
+   *
+   * @param keyword 검색 키워드 (String)
+   */
   @Query(value = "SELECT DISTINCT * FROM musics m WHERE m.artist LIKE %:keyword% GROUP BY m.artist", nativeQuery = true)
   List<Musics> findByDistinctArtist(@Param("keyword") String keyword);
 }
