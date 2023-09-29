@@ -18,7 +18,7 @@ import java.util.UUID;
  * @since 2023-09-18
  */
 public class Base64ToImage {
-  private final String STORAGE_FOLDER = "/usr/blueme/saveThemeImg/";
+  private final String STORAGE_FOLDER = "/home/ubuntu/assets/saveThemeImg/";
 
   /**
    * Base64로 인코딩된 문자열을 이미지 파일로 변환하고, 그 경로를 반환합니다.

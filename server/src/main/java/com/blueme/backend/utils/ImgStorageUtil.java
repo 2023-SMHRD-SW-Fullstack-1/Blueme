@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 */
 
 public class ImgStorageUtil {
-  private final String STORAGE_FOLDER = "/usr/blueme/themesImg/";
+    private final String STORAGE_FOLDER = "/home/ubuntu/assets/themesImg/";
 
     public String storeFile(MultipartFile file) {
         if (file.isEmpty()) {
@@ -39,4 +39,3 @@ public class ImgStorageUtil {
         }
     }
 }
-

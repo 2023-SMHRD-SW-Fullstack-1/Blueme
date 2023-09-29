@@ -62,16 +62,18 @@ public class UsersService {
 	 * 유저 등록
 	 */
 	@Transactional
-	public Long signUp(UsersRegisterDto usersRegisterDto){
+	public Long signUp(UsersRegisterDto usersRegisterDto) {
 		log.info("userService method save start...");
-		
+
 		Optional<Users> users = usersJpaRepository.findByEmail(usersRegisterDto.getEmail());
 		if (users.isPresent()) {
 			throw new EmailAlreadyExistsException(usersRegisterDto.getEmail());
 		} else {
-//		if (usersJpaRepository.findByNickname(usersRegisterDto.getNickname()).isPresent()) {
-//			throw new Exception("이미 존재하는 닉네임입니다.");
-//		}
+			// if
+			// (usersJpaRepository.findByNickname(usersRegisterDto.getNickname()).isPresent())
+			// {
+			// throw new Exception("이미 존재하는 닉네임입니다.");
+			// }
 			Users user = Users.builder().email(usersRegisterDto.getEmail())
 					.password(bCryptPasswordEncoder.encode(usersRegisterDto.getPassword()))
 					.nickname(usersRegisterDto.getNickname()).refreshToken(usersRegisterDto.getRefreshToken())
@@ -82,11 +84,12 @@ public class UsersService {
 		}
 	}
 
-//	public Long save(UsersRegisterDto requestDto) {
-//		log.info("userService method save start...");
-//		Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
-//		return (user == null) ? usersJpaRepository.save(requestDto.toEntity()).getId() : -1L;
-//	}
+	// public Long save(UsersRegisterDto requestDto) {
+	// log.info("userService method save start...");
+	// Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
+	// return (user == null) ?
+	// usersJpaRepository.save(requestDto.toEntity()).getId() : -1L;
+	// }
 
 	/*
 	 * @Transactional public UUID save(UserRegisterDto requestDto) {
@@ -148,81 +151,82 @@ public class UsersService {
 
 	/**
 	 * patch 유저 수정
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 
 	@Transactional
 	public Long update(Optional<Users> user, UsersUpdateDto requestDto) throws IOException {
 		log.info("userService method update start!");
-		
+
 		Users users = usersJpaRepository.findByEmail(user.get().getEmail())
 				.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. email=" + user.get().getEmail()));
 
 		String filePath = null;
-	    if (requestDto.getImg_url() != null) {
-	        filePath = saveImage(requestDto.getImg_url(), requestDto.getNickname());
-	    }
-	    
+		if (requestDto.getImg_url() != null) {
+			filePath = saveImage(requestDto.getImg_url(), requestDto.getNickname());
+		}
+
 		if (requestDto.getPassword() != null) {
-			users.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()),filePath);
-		}else {
+			users.update(requestDto.getNickname(), bCryptPasswordEncoder.encode(requestDto.getPassword()), filePath);
+		} else {
 			users.update(requestDto.getNickname(), filePath);
 		}
 		return -1L;
 	}
 
 	/**
-	 * 	마이페이지
+	 * 마이페이지
 	 */
 	public List<UserProfileDto> myprofile(Long userId) {
-		 log.info("Getting profile for userId : {}", userId);
-		 Users user = usersJpaRepository.findById(userId)
-				 .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " not found"));
-		 
-		 List<FavCheckLists> favCheckLists = favCheckListsJpaRepository.findByUserId(user.getId());
-		 List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckLists.get(0));	
-		 List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckLists.get(1));	
-		 
-		 List<UserProfileDto> userProfileDtos = new ArrayList<>();
-		 List<GenreInfoDto> genreDtos= new ArrayList<>();
-		 List<ArtistInfoDto> artistDtos= new ArrayList<>();
-		 
-		 for(FavGenres fav : favGenres) {    
+		log.info("Getting profile for userId : {}", userId);
+		Users user = usersJpaRepository.findById(userId)
+				.orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " not found"));
+
+		List<FavCheckLists> favCheckLists = favCheckListsJpaRepository.findByUserId(user.getId());
+		List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckLists.get(0));
+		List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckLists.get(1));
+
+		List<UserProfileDto> userProfileDtos = new ArrayList<>();
+		List<GenreInfoDto> genreDtos = new ArrayList<>();
+		List<ArtistInfoDto> artistDtos = new ArrayList<>();
+
+		for (FavGenres fav : favGenres) {
 			Genres genre = genresJpaRepository.findById(fav.getGenre().getId()).orElse(null);
-		 	if(genre != null){
-		 	    GenreInfoDto genreInfoDTO=new GenreInfoDto(genre,genresService.getBase64ImageForGenre(genre));
-		 	    genreDtos.add(genreInfoDTO);
-		 	}
-		 }
-		 
-		 for(FavArtists fav : favArtists){
-			 Musics music = musicsJpaRepository.findTop1ByArtistFilePath(fav.getArtistId().getArtistFilePath());
-		 	if(music!=null){
-		 	    ArtistInfoDto artistInfoDTO=new ArtistInfoDto(music, artistsService.getBase64ImageForArtist(music));
-		 	    artistDtos.add(artistInfoDTO);
-		    }
-		 }
+			if (genre != null) {
+				GenreInfoDto genreInfoDTO = new GenreInfoDto(genre, genresService.getBase64ImageForGenre(genre));
+				genreDtos.add(genreInfoDTO);
+			}
+		}
 
-		 UserProfileDto userProfileDTODto=new UserProfileDto(user,genreDtos,artistDtos);
-		 userProfileDtos.add(userProfileDTODto);
+		for (FavArtists fav : favArtists) {
+			Musics music = musicsJpaRepository.findTop1ByArtistFilePath(fav.getArtistId().getArtistFilePath());
+			if (music != null) {
+				ArtistInfoDto artistInfoDTO = new ArtistInfoDto(music, artistsService.getBase64ImageForArtist(music));
+				artistDtos.add(artistInfoDTO);
+			}
+		}
 
-		 return userProfileDtos;	
+		UserProfileDto userProfileDTODto = new UserProfileDto(user, genreDtos, artistDtos);
+		userProfileDtos.add(userProfileDTODto);
+
+		return userProfileDtos;
 	}
-	
+
 	/**
 	 * Base64 형태의 이미지 데이터를 받아서 파일로 저장하고, 해당 파일의 경로를 반환합니다.
 	 *
 	 * @param base64Image Base64 인코딩된 이미지 데이터
-	 * @param nickname 사용자 닉네임
+	 * @param nickname    사용자 닉네임
 	 * @return 저장된 이미지 파일의 경로
 	 * @throws IOException 파일 입출력 중 발생할 수 있는 예외
 	 */
 	private String saveImage(String base64Image, String nickname) throws IOException {
-	    // base64 to multipart
-	    // 저장할 파일 경로를 지정합니다.
+		// base64 to multipart
+		// 저장할 파일 경로를 지정합니다.
 		String fileNameWithUUID = UUID.randomUUID().toString() + "_" + nickname;
-		String fileName =  fileNameWithUUID + ".jpg";
-		String filePath = "/usr/blueme/profileImg/" + fileName;
+		String fileName = fileNameWithUUID + ".jpg";
+		String filePath = "/home/ubuntu/assets/profileImg/" + fileName;
 
 		File file = new File(filePath);
 		Base64.Decoder decoder = Base64.getDecoder();
@@ -235,7 +239,3 @@ public class UsersService {
 		return filePath;
 	}
 }
-
-
-	
-

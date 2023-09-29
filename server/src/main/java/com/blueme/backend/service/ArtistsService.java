@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.blueme.backend.config.FilePathConfig;
 import com.blueme.backend.dto.artistdto.ArtistInfoDto;
 import com.blueme.backend.dto.artistdto.FavArtistReqDto;
 import com.blueme.backend.model.entity.FavArtists;
@@ -48,7 +49,7 @@ public class ArtistsService {
 	private final FavArtistsJpaRepository favArtistsJpaRepository;
 
 	/**
-	 * 	모든 가수(아티스트) 조회
+	 * 모든 가수(아티스트) 조회
 	 */
 	@Transactional
 	public List<ArtistInfoDto> getAllArtist() {
@@ -69,26 +70,26 @@ public class ArtistsService {
 		log.info("Starting to save favorite artist : {}", requestDto);
 		Long userId = Long.parseLong(requestDto.getFavChecklistId());
 		Users user = usersJpaRepository.findById(userId)
-		            .orElseThrow(() -> new UserNotFoundException(userId));
-		
+				.orElseThrow(() -> new UserNotFoundException(userId));
+
 		FavCheckLists favCheckList = new FavCheckLists();
 		favCheckList.setUser(user);
 		favCheckList = favCheckListsJpaRepository.save(favCheckList);
 
 		for (String favArtistStr : requestDto.getArtistIds()) {
 			Musics musics = musicsJpaRepository.findTop1ByArtistFilePath(favArtistStr);
-			if (musics == null) throw new MusicNotFoundException(Long.parseLong(favArtistStr));
-			
+			if (musics == null)
+				throw new MusicNotFoundException(Long.parseLong(favArtistStr));
+
 			FavArtists favArtists = new FavArtists();
 			favArtists.setFavCheckList(favCheckList);
 			favArtists.setArtistId(musics);
 			favArtistsJpaRepository.save(favArtists);
-			
+
 			log.info("Saved favorite artists : {}", musics.getArtist());
 		}
 		return userId;
 	}
-	
 
 	/**
 	 * get 가수(아티스트) 검색
@@ -97,48 +98,47 @@ public class ArtistsService {
 	public List<ArtistInfoDto> searchArtist(String keyword) {
 		log.info("Starting artist search with keyword : {}", keyword);
 		List<Musics> artistSearch = musicsJpaRepository.findByDistinctArtist(keyword);
-		 if (artistSearch.isEmpty()) {
-		        log.warn("No artists found with keyword: {}", keyword);
-		        return Collections.emptyList();
-		    }
-		    return artistSearch.stream().flatMap(artist -> {
-		        String base64Image = getBase64ImageForArtist(artist);
-		        if (base64Image != null) {
-		            return Stream.of(new ArtistInfoDto(artist, base64Image));
-		        } else {
-		            return Stream.empty();
-		        }
-		    }).collect(Collectors.toList());
+		if (artistSearch.isEmpty()) {
+			log.warn("No artists found with keyword: {}", keyword);
+			return Collections.emptyList();
+		}
+		return artistSearch.stream().flatMap(artist -> {
+			String base64Image = getBase64ImageForArtist(artist);
+			if (base64Image != null) {
+				return Stream.of(new ArtistInfoDto(artist, base64Image));
+			} else {
+				return Stream.empty();
+			}
+		}).collect(Collectors.toList());
 	}
-	
-	
+
 	/**
-	 * 	patch 가수(아티스트) 수정
+	 * patch 가수(아티스트) 수정
 	 */
 	@Transactional
-	public Long updateFavArtist(Long userId, List<Long> newArtistIds) {	
+	public Long updateFavArtist(Long userId, List<Long> newArtistIds) {
 		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
-		
-		if(favCheckList.isEmpty()) throw new UserNotFoundException(userId);
+
+		if (favCheckList.isEmpty())
+			throw new UserNotFoundException(userId);
 
 		List<FavArtists> favArtists = favArtistsJpaRepository.findByFavCheckList(favCheckList.get(1));
 		Musics music1 = musicsJpaRepository.findTop1ByArtistFilePath(newArtistIds.get(0).toString());
 		Musics music2 = musicsJpaRepository.findTop1ByArtistFilePath(newArtistIds.get(1).toString());
-		
-	    favArtists.get(0).setArtistId(music1);
-	    favArtists.get(1).setArtistId(music2);
+
+		favArtists.get(0).setArtistId(music1);
+		favArtists.get(1).setArtistId(music2);
 
 		return userId;
 	}
 
-	
 	/**
 	 * 아티스트(가수) 이미지 변환
 	 */
 	public String getBase64ImageForArtist(Musics music) {
 		if (music.getArtistFilePath() != null) {
 			try {
-				Path filePath = Paths.get("C:\\usr\\blueme\\artists\\" + music.getArtistFilePath() + ".jpg");
+				Path filePath = Paths.get(FilePathConfig.ARTIST_PATH + music.getArtistFilePath() + ".jpg");
 				File file = filePath.toFile();
 				ImageConverter<File, String> converter = new ImageToBase64();
 				String base64 = null;

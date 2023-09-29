@@ -45,10 +45,10 @@ public class GenresService {
 	private final FavCheckListsJpaRepository favCheckListsJpaRepository;
 
 	/**
-	 * 	모든 장르 조회
+	 * 모든 장르 조회
 	 */
 	@Transactional
-	public List<GenreInfoDto> getAllGenre() {	
+	public List<GenreInfoDto> getAllGenre() {
 		return genresJpaRepository.findAll().stream().flatMap(genre -> {
 			String base64Image = getBase64ImageForGenre(genre);
 			if (base64Image != null) {
@@ -67,8 +67,8 @@ public class GenresService {
 		log.info("Starting to save favorite genre : {}", requestDto);
 		Long userId = Long.parseLong(requestDto.getFavChecklistId());
 		Users user = usersJpaRepository.findById(userId)
-		            .orElseThrow(() -> new UserNotFoundException(userId));
-		
+				.orElseThrow(() -> new UserNotFoundException(userId));
+
 		FavCheckLists favCheckList = new FavCheckLists();
 		favCheckList.setUser(user);
 		favCheckList = favCheckListsJpaRepository.save(favCheckList);
@@ -81,37 +81,36 @@ public class GenresService {
 			favGenres.setFavCheckList(favCheckList);
 			favGenres.setGenre(genres);
 			favGenresJpaRepository.save(favGenres);
-			
+
 			log.info("Saved favorite genres : {}", genres.getName());
 		}
 		return userId;
 	}
 
-
 	/**
-	 * 	patch 장르 수정
+	 * patch 장르 수정
 	 */
 	@Transactional
 	public Long updateFavGenre(Long userId, List<Long> newGenreIds) {
 		List<FavCheckLists> favCheckList = favCheckListsJpaRepository.findByUserId(userId);
-		
+
 		List<FavGenres> favGenres = favGenresJpaRepository.findByFavCheckList(favCheckList.get(0));
 		Genres genres = genresJpaRepository.findById(newGenreIds.get(0)).orElseThrow(null);
 		Genres genres2 = genresJpaRepository.findById(newGenreIds.get(1)).orElseThrow(null);
-	
+
 		favGenres.get(0).setGenre(genres);
 		favGenres.get(1).setGenre(genres2);
-		
-	    return userId;
+
+		return userId;
 	}
-	
+
 	/**
 	 * 장르 이미지 변환
 	 */
 	public String getBase64ImageForGenre(Genres genre) {
 		if (genre.getGenre_file_path() != null) {
 			try {
-				Path filePath = Paths.get("C:\\usr\\blueme\\genre\\" + genre.getGenre_file_path() + ".jpg");
+				Path filePath = Paths.get("/home/ubuntu/assets/genre" + genre.getGenre_file_path() + ".jpg");
 				File file = filePath.toFile();
 				ImageConverter<File, String> converter = new ImageToBase64();
 				String base64 = null;

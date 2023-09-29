@@ -9,13 +9,24 @@ import org.springframework.context.annotation.Configuration;
  * </p>
  * 
  * @author 김혁
- * @version 1.0
+ * @version 1.1
  * @since 2023-09-13
  */
 @Configuration
 public class FilePathConfig {
-  public static final String MUSIC_PATH = "\\usr\\blueme\\musics\\";
-  public static final String JACKET_PATH = "\\usr\\blueme\\jackets\\";
-  public static final String ARTIST_PATH = "\\usr\\blueme\\artists\\";
-  public static final String THEMES_IMG_PATH = "C:\\";
+  /*
+   * 개발경로
+   * public static final String MUSIC_PATH = "\\usr\\blueme\\musics\\";
+   * public static final String JACKET_PATH = "\\usr\\blueme\\jackets\\";
+   * public static final String ARTIST_PATH = "\\usr\\blueme\\artists\\";
+   * public static final String THEMES_IMG_PATH = "C:\\";
+   */
+
+  // 배포경로
+  public static final String MUSIC_PATH = "/home/ubuntu/assets/musics/";
+  public static final String JACKET_PATH = "/home/ubuntu/assets/jackets/";
+  public static final String ARTIST_PATH = "/home/ubuntu/assets/artists/";
+  // THEMES_IMG_PATH 는 적절한 경로로 수정하세요.
+  public static final String THEMES_IMG_PATH = "/home/ubuntu/";
+
 }
