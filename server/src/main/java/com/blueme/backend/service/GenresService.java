@@ -127,7 +127,7 @@ public class GenresService {
 	public String getBase64ImageForGenre(Genres genre) {
 		if (genre.getGenre_file_path() != null) {
 			try {
-				Path filePath = Paths.get("/home/ubuntu/assets/genre" + genre.getGenre_file_path() + ".jpg");
+				Path filePath = Paths.get("/home/ubuntu/assets/genre/" + genre.getGenre_file_path() + ".jpg");
 				File file = filePath.toFile();
 				ImageConverter<File, String> converter = new ImageToBase64();
 				String base64 = null;
