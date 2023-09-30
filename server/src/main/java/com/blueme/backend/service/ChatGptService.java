@@ -3,6 +3,7 @@ package com.blueme.backend.service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -130,7 +131,8 @@ public class ChatGptService {
          * @return 계절 상태 (String)
          */
         public String getSeasonStatus(String language) {
-                LocalDate now = LocalDate.now();
+                // LocalDate now = LocalDate.now();
+                LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
                 Month month = now.getMonth();
 
                 String seasonTag;
@@ -167,7 +169,8 @@ public class ChatGptService {
          * @return 시간 상태 (String)
          */
         public String getTimeStatus(String language) {
-                LocalTime now = LocalTime.now();
+                // LocalTime now = LocalTime.now();
+                LocalTime now = LocalTime.now(ZoneId.of("Asia/Seoul"));
                 int hour = now.getHour();
 
                 String timeTag;
