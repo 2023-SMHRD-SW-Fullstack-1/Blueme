@@ -26,7 +26,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JWT 로그인 성공 시 처리하는 핸들러
+ * JWT 로그인 성공 시 처리하는 핸들러 클래스
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-26
  */
 
 @Slf4j
@@ -40,6 +44,13 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	@Value("${jwt.access.expiration}")
 	private String accessTokenExpiration;
 
+	/**
+     * 인증 성공 시 호출되는 메서드
+     *
+     * @param request 클라이언트의 HttpServletRequest 요청객체 
+     * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체 
+     * @param authentication 인증에 성공한 Authentication 객체
+     */
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException {
@@ -82,11 +93,23 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		});
 	}
 
+	/**
+	   * Authentication 객체에서 username(email)을 추출하는 메서드
+	   *
+	   * @param authentication 인증 정보가 담긴 Authentication 객체  
+	   * @return 추출된 username(email) 문자열   
+	 */
 	public String extractUsername(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return userDetails.getUsername();
 	}
 
+	/**
+	  * 프로필 이미지를 Base64 형태로 변환하는 메서드
+	  *
+	  * @param imgPath 프로필 이미지 파일의 경로  
+	  * @return 변환된 Base64 문자열  
+	 */
 	public String getBase64ImageForProfile(String imgPath) {
 		log.info("getBase64ImageForProfile method start!");
 		if (imgPath != null) {

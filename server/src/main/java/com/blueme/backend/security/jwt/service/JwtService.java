@@ -11,15 +11,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+/**
+ * JWT 서비스 클래스
+ * JWT 토큰의 생성, 전송, 추출, 유효성 검사 등을 담당합니다.
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-26
+ */
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +56,10 @@ public class JwtService {
     private final UsersJpaRepository usersJpaRepository;
 
     /**
-     * AccessToken 생성 메소드
+     * AccessToken 생성 메서드
+     * 
+     * @param email 이메일 주소 
+     * @return 생성된 AccessToken 문자열 
      */
     public String createAccessToken(String email) {
         Date now = new Date();
@@ -62,7 +71,10 @@ public class JwtService {
     }
 
     /**
-     * RefreshToken 생성
+     * RefreshToken 생성 메서드
+     * 
+     * 
+     * @return 생성된 RefreshToken 문자열  
      */
     public String createRefreshToken() {
         Date now = new Date();
@@ -73,7 +85,10 @@ public class JwtService {
     }
 
     /**
-     * AccessToken 헤더에 실어서 보내기
+     * AccessToken을 응답 헤더에 실어 보내는 메서드
+     *
+     * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체 
+     * @param accessToken 클라이언트에게 전송할 AccessToken 문자열  
      */
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
         response.setStatus(HttpServletResponse.SC_OK);
@@ -82,21 +97,28 @@ public class JwtService {
     }
 
     /**
-     * AccessToken + RefreshToken 헤더에 실어서 보내기
-     */
+    * AccessToken과 RefreshToken을 응답 헤더에 실어 보내는 메서드
+    *
+    * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체 
+    * @param accessToken 클라이언트에게 전송할 AccessToken 문자열  
+    * @param refreshToken 클라이언트에게 전송할 RefreshToken 문자열  
+    */
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
         response.setStatus(HttpServletResponse.SC_OK);
 
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
-//        setRefreshTokenCookie(response, refreshToken);
+        // setRefreshTokenCookie(response, refreshToken);
 
         log.info("refreshToken : {}", refreshToken);
         log.info("Access Token, Refresh Token 헤더 설정 완료");
     }
 
     /**
-     * 헤더에서 RefreshToken 추출
+     * HTTP 요청 헤더에서 RefreshToken을 추출하는 메서드
+     *
+     * @param request 클라이언트의 HttpServletRequest 요청객체 
+     * @return 헤더에서 추출된 RefreshToken 문자열(Optional)
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(refreshHeader))
@@ -105,7 +127,10 @@ public class JwtService {
     }
 
     /**
-     * 헤더에서 AccessToken 추출
+     * HTTP 요청 헤더에서 AccessToken을 추출하는 메서드
+     *
+     * @param request 클라이언트의 HttpServletRequest 요청객체  
+     * @return 헤더에서 추출된 AccessToken 문자열(Optional)  
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(accessHeader))
@@ -114,7 +139,10 @@ public class JwtService {
     }
 
     /**
-     * AccessToken에서 email 추출
+     * AccessToken에서 email 주소를 추출하는 메서드
+     *
+     * @param accessToken 이메일 주소를 포함하고 있는 AccessToken 문자열  
+     * @return AccessToken에서 추출된 이메일 주소 문자열(Optional)  
      */
     public Optional<String> extractEmail(String accessToken) {
         try {
@@ -132,21 +160,30 @@ public class JwtService {
     }
 
     /**
-     * AccessToken 헤더 설정
+     * 응답에 AccessToken 헤더 설정하는 메서드
+     * 
+     * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체 
+     * @param accessToken 응답 헤더에 설정할 AccessToken 문자열   
      */
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
         response.setHeader(accessHeader, accessToken);
     }
 
     /**
-     * RefreshToken 헤더 설정
+     * 응답에 RefreshToken 헤더 설정하는 메서드
+     * 
+     * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체 
+     * @param refreshToken 응답 헤더에 설정할 RefreshToken 문자열 
      */
     public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
         response.setHeader(refreshHeader, refreshToken);
     }
 
     /**
-     * RefreshToken 쿠키 설정
+     * 응답에 RefreshToken 쿠키를 설정하는 메서드
+     *
+     * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체 
+     * @param refreshToken 쿠키에 설정할 RefreshToken 문자열
      */
     public void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie(refreshHeader, refreshToken);
@@ -156,7 +193,10 @@ public class JwtService {
     }
 
     /**
-     * RefreshToken DB 저장(업데이트)
+     * DB에 RefreshToken을 업데이트하는 메서드
+     *
+     * @param email RefreshToken을 업데이트할 사용자의 이메일 주소  
+     * @param refreshToken DB에 업데이트할 RefreshToken 문자열  
      */
     public void updateRefreshToken(String email, String refreshToken) throws Exception {
         usersJpaRepository.findByEmail(email)
@@ -164,7 +204,10 @@ public class JwtService {
     }
 
     /**
-     * 토큰 유효성 검사
+     * 토큰의 유효성을 검사하는 메서드
+     *
+     * @param token 유효성을 검사할 토큰 문자열  
+     * @return 토큰의 유효성 결과 (유효하면 true, 그렇지 않으면 false)  
      */
     public boolean isTokenValid(String token) {
         try {

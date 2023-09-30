@@ -27,6 +27,15 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * OAuth2 로그인 성공 시 동작을 정의하는 핸들러 클래스
+ * JWT 토큰의 생성, 전송, 추출, 유효성 검사 등을 담당합니다.
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -42,6 +51,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	String userId = null;
 
+	/**
+     * 인증(로그인)에 성공했을 때 호출되는 메서드
+     *
+     * @param request HTTP 요청 객체 
+     * @param response HTTP 응답 객체 
+     * @param authentication 인증 정보 객체 
+     */
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -82,7 +98,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	}
 
-	// 소셜 로그인 시에도 무조건 토큰 생성하지 말고 JWT 인증 필터처럼 RefreshToken 유/무에 따라 다르게 처리해보기
+	/**
+	 * 소셜 로그인 성공 시 처리하는 메소드. access token과 refresh token을 생성하고 이를 응답 헤더에 추가한다.
+	 *
+	 * @param response HTTP 응답 객체  
+	 * @param oAuth2User 소셜 로그인 사용자 정보가 담긴 CustomOAuth2User 객체  
+	 * @param authentication 인증 정보 객체 
+	 */
 	private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User, Authentication authentication)
 			throws IOException {
 		log.info("loginSuccess method start ...");

@@ -17,9 +17,12 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 각 소셜에서 받아오는 데이터가 다르므로 소셜별로 데이터를 받는 데이터를 분기 처리하는 DTO 클래스
+ * 각 소셜 로그인 서비스에서 받아오는 사용자 데이터를 처리하는 DTO 클래스.
+ *  
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
  */
-
 @Slf4j
 @Getter
 public class OAuthAttributes {
@@ -27,7 +30,12 @@ public class OAuthAttributes {
 	private String nameAttributeKey; // OAuth2 로그인 진행 시 키가 되는 필드 값, PK와 같은 의미
 	private OAuth2UserInfo oauth2UserInfo; // 소셜 타입별 로그인 유저 정보(닉네임, 이메일, 프로필 사진 등등)
 	
-
+	/**
+     * OAuthAttributes 생성자. nameAttributeKey와 oauth2UserInfo를 초기화합니다.
+     *
+     * @param nameAttributeKey 이름 속성 키 
+     * @param oauth2UserInfo 사용자 정보를 담은 OAuth2UserInfo 객체 
+     */
 	@Builder
 	public OAuthAttributes(String nameAttributeKey, OAuth2UserInfo oauth2UserInfo) {
 		this.nameAttributeKey = nameAttributeKey;
@@ -35,11 +43,13 @@ public class OAuthAttributes {
 	}
 
 	/**
-	 * SocialType에 맞는 메소드 호출하여 OAuthAttributes 객체 반환 파라미터 : userNameAttributeName ->
-	 * OAuth2 로그인 시 키(PK)가 되는 값 / attributes : OAuth 서비스의 유저 정보들 소셜별 of
-	 * 메소드(ofGoogle, ofKaKao, ofNaver)들은 각각 소셜 로그인 API에서 제공하는 회원의 식별값(id),
-	 * attributes, nameAttributeKey를 저장 후 build
-	 */
+	    * 주어진 소셜 플랫폼 타입과 사용자 정보에 따라 적절한 OAuthAttributes 객체를 반환하는 메서드
+	    *
+	    * @param platformType 소셜 플랫폼 타입  
+	    * @param userNameAttributeName 이름 속성 키   
+	    * @param attributes 사용자의 속성들을 담은 맵  
+	    * @return 생성된 OAuthAttributes 객체   
+	   */
 	public static OAuthAttributes of(SocialType platformType, String userNameAttributeName,
 			Map<String, Object> attributes) {
 		
@@ -50,12 +60,26 @@ public class OAuthAttributes {
 		}
 		return ofGoogle(userNameAttributeName, attributes);
 	}
-
+	
+	/**
+	  * KakaoOauth2UserInfo를 이용하여 새로운 OAuthAttributes 객체를 생성하는 메서드
+	  *
+	  * @param userNameAttributeName 이름 속성 키   
+	  * @param attributes 사용자의 속성들을 담은 맵  
+	  * @return 생성된 KakaoOauth2User 기반의 OAuthAttributes 객체   
+	 */
 	private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
 		return OAuthAttributes.builder().nameAttributeKey(userNameAttributeName)
 				.oauth2UserInfo(new KakaoOauth2UserInfo(attributes)).build();
 	}
-
+	
+	/**
+	  * GoogleOauth2UserInfo 를 이용하여 새로운 OAuthAttrbutes 객체를 생성하는 메서드 
+	  *
+	  * @param userNameAttributeName 이름 속성 키   
+	  * @param attributes 사용자의 속성들을 담은 맵  
+	  * @return 생성된 GoogleOauth2User 기반의 OAuthAttributes 객체   
+	 */
 	public static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
 		return OAuthAttributes.builder().nameAttributeKey(userNameAttributeName)
 				.oauth2UserInfo(new GoogleOauth2UserInfo(attributes)).build();
@@ -63,8 +87,12 @@ public class OAuthAttributes {
 
 
 	/**
-	 * of메소드로 OAuthAttributes 객체가 생성되어, 유저 정보들이 담긴 OAuth2UserInfo가 소셜 타입별로 주입된 상태
-	 * OAuth2UserInfo에서 socialId(식별값), nickname, imageUrl을 가져와서 build email에는 UUID로 설정
+	 * OAuthAttributes 객체를 Users 엔티티로 변환하는 메서드
+	 * 이메일이 없는 경우 새로운 UUID 기반의 이메일을 생성합니다.
+	 *
+	 * @param platformType 소셜 플랫폼 타입   
+	 * @param oauth2UserInfo 사용자 정보를 담은 OAuth2UserInfo 객체 
+	 * @return 생성된 Users 객체  
 	 */
 	public Users toEntity(SocialType platformType, OAuth2UserInfo oauth2UserInfo) {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

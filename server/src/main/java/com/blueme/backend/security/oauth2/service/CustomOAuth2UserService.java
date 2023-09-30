@@ -23,6 +23,15 @@ import com.blueme.backend.security.oauth2.dto.SessionUserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * OAuth2 로그인 시 사용자 정보를 로드하는 서비스 클래스
+ * OAuth2UserService 인터페이스를 구현하여 Spring Security에서 OAuth2 로그인 시 사용자 정보를 어떻게 처리할지 제어합니다.
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -32,6 +41,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	private final HttpSession httpSession;
 	private static final String KAKAO = "kakao";
 	
+	/**
+     * 주어진 사용자 요청에 따라 OAuth2User 객체를 로드(생성)하는 메서드
+     *
+     * @param userRequest 사용자 요청 객체 
+     * @return 생성된 OAuth2User 객체 
+     */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("CustomOAuth2UserService.loadUser() 실행 - OAuth2 로그인 요청 진입");
@@ -73,8 +88,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	}
 	
 	/**
-	 * 	PlatFormType과 attributes에 들어있는 소셜 로그인의 식별값 id를 통해 회원을 찾아 반환
-	 *  만약 찾은 회원이 있다면, 그대로 반환하고 없다면 saveUser()를 호출하여 회원을 저장
+	 * 주어진 속성과 플랫폼 타입에 따라 유저 정보를 찾거나 저장하는 메서드
+	 *
+	 * @param attributes 유저 속성  
+	 * @param socialType 소셜 플랫폼 타입  
+	 * @return 찾아진 또는 저장된 Users 객체  
 	 */
 	private Users getUser(OAuthAttributes attributes, SocialType socialType) {
         Users findUser = usersJpaRepository.findByPlatformTypeAndSocialId(socialType.name(),
@@ -86,7 +104,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return findUser;
     }
 	
-	
+	/**
+	 * 주어진 등록 아이디(registrationId)에 따라 플랫폼 타입을 반환하는 메서드
+	 *
+	 * @param registrationId 등록 아이디  
+	 * @return 플랫폼 타입 (SocialType)
+	 */
 	private SocialType getPlatformType(String registrationId) {
         if(KAKAO.equals(registrationId)) {
             return SocialType.KAKAO;
@@ -96,9 +119,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	
 	
 	/**
-     * OAuthAttributes의 toEntity() 메소드를 통해 빌더로 User 객체 생성 후 반환
-     * 생성된 User 객체를 DB에 저장 : socialType, socialId, email, role 값만 있는 상태
-     */
+	 * 주어진 속성과 플랫폼 타입에 따라 새로운 유저를 저장하고 반환하는 메서드
+	 *
+	 * @param attributes 유저 속성   
+	 * @param socialType 소셜 플랫폼 타입   
+	 * @return 새로 저장된 Users 객체   
+	 */
     private Users saveUser(OAuthAttributes attributes, SocialType socialType) {
         Users createdUser = attributes.toEntity(socialType, attributes.getOauth2UserInfo());
         System.out.println(createdUser.getEmail());
