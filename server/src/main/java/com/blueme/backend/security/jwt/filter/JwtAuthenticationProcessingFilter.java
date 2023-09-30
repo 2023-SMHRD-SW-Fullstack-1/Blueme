@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.blueme.backend.model.entity.Users;
@@ -23,7 +22,15 @@ import com.blueme.backend.security.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@CrossOrigin("http://172.30.1.13:3000")
+/**
+ * JWT 인증 필터 클래스
+ * 이 필터는 모든 요청에 대해 한 번씩 실행되며 JWT 토큰의 유효성을 검사하고 인증 처리를 합니다.
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-26
+ */
+
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
@@ -35,6 +42,13 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	
 	private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 	
+	/**
+	 * HTTP 요청마다 한 번씩 실행되는 필터 메서드
+	 * 
+	 * @param request HTTP 요청 객체 
+     * @param response HTTP 응답 객체 
+     * @param filterChain 다음 필터를 호출하기 위한 FilterChain 객체
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -62,7 +76,10 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 		
 		
 		/**
-	     *  리프레시 토큰으로 유저 정보 찾기 & 액세스 토큰/리프레시 토큰 재발급
+	     * 리프레시 토큰으로 유저 정보 찾기 & 액세스 토큰/리프레시 토큰 재발급하는 메서드
+	     * 
+	     * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체 
+	     * @param refreshToken 클라이언트에서 보낸 리프레시 토큰 문자열 
 	     */
 	    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
 	    	log.info("checkRefreshTokenAndReIssueAccessToken() 실행");
@@ -74,8 +91,11 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	                });
 	
 	}
+	    
 	    /**
-	     * 리프레시 토큰 재발급 & DB에 리프레시 토큰 업데이트 
+	     * 리프레시 토큰 재발급 & DB에 리프레시 토큰 업데이트하는 메서드
+	     *
+	     * @param user 리프레시 토큰을 업데이트할 사용자 정보가 담긴 Users 객체  
 	     */
 	    private String reIssueRefreshToken(Users user) {
 	    	String reIssuedRefreshToken = jwtService.createRefreshToken();
@@ -85,7 +105,10 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	    }
 	    
 	    /**
-	     * 액세스 토큰 체크 & 인증 처리
+	     * 액세스 토큰 체크 & 인증 처리하는 메서드
+	     * 
+	     * @param request 클라이언트의 HttpServletRequest 요청객체 
+	     * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체
 	     */
 	    public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
 	                                                  FilterChain filterChain) throws ServletException, IOException {
@@ -98,7 +121,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 	    }
 	    
 	    /**
-	     * 인증 허가
+	     * 인증 정보를 SecurityContext에 저장하는 메서드
+	     * @param myUser 인증할 사용자 정보가 담긴 Users 객체 
 	     */
 	    public void saveAuthentication(Users myUser) {
 	        PrincipalDetails principalDetails = PrincipalDetails.create(myUser);

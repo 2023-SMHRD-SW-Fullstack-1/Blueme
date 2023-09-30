@@ -19,12 +19,12 @@ import com.blueme.backend.dto.usersdto.UserProfileDto;
 import com.blueme.backend.dto.usersdto.UsersDeleteDto;
 import com.blueme.backend.dto.usersdto.UsersRegisterDto;
 import com.blueme.backend.dto.usersdto.UsersUpdateDto;
+import com.blueme.backend.enums.UserRole;
 import com.blueme.backend.model.entity.FavArtists;
 import com.blueme.backend.model.entity.FavCheckLists;
 import com.blueme.backend.model.entity.FavGenres;
 import com.blueme.backend.model.entity.Genres;
 import com.blueme.backend.model.entity.Musics;
-import com.blueme.backend.model.entity.UserRole;
 import com.blueme.backend.model.entity.Users;
 import com.blueme.backend.model.repository.FavArtistsJpaRepository;
 import com.blueme.backend.model.repository.FavCheckListsJpaRepository;
@@ -37,11 +37,16 @@ import com.blueme.backend.service.exception.EmailAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
-작성자: 김혁, 손지연
-날짜(수정포함): 2023-09-20
-설명: 회원 관련 서비스
-*/
+/**
+ * UsersService는 회원 관련 서비스를 제공하는 클래스입니다.
+ * <p>
+ * 이 클래스는 회원 등록, 회원 탈퇴, 회원 정보 수정, 마이페이지 정보 조회 기능을 처리합니다.
+ * </p>
+ * 
+ * @author 김혁, 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
 
 @Slf4j
 @RequiredArgsConstructor
@@ -59,75 +64,37 @@ public class UsersService {
 	private final ArtistsService artistsService;
 
 	/**
-	 * 유저 등록
+	 * 사용자를 등록하는 메서드입니다. 이미 존재하는 이메일일 경우 EmailAlreadyExistsException을 발생
+	 * 
+	 * <p>
+	 * 비밀번호는 BCryptPasswordEncoder를 이용해 암호화하여 저장합니다.
+	 * </p>
+	 * 
+	 * @param usersRegisterDto 사용자 등록 요청 DTO (UsersRegisterDto)
+	 * @return 성공 시, 생성된 사용자 고유 ID 반환, 실패 시 EmailAlreadyExistsException 발생
 	 */
 	@Transactional
 	public Long signUp(UsersRegisterDto usersRegisterDto) {
 		log.info("userService method save start...");
-
 		Optional<Users> users = usersJpaRepository.findByEmail(usersRegisterDto.getEmail());
 		if (users.isPresent()) {
 			throw new EmailAlreadyExistsException(usersRegisterDto.getEmail());
 		} else {
-			// if
-			// (usersJpaRepository.findByNickname(usersRegisterDto.getNickname()).isPresent())
-			// {
-			// throw new Exception("이미 존재하는 닉네임입니다.");
-			// }
 			Users user = Users.builder().email(usersRegisterDto.getEmail())
 					.password(bCryptPasswordEncoder.encode(usersRegisterDto.getPassword()))
 					.nickname(usersRegisterDto.getNickname()).refreshToken(usersRegisterDto.getRefreshToken())
 					.platformType("blueme").role(UserRole.USER).build();
-
 			usersJpaRepository.save(user);
 			return user.getId();
 		}
 	}
 
-	// public Long save(UsersRegisterDto requestDto) {
-	// log.info("userService method save start...");
-	// Users user = usersJpaRepository.findByEmail(requestDto.getEmail());
-	// return (user == null) ?
-	// usersJpaRepository.save(requestDto.toEntity()).getId() : -1L;
-	// }
-
-	/*
-	 * @Transactional public UUID save(UserRegisterDto requestDto) {
-	 * log.info("userService method save start..."); User user =
-	 * usersJpaRepository.findByEmail(requestDto.getEmail()); if (user == null) {
-	 * User newUser = User.builder() .email(requestDto.getEmail())
-	 * .password(requestDto.getPassword()) .nickname(requestDto.getNickname())
-	 * .accessToken(requestDto.getAccessToken()) .build();
-	 * newUser.setPlatformType("blueme"); newUser.setActiveStatus("Y");
-	 * newUser.setRole(User.UserRole.ADMIN); UUID userId =
-	 * usersJpaRepository.save(newUser).getId(); return userId; } else { return
-	 * UUID.fromString("-1"); // 등록 실패 시 -1 반환 (UUID 형식으로 변환) } }
-	 */
-
 	/**
-	 * 유저 로그인확인
+	 * 사용자 계정을 비활성화하는 메서드입니다. 일치하는 이메일이 없거나 비밀번호가 틀릴 경우 -1 반환
+	 * 
+	 * @param requestDto 사용자 탈퇴 요청 DTO (UsersDeleteDto)
+	 * @return 성공 시 비활성화된 유저의 고유 ID 반환, 실패 시 -1 반환
 	 */
-	// @Transactional
-	// public Long login(UsersLoginDto requestDto) {
-	// log.info("userService method login start...");
-	// Users user =
-	// usersJpaRepository.findByEmailAndPasswordAndActiveStatus(requestDto.getEmail(),
-	// requestDto.getPassword(), "Y");
-	// return (user == null) ? -1L : user.getId();
-	// }
-	/*
-	 * @Transactional public UUID login(UserLoginDto requestDto) {
-	 * log.info("userService method login start..."); User user =
-	 * usersJpaRepository.findByEmailAndPasswordAndActiveStatus(
-	 * requestDto.getEmail(), requestDto.getPassword(), "Y"); if (user != null) {
-	 * return user.getId(); } else { return UUID.fromString("-1"); // 로그인 실패 시 -1 반환
-	 * (UUID 형식으로 변환) } }
-	 */
-
-	/**
-	 * delete 유저 탈퇴 ( 실패시 -1 반환, 성공시 유저의고유ID반환 ), activeStatus 컬럼 "N"으로 변경
-	 */
-
 	@Transactional
 	public Long deactivate(UsersDeleteDto requestDto) {
 		log.info("userService method delete start...");
@@ -155,6 +122,13 @@ public class UsersService {
 	 * @throws IOException
 	 */
 
+	/**
+	 * 사용자 정보를 수정합니다.
+	 * 
+	 * @param user       수정할 유저 객체 Optional<Users>
+	 * @param requestDto 사용자 정보 수정 요청 DTO (UsersUpdateDto)
+	 * @return 성공 시 -1 반환, 실패 시 IOException 발생
+	 */
 	@Transactional
 	public Long update(Optional<Users> user, UsersUpdateDto requestDto) throws IOException {
 		log.info("userService method update start!");
@@ -176,7 +150,10 @@ public class UsersService {
 	}
 
 	/**
-	 * 마이페이지
+	 * 마이 페이지 정보를 조회합니다.
+	 * 
+	 * @param userId 조회할 유저의 고유 ID
+	 * @return UserProfileDTO 리스트(List<UserProfileDto>) 형태로 반환
 	 */
 	public List<UserProfileDto> myprofile(Long userId) {
 		log.info("Getting profile for userId : {}", userId);

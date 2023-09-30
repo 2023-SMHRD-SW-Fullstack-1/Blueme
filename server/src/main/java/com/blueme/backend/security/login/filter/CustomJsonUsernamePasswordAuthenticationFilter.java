@@ -16,7 +16,11 @@ import com.blueme.backend.dto.usersdto.LoginRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * "/login" 요청 왔을 때 JSON 값을 매핑 처리하는 필터
+ * "/login" 요청에 대해 JSON 값을 매핑 처리하는 필터 클래스
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-26
  */
 public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -36,7 +40,11 @@ public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuth
     }
 
     /**
-     * 인증 시도 처리 
+     * 인증 시도를 처리하는 메서드
+     *
+     * @param request 클라이언트의 HttpServletRequest 요청객체 
+     * @param response 클라이언트로 응답을 보내기 위한 HttpServletResponse 객체 
+     * @return 인증된 Authentication 객체
      */
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException{

@@ -19,11 +19,16 @@ import com.blueme.backend.service.ArtistsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
-작성자:  손지연
-날짜(수정포함): 2023-09-13
-설명: 회원가입 시 선호가수(아티스트) 관련 컨트롤러
-*/
+/**
+ * ArtistsController는 선호가수(아티스트) 관련 컨트롤러 클래스입니다.
+ * <p>
+ * 이 클래스는 가수 추천, 선호가수 저장, 가수 검색, 선호가수 수정 기능을 처리합니다.
+ * </p>
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
 
 @Slf4j
 @RestController
@@ -32,8 +37,11 @@ public class ArtistsController {
 
 	private final ArtistsService artistsService;
 
+
 	/**
-	 * get 모든 가수(아티스트) 조회 (가수명, 가수이미지)
+	 * 가수 정보 조회를 위한 GET 메서드입니다.
+	 * 
+	 * @return 가수 정보 목록 (List<ArtistInfoDto>)
 	 */
 	@GetMapping("/Artistrecommend")
 	public ResponseEntity<List<ArtistInfoDto>> artistrecommend() {
@@ -43,7 +51,10 @@ public class ArtistsController {
 	}
 
 	/**
-	 * post 사용자가 선택한 가수(아티스트) 저장
+	 * 사용자가 선택한 가수(선호가수)를 저장하기 위한 POST 메서드입니다.
+	 * 
+	 * @param requestDto 사용자가 선택한 가수 요청 DTO (FavArtistReqDto)
+	 * @return 사용자 ID (Long)
 	 */
 	@PostMapping("/SaveFavArtist")
 	public ResponseEntity<Long> saveFavArtist(@RequestBody FavArtistReqDto requestDto) {
@@ -58,9 +69,10 @@ public class ArtistsController {
 	}
 
 	/**
-	 * get 가수(아티스트) 검색
+	 * 가수 검색을 위한 GET 메서드입니다.
 	 * 
-	 * @return
+	 * @param keyword 검색 키워드
+	 * @return 가수 정보 목록 (List<ArtistInfoDto>)
 	 */
 	@GetMapping("/searchArtist/{keyword}")
 	public ResponseEntity<List<ArtistInfoDto>> searchArtist(@PathVariable("keyword") String keyword) {
@@ -74,8 +86,12 @@ public class ArtistsController {
 		}
 	}
 
+
 	/**
-	 * patch 선호가수 수정
+	 * 사용자가 선택한 가수(선호가수)를 수정하기 위한 PATCH 메서드입니다.
+	 * 
+	 * @param requestDto 사용자가 새롭게 선택한 가수 요청 DTO (FavArtistReqDto)
+	 * @return 사용자 ID (Long)
 	 */
 	@PatchMapping("/updateFavArtist")
 	public ResponseEntity<Long> updateFavArtist(@RequestBody FavArtistReqDto requestDto) {

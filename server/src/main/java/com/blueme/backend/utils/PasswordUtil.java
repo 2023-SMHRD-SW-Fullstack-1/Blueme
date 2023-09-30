@@ -2,6 +2,13 @@ package com.blueme.backend.utils;
 
 import java.util.Random;
 
+/**
+ * 비밀번호 생성을 위한 유틸 클래스
+ *  
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-09
+ */
 public class PasswordUtil {
 	
 	public static String generateRandomPassword() {

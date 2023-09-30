@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +18,16 @@ import com.blueme.backend.service.GenresService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
-작성자:  손지연
-날짜(수정포함): 2023-09-13
-설명: 회원가입 시 선호장르 관련 컨트롤러
-*/
+/**
+ * GenresController는 장르 관련 컨트롤러 클래스입니다.
+ * <p>
+ * 이 클래스는 장르 추천, 선호장르 저장, 장르 검색, 선호장르 수정 기능을 처리합니다.
+ * </p>
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +37,9 @@ public class GenresController {
 	private final GenresService genresService;
 	
 	/**
-	 * 	get 모든 장르 조회 (장르ID, 장르명, 장르이미지)
+	 * 장르 정보 조회를 위한 GET 메서드입니다.
+	 * 
+	 * @return 장르 정보 목록 (List<GenreInfoDto>)
 	 */
 	@GetMapping("/SelectGenre")
 	public ResponseEntity<List<GenreInfoDto>> getAllGenre(){
@@ -43,7 +49,10 @@ public class GenresController {
 	}
 	
 	/**
-	 * 	post 사용자가 선택한 장르 저장
+	 * 사용자가 선택한 장르(선호장르)를 저장하기 위한 POST 메서드입니다.
+	 * 
+	 * @param requestDto 사용자가 선택한 장르 요청 DTO (FavGenreReqDto)
+	 * @return 사용자 ID (Long)
 	 */
 	@PostMapping("/SaveFavGenre")
 	public ResponseEntity<Long> saveFavGenre(@RequestBody FavGenreReqDto requestDto) {
@@ -57,8 +66,12 @@ public class GenresController {
 		}
 		
 	}
+
 	/**
-	 *	patch 선호장르 수정
+	 * 사용자가 선택한 장르(선호장르)를 수정하기 위한 메서드입니다.
+	 * 
+	 * @param requestDto 사용자가 새롭게 선택한 장르 요청 DTO (FavGenreReqDto)
+	 * @return 사용자 ID (Long)
 	 */
 	@PatchMapping("/updateFavGenre")
 	public ResponseEntity<Long> updateFavGenre(@RequestBody FavGenreReqDto requestDto) {

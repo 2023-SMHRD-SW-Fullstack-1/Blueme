@@ -1,8 +1,5 @@
 package com.blueme.backend.security.config;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,21 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.blueme.backend.dto.usersdto.UserInfoDTO;
-import com.blueme.backend.model.entity.FavCheckLists;
-import com.blueme.backend.model.repository.FavArtistsJpaRepository;
-import com.blueme.backend.model.repository.FavCheckListsJpaRepository;
-import com.blueme.backend.model.repository.FavGenresJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 import com.blueme.backend.security.jwt.filter.JwtAuthenticationProcessingFilter;
 import com.blueme.backend.security.jwt.service.JwtService;
@@ -43,6 +31,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Spring Security 설정 클래스
+ * HTTP 보안, 인증 매니저, 로그인 성공/실패 핸들러 등의 Bean을 정의합니다.
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
 
 @CrossOrigin("*")
 @Configuration
@@ -57,42 +53,42 @@ public class SecurityConfig{
 	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 	private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
 	private final CustomOAuth2UserService customOAuth2UserService;
-//	private final CorsFilter corsFilter;
 	
-	
+	/**
+	 * Spring Security Filter Chain 설정
+	 * 
+	 * @param http HttpSecurity 인스턴스
+	 * @return 구성된 SecurityFilterChain 인스턴스
+	 */
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-		http.cors().configurationSource(corsConfigurationSource()).and()
-//		.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 		
-		
-				.formLogin().disable()
-				.httpBasic().disable()
-				.csrf().disable()
-				.headers().frameOptions().disable()
-				.and()
-				
-				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		http
+				.cors().configurationSource(corsConfigurationSource())
 				
 				.and()
-				
-				.authorizeRequests()
-				// 소셜 로그인 완료되면 접근 주소 변경하깅
-				.antMatchers(HttpMethod.OPTIONS).permitAll()
-				.antMatchers("/admin/**").hasRole("ADMIN") 	// "ROLE_ADMIN"
-				.antMatchers("/**").permitAll()
+					.formLogin().disable()
+					.httpBasic().disable()
+					.csrf().disable()
+					.headers().frameOptions().disable()
+				.and()
+					.sessionManagement()
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+					.authorizeRequests()
+					.antMatchers(HttpMethod.OPTIONS).permitAll()
+					.antMatchers("/admin/**").hasRole("ADMIN") 	// "ROLE_ADMIN"
+					.antMatchers("/**").permitAll()
 //				.antMatchers("/user/signup","signup", "deactivate","login","update","/index").permitAll() // "/signup" 회원가입페이지 접근 가능
 //				.antMatchers("/login/oauth2/code/kakao/**", "/login/oauth2/code/google/**").permitAll()
-                .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
+					.anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
-                // 소셜 로그인 설정
-                .oauth2Login()
-                .authorizationEndpoint().baseUri("/oauth2/authorization").and()
-                .redirectionEndpoint().baseUri("/login/oauth2/code/**").and()
-                .userInfoEndpoint().userService(customOAuth2UserService).and()
-                .successHandler(oAuth2LoginSuccessHandler)
-                .failureHandler(oAuth2LoginFailureHandler);
+                	.oauth2Login()	// OAuth2 로그인 설정
+                	.authorizationEndpoint().baseUri("/oauth2/authorization").and()
+                	.redirectionEndpoint().baseUri("/login/oauth2/code/**").and()
+                	.userInfoEndpoint().userService(customOAuth2UserService).and()
+                	.successHandler(oAuth2LoginSuccessHandler)
+                	.failureHandler(oAuth2LoginFailureHandler);
 
 		http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
 		http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
@@ -101,11 +97,21 @@ public class SecurityConfig{
                 
 	}
 	
+	/**
+	 * 비밀번호 암호화를 위한 BCryptPasswordEncoder 빈을 생성합니다.
+	 * 
+	 * @return 새로운 BCryptPasswordEncoder 인스턴스
+	 */
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
+	/**
+	 * 사용자 인증을 위한 AuthenticationManager 빈을 생성합니다.
+	 * 
+	 * @return 새로운 ProviderManager 인스턴스 
+	 */
 	@Bean
 	public AuthenticationManager authenticationManager() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();	// 비밀번호 검증
@@ -115,18 +121,33 @@ public class SecurityConfig{
 	}
 	
 
+	/**
+	 * 로그인 성공시 처리를 담당하는 LoginSuccessHandler 빈을 생성합니다.
+	 * 
+	 * @return 새로운 LoginSuccessHandler 인스턴스 
+	 */
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
         return new LoginSuccessHandler(jwtService, usersJpaRepository);
     }
 
 
+    /**
+	 * 로그인 실패시 처리를 담당하는 LoginFailureHandler 빈을 생성합니다.
+	 * 
+	 * @return 새로운 LoginFailureHandler 인스턴스 
+	 */
     @Bean
     public LoginFailureHandler loginFailureHandler() {
         return new LoginFailureHandler();
     }
 
-    
+    /**
+     * CustomJsonUsernamePasswordAuthenticationFilter 빈을 생성합니다.
+     * 이 필터는 JSON 형태의 사용자 이름과 비밀번호로 인증을 처리합니다.
+     * 
+     * @return 설정된 CustomJsonUsernamePasswordAuthenticationFilter 인스턴스 
+     */
     @Bean
     public CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
         CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordLoginFilter
@@ -137,12 +158,23 @@ public class SecurityConfig{
         return customJsonUsernamePasswordLoginFilter;
     }
 
+    /**
+     * JwtAuthenticationProcessingFilter 빈을 생성합니다.
+     * 이 필터는 JWT 토큰 기반의 인증을 처리합니다.
+     * 
+     * @return 설정된 JwtAuthenticationProcessingFilter 인스턴스
+     */
     @Bean
     public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
         JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, usersJpaRepository);
         return jwtAuthenticationFilter;
     }
     
+    /**
+     * CORS 설정을 위한 CorsConfigurationSource 빈을 생성합니다
+     * 
+     * @return UrlBasedCorsConfigurationSource에 등록된 CorsConfiguration 객체
+     */
     @Bean 
     public CorsConfigurationSource corsConfigurationSource() {
     	CorsConfiguration configuration = new CorsConfiguration();
@@ -158,6 +190,4 @@ public class SecurityConfig{
     	source.registerCorsConfiguration("/**", configuration);
     	return source;
     }
- 
-	
 }

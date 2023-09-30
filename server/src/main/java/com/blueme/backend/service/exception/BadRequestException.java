@@ -1,4 +1,4 @@
-package com.blueme.backend.security.oauth2.handler;
+package com.blueme.backend.service.exception;
 
 import org.springframework.lang.Nullable;
 

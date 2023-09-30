@@ -32,11 +32,16 @@ import com.blueme.backend.utils.ImageToBase64;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
-작성자: 손지연
-날짜(수정포함): 2023-09-20
-설명: 회원가입 시 선호아티스트 관련 서비스
-*/
+/**
+ * ArtistsService는 선호가수(아티스트) 관련 서비스 클래스입니다.
+ * <p>
+ * 이 클래스는 가수 추천, 선호가수 저장, 가수 검색, 선호가수 수정 기능을 처리합니다.
+ * </p>
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,7 +54,9 @@ public class ArtistsService {
 	private final FavArtistsJpaRepository favArtistsJpaRepository;
 
 	/**
-	 * 모든 가수(아티스트) 조회
+	 * 모든 가수를 조회합니다.
+	 * 
+	 * @return 가수 정보 목록(List)
 	 */
 	@Transactional
 	public List<ArtistInfoDto> getAllArtist() {
@@ -63,7 +70,10 @@ public class ArtistsService {
 	}
 
 	/**
-	 * 사용자가 선택한 가수(아티스트) 저장
+	 * 사용자가 선택한 가수를 저장합니다.
+	 * 
+	 * @param requestDto 사용자가 선택한 가수 요청 DTO (FavArtistReqDto)
+	 * @return 사용자 ID (Long)
 	 */
 	@Transactional
 	public Long saveFavArtist(FavArtistReqDto requestDto) {
@@ -92,7 +102,10 @@ public class ArtistsService {
 	}
 
 	/**
-	 * get 가수(아티스트) 검색
+	 * 가수를 키워드로 검색합니다.
+	 * 
+	 * @param keyword 검색 키워드 (String)
+	 * @return 검색된 가수 정보 목록 (List)
 	 */
 	@Transactional(readOnly = true)
 	public List<ArtistInfoDto> searchArtist(String keyword) {
@@ -113,7 +126,11 @@ public class ArtistsService {
 	}
 
 	/**
-	 * patch 가수(아티스트) 수정
+	 * 사용자의 선호하는 가수를 수정합니다.
+	 * 
+	 * @param userId       사용자 ID (Long)
+	 * @param newArtistIds 새로운 선호하는 가수 ID 목록 (List<Long>)
+	 * @return 사용자 ID (Long)
 	 */
 	@Transactional
 	public Long updateFavArtist(Long userId, List<Long> newArtistIds) {
@@ -133,7 +150,10 @@ public class ArtistsService {
 	}
 
 	/**
-	 * 아티스트(가수) 이미지 변환
+	 * 가수의 이미지를 Base64 형식으로 변환합니다.
+	 * 
+	 * @param music 가수 정보 (Musics)
+	 * @return Base64 형식의 이미지 (String)
 	 */
 	public String getBase64ImageForArtist(Musics music) {
 		if (music.getArtistFilePath() != null) {

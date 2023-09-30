@@ -2,6 +2,15 @@ package com.blueme.backend.security.oauth2.userinfo;
 
 import java.util.Map;
 
+/**
+ * Kakao OAuth2 사용자 정보를 처리하는 클래스
+ * OAuth2UserInfo 추상 클래스를 상속받아 구현합니다.
+ *  
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
+
 public class KakaoOauth2UserInfo extends OAuth2UserInfo {
 	
 	public KakaoOauth2UserInfo(Map<String, Object> attributes) {

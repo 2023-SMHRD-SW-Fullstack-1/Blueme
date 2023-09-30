@@ -1,6 +1,6 @@
 package com.blueme.backend.dto.usersdto;
 
-import com.blueme.backend.model.entity.UserRole;
+import com.blueme.backend.enums.UserRole;
 import com.blueme.backend.model.entity.Users;
 
 import lombok.AllArgsConstructor;

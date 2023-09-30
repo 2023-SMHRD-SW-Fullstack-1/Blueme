@@ -28,11 +28,16 @@ import com.blueme.backend.utils.ImageToBase64;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
-작성자: 손지연
-날짜(수정포함): 2023-09-16
-설명: 회원가입 시 선호장르 관련 서비스
-*/
+/**
+ * GenresService는 선호장르 관련 서비스 클래스입니다.
+ * <p>
+ * 이 클래스는 장르 추천, 선호장르 저장, 장르 검색, 선호장르 수정 기능을 처리합니다.
+ * </p>
+ * 
+ * @author 손지연
+ * @version 1.0
+ * @since 2023-09-27
+ */
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,7 +50,9 @@ public class GenresService {
 	private final FavCheckListsJpaRepository favCheckListsJpaRepository;
 
 	/**
-	 * 모든 장르 조회
+	 * 모든 장르를 조회합니다.
+	 * 
+	 * @return 장르 정보 목록 (List<GenreInfoDto>)
 	 */
 	@Transactional
 	public List<GenreInfoDto> getAllGenre() {
@@ -60,7 +67,10 @@ public class GenresService {
 	}
 
 	/**
-	 * 사용자가 선택한 장르 저장
+	 * 사용자가 선택한 장르를 저장합니다.
+	 * 
+	 * @param requestDto 사용자가 선택한 장르 요청 DTO (FavGenreReqDto)
+	 * @return 사용자 ID(Long)
 	 */
 	@Transactional
 	public Long saveFavGenre(FavGenreReqDto requestDto) {
@@ -88,7 +98,11 @@ public class GenresService {
 	}
 
 	/**
-	 * patch 장르 수정
+	 * 사용자의 선호하는 장르를 수정합니다.
+	 * 
+	 * @param userId      사용자 ID (Long)
+	 * @param newGenreIds 새로운 장르 ID 목록 (List<Long>)
+	 * @return 사용자 ID (Long)
 	 */
 	@Transactional
 	public Long updateFavGenre(Long userId, List<Long> newGenreIds) {
@@ -105,7 +119,10 @@ public class GenresService {
 	}
 
 	/**
-	 * 장르 이미지 변환
+	 * 장르 이미지를 Base64 문자열로 변환합니다.
+	 * 
+	 * @param genre 장르 정보 (Genres)
+	 * @return Base64 이미지 문자열 (String)
 	 */
 	public String getBase64ImageForGenre(Genres genre) {
 		if (genre.getGenre_file_path() != null) {
