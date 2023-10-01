@@ -40,7 +40,7 @@ public class RecMusiclists extends BaseEntity {
 	@Column(length = 100)
 	private String title;
 
-	@Column(length = 200)
+	@Column(length = 500)
 	private String reason;
 
 	@OneToMany(cascade = CascadeType.ALL)
