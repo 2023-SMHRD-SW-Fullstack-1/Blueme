@@ -23,10 +23,10 @@ public class FilePathConfig {
 
   // 배포경로
   
-   * public static final String MUSIC_PATH = "/home/ubuntu/assets/musics/";
-   * public static final String JACKET_PATH = "/home/ubuntu/assets/jackets/";
-   * public static final String ARTIST_PATH = "/home/ubuntu/assets/artists/";
-   * public static final String THEMES_IMG_PATH = "";
+   public static final String MUSIC_PATH = "/home/ubuntu/assets/musics/";
+   public static final String JACKET_PATH = "/home/ubuntu/assets/jackets/";
+   public static final String ARTIST_PATH = "/home/ubuntu/assets/artists/";
+   public static final String THEMES_IMG_PATH = "";
    
 
 }
