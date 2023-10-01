@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -40,7 +41,7 @@ public class RecMusiclists extends BaseEntity {
 	@Column(length = 100)
 	private String title;
 
-	@Column(length = 500)
+	@Lob
 	private String reason;
 
 	@OneToMany(cascade = CascadeType.ALL)
