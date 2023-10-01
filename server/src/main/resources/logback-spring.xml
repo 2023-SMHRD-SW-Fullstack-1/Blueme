@@ -8,8 +8,12 @@
     <property name="LOG_FILE_NAME" value="bluemeLog" />
 
     <!-- 로그 출력 패턴 -->
-    <property name="LOG_PATTERN"
+    <!-- <property name="LOG_PATTERN"
         value="%-5level %d{yy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n" />
+     -->
+    <property name="LOG_PATTERN"
+        value="%-5level %d{yy-MM-dd HH:mm:ss,Asia/Seoul}[%thread] [%logger{0}:%line] - %msg%n" />
+
 
     <!-- 로그 레벨 -->
     <!--
