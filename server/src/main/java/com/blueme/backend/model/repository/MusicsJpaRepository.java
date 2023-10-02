@@ -77,4 +77,13 @@ public interface MusicsJpaRepository extends JpaRepository<Musics, Long>, JpaSpe
    */
   @Query(value = "SELECT DISTINCT * FROM musics m WHERE m.artist LIKE %:keyword% GROUP BY m.artist", nativeQuery = true)
   List<Musics> findByDistinctArtist(@Param("keyword") String keyword);
+
+  /**
+   * 조회수 Top10 음악 정보 조회하는 메서드
+   * 
+   * @return 음악 목록 (List<Musics>)
+   */
+  @Query("SELECT m FROM Musics m ORDER BY m.hit DESC")
+  List<Musics> findTop10OrderByHitDesc(Pageable pageable);
+
 }

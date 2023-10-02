@@ -16,17 +16,16 @@ import org.springframework.context.annotation.Configuration;
 public class FilePathConfig {
 
   // 개발경로
-  // public static final String MUSIC_PATH = "\\usr\\blueme\\musics\\";
-  // public static final String JACKET_PATH = "\\usr\\blueme\\jackets\\";
-  // public static final String ARTIST_PATH = "\\usr\\blueme\\artists\\";
-  // public static final String THEMES_IMG_PATH = "C:\
+  public static final String MUSIC_PATH = "\\usr\\blueme\\musics\\";
+  public static final String JACKET_PATH = "\\usr\\blueme\\jackets\\";
+  public static final String ARTIST_PATH = "\\usr\\blueme\\artists\\";
+  public static final String THEMES_IMG_PATH = "C:/";
 
   // 배포경로
-  
-   public static final String MUSIC_PATH = "/home/ubuntu/assets/musics/";
-   public static final String JACKET_PATH = "/home/ubuntu/assets/jackets/";
-   public static final String ARTIST_PATH = "/home/ubuntu/assets/artists/";
-   public static final String THEMES_IMG_PATH = "";
-   
+
+  // public static final String MUSIC_PATH = "/home/ubuntu/assets/musics/";
+  // public static final String JACKET_PATH = "/home/ubuntu/assets/jackets/";
+  // public static final String ARTIST_PATH = "/home/ubuntu/assets/artists/";
+  // public static final String THEMES_IMG_PATH = "";
 
 }
