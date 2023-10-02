@@ -121,7 +121,7 @@ const Login = () => {
 
           <button
             onClick={() => {
-              window.location.href = "http://localhost:8104/oauth2/authorization/kakao";
+              window.location.href = `${process.env.REACT_APP_API_BASE_URL}/oauth2/authorization/kakao`;
             }}
             className="
      flex items-center justify-center pl-2 w-full mt-6 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white text-sm peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral-200 "
@@ -132,7 +132,7 @@ const Login = () => {
 
           <button
             onClick={() => {
-              window.location.href = "http://localhost:8104/oauth2/authorization/google";
+              window.location.href = `${process.env.REACT_APP_API_BASE_URL}/oauth2/authorization/google`;
             }}
             className="
   flex items-center justify-center pl-2 w-full mt-3 border border-soild border-custom-white rounded-lg bg-custom-blue text-custom-white text-sm peer min-h-auto bg-transparent py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:text-neutral[200 "

@@ -70,4 +70,16 @@ public class AdminController {
     log.info("start getRecMusics with no end message");
     return ResponseEntity.ok().body(adminService.getRecMusics(date));
   }
+
+  /**
+   * date 를 기반으로 그 날의 새로운 건강정보 수를 조회하는 메서드입니다.
+   * 
+   * @param date 날짜 (String)
+   * @return 그 날의 새로운 건강정보 수
+   */
+  @GetMapping("/newhealthinfos/{date}")
+  public ResponseEntity<Long> gethealthInfos(@PathVariable String date) {
+    log.info("start getRecMusics with no end message");
+    return ResponseEntity.ok().body(adminService.gethealthInfos(date));
+  }
 }

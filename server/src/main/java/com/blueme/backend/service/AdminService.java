@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blueme.backend.dto.admindto.MusicInfoTop10ResDto;
+import com.blueme.backend.model.repository.HealthInfosJpaRepository;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
 import com.blueme.backend.model.repository.RecMusicListsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
@@ -32,6 +33,7 @@ public class AdminService {
   private final MusicsJpaRepository musicsJpaRepository;
   private final UsersJpaRepository usersJpaRepository;
   private final RecMusicListsJpaRepository recMusicListsJpaRepository;
+  private final HealthInfosJpaRepository healthInfosJpaRepository;
 
   /**
    * 조회수 상위랭크 10개 조회하는 메서드
@@ -80,4 +82,24 @@ public class AdminService {
         endDateTime.toLocalDate().atStartOfDay());
     return cnt;
   }
+
+  /**
+   * date기반으로 그 날의 새로운 건강정보수를 조회하는 메서드입니다.
+   * 
+   * @return 새로운 건강정보수
+   */
+  @Transactional(readOnly = true)
+  public Long gethealthInfos(String date) {
+    Instant instant = Instant.parse(date); // Instant 객체로 변환
+
+    ZoneId seoulZoneId = ZoneId.of("Asia/Seoul");
+    LocalDateTime startDateTime = LocalDateTime.ofInstant(instant, seoulZoneId);
+    LocalDateTime endDateTime = startDateTime.plusDays(1);
+
+    Long cnt = healthInfosJpaRepository.countHealthInfosRegisteredBetween(
+        startDateTime.toLocalDate().atStartOfDay(),
+        endDateTime.toLocalDate().atStartOfDay());
+    return cnt;
+  }
+
 }
