@@ -48,8 +48,9 @@ public class AdminController {
   }
 
   /**
+   * date를 기반으로 그 날의 새로운 회원수를 조회하는 메서드입니다.
    * 
-   * @return
+   * @return 새로 가입한 회원수(Long)
    */
   @GetMapping("/newclients/{date}")
   public ResponseEntity<Long> getNewClients(@PathVariable String date) {
