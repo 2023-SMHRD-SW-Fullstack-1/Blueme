@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,4 +46,15 @@ public class AdminController {
       return ResponseEntity.ok().body(result);
     }
   }
+
+  /**
+   * 
+   * @return
+   */
+  @GetMapping("/newclients/{date}")
+  public ResponseEntity<Long> getNewClients(@PathVariable String date) {
+    log.info("start getNewClients with no end message");
+    return ResponseEntity.ok().body(adminService.getNewClients(date));
+  }
+
 }

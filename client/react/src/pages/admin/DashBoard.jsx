@@ -7,11 +7,14 @@ import AddMusicPage from "../../components/admin/AddMusicPage";
 import MainContent from "../../components/admin/MainContent";
 import AddTheme from "../../components/admin/AddTheme";
 
+
 const DashBoard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [pageView, setPageView] = useState("maincontent");
   return (
     <div className="flex h-screen overflow-hidden bg-white">
+      {/* Card */}
+      
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
