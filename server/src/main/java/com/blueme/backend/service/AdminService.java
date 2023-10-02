@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.blueme.backend.dto.admindto.MusicInfoTop10ResDto;
 import com.blueme.backend.model.repository.MusicsJpaRepository;
+import com.blueme.backend.model.repository.RecMusicListsJpaRepository;
 import com.blueme.backend.model.repository.UsersJpaRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class AdminService {
 
   private final MusicsJpaRepository musicsJpaRepository;
   private final UsersJpaRepository usersJpaRepository;
+  private final RecMusicListsJpaRepository recMusicListsJpaRepository;
 
   /**
    * 조회수 상위랭크 10개 조회하는 메서드
@@ -56,6 +58,25 @@ public class AdminService {
     LocalDateTime endDateTime = startDateTime.plusDays(1);
 
     Long cnt = usersJpaRepository.countUsersRegisteredBetween(startDateTime.toLocalDate().atStartOfDay(),
+        endDateTime.toLocalDate().atStartOfDay());
+    return cnt;
+  }
+
+  /**
+   * date기반으로 그 날의 새로운 추천목록수를 조회하는 메서드입니다.
+   * 
+   * @return 새로 추천받은 목록 수
+   */
+  @Transactional(readOnly = true)
+  public Long getRecMusics(String date) {
+    Instant instant = Instant.parse(date); // Instant 객체로 변환
+
+    ZoneId seoulZoneId = ZoneId.of("Asia/Seoul");
+    LocalDateTime startDateTime = LocalDateTime.ofInstant(instant, seoulZoneId);
+    LocalDateTime endDateTime = startDateTime.plusDays(1);
+
+    Long cnt = recMusicListsJpaRepository.countRecMusiclistsRegisteredBetween(
+        startDateTime.toLocalDate().atStartOfDay(),
         endDateTime.toLocalDate().atStartOfDay());
     return cnt;
   }

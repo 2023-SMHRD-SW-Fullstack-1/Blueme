@@ -50,6 +50,7 @@ public class AdminController {
   /**
    * date를 기반으로 그 날의 새로운 회원수를 조회하는 메서드입니다.
    * 
+   * @param date 날짜 (String)
    * @return 새로 가입한 회원수(Long)
    */
   @GetMapping("/newclients/{date}")
@@ -58,4 +59,15 @@ public class AdminController {
     return ResponseEntity.ok().body(adminService.getNewClients(date));
   }
 
+  /**
+   * date 를 기반으로 그 날의 새로운 추천음악 수를 조회하는 메서드입니다.
+   * 
+   * @param date 날짜 (String)
+   * @return 그 날의 새로운 GPT 추천목록수
+   */
+  @GetMapping("/newrecmusiclists/{date}")
+  public ResponseEntity<Long> getRecMusics(@PathVariable String date) {
+    log.info("start getRecMusics with no end message");
+    return ResponseEntity.ok().body(adminService.getRecMusics(date));
+  }
 }

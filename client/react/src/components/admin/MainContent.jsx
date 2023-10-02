@@ -48,7 +48,7 @@ const MainContent = () => {
                     <strong className="text-green-500">{(todayCnt - yesterdayCnt) > 0 
                       ? "+" + (todayCnt - yesterdayCnt) 
                       : "-" + (todayCnt - yesterdayCnt)}</strong>
-                    &nbsp;than last day
+                    &nbsp;than yesterday
                   </Typography>
                 }
               />

@@ -1,5 +1,6 @@
 package com.blueme.backend.model.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -51,5 +52,15 @@ public interface RecMusicListsJpaRepository extends JpaRepository<RecMusiclists,
    */
   @Query(value = "SELECT * FROM rec_musiclists WHERE user_id != :userId ORDER BY created_at DESC LIMIT 10", nativeQuery = true)
   List<RecMusiclists> findTop10ByUserIdNotOrderByCreatedAtDesc(@Param("userId") Long userId);
+
+  /**
+   * 특정 날짜의 GPT추천목록수를 조회하는 메서드입니다.
+   * 
+   * @param start 해당날짜 시작 (LocalDateTime)
+   * @param end   해당날짜 끝 (LocalDateTime)
+   * @return 추천받은 GPT 추천목록 수
+   */
+  @Query("SELECT count(r) FROM RecMusiclists r WHERE r.createdAt >= :start AND r.createdAt < :end")
+  Long countRecMusiclistsRegisteredBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
 }
