@@ -1,6 +1,5 @@
 package com.blueme.backend.security.oauth2.handler;
 
-
 import java.io.IOException;
 import java.net.URLEncoder;
 
@@ -41,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-	
 	private final JwtService jwtService;
 	private final UsersJpaRepository usersJpaRepository;
 	private final HttpCookieOAuth2AuthorizationRequestRepository auth2AuthorizationRequestRepository;
@@ -52,12 +50,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	String userId = null;
 
 	/**
-     * 인증(로그인)에 성공했을 때 호출되는 메서드
-     *
-     * @param request HTTP 요청 객체 
-     * @param response HTTP 응답 객체 
-     * @param authentication 인증 정보 객체 
-     */
+	 * 인증(로그인)에 성공했을 때 호출되는 메서드
+	 *
+	 * @param request        HTTP 요청 객체
+	 * @param response       HTTP 응답 객체
+	 * @param authentication 인증 정보 객체
+	 */
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -80,7 +78,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				response.addHeader("userId", userId.toString());
 
 				String userIdParam = "id=" + userId;
-				String redirectUrl = "http://localhost:3000/SelectGenre?" + userIdParam;
+				String redirectUrl = "http://3.37.88.116:3000/SelectGenre?" + userIdParam;
 				response.sendRedirect(redirectUrl);
 				findUser.authorizeUser();
 				usersJpaRepository.save(findUser); // Role.USER 로 변경
@@ -101,9 +99,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	/**
 	 * 소셜 로그인 성공 시 처리하는 메소드. access token과 refresh token을 생성하고 이를 응답 헤더에 추가한다.
 	 *
-	 * @param response HTTP 응답 객체  
-	 * @param oAuth2User 소셜 로그인 사용자 정보가 담긴 CustomOAuth2User 객체  
-	 * @param authentication 인증 정보 객체 
+	 * @param response       HTTP 응답 객체
+	 * @param oAuth2User     소셜 로그인 사용자 정보가 담긴 CustomOAuth2User 객체
+	 * @param authentication 인증 정보 객체
 	 */
 	private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User, Authentication authentication)
 			throws IOException {
@@ -112,8 +110,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
 			String refreshToken = jwtService.createRefreshToken();
 
-//			response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-//			response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
+			// response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
+			// response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
 
 			jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 			// jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
@@ -131,17 +129,16 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				log.info("userInfoJson : {}", userInfoJson);
 				String encodedUserInfo = URLEncoder.encode(userInfoJson, "UTF-8");
 				String redirectUri = UriComponentsBuilder.fromHttpUrl("http://localhost:3000/OauthInfo")
-					    .queryParam("OauthInfo", encodedUserInfo)
-					    .queryParam("accessToken", accessToken)
-					    .queryParam("refreshToken", refreshToken)
-					    .toUriString();
-				
+						.queryParam("OauthInfo", encodedUserInfo)
+						.queryParam("accessToken", accessToken)
+						.queryParam("refreshToken", refreshToken)
+						.toUriString();
+
 				response.sendRedirect(redirectUri);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 	}
-	
 
 }

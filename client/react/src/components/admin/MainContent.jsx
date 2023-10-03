@@ -13,7 +13,7 @@ import axios from "axios";
 작성일 : 2023-10-02
 */
 const MainContent = () => {
-  const [todayCnt, setTodatCnt] = useState(0);
+  const [todayCnt, setTodayCnt] = useState(0);
   const [yesterdayCnt, setYesterdayCnt] = useState(0);
   const [todayRecCnt, setTodayRecCnt] = useState(0);
   const [yesterdayRecCnt, setYesterdayRecCnt] = useState(0);
@@ -26,24 +26,26 @@ const MainContent = () => {
     yesterdayDate.setDate(currentDate.getDate() - 1); 
     const yesterdayTimeString = yesterdayDate.toISOString();
 
-    axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin2/newclients/${dateTimeString}`)
-      .then(response => setTodatCnt(response.data))
-      .catch(error => console.error(error));
-    axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin2/newclients/${yesterdayTimeString}`)
-      .then(response => setYesterdayCnt(response.data))
-      .catch(error => console.error(error));
-    axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin2/newrecmusiclists/${dateTimeString}`)
-      .then(response => setTodayRecCnt(response.data))
-      .catch(error => console.error(error));
-    axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin2/newrecmusiclists/${yesterdayTimeString}`)
-      .then(response => setYesterdayRecCnt(response.data))
-      .catch(error => console.error(error));  
-    axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin2/newhealthinfos/${dateTimeString}`)
-      .then(response => setTodayHealthCnt(response.data))
-      .catch(error => console.error(error)); 
-    axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin2/newhealthinfos/${yesterdayTimeString}`)
-      .then(response => setYesterdayHealthCnt(response.data))
-      .catch(error => console.error(error)); 
+    // 어제와 오늘의 수를 구하는 메서드입니다.
+    const fetchDataForPathAndDates = async (pathEndsWith, todaySetterFunc, yesterdaySetterFunc) => {
+      try {
+        const todayResponse =
+          await axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin2/${pathEndsWith}/${dateTimeString}`);
+        todaySetterFunc(todayResponse.data);
+
+        const yesterdayResponse =
+          await axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin2/${pathEndsWith}/${yesterdayTimeString}`);
+        yesterdaySetterFunc(yesterdayResponse.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    Promise.all([
+      fetchDataForPathAndDates('newclients', setTodayCnt,setYesterdayCnt),
+      fetchDataForPathAndDates('newrecmusiclists',setTodayRecCnt,setYesterdayRecCnt),
+      fetchDataForPathAndDates('newhealthinfos',setTodayHealthCnt,setYesterdayHealthCnt)
+    ]);
   },[])
   return (
     <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden mt-8 bg-[#f5f7f8]">
@@ -66,8 +68,8 @@ const MainContent = () => {
               footer={
                 <Typography className="font-normal text-blue-gray-600">
                   <strong className="text-green-500">{(todayCnt - yesterdayCnt) > 0 
-                    ? "+" + (todayCnt - yesterdayCnt) 
-                    : "-" + (todayCnt - yesterdayCnt)}</strong>
+                    ? (todayCnt - yesterdayCnt) 
+                    : (todayCnt - yesterdayCnt)}</strong>
                   &nbsp;than yesterday
                 </Typography>
               }
@@ -83,8 +85,8 @@ const MainContent = () => {
               footer={
                 <Typography className="font-normal text-blue-gray-600">
                   <strong className="text-rose-500">{(todayRecCnt - yesterdayRecCnt) > 0 
-                    ? "+" + (todayRecCnt - yesterdayRecCnt) 
-                    : "-" + (todayRecCnt - yesterdayRecCnt)}</strong>
+                    ? (todayRecCnt - yesterdayRecCnt) 
+                    : (todayRecCnt - yesterdayRecCnt)}</strong>
                   &nbsp;than yesterday
                 </Typography>
               }
@@ -100,8 +102,8 @@ const MainContent = () => {
               footer={
                 <Typography className="font-normal text-blue-gray-600">
                   <strong className="text-sky-500">{(todayHealthCnt - yesterdayHealthCnt) > 0 
-                    ? "+" + (todayHealthCnt - yesterdayHealthCnt) 
-                    : "-" + (todayHealthCnt - yesterdayHealthCnt)}</strong>
+                    ? (todayHealthCnt - yesterdayHealthCnt) 
+                    : (todayHealthCnt - yesterdayHealthCnt)}</strong>
                   &nbsp;than yesterday
                 </Typography>
               }
