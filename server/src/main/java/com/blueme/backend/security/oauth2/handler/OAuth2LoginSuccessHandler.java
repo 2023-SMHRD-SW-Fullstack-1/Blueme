@@ -128,7 +128,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				userInfoJson = mapper.writeValueAsString(userInfo);
 				log.info("userInfoJson : {}", userInfoJson);
 				String encodedUserInfo = URLEncoder.encode(userInfoJson, "UTF-8");
-				String redirectUri = UriComponentsBuilder.fromHttpUrl("http://localhost:3000/OauthInfo")
+				String redirectUri = UriComponentsBuilder.fromHttpUrl("http://3.37.88.116:3000/OauthInfo")
 						.queryParam("OauthInfo", encodedUserInfo)
 						.queryParam("accessToken", accessToken)
 						.queryParam("refreshToken", refreshToken)
