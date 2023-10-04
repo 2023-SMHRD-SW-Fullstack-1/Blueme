@@ -27,7 +27,7 @@ const Library = () => {
   const isLoggendIn = useSelector((state) => state.memberReducer.isLogin);
   const navigate = useNavigate();
   const [myMusicIds, setMyMusicIds] = useState([]); // 나의 플리 musicId
-  
+
   useEffect(() => {
     if (isLoggendIn) {
       // 로그인한 경우 사용자의 추천 플레이리스트 불러오기
@@ -50,7 +50,9 @@ const Library = () => {
           <p className="text-left text-xl ml-[5px] mt-[50px] lg:text-2xl">저장한 플레이리스트</p>
           <SavedPlaylist />
 
-          <h1 className="text-left text-xl ml-[5px] lg:text-2xl ">AI가 추천해준 나의 플레이리스트</h1>
+          <h1 className="text-left text-xl ml-[5px] lg:text-2xl mt-5 hidden md:block ">
+            AI가 추천해준 나의 플레이리스트
+          </h1>
 
           {isLoggendIn && myRecMusicList.length > 0 && (
             <Swiper
