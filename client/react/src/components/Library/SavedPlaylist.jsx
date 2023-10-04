@@ -81,7 +81,7 @@ const SavedPlaylist = () => {
                 <img
                   src={"data:image/;base64," + SavedPlaylist.img}
                   alt="album cover"
-                  className="w-[200px] h-auto rounded-sm sm:h-auto"
+                  className="rounded-sm w-[155px]  h-[145px] object-cover "
                 />
                 {/* 2. 제목/ 아티스트 */}
                 <p className="tracking-tight text-sm text-center mt-2 lg:text-base lg:w-[200px]">
