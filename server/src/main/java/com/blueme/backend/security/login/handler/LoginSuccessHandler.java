@@ -124,7 +124,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 				ImageConverter<File, String> converter = new ImageToBase64();
 				String base64 = null;
 				base64 = converter.convert(file);
-				log.info(base64);
 				return base64;
 			} catch (IOException e) {
 				log.info("error");
