@@ -77,6 +77,7 @@ public class UsersService {
 		log.info("userService method save start...");
 		Optional<Users> users = usersJpaRepository.findByEmail(usersRegisterDto.getEmail());
 		if (users.isPresent()) {
+			System.out.println(users.get().getActiveStatus());
 			throw new EmailAlreadyExistsException(usersRegisterDto.getEmail());
 		} else {
 			Users user = Users.builder().email(usersRegisterDto.getEmail())

@@ -48,7 +48,7 @@ const SelectGenre = () => {
     //화면 로딩 시 장르 데이터 불러오기
     useEffect(() => {
       axios
-      .get(`${process.env.REACT_APP_API_BASE_URL}/SelectGenre`) //장르 전체 데이터 불러오기
+      .get(`http://localhost:8104/SelectGenre`) //장르 전체 데이터 불러오기
       .then((res) => {
         console.log(res);
         // console.log('userid', id);
