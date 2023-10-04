@@ -14,14 +14,16 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/three": "^0.155.1",
+    "apexcharts": "3.35.5",
     "axios": "^1.5.0",
     "chart.js": "^4.3.0",
     "chartjs-adapter-moment": "^1.0.1",
     "howler": "^2.2.3",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
+    "prop-types": "15.8.1",
     "react": "^18.2.0",
-    "react-apexcharts": "1.4.0",
+    "react-apexcharts": "^1.4.0",
     "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
     "react-flatpickr": "^3.10.13",
@@ -38,9 +40,7 @@
     "swiper": "^10.2.0",
     "swiper-react": "^1.0.0",
     "three": "^0.156.1",
-    "web-vitals": "^2.1.4",
-    "apexcharts": "3.35.5",
-    "prop-types": "15.8.1"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "cross-env REACT_APP_API_BASE_URL=http://172.30.1.27:8104 react-scripts start",

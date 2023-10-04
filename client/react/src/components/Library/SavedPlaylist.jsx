@@ -28,6 +28,7 @@ const SavedPlaylist = () => {
         // console.log(musiclistId);
       } catch (error) {
         console.error(`Error: ${error}`);
+        setSavedPlaylists(null)
       }
     };
 
@@ -48,10 +49,13 @@ const SavedPlaylist = () => {
     console.log(musiclistId);
   }, [musiclistId]);
 
-  const slidesPerView = savedPlaylists.length <= 2 ? savedPlaylists.length : 3;
+  // const slidesPerView = savedPlaylists.length <= 2 ? savedPlaylists.length : 3;
 
   return (
-    <div className="overflow-hidden indent-2 text-xl tracking-tight mt-3 ">
+    <div className="overflow-hidden indent-2 text-xl tracking-tight mt-3 md:h-[300px] ">
+       {savedPlaylists === null ? 
+               <p className="text-left  mt-2 text-custom-lightgray text-[15px] font-normal">저장한 플레이리스트가 없습니다.</p> 
+               : 
       <Swiper
         spaceBetween={10}
         slidesPerView="0"
@@ -81,10 +85,10 @@ const SavedPlaylist = () => {
                 <img
                   src={"data:image/;base64," + SavedPlaylist.img}
                   alt="album cover"
-                  className="rounded-sm w-[155px]  h-[145px] object-cover "
+                  className="rounded-xl w-[200px] h-auto object-cover "
                 />
                 {/* 2. 제목/ 아티스트 */}
-                <p className="tracking-tight text-sm text-center mt-2 lg:text-base lg:w-[200px]">
+                <p className="tracking-tight text-sm text-center mt-2 lg:w-[200px]">
                   {SavedPlaylist.title}
                 </p>
               </div>
@@ -92,6 +96,7 @@ const SavedPlaylist = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+      }
       <div className="xs:mb-32"></div>
     </div>
   );

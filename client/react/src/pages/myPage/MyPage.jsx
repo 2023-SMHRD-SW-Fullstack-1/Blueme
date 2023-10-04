@@ -126,7 +126,7 @@ const MyPage = () => {
                     alt="genre image"
                     className="rounded-lg border object-cover blur-[1.5px] w-[130px] h-[130px]"
                   />
-                  <h5 className="font-normal absolute text-2xl">{genre.name}</h5>
+                  <p className="font-normal absolute text-2xl">{genre.name}</p>
                 </button>
               </SwiperSlide>
             ))}
@@ -156,10 +156,10 @@ const MyPage = () => {
                   alt="artist image"
                   className="rounded-lg img-fixed border object-cover blur-[1.5px]  w-[130px] h-[130px]"
                 />
-                <h5 className="font-normal absolute text-2xl
+                <p className="font-normal absolute text-2xl
                 transform -translate-x-half -translate-y-half 
                 left-half top-half 
-                -translate-x[-50%] -translate-y[-50%]">{artist.artistName}</h5>
+                -translate-x[-50%] -translate-y[-50%] w-[120px] overflow-hidden">{artist.artistName}</p>
               </button>
             </SwiperSlide>
           ))}

@@ -27,7 +27,7 @@ const MyRecMusicList = ({ item, i }) => {
     arrows: false,
     infinite: true,
     autoplay: true, // 자동 재생 활성화
-    autoplaySpeed: 5000, // 각 슬라이드가 보여지는 시간 (밀리초 단위)
+    autoplaySpeed: 3000, // 각 슬라이드가 보여지는 시간 (밀리초 단위)
   }
 
   return (
@@ -37,7 +37,7 @@ const MyRecMusicList = ({ item, i }) => {
             <Slider {...setting}>
               {item.recMusiclistDetails.map((detail, i) => (
                 <div key={i}>
-                  <img src={"data:image/;base64,"+detail.img} alt="album cover"/>
+                  <img src={"data:image/;base64,"+detail.img} alt="album cover" className="rounded-lg"/>
                 </div>
               ))}
             
@@ -49,7 +49,7 @@ const MyRecMusicList = ({ item, i }) => {
               </>
             }
           </div>
-          <p className="tracking-tight text-normal text-center mt-3 w-[180px] ">
+          <p className="tracking-tight text-sm text-center mt-3 w-[180px] font-semibold">
             {item.title}
           </p>
         </div>

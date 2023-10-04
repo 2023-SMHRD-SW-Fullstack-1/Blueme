@@ -38,7 +38,10 @@ const Library = () => {
           setMyMusicIds(res.data.map((myRecMusicList) => myRecMusicList.recMusiclistId));
           console.log("my", res);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          setMyRecMusicList(null);
+        });
     }
   }, []);
 
@@ -50,51 +53,53 @@ const Library = () => {
           <p className="text-left text-xl ml-[5px] mt-[50px] lg:text-2xl">저장한 플레이리스트</p>
           <SavedPlaylist />
 
-          <h1 className="text-left text-xl ml-[5px] lg:text-2xl ">AI가 추천해준 나의 플레이리스트</h1>
+          <h1 className="text-left text-xl ml-[5px] lg:text-2xl md:visible invisible">AI가 추천해준 나의 플레이리스트</h1>
 
-          {isLoggendIn && myRecMusicList.length > 0 && (
-            <Swiper
-              className="mt-5 hidden md:block overflow-hidden"
-              spaceBetween={10}
-              slidesPerView="0"
-              breakpoints={{
-                320: {
-                  slidesPerView: 1,
-                  spaceBetween: 10,
-                },
-                800: {
-                  slidesPerView: 2,
-                  spaceBetween: 10,
-                },
-                1200: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-              }}
-            >
-              {myRecMusicList &&
-                myRecMusicList.map((item, i) => (
-                  <SwiperSlide key={item.recMusiclistId} className="">
-                    <div className="flex flex-col justify-center items-center ">
-                      <img
-                        onClick={() => {
-                          navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
-                        }}
-                        src={"data:image/;base64," + item.recMusiclistDetails[0].img}
-                        alt="album cover"
-                        className="w-[200px] h-auto rounded-sm"
-                      />
-                      <p className="tracking-tight text-sm text-center mt-2 mb-[150px] lg:w-[200px]">{item.title}</p>
-                    </div>
-                  </SwiperSlide>
-                ))}
+          {myRecMusicList === null ? 
+               <p className=" ml-2 mt-5 text-custom-lightgray text-[15px]">추천 받은 플레이리스트가 없습니다.</p> 
+               :
+              isLoggendIn && (
+                <Swiper
+                  className="mt-5 hidden md:block overflow-hidden"
+                  spaceBetween={10}
+                  slidesPerView="0"
+                  breakpoints={{
+                    320: {
+                      slidesPerView: 1,
+                      spaceBetween: 10,
+                    },
+                    800: {
+                      slidesPerView: 2,
+                      spaceBetween: 10,
+                    },
+                    1200: {
+                      slidesPerView: 3,
+                      spaceBetween: 10,
+                    },
+                  }}
+                > 
+               {myRecMusicList.map((item, i) => (
+                 <SwiperSlide key={item.recMusiclistId} className="">
+                   <div className="flex flex-col justify-center items-center ">
+                     <img
+                       onClick={() => {
+                         navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
+                       }}
+                       src={"data:image/;base64," + item.recMusiclistDetails[0].img}
+                       alt="album cover"
+                       className="w-[200px] h-auto rounded-xl"
+                     />
+                     <p className="tracking-tight text-sm text-center mt-2 mb-[150px] lg:w-[200px]">{item.title}</p>
+                   </div>
+                 </SwiperSlide>
+               ))}
             </Swiper>
           )}
         </div>
 
         <div className="w-full md:w-1/2 pl-0 md:pl-2 mt-[30px] md:mt-[10px] order-first md:order-last md:pt-10 ">
           <div className="flex mt-14 xs:mt-5 mb-3">
-            <span className="text-left text-xl ml-[5px]  lg:pt-[0px] lg:text-2xl lg:mb-5 mt-[20px]">
+            <span className="text-left text-xl ml-[5px]  lg:pt-[0px] lg:text-2xl">
               좋아요 누른 음악 목록
             </span>
             <button className="ml-auto text-custom-gray mr-2 text-sm">
