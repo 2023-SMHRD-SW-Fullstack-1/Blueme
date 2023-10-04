@@ -59,7 +59,7 @@ const Main = () => {
     const myRecPlaylist = async () => {
       try{
           await axios
-            .get(`/recMusiclist/${id}`) //나의 추천 플리 불러오기
+            .get(`${process.env.REACT_APP_API_BASE_URL}/recMusiclist/${id}`) //나의 추천 플리 불러오기
             .then((res) => {
               // console.log(res);
               setMyRecMusicList(res.data); //나의 플레이리스트에 저장
