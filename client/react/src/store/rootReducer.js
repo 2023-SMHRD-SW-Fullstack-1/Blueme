@@ -60,7 +60,7 @@ let persistor = persistStore(store);
 
 store.dispatch(setMusicIds([]));
 store.dispatch(setPlayingStatus(false));
-store.dispatch(setCurrentSongId());
+store.dispatch(setCurrentSongId(1));
 store.dispatch(setShowMiniPlayer(false));
 
 // 지희 추가 (0922)

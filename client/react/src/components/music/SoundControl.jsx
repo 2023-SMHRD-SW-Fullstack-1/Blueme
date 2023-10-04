@@ -14,7 +14,6 @@ import {
   setCurrentTime,
   setDuration,
 } from "../../store/music/musicActions";
-import MusicPlayer from "../../pages/MusicPlayer";
 
 const SoundControl = () => {
   const dispatch = useDispatch();

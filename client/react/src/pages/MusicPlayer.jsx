@@ -13,6 +13,7 @@ import { ReactComponent as Prev } from "../assets/img/musicPlayer/backward.svg";
 import { ReactComponent as Next } from "../assets/img/musicPlayer/forward.svg";
 import { ReactComponent as Play } from "../assets/img/musicPlayer/play.svg";
 import { ReactComponent as Pause } from "../assets/img/musicPlayer/pause.svg";
+import defaultImg from "../assets/img/musicPlayer/default.png"
 
 // import - 이미지
 import rotate from "../assets/img/musicPlayer/rotate.png";
@@ -45,7 +46,7 @@ const MusicPlayer = () => {
     album: "",
     title: "",
     artist: "",
-    img: "",
+    img: defaultImg,
   });
 
   // 음악 재생 인덱스 (리덕스 활용)
