@@ -510,7 +510,6 @@ public class ChatGptService {
                                 // 태그 목록에서 마지막 태그 제거
                                 int lastIndex = tagList.size() - 1;
                                 if (lastIndex >= 0) {
-                                        System.out.println("Removing: " + tagList.get(lastIndex)); // 제거된 태그 출력
                                         tagList.remove(lastIndex);
                                 }
                         }
@@ -602,7 +601,7 @@ public class ChatGptService {
                 // 1~4까지 랜덤한 질의문 생성(GPT의 다채로운답변을위해)
                 Random random = new Random();
                 int randomNumber = random.nextInt(4) + 1;
-                // int randomNumber = 3;
+                // int randomNumber = 4;
                 String question = null;
                 log.info("포맷타입 = {}", randomNumber);
                 if (randomNumber == 1) {
@@ -619,7 +618,7 @@ public class ChatGptService {
                                         musicsString);
                 } else if (randomNumber == 3) {
                         question = String.format(ChatGptConfig.QUESTION_TEMPLATE3,
-                                        temperature, humidity,
+                                        temperature, humidity, seasonData + " " + timeData,
                                         avgHeartRate, heartRateData, avgSpeed, stepsPerMinute, speedData,
                                         genre1, genre2,
                                         artist1, artist2,
