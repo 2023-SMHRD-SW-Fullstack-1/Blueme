@@ -133,9 +133,18 @@ const Main = () => {
       <br />
       {/* ChatGPT가 추천해준 나의 플레이리스트 */}
       <div>
-        <h1 className="overflow-hidden indent-2 text-xl font-semibold lg:text-2xl xl:ml-[50px] tracking-tight mt-[60px] w-[300px] lg:w-[500px]">
-          AI가 추천해준 나만의 플레이리스트
-        </h1>
+        {/* <div className="flex space-between w-full"> */}
+          <h1 className="overflow-hidden indent-2 text-xl font-semibold lg:text-2xl xl:ml-[50px] tracking-tight mt-[60px] w-[300px] lg:w-[500px]">
+            AI가 추천해준 나만의 플레이리스트
+          </h1> 
+           {/* <Link to="/RecBegin" className="overflow-hidden absolute right-[80px] text-right text-xl font-semibold lg:text-xl xl:ml-[50px] tracking-tight mt-[60px] w-[300px] lg:w-[500px] md:visible invisible">
+            <span className="mr-5 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 bg-gradient-to-t from-gray-600 rounded-lg text-sm h-8 w-20 p-4">
+              추천받기
+            </span>
+          </Link> */}
+        {/* </div> */}
+
+        
         <Swiper
           spaceBetween={10}
           slidesPerView="0"
