@@ -28,7 +28,7 @@ const SelectGenre = () => {
    const timeout = () => {
     setTimeout(() => {
       document.getElementById('toast-warning').classList.remove("reveal")//토스트창 소명
-    }, 3000);// 원하는 시간 ms단위로 적어주기
+    }, 1000);// 원하는 시간 ms단위로 적어주기
     };
 
     //장르 한 개 선택 시
@@ -50,7 +50,7 @@ const SelectGenre = () => {
       axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/SelectGenre`) //장르 전체 데이터 불러오기
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         // console.log('userid', id);
         setGenre(res.data)//전체 장르
       })
@@ -64,7 +64,7 @@ const SelectGenre = () => {
           let requestData = 0
             if(!location.search) {
                 requestData = {genreIds : checkedState ,favChecklistId : id}
-                console.log(requestData);
+                // console.log(requestData);
             } else {
                 requestData = {genreIds : checkedState ,favChecklistId : snsId}// url로 넘어오는 snsId가져오기
             }

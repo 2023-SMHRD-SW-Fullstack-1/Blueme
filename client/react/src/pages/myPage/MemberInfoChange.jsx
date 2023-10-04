@@ -39,7 +39,7 @@ function MemberInfoChange() {
   // 선택된 이미지 파일을 저장하는 함수
   const saveImgFile = () => {
     if (!imgRef.current.files[0]) {
-      console.log("파일을 선택해주세요");
+      // console.log("파일을 선택해주세요");
       return;
     }
     const file = imgRef.current.files[0];
@@ -60,7 +60,7 @@ function MemberInfoChange() {
     setTimeout(() => {
       document.getElementById('toast-warning').classList.remove("reveal")//토스트 창 소멸
       navigate("/MyPage");
-    }, 2000);// 원하는 시간 ms단위로 적어주기
+    }, 1000);// 원하는 시간 ms단위로 적어주기
   };
   const timeoutPW = () => {
     setTimeout(() => {
@@ -96,10 +96,10 @@ function MemberInfoChange() {
         // console.log(res);
       })
       .catch((err) => {
-        if(requestData.password === undefined) {
+        // if(requestData.password === undefined) {
           document.getElementById('password-warning').style.display = 'block'//토스트 창 띄우기
           timeoutPW()
-        }
+        // }
         console.log(err)});
   };
   
@@ -220,7 +220,7 @@ function MemberInfoChange() {
          {/* 토스트 창 띄우기 */}
          <div className="flex justify-center items-center">
           <div id="password-warning" className="flex items-center border w-full fixed top-[50%] max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert" style={{display: 'none'}}>
-            <div className="ml-3 font-normal text-center">비밀번호를 입력해주세요.</div>
+            <div className="ml-3 font-normal text-center">회원수정에 실패하셨습니다.</div>
           </div>
         </div>
         <div className="mb-[80px]"></div>
