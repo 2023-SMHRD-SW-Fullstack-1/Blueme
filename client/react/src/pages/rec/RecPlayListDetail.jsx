@@ -25,7 +25,8 @@ import { setMusicIds } from "../../store/music/musicActions.js";
 import SingleMusic from "../../components/Library/SingleMusic";
 
 const RecPlayListDetail = () => {
-  const user = useSelector((state) => state.memberReducer.user); //member리듀서 가져오기
+  const member = useSelector((state) => state.memberReducer);//member리듀서 가져오기
+  const isLogin = member.isLogin 
   const [musiclist, setMusiclist] = useState([]); //추천 받은 리스트
   const [recMusicIds, setRecMusicIds] = useState([]); //musicId 저장
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const RecPlayListDetail = () => {
   const musicId = params.id;
   // console.log(params.id);
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     const recPlayList = async () => {
@@ -52,23 +54,36 @@ const RecPlayListDetail = () => {
 
   //전체 저장
   const SavedPlayList = () => {
-    localStorage.setItem("recMusicIds", JSON.stringify(recMusicIds));
-    localStorage.setItem("recMusicTitle", musiclist.recMusiclistTitle);
-    localStorage.setItem("recMusicImg", musiclist.recMusiclistsRecent10detail.img);
-    navigate("/PlayListRename");
+    if(isLogin) {
+      localStorage.setItem("recMusicIds", JSON.stringify(recMusicIds));
+      localStorage.setItem("recMusicTitle", musiclist.recMusiclistTitle);
+      localStorage.setItem("recMusicImg", musiclist.recMusiclistsRecent10detail.img);
+      navigate("/PlayListRename");
+    }else {
+      document.getElementById('toast-warning').style.display = 'block'//토스트 창 생성
+      timeout()
+    }
   };
 
   //개별 음악 재생
   const handleListClick = () => {
     dispatch(setMusicIds(recMusicIds));
   };
+
+  // 로딩 함수 => 유영 추가
+    const timeout = () => {
+      setTimeout(() => {
+        document.getElementById('toast-warning').style.display = "none"//토스트 창 소멸
+        // navigate("/Login");
+      }, 1000);// 원하는 시간 ms단위로 적어주기
+    };
   
   //전체 재생
   const WholePlaying = () => {
-    dispatch(setCurrentSongId(recMusicIds[0])); // 첫 번째 음악을 재생
-    dispatch(setMusicIds(recMusicIds));
-    dispatch(setPlayingStatus(true));
-    navigate(`/MusicPlayer/${recMusicIds[0]}`);
+      dispatch(setCurrentSongId(recMusicIds[0])); // 첫 번째 음악을 재생
+      dispatch(setMusicIds(recMusicIds));
+      dispatch(setPlayingStatus(true));
+      navigate(`/MusicPlayer/${recMusicIds[0]}`);
   };
 
   return (
@@ -119,6 +134,17 @@ const RecPlayListDetail = () => {
           </div>
         ))}
         <div className="mb-[80px]"></div>
+
+      {/* 토스트 창 띄우기 */}
+      <div id="toast-warning" className="flex items-center border w-full fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-xs p-4 mb-5 text-custom-white bg-gray-900 via-stone-950 to-gray-700 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert" style={{display: 'none'}}>
+        <div className="flex ml-[120px] mb-2 items-center justify-center w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+          <svg className="w-5 h-5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+          </svg>
+          <span className="sr-only">Warning icon</span>
+      </div>
+      <div className="ml-3 font-normal text-center">로그인 후 이용해주세요.</div>
+      </div>
 
     </div>
   );

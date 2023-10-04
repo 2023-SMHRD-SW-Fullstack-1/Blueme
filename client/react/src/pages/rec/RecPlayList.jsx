@@ -49,7 +49,7 @@ const RecPlayList = () => {
     localStorage.setItem("recMusicIds", JSON.stringify(recMusicIds));
     localStorage.setItem("recMusicTitle", musiclist.title);
     localStorage.setItem("recMusicImg", musiclist.recMusiclistDetails.img);
-    console.log(recMusicIds);
+    // console.log(recMusicIds);
     navigate("/PlayListRename");
   };
 

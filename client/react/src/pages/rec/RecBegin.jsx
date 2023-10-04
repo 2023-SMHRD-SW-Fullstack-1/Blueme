@@ -22,7 +22,7 @@ const RecBegin = () => {
     setTimeout(() => {
       document.getElementById('toast-warning').classList.remove("reveal")//토스트 창 소멸
       navigate("/Login");
-    }, 3000);// 원하는 시간 ms단위로 적어주기
+    }, 1000);// 원하는 시간 ms단위로 적어주기
   };
 
   const recBegin = () => {

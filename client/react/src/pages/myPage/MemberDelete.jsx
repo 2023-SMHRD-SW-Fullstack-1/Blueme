@@ -33,7 +33,7 @@ const MemberDelete = () => {
     setTimeout(() => {
       document.getElementById('toast-warning').classList.remove("reveal")
       navigate("/");
-    }, 2000);// 원하는 시간 ms단위로 적어주기
+    }, 1000);// 원하는 시간 ms단위로 적어주기
   };
 
 

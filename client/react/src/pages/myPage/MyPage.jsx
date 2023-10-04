@@ -44,7 +44,7 @@ const MyPage = () => {
         headers : {Authorization : localStorage.getItem('accessToken')}
       })
       .then((res) => {
-        console.log('전체 res',res);
+        // console.log('전체 res',res);
         setGenres(res.data[0].genres)//장르
         setArtists(res.data[0].artists)//아티스트
         setImg(res.data[0].imgUrl)//프로필

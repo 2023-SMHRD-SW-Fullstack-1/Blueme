@@ -34,7 +34,7 @@ const Join = () => {
     setTimeout(() => {
       document.getElementById('toast-warning').classList.remove("reveal")
       navigate('/Join')
-    }, 2000);// 원하는 시간 ms단위로 적어주기
+    }, 1000);// 원하는 시간 ms단위로 적어주기
   };
 
   // 회원가입 버튼 클릭 시 실행되는 함수
@@ -51,7 +51,7 @@ const Join = () => {
      await axios
      .post(`${process.env.REACT_APP_API_BASE_URL}/user/signup`, requestData)
      .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         // setId(res.data)
         window.localStorage.setItem('id', JSON.stringify(res.data));
         navigate('/selectGenre')
