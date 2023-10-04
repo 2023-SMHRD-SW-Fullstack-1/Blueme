@@ -78,7 +78,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				response.addHeader("userId", userId.toString());
 
 				String userIdParam = "id=" + userId;
-				String redirectUrl = "http://3.37.88.116:3000/SelectGenre?" + userIdParam;
+				String redirectUrl = "http://3.39.192.60:3000/SelectGenre?" + userIdParam;
 				response.sendRedirect(redirectUrl);
 				findUser.authorizeUser();
 				usersJpaRepository.save(findUser); // Role.USER 로 변경
@@ -128,7 +128,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				userInfoJson = mapper.writeValueAsString(userInfo);
 				log.info("userInfoJson : {}", userInfoJson);
 				String encodedUserInfo = URLEncoder.encode(userInfoJson, "UTF-8");
-				String redirectUri = UriComponentsBuilder.fromHttpUrl("http://3.37.88.116:3000/OauthInfo")
+				String redirectUri = UriComponentsBuilder.fromHttpUrl("http://3.39.192.60:3000/OauthInfo")
 						.queryParam("OauthInfo", encodedUserInfo)
 						.queryParam("accessToken", accessToken)
 						.queryParam("refreshToken", refreshToken)
