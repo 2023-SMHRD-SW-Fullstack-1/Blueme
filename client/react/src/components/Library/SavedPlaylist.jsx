@@ -81,7 +81,7 @@ const SavedPlaylist = () => {
                 <img
                   src={"data:image/;base64," + SavedPlaylist.img}
                   alt="album cover"
-                  className="rounded-sm w-[155px]  h-[145px] object-cover "
+                  className="rounded-sm w-[200px] h-[200px] object-cover "
                 />
                 {/* 2. 제목/ 아티스트 */}
                 <p className="tracking-tight text-sm text-center mt-2 lg:text-base lg:w-[200px]">
@@ -92,7 +92,7 @@ const SavedPlaylist = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="xs:mb-32"></div>
+      <div className="xs:mb-5"></div>
     </div>
   );
 };
