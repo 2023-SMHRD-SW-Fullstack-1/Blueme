@@ -30,13 +30,13 @@ const SelectArtist = () => {
    const timeout = () => {
     setTimeout(() => {
       document.getElementById('toast-warning').classList.remove("reveal")//3초 후 토스트창 닫기
-    }, 3000);// 원하는 시간 ms단위로 적어주기
+    }, 1000);// 원하는 시간 ms단위로 적어주기
     };
 
     const searchTime = () => {
       setTimeout(() => {
          document.getElementById('search-warning').style.display = "none"//3초 후 토스트창 닫기
-      }, 3000)
+      }, 1000)
     }
 
     //아티스트 한 개 선택 시 마다 호출됨

@@ -33,7 +33,7 @@ const OtherRecMusicList = ({ item }) => {
     <div>
        <div className="flex flex-col justify-center items-center mt-8 lg:pl-[15px] hover:shadow-inner">
           <div className="relative w-[180px] h-auto rounded-lg" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-            <img src={"data:image/;base64,"+ item.img} alt="album cover"/>
+            <img src={"data:image/;base64,"+ item.img} alt="album cover" className="rounded-lg"/>
             {isMouseOver && 
               <>
                 <img src={Play} alt="noimg" className="absolute top-1 right-1 w-[25px]" />
@@ -41,7 +41,7 @@ const OtherRecMusicList = ({ item }) => {
               </>
             }
           </div>
-          <p className="tracking-tight text-normal text-center mt-3 w-[180px] ">
+          <p className="tracking-tight text-sm text-center mt-3 w-[180px] font-semibold">
             {item.recMusiclistTitle}
           </p>
         </div>

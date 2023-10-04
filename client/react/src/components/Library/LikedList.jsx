@@ -63,6 +63,7 @@ const LikedList = () => {
         console.log("ids", ids);
         setPlayingIds(ids);
       } catch (error) {
+        setLikedMusics(null)
         console.error(`Error: ${error}`);
       }
     }
@@ -77,9 +78,12 @@ const LikedList = () => {
 
   return (
     <div className="hide-scrollbar overflow-scroll" onClick={handleListClick}>
-      {likedMusics.map((song) => (
+      {likedMusics === null ? 
+      <p className="text-left ml-2 mt-2 text-custom-lightgray text-[15px] font-normal">좋아요 누른 음악이 없습니다.</p> 
+      : likedMusics.map((song) => (
         <SingleMusic key={song.musicId} item={song} />
       ))}
+      
     </div>
   );
 };

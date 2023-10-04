@@ -41,6 +41,7 @@ const LikedPlaylist = () => {
         setIds(response.data.map((music) => music.musicId));
       } catch (error) {
         console.error(`Error: ${error}`);
+        setLikedMusics(null)
       }
     };
 
@@ -76,7 +77,7 @@ const randomize = () => {
     >
       {/* 플레이리스트 */}
       <div className="flex flex-col items-center justify-center">
-        <p className="text-2xl font-semibold">내가 좋아요 누른 곡</p>
+        <p className="text-xl font-semibold">{user.nickname}님이 좋아요 누른 음악</p>
       </div>
       <div className="flex justify-center p-6">
         <button
@@ -88,9 +89,12 @@ const randomize = () => {
       </div>
       {/* 음악 데이터 */}
       <div className="h-[70%] ml-3 mr-3" onClick={handleListClick}>
-        {likedMusics.map((song) => (
+        {likedMusics === null ? 
+        <p className="text-left ml-2 mt-2 text-custom-lightgray text-[15px]">좋아요 누른 음악이 없습니다.</p> 
+         : likedMusics.map((song) => (
           <SingleMusic key={song.musicId} item={song} />
         ))}
+        
       </div>
     </div>
   );

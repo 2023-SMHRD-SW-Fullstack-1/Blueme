@@ -150,7 +150,7 @@ const SelectGenre = () => {
           text-[20px]
           mb-[65px]
           bottom-0
-          fixed left-0 right-0 mx-auto
+          fixed right-0 left-0 mx-auto
         "
     >
       선택하기
