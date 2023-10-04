@@ -8,6 +8,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.blueme.backend.dto.artistdto.ArtistInfoDto;
 import com.blueme.backend.dto.genredto.GenreInfoDto;
 import com.blueme.backend.dto.usersdto.UserProfileDto;
+import com.blueme.backend.dto.usersdto.UserinfoResDto;
 import com.blueme.backend.dto.usersdto.UsersDeleteDto;
 import com.blueme.backend.dto.usersdto.UsersRegisterDto;
 import com.blueme.backend.dto.usersdto.UsersUpdateDto;
@@ -214,5 +216,14 @@ public class UsersService {
 		fileOutputStream.close();
 
 		return filePath;
+	}
+
+	/**
+	 * 전체 유저 조회하는 메서드입니다.
+	 * 
+	 * @return 전체 유조 목록 (List<UserinfoResDto>)
+	 */
+	public List<UserinfoResDto> allUsers() {
+		return usersJpaRepository.findAll().stream().map(UserinfoResDto::new).collect(Collectors.toList());
 	}
 }

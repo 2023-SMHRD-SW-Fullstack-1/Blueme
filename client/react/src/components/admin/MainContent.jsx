@@ -7,6 +7,8 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import axios from "axios";
+import Charts from "./Charts";
+import statisticsChartsData from "../data/statistics-charts-data";
 
 /*
 작성자 : 김혁
@@ -68,7 +70,7 @@ const MainContent = () => {
               footer={
                 <Typography className="font-normal text-blue-gray-600">
                   <strong className="text-green-500">{(todayCnt - yesterdayCnt) > 0 
-                    ? (todayCnt - yesterdayCnt) 
+                    ? "+" + (todayCnt - yesterdayCnt) 
                     : (todayCnt - yesterdayCnt)}</strong>
                   &nbsp;than yesterday
                 </Typography>
@@ -85,7 +87,7 @@ const MainContent = () => {
               footer={
                 <Typography className="font-normal text-blue-gray-600">
                   <strong className="text-rose-500">{(todayRecCnt - yesterdayRecCnt) > 0 
-                    ? (todayRecCnt - yesterdayRecCnt) 
+                    ? "+" + (todayRecCnt - yesterdayRecCnt) 
                     : (todayRecCnt - yesterdayRecCnt)}</strong>
                   &nbsp;than yesterday
                 </Typography>
@@ -102,18 +104,35 @@ const MainContent = () => {
               footer={
                 <Typography className="font-normal text-blue-gray-600">
                   <strong className="text-sky-500">{(todayHealthCnt - yesterdayHealthCnt) > 0 
-                    ? (todayHealthCnt - yesterdayHealthCnt) 
+                    ? "+" + (todayHealthCnt - yesterdayHealthCnt) 
                     : (todayHealthCnt - yesterdayHealthCnt)}</strong>
                   &nbsp;than yesterday
                 </Typography>
               }
             />
           </div>
+          {/* charts */}
+          {/* <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
+              {statisticsChartsData.map((props) => (
+                  <Charts
+                    key={props.title}
+                    {...props}
+                    footer={
+                      <Typography
+                        variant="small"
+                        className="flex items-center font-normal text-blue-gray-600"
+                      >
+                        
+                        &nbsp;{props.footer}
+                      </Typography>
+                    }
+                  />
+                ))}
+          </div> */}
           <div className="grid grid-cols-1 gap-6">
             {/* Table (Top Musics) */}
             <DashboardCard07 />
-            {/* Card (Customers) */}
-            <DashboardCard10 />
+            
           </div>
         </div>
       </main>

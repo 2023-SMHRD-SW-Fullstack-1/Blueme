@@ -6,6 +6,7 @@ import DashboardCard10 from "../../partials/dashboard/DashboardCard10";
 import AddMusicPage from "../../components/admin/AddMusicPage";
 import MainContent from "../../components/admin/MainContent";
 import AddTheme from "../../components/admin/AddTheme";
+import AllUsers from "../../components/admin/AllUsers";
 
 
 const DashBoard = () => {
@@ -24,6 +25,7 @@ const DashBoard = () => {
       {pageView === "maincontent" && <MainContent />}
       {pageView === "addmusicpage" && <AddMusicPage />}
       {pageView === "addtheme" && <AddTheme />}
+      {pageView === "allusers" && <AllUsers />}
     </div>
   );
 };
