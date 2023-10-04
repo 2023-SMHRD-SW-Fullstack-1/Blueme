@@ -41,7 +41,7 @@ function Header() {
     <div
       className=" text-sm sm:text-base md:text-lg 
         lg:text-xl xl:text-xl text-custom-white p-2 sm:p-4 flex 
-        justify-end items-center fixed w-full bg-custom-blue z-50 "
+        justify-end items-center fixed w-full bg-custom-blue z-50 cursor-pointer"
     >
       {adminButton}
       <img onClick={handleNav} src={user} className=" justify-right max-h-[4vh] mt-2 sm:max-h-[4vh] object-contain" />

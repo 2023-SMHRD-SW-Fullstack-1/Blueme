@@ -41,7 +41,7 @@ const RecentSearch = ({ item }) => {
   };
   return (
     <div
-      className="w-full pr-3 flex justify-between items-center gap-x-4"
+      className="w-full pr-3 flex justify-between items-center gap-x-4 cursor-pointer"
       onClick={uploadRecentMusic}
     >
       <img

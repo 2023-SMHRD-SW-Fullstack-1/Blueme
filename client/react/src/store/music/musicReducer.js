@@ -22,7 +22,7 @@ import {
 const initialState = {
   musicIds: [],
   playingStatus: false,
-  currentSongId: 0,
+  currentSongId: 1,
   showMiniPlayer: false,
   currentTime: 0,
   isDragging: false,
