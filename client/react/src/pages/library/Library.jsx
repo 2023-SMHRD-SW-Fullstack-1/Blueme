@@ -85,7 +85,7 @@ const Library = () => {
                        onClick={() => {
                          navigate(`/RecPlayListDetail/${myMusicIds[i]}`);
                        }}
-                       src={"data:image/;base64," + item.recMusiclistDetails[0].img}
+                       src={"data:image/;base64," + (item.recMusiclistDetails[0]?.img || "")}
                        alt="album cover"
                        className="w-[200px] h-auto rounded-xl"
                      />

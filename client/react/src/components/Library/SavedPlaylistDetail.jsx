@@ -82,7 +82,7 @@ const SavedPlaylistDetail = () => {
       <br />
 
       <div className="flex flex-col items-center justify-center mt-[80px]">
-        <img src={"data:image/;base64," + playlistImage} className="w-[160px] h-[160px] rounded-sm" />
+        <img src={"data:image/;base64," + playlistImage} className="w-[160px] h-[160px] rounded-xl" />
         <p className="text-xl py-5 text-center whitespace-normal">{title}</p>
       </div>
       <div className="flex items-center justify-center">
