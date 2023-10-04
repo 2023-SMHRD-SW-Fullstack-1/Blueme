@@ -54,7 +54,7 @@ const SelectArtist = () => {
 
     //화면 로딩 시 전체 아티스트 데이터 불러오기
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_BASE_URL}/Artistrecommend`)
+        axios.get(`http://localhost:8104/Artistrecommend`)
         .then((res) => {
             // console.log(res);
             setArtist(res.data) //artist에 데이터 삽입

@@ -42,7 +42,7 @@ const Login = () => {
     }
         // console.log(requestData);
       await axios
-      .post(`${process.env.REACT_APP_API_BASE_URL}/login`, requestData)
+      .post(`http://localhost:8104/login`, requestData)
       .then((res) => {
         // console.log(res);
         const acToken = res.data.accessToken

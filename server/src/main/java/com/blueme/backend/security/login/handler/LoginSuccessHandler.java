@@ -64,7 +64,11 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
 		usersJpaRepository.findByEmail(email).ifPresent(user -> {
-
+			
+			if(user.getActiveStatus().equals("N")) {
+				System.out.println("dsjfaeif");
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}else {
 			// DB의 유저 정보 업데이트
 			user.updateRefreshToken(refreshToken);
 			usersJpaRepository.saveAndFlush(user);
@@ -75,6 +79,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 				UserInfoDTO userInfo = new UserInfoDTO(user.getId(), user.getEmail(), user.getNickname(),
 						getBase64ImageForProfile(user.getImg_url()), user.getPlatformType(), user.getRole());
 
+				System.out.println(userInfo.getImg_url());
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.registerModule(new JavaTimeModule());
 				userInfoJson = mapper.writeValueAsString(userInfo);
@@ -86,10 +91,10 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			log.info("로그인 성공! 이메일 : {}", email);
 			log.info("로그인 성공! AccessToken : {}", accessToken);
 			log.info("발급된 AccessToken 만료 기간 : {}", accessTokenExpiration);
+			}
 		});
 	}
 
