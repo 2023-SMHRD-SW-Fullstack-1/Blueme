@@ -75,7 +75,8 @@ public class LoginFragment extends Fragment {
 
                 StringRequest request = new StringRequest(
                         Request.Method.POST,
-                        "http://172.30.1.27:8104/login",
+//                        "http://172.30.1.27:8104/login",
+                        "http://3.39.192.60:8104/login",
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
