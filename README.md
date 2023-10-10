@@ -59,7 +59,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 
   - 회원 정보 및 인증 관리를 위한 Redux 스토어 구현
     - 통합적인 상태 관리를 위한 combineReducers 사용
-    - JWT Token 및 OAuth 정보 Redux 스토어에 보관 관리
+    - JWT Token 및 OAuth2 인증 정보 Redux 스토어에 보관 관리
       
   - 회원 정보 관리 기능
     - 회원가입, 로그인, 로그아웃, 회원 정보 수정, 회원 탈퇴 등
@@ -68,7 +68,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
   - 사용자 선호도 페이지 개발
     - 전체 장르/아티스트 불러오기
     - 장르 및 아티스트 선택/수정 기능 구현
-    - 실시간 아티스트 검색 기능 제공
+    - 아티스트 검색 기능 제공
       
   - AI 추천
     - 웨어러블 데이터 불러오기 기능 구현
@@ -78,11 +78,11 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
     - 상세한 추천 리스트 조회 서비스와 제목 수정 구현
     - 스마트워치 등록 및 설명 화면 구현
     
-  - slick-slider 라이브러리 활용
-  - 로그인 제한 토스트 창 구현
+  - Slick-Slider 라이브러리 활용
+  - 로그인 전 이용 제한 토스트 창 구현
   - 모바일 웹 메인/추천페이지 구현
   - 시간 초과 로딩을 방지하기 위한 timeout 함수 구현
-  - 테마 탭에서 해시태그별 필터링 구현
+  - 테마 탭에서 해시태그 별 필터링 구현
   - Tailwind CSS를 사용한 전체 디자인
     
 ---
