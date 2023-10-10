@@ -24,6 +24,82 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 
 ## 👥 팀원 역할
 
+### * 김혁(팀장)
+
+#### 
+
+#### D.A/M
+
+- 
+- 
+  
+#### Front-End
+
+- 
+  
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  
+- 
+
+#### Back-end
+
+- 
+- 
+
+---
+
+### * 이유영
+
+#### Front-End
+- 
+  - 
+  - 
+  - 
+  - 
+ 
+  
+- 
+
+---
+
+### * 이지희
+
+#### Front-End
+- 
+- 
+- 
+- 
+-
+- 
+- 
+
+
+---
+
+### * 손지연
+
+#### Back-end
+-
+- 
+- 
+- 
+-
+- 
+
+### * 신지훈
+
+#### Front-End
+-
+- 
+- 
+- 
+-
+- 
 ## 📌 알고리즘 순서도
 ![감정알고리즘 drawio](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/c35ed6d0-9f8a-41ba-b6c9-901da25a5f1d)
 ![속도알고리즘 drawio](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/09fe229b-0141-47ce-8605-4fc8b7119d87)
