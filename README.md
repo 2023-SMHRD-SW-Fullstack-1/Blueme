@@ -92,7 +92,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
   
 #### 배포
 - AWS (git, scp활용)
-  - EC2 - react, springboot(gradle) 배포
+  - EC2 - ngnix를 활용하여 react, springboot(gradle) 배포
   - EBS - 음원, 재킷사진, 앨범사진 등 저장볼륨
 
 ---
