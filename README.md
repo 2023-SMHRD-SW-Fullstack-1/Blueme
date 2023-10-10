@@ -83,7 +83,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
   - 모바일 웹 메인/추천페이지 구현
   - 시간 초과 로딩을 방지하기 위한 timeout 함수 구현
   - 테마 탭에서 해시태그별 필터링 구현
-  - tailwindcss를 사용한 전체 디자인
+  - Tailwind CSS를 사용한 전체 디자인
     
 ---
 
