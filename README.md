@@ -96,9 +96,10 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 #### Front-End
 
 - UI/UX 초안 구현
-- taiwind.css 활용 반응형 웹 구현 
+- Tailwind.css 활용
+- 반응형 웹 구현 
 - 음악추천 SmartWatch, ChatGPT로고 Three.js 구현
-- lottie-react animation 구현
+- Lottie-react animation 구현
 - 라이브러리 구현
 - 플레이리스트 저장 기능 구현
 - 음악 개별데이터 조회 구현
