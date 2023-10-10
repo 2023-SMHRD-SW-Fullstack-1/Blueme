@@ -102,6 +102,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 #### Front-End
 
 - Tailwind CSS를 활용한 전체 디자인 및 모바일 웹 구현
+- Redux Toolkit 사용
 
 - 회원 정보 및 인증 관리를 위한 Redux 스토어 구현
   - 통합적인 상태 관리를 위한 combineReducers 사용
