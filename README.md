@@ -195,8 +195,8 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 ### * 신지훈
 
 #### Front-End
-● UI/UX 디자인 및 화면 구현
-- 웹사이트 전체적인 UI/UX 초기 디자인 구현 
+- UI/UX 디자인 및 화면 구현
+  - 웹사이트 전체적인 UI/UX 초기 디자인 구현 
 - Taiwind CSS를 활용한 전체적인 반응형 웹 구현
 - Footer / Header 구현
 - Three.js를 활용한 음악추천 부분 SmartWatch & ChatGPT로고 구현
