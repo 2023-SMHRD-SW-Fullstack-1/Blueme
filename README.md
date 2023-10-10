@@ -35,7 +35,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
   
 #### Front-End
 
-- 스마트워치 어플리케이션
+- 스마트워치 어플리케이션(Android Studio)
   - 로그인화면 구현 
   - 실시간 측정 데이터 가져오는 화면 구현
   - HealthServiceAPI 를 활용한 실시간 심박수, 속도, 칼로리소모량, 분당발걸음수, 위/경도 수집기능 구현
