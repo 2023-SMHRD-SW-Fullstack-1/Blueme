@@ -146,8 +146,11 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 
 
 ## 📌 알고리즘 순서도
+#### 감정 알고리즘순서도
 ![감정알고리즘 drawio](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/c35ed6d0-9f8a-41ba-b6c9-901da25a5f1d)
+#### 속도 알고리즘순서도 
 ![속도알고리즘 drawio](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/09fe229b-0141-47ce-8605-4fc8b7119d87)
+#### 장소 알고리즘순서도
 ![장소순서도 drawio](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/0c59614a-a0ef-442f-9b86-c25bc88906b7)
 
 ## 🔍 화면 구성
