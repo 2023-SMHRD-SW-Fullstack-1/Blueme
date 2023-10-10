@@ -97,6 +97,19 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 
 ---
 
+### * 이유영
+
+#### Front-End
+- 
+- 
+- 
+- 
+-
+- 
+- 
+
+
+---
 
 ### * 이지희
 
