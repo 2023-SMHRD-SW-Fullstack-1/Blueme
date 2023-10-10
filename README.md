@@ -181,12 +181,19 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 - JPA 엔터티 설계
   
   - 장르, 선호장르, 선호가수, 회원, 회원체크리스트
-- Spring Security + JWT 를 이용한 자체 로그인 구현
-- Spring Security OAuth2 구글 / 카카오 소셜로그인 구현
-- 회원가입 기능, 비밀번호 암호화 / 검증 로직
-- 회원정보 수정, 회원 탈퇴 기능
-- 사용자 프로필 이미지 등록, 조회
+- Javadoc 주석 작성
+- Spring Security를 이용한 사용자 인증 및 인가 처리
+- Spring Security + JWT 토큰을 활용한 자체 로그인 구현
+  - JWT 토큰의 생성, 전송, 추출, 유효성 검사 및 인증 처리 로직
+- Spring Security OAuth2를 활용한 구글 / 카카오 소셜로그인 구현
+  - 각 소셜 로그인 서비스에 대한 OAuthAttributes 객체 생성 및 데이터 처리
+- 사용자 역할 및 권한 설정
+- Spring Security 필터 체인 및 HTTP 보안 설정, CORS 설정
+- 회원가입 기능
+  - BCryptPasswordEncoder를 이용한 비밀번호 암호화/복호화 적용
 - 마이페이지
+  - 회원정보 수정, 회원 탈퇴 기능
+  - 사용자 프로필 이미지 등록, 조회
 - 사용자 선호도 선택
   - 선호 장르 선택 : 모든 장르 조회, 선택한 장르 등록, 수정 기능
   - 선호 가수 선택 : 모든 가수 조회, 선택한 가수 등록, 수정, 가수 검색 기능 
@@ -241,6 +248,8 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 ![트러블슈팅chatgptapi](https://github.com/29074I/Javapratice/assets/114223221/18989c6e-8989-4587-9970-8e031c4567bd)
 ![트러블슈팅security](https://github.com/29074I/Javapratice/assets/114223221/ce395545-a0da-49aa-8ec5-38b71df75695)
 ![트러블슈팅player](https://github.com/29074I/Javapratice/assets/114223221/69dd5c94-f63c-4a9a-9b1b-36590a088fd3)
-![aws](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/ddd11211-4cd3-46e9-9a21-9300c87b105c)
+![트러블슈팅aws](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/0dd40e8e-f26b-4004-9981-263ca7d82a6a)
+
+
 
 
