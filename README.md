@@ -27,6 +27,9 @@
 ![속도알고리즘 drawio](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/09fe229b-0141-47ce-8605-4fc8b7119d87)
 #### 장소 알고리즘순서도
 ![장소순서도 drawio](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/0c59614a-a0ef-442f-9b86-c25bc88906b7)
+#### OPENAI GPT-3.5turbo 음악추천과정 시퀀스 다이어그램
+![음악추천시퀀스다이어그램](https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/107793363/42b9417b-5c08-46ba-9043-4ee917249cb6)
+
 
 ## 🖥️ 시연 영상
 https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c1a-49dd-bafd-bfdaaef97a42
@@ -77,6 +80,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
     - OpenWeatherAPI를 활용한 알고리즘 고도화
 - 알고리즘 순서도 작성
 - OPENAI ChatGPT3.5-turbo-16K 모델을 활용한 음악추천 기능 구현
+  - 시퀀스 다이어그램 작성
   - ChatGPTAPI 연결 및 구현
   - ChatGpt 질의문 다양화 설계 및 구현
   - 단위 테스트
