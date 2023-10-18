@@ -45,10 +45,8 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Blueme/assets/114223221/5c9d9cda-8c
 
 ### * 김혁(팀장)
 
-#### 프론트, 백, 프로젝트 총괄
+#### 프로젝트 총괄
 #### git, javadoc, postman 관리
-#### OpenAI 사용 제안
-#### 스마트워치 아이디어 제안
 
 #### D.A/M
 - 데이터베이스 모델링, 설계 및 구축
