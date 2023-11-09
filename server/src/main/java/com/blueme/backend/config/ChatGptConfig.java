@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class ChatGptConfig {
         public static final String AUTHORIZATION = "Authorization";
         public static final String BEARER = "Bearer ";
-        public static final String CHAT_MODEL = "gpt-3.5-turbo-16k";
+        public static final String CHAT_MODEL = "gpt-4";
         public static final Integer MAX_TOKEN = 600;
         public static final Boolean STREAM = false;
         public static final String ROLE = "user";

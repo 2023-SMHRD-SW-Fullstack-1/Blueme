@@ -1,7 +1,7 @@
 <!--added by orthh-->
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">3.39.192.60</domain>
+        <domain includeSubdomains="true">172.20.10.4</domain>
     </domain-config>
 <!--    <domain-config cleartextTrafficPermitted="true">-->
 <!--        <domain includeSubdomains="true">172.30.1.27</domain>-->
